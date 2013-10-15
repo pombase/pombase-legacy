@@ -27,7 +27,7 @@ export PERL5LIB=$HOME/git/pombase-run/lib
 
 cd $LOG_DIR
 log_file=log.`date_string`
-$HOME/git/pombase-run/script/load-chado.pl \
+`dirname $0`/script/load-chado.pl \
   --mapping "sequence_feature:sequence:$SOURCES/pombe-embl/chado_load_mappings/features-to-so_mapping_only.txt" \
   --mapping "pt_mod:PSI-MOD:$SOURCES/pombe-embl/chado_load_mappings/modification_map.txt" \
   --mapping "phenotype:fission_yeast_phenotype:$SOURCES/pombe-embl/chado_load_mappings/phenotype-map.txt" \
