@@ -170,8 +170,8 @@ mkdir $DUMP_DIR
 mkdir $DUMP_DIR/logs
 
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml gaf --organism-taxon-id=4896 $HOST $FINAL_DB $USER $PASSWORD > $DUMP_DIR/$FINAL_DB.gaf
-./script/pombase-export.pl ./load-pombase-chado.yaml interactions --organism-taxon-id=4896 $HOST $FINAL_DB $USER $PASSWORD > $DUMP_DIR/$FINAL_DB.pombe-interactions.biogrid
-./script/pombase-export.pl ./load-pombase-chado.yaml orthologs --organism-taxon-id=4896 --other-organism-taxon-id=9606 $HOST $FINAL_DB $USER $PASSWORD > $DUMP_DIR/$FINAL_DB.human-orthologs.txt
+$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml interactions --organism-taxon-id=4896 $HOST $FINAL_DB $USER $PASSWORD > $DUMP_DIR/$FINAL_DB.pombe-interactions.biogrid
+$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml orthologs --organism-taxon-id=4896 --other-organism-taxon-id=9606 $HOST $FINAL_DB $USER $PASSWORD > $DUMP_DIR/$FINAL_DB.human-orthologs.txt
 /var/pomcur/sources/go-svn/software/utilities/filter-gene-association.pl -e < $DUMP_DIR/$FINAL_DB.gaf > $LOG_DIR/$log_file.gaf-check
 
 cp $LOG_DIR/$log_file.gaf-load-output $DUMP_DIR/logs/
