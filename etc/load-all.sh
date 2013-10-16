@@ -20,10 +20,13 @@ GOA_GAF_URL=ftp://ftp.ebi.ac.uk/pub/databases/GO/goa/UNIPROT/gene_association.go
 cd $SOURCES/pombe-embl/
 svn update || exit 1
 
-cd $HOME/git/pombase-run
+cd $HOME/git/pombase-chado
 git pull || exit 1
 
-export PERL5LIB=$HOME/git/pombase-run/lib
+cd $HOME/git/pombase-legacy
+git pull || exit 1
+
+export PERL5LIB=$HOME/git/pombase-chado/lib:$HOME/git/pombase-legacy/lib
 
 cd $LOG_DIR
 log_file=log.`date_string`
@@ -32,10 +35,10 @@ log_file=log.`date_string`
   --mapping "pt_mod:PSI-MOD:$SOURCES/pombe-embl/chado_load_mappings/modification_map.txt" \
   --mapping "phenotype:fission_yeast_phenotype:$SOURCES/pombe-embl/chado_load_mappings/phenotype-map.txt" \
   --gene-ex-qualifiers $SOURCES/pombe-embl/supporting_files/gene_ex_qualifiers \
-  --obsolete-term-map $HOME/pombe/go-doc/obsoletes-exact $HOME/git/pombase-run/load-pombase-chado.yaml \
+  --obsolete-term-map $HOME/pombe/go-doc/obsoletes-exact $HOME/git/pombase-legacy/load-pombase-chado.yaml \
   $HOST $DB $USER $PASSWORD $SOURCES/pombe-embl/*.contig 2>&1 | tee $log_file || exit 1
 
-$HOME/git/pombase-run/etc/process-log.pl $log_file
+$HOME/git/pombase-legacy/etc/process-log.pl $log_file
 
 echo starting import of biogrid data | tee $log_file.biogrid-load-output
 
@@ -50,7 +53,7 @@ then
 fi
 ) 2>&1 | tee -a $log_file.biogrid-load-output
 
-cd $HOME/git/pombase-run
+cd $HOME/git/pombase-legacy
 
 # see https://sourceforge.net/p/pombase/chado/61/
 cat $SOURCES/biogrid/BIOGRID-ORGANISM-Schizosaccharomyces_pombe-*.tab2.txt | ./script/pombase-import.pl ./load-pombase-chado.yaml biogrid --use_first_with_id  --organism-taxonid-filter=4896 --interaction-note-filter="Contributed by PomBase|contributed by PomBase|triple mutant" --evidence-code-filter='Co-localization' $HOST $DB $USER $PASSWORD 2>&1 | tee -a $LOG_DIR/$log_file.biogrid-load-output
