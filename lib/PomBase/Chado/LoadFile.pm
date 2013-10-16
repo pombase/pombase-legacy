@@ -46,9 +46,11 @@ use Bio::SeqIO;
 with 'PomBase::Role::ConfigUser';
 with 'PomBase::Role::ChadoUser';
 with 'PomBase::Role::CvQuery';
+with 'PomBase::Role::XrefStorer';
 with 'PomBase::Role::FeatureStorer';
 
 has verbose => (is => 'ro', isa => 'Bool');
+has quiet => (is => 'ro', isa => 'Bool', default => 0);
 has organism => (is => 'ro',
                  required => 1,
                 );
@@ -63,9 +65,10 @@ method process_file($file)
     PomBase::Chado::LoadFeat->new(organism => $self->organism(),
                                   config => $self->config(),
                                   chado => $self->chado(),
-                                  verbose => $self->verbose());
+                                  verbose => $self->verbose(),
+                                  quiet => $self->quiet());
 
-  warn "reading from: $file\n";
+  warn "reading from: $file\n" unless $self->quiet();
 
   my $io = Bio::SeqIO->new(-file => $file, -format => "embl" );
   my $seq_obj = $io->next_seq;
@@ -100,7 +103,7 @@ method process_file($file)
       my $chado_object =
         $feature_loader->process($bioperl_feature, $chromosome);
     } catch {
-      warn "  failed to process feature: $_\n";
+      warn "  failed to process feature: $_\n" unless $self->quiet();
     }
   }
 

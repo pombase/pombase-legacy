@@ -202,6 +202,17 @@ $config->{id_counter} = $id_counter;
 
 my $organism = PomBase::Load::init_objects($chado, $config);
 
+my $org_load = PomBase::Chado::LoadOrganism->new(chado => $chado);
+
+my $human =
+  $org_load->load_organism('Homo', 'sapiens', 'human', 'human', 9606);
+my $scerevisiae =
+  $org_load->load_organism('Saccharomyces', 'cerevisiae', 'Scerevisiae',
+                           'Scerevisiae', 4932);
+
+PomBase::Load::load_genes($config, $chado, $scerevisiae, $config->{test_mode});
+PomBase::Load::load_genes($config, $chado, $human, $config->{test_mode});
+
 my @files = @ARGV;
 
 while (defined (my $file = shift)) {

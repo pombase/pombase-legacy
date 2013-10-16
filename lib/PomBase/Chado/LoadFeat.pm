@@ -46,8 +46,8 @@ with 'PomBase::Role::ChadoUser';
 with 'PomBase::Role::CvQuery';
 with 'PomBase::Role::FeatureDumper';
 with 'PomBase::Role::Embl::SystematicID';
-with 'PomBase::Role::FeatureStorer';
 with 'PomBase::Role::XrefStorer';
+with 'PomBase::Role::FeatureStorer';
 with 'PomBase::Role::DbQuery';
 with 'PomBase::Role::CvtermCreator';
 with 'PomBase::Role::FeatureCvtermCreator';
@@ -70,6 +70,7 @@ has qual_load => (is => 'ro', isa => 'PomBase::Chado::QualifierLoad',
                   lazy => 1,
                   builder => '_build_qual_load');
 has verbose => (is => 'ro', isa => 'Bool');
+has quiet => (is => 'ro', isa => 'Bool');
 
 has gene_objects => (is => 'ro', init_arg => undef, isa => 'HashRef',
                      default => sub { {} });
@@ -79,9 +80,15 @@ method _build_qual_load
   my $chado = $self->chado();
   my $config = $self->config();
   my $verbose = $self->verbose();
+  my $quiet = $self->quiet();
+
+  if ($verbose && $quiet) {
+    die "LoadFeat: can't be verbose and quiet at the same time";
+  }
 
   return PomBase::Chado::QualifierLoad->new(chado => $chado,
                                             verbose => $verbose,
+                                            quiet => $quiet,
                                             config => $config
                                           );
 }
@@ -202,7 +209,7 @@ method save_transcript($feature, $uniquename, $gene_uniquename)
   my $so_type = $feature_loader_conf{$feat_type}->{so_type};
 
   if (!defined $uniquename) {
-    warn "$feat_type feature has no uniquename\n";
+    warn "$feat_type feature has no uniquename\n" unless $self->quiet();
     return;
   }
 
@@ -246,7 +253,7 @@ method process($feature, $chromosome)
   my $so_type = $feature_loader_conf{$feat_type}->{so_type};
 
   if (!defined $so_type) {
-    warn "no SO type for $feat_type - skipping\n";
+    warn "no SO type for $feat_type - skipping\n" unless $self->quiet();
     return;
   }
 
@@ -254,7 +261,7 @@ method process($feature, $chromosome)
     my @so_quals = $feature->get_tag_values("SO");
 
     if (@so_quals > 1) {
-      warn "more than one /SO= qualifier\n";
+      warn "more than one /SO= qualifier\n" unless $self->quiet();
     }
 
     my $so_term = $self->find_cvterm_by_term_id($so_quals[0]);
@@ -265,15 +272,17 @@ method process($feature, $chromosome)
       warn "changing $so_type to ", $so_term->name(), "\n" if $self->verbose();
       $so_type = $so_term->name();
     } else {
-      warn "can't find cvterm for: ", $so_quals[0], "\n";
+      warn "can't find cvterm for: ", $so_quals[0], "\n" unless $self->quiet();
     }
   }
 
   my ($uniquename, $transcript_uniquename, $gene_uniquename, $has_systematic_id) =
     $self->get_uniquename($feature, $so_type);
 
-  warn "processing $feat_type $uniquename",
-    (defined $gene_uniquename ? " from gene: $gene_uniquename" : ""), "\n";
+  if (!$self->quiet()) {
+    warn "processing $feat_type $uniquename",
+      (defined $gene_uniquename ? " from gene: $gene_uniquename" : ""), "\n"
+  }
 
   if ($feature_loader_conf{$feat_type}->{save}) {
     if ($so_type =~ /UTR/) {
@@ -289,7 +298,7 @@ method process($feature, $chromosome)
 
   if ($feature_loader_conf{$feat_type}->{collected}) {
     if (!$has_systematic_id) {
-      warn "  $uniquename has no uniquename - skipping\n";
+      warn "  $uniquename has no uniquename - skipping\n" unless $self->quiet();
       return;
     }
 
@@ -312,16 +321,16 @@ method store_product($bioperl_feature, $chado_feature, $uniquename)
   if ($bioperl_feature->has_tag("product")) {
     my @products = $bioperl_feature->get_tag_values("product");
     if (@products > 1) {
-      warn "  $uniquename has more than one product\n";
+      warn "  $uniquename has more than one product\n" unless $self->quiet();
     } else {
       if (length $products[0] == 0) {
-        warn "  zero length product for $uniquename\n";
+        warn "  zero length product for $uniquename\n" unless $self->quiet();
       } else {
         $self->qual_load()->process_product($chado_feature, $products[0]);
       }
     }
   } else {
-    warn "  no product for $uniquename\n";
+    warn "  no product for $uniquename\n" unless $self->quiet();
   }
 }
 
@@ -352,13 +361,13 @@ method store_colour($feature, $colour)
   my $cvterm_name = $colour_map{$colour};
 
   if (!defined $cvterm_name) {
-    warn "not storing /colour=$colour - unknown type\n";
+    warn "not storing /colour=$colour - unknown type\n" unless $self->quiet();
     return;
   }
 
   if ($cvterm_name eq 'pseudogene') {
     if ($feature->type()->name() ne 'pseudogene') {
-      warn $feature->uniquename(), " has /colour=13 but isn't a pseudogene\n";
+      warn $feature->uniquename(), " has /colour=13 but isn't a pseudogene\n" unless $self->quiet();
     }
 
     return;
@@ -368,7 +377,7 @@ method store_colour($feature, $colour)
                                  $cvterm_name);
 
   $self->create_feature_cvterm($feature, $cvterm,
-                               $self->objs()->{null_pub}, 0);
+                               $self->find_or_create_pub('null'), 0);
 }
 
 method get_target_curations($bioperl_feature)
@@ -382,7 +391,7 @@ method get_target_curations($bioperl_feature)
       try {
         %qual_map = $self->split_sub_qualifiers($cc);
       } catch {
-        warn "  $_: failed to process sub-qualifiers from $cc:\n";
+        warn "  $_: failed to process sub-qualifiers from $cc:\n" unless $self->quiet();
       };
 
       my $term = delete $qual_map{term};
@@ -392,7 +401,7 @@ method get_target_curations($bioperl_feature)
           push @ret, { target => $1,
                        %qual_map };
         } else {
-          warn "can't understand this target qualifier: $term\n";
+          warn "can't understand this target qualifier: $term\n" unless $self->quiet();
         }
       }
     }
@@ -446,7 +455,7 @@ method process_qualifiers($bioperl_feature, $chado_object)
       }
 
       if ($type ne 'CDS') {
-        warn "$uniquename $type has ", scalar(@ec_numbers), " /EC_number qualifier(s)"
+        warn "$uniquename $type has ", scalar(@ec_numbers), " /EC_number qualifier(s)" unless $self->quiet()
       }
     }
 
@@ -454,7 +463,7 @@ method process_qualifiers($bioperl_feature, $chado_object)
       my @colours = $bioperl_feature->get_tag_values("colour");
 
       if (@colours > 1) {
-        warn "$type $uniquename has ", scalar(@colours), " /colours qualifier(s)"
+        warn "$type $uniquename has ", scalar(@colours), " /colours qualifier(s)" unless $self->quiet()
       }
 
       $self->store_colour($chado_object, $colours[0]);
@@ -552,7 +561,7 @@ method store_transcript_parts($bioperl_cds, $chromosome,
       my @codon_starts = $bioperl_cds->get_tag_values("codon_start");
 
       if (@codon_starts > 1) {
-        warn "$uniquename has ", scalar(@codon_starts), " /codon_start qualifier(s)\n"
+        warn "$uniquename has ", scalar(@codon_starts), " /codon_start qualifier(s)\n" unless $self->quiet()
       }
 
       my $codon_start = $codon_starts[0];
@@ -563,7 +572,7 @@ method store_transcript_parts($bioperl_cds, $chromosome,
         if ($codon_start == 2 || $codon_start == 3) {
           $phase = $codon_start - 1;
         } else {
-          warn "$uniquename has an illegal /codon_start =$codon_start\n";
+          warn "$uniquename has an illegal /codon_start =$codon_start\n" unless $self->quiet();
         }
       }
     }
@@ -631,7 +640,7 @@ method finalise($chromosome)
     if (!$so_type) {
       use Data::Dumper;
       $Data::Dumper::Maxdepth = 5;
-      warn 'no SO type:', Dumper([$feature_data]), "\n";
+      warn 'no SO type:', Dumper([$feature_data]), "\n" unless $self->quiet();
       next;
     }
 
@@ -644,7 +653,7 @@ method finalise($chromosome)
       die "no feature for $uniquename\n";
     }
 
-    warn "processing $so_type $uniquename\n";
+    warn "processing $so_type $uniquename\n" unless $self->quiet();
 
     my ($transcript_start, $transcript_end, $chado_transcript) =
       $self->store_transcript_parts($transcript_bioperl_feature,
@@ -702,19 +711,19 @@ method finalise($chromosome)
     protein_id => 1,
   );
 
-  warn "counts of EMBL qualifiers by feature type and un-handled qualifiers:\n";
+  warn "counts of EMBL qualifiers by feature type and un-handled qualifiers:\n" unless $self->quiet();
 
   for my $feat_type (keys %{$self->{tag_counts}}) {
     my %counts = %{$self->{tag_counts}->{$feat_type}};
 
     my $feat_count = $self->{feature_counts}->{$feat_type};
 
-    warn "  $feat_type ($feat_count)\n";
+    warn "  $feat_type ($feat_count)\n" unless $self->quiet();
 
     for my $tag_name (keys %counts) {
       next if $handled_qualifiers{$tag_name};
       my $count = $counts{$tag_name};
-      warn "    $tag_name: $count\n";
+      warn "    $tag_name: $count\n" unless $self->quiet();
     }
   }
 }

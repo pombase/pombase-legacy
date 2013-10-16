@@ -44,7 +44,7 @@ use PomBase::Chado::LoadOrganism;
 
 use YAML::Any qw(DumpFile LoadFile);
 
-func _load_genes($config, $chado, $organism, $test_mode) {
+func load_genes($config, $chado, $organism, $test_mode) {
   my $gene_type = $chado->resultset('Cv::Cvterm')->find({ name => 'gene' });
   my $org_name = $organism->genus() . ' ' . $organism->species();
   my @res;
@@ -61,13 +61,13 @@ func _load_genes($config, $chado, $organism, $test_mode) {
   }
 
   if (-e $file_name) {
-    warn "loading from cache file: $file_name\n";
+    warn "loading from cache file: $file_name\n" unless $test_mode;
     @res = LoadFile($file_name);
   } else {
     if ($test_mode) {
       croak "test data missing: $file_name";
     }
-    warn "getting gene information Ensembl for $org_name\n";
+    warn "getting gene information Ensembl for $org_name\n" unless $test_mode;
     @res = PomBase::External::get_genes($config, $org_name);
     DumpFile($file_name, @res);
   }
@@ -84,11 +84,11 @@ func _load_genes($config, $chado, $organism, $test_mode) {
     if ($org_name eq 'Saccharomyces cerevisiae') {
       if (defined $name) {
         if ($name eq 'RAD51L3') {
-          warn "translating: RAD51L3\n";
+          warn "translating: RAD51L3\n" unless $test_mode;
           $name = 'RAD51D';
         } else {
           if ($name eq 'CEP110') {
-            warn "translating: CEP111\n";
+            warn "translating: CEP111\n" unless $test_mode;
             $name = 'CNTRL';
           }
         }
@@ -98,7 +98,7 @@ func _load_genes($config, $chado, $organism, $test_mode) {
     if (defined $name and length $name > 0) {
       if (exists $seen_names{lc $name}) {
         warn "seen name twice: $name from $primary_identifier and "
-          . $seen_names{lc $name};
+          . $seen_names{lc $name} unless $test_mode;
         $name = $primary_identifier;
       } else {
         # name is OK
@@ -119,7 +119,7 @@ func _load_genes($config, $chado, $organism, $test_mode) {
     last if $test_mode and scalar(keys %seen_names) >= 3;
   }
 
-  warn "loaded ", scalar(keys %seen_names), " genes for $org_name\n";
+  warn "loaded ", scalar(keys %seen_names), " genes for $org_name\n" unless $test_mode;
 }
 
 func _fix_annotation_extension_rels($chado, $config)
@@ -137,7 +137,7 @@ func _fix_annotation_extension_rels($chado, $config)
   push @{$config->{cvs}->{cvterm_property_type}}, @new_annotation_rel_names;
 }
 
-func _load_cvterms($chado, $config)
+func _load_cvterms($chado, $config, $test_mode)
 {
   my $db_name = 'PomBase';
   my $db = $chado->resultset('General::Db')->find({ name => $db_name });
@@ -182,7 +182,7 @@ func _load_cvterms($chado, $config)
         my $accession = $config->{id_counter}->get_dbxref_id($db_name);
         my $formatted_accession = sprintf "%07d", $accession;
 
-        warn "creating $formatted_accession in $db_name, $cv_name / $cvterm_name\n";
+        warn "creating $formatted_accession in $db_name, $cv_name / $cvterm_name\n" unless $test_mode;
         my $dbxref =
           $chado->resultset('General::Dbxref')->find_or_create({
             db_id => $db->db_id(),
@@ -236,20 +236,10 @@ func init_objects($chado, $config) {
                              "Spombe", 4896);
 
 
-  my $human =
-    $org_load->load_organism('Homo', 'sapiens', 'human', 'human', 9606);
-
-  my $scerevisiae =
-    $org_load->load_organism('Saccharomyces', 'cerevisiae', 'Scerevisiae',
-                             'Scerevisiae', 4932);
-
   _fix_annotation_extension_rels($chado, $config);
-  _load_cvterms($chado, $config);
+  _load_cvterms($chado, $config, $config->{test});
   _load_cv_defs($chado, $config);
   _load_dbs($chado, $config);
-
-  _load_genes($config, $chado, $scerevisiae, $config->{test_mode});
-  _load_genes($config, $chado, $human, $config->{test_mode});
 
   return $pombe_org;
 }

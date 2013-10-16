@@ -23,6 +23,7 @@ my $organism = PomBase::Load::init_objects($chado, $config);
 
 my $load_file = PomBase::Chado::LoadFile->new(chado => $chado,
                                               verbose => 0,
+                                              quiet => 1,
                                               config => $config,
                                               organism => $organism);
 

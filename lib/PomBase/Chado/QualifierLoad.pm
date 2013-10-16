@@ -59,6 +59,7 @@ with 'PomBase::Role::QualifierSplitter';
 with 'PomBase::Role::PhenotypeFeatureFinder';
 
 has verbose => (is => 'ro', isa => 'Bool');
+has quiet => (is => 'ro', isa => 'Bool');
 
 has gene_ex_qualifiers => (is => 'ro', init_arg => undef,
                            lazy_build => 1);
@@ -110,18 +111,18 @@ method get_and_check_date($sub_qual_map) {
   if (defined $date) {
     if ($date =~ /(\d\d\d\d)(\d\d)(\d\d)/) {
       if ($1 > $current_year) {
-        warn "date is in the future: $date\n";
+        warn "date is in the future: $date\n" unless $self->quiet();
       } else {
         if ($2 < 1 || $2 > 12) {
-          warn "month ($2) not in range 1..12\n";
+          warn "month ($2) not in range 1..12\n" unless $self->quiet();
         }
         if ($3 < 1 || $3 > 31) {
-          warn "day ($3) not in range 1..31\n";
+          warn "day ($3) not in range 1..31\n" unless $self->quiet();
         }
       }
       return $date;
     } else {
-      warn "  unknown date format: $date\n";
+      warn "  unknown date format: $date\n" unless $self->quiet();
     }
   }
 
@@ -181,11 +182,11 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
   if ($self->is_go_cv_name($cv_name)) {
     $qualifier_term_id = delete $sub_qual_map->{GOid};
     if (!defined $qualifier_term_id) {
-      warn "  no GOid for $uniquename annotation: '$embl_term_name'\n";
+      warn "  no GOid for $uniquename annotation: '$embl_term_name'\n" unless $self->quiet();
       return;
     }
     if ($qualifier_term_id !~ /GO:(.*)/) {
-      warn "  GOid doesn't start with 'GO:' for $uniquename: $qualifier_term_id\n";
+      warn "  GOid doesn't start with 'GO:' for $uniquename: $qualifier_term_id\n" unless $self->quiet();
     }
   }
 
@@ -210,11 +211,11 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
       if (!defined $cvterm) {
         $cvterm = $self->find_cvterm_by_term_id($qualifier_term_id);
         if (!defined $cvterm) {
-          die qq(unknown term name "$embl_term_name" and unknown GO ID "$qualifier_term_id"\n);
+          die qq(unknown term name "$embl_term_name" and unknown GO ID "$qualifier_term_id"\n) unless $self->quiet();
         }
         if (!$self->config()->{allowed_unknown_term_names}->{$qualifier_term_id}) {
           die "found cvterm by ID, but name doesn't match any cvterm: $qualifier_term_id " .
-            "EMBL file: $embl_term_name  Chado name for ID: ", $cvterm->name(), "\n";
+            "EMBL file: $embl_term_name  Chado name for ID: ", $cvterm->name(), "\n" unless $self->quiet();
         }
         $qualifier_term_id = undef;
       }
@@ -326,12 +327,12 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
 
       }
     } else {
-      warn "found evidence for $embl_term_name in $cv_name\n";
+      warn "found evidence for $embl_term_name in $cv_name\n" unless $self->quiet();
     }
   } else {
     if (grep { $_ eq $cv_name } ('biological_process', 'molecular_function',
                                  'cellular_component')) {
-      warn "no evidence for $cv_name annotation: $embl_term_name in ", $uniquename, "\n";
+      warn "no evidence for $cv_name annotation: $embl_term_name in ", $uniquename, "\n" unless $self->quiet();
     }
 
     if ($cv_name eq 'fission_yeast_phenotype' and $db_xref eq 'PMID:20473289') {
@@ -436,7 +437,7 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
         $args{description} = 'deletion';
         warn qq|storing allele=$allele as "$new_name(deletion)"\n| if $self->verbose();
       } else {
-        warn qq|allele "$allele" is not in the form "name(description)" - storing as "$allele(unknown)"\n|;
+        warn qq|allele "$allele" is not in the form "name(description)" - storing as "$allele(unknown)"\n| unless $self->quiet();
         $args{name} = $allele;
         $args{description} = 'unknown';
       }
@@ -446,7 +447,7 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
 
     if (!defined $allele_type || length $allele_type == 0) {
       $allele_type = 'unknown';
-      warn "ambiguous or unset allele_type for $args{name}($args{description})\n";
+      warn "ambiguous or unset allele_type for $args{name}($args{description})\n" unless $self->quiet();
     }
     $args{allele_type} = $allele_type;
 
@@ -507,7 +508,7 @@ method maybe_move_igi($term, $evidence_code, $qualifiers, $withs, $sub_qual_map)
       @$withs = ();
 
       if (exists $sub_qual_map->{annotation_extension}) {
-        warn "annotation_extension already exists when converting IGI\n";
+        warn "annotation_extension already exists when converting IGI\n" unless $self->quiet();
       } else {
         $sub_qual_map->{annotation_extension} = "localizes($with)";
         @$qualifiers = grep { $_ ne 'localization_dependency'; } @$qualifiers;
@@ -515,7 +516,7 @@ method maybe_move_igi($term, $evidence_code, $qualifiers, $withs, $sub_qual_map)
         return 'IMP';
       }
     } else {
-      warn "no 'with' qualifier on localization_dependency IGI\n"
+      warn "no 'with' qualifier on localization_dependency IGI\n" unless $self->quiet();
     }
   }
 
@@ -528,7 +529,7 @@ method maybe_move_predicted($qualifiers, $sub_qual_map) {
   for (my $i = 0; $i < @$qualifiers; $i++) {
     if ($qualifiers->[$i] eq 'predicted') {
       if (exists $sub_qual_map->{evidence} && $sub_qual_map->{evidence} ne 'ISS') {
-        warn "trying to assign ISS evidence to a feature that already has evidence\n";
+        warn "trying to assign ISS evidence to a feature that already has evidence\n" unless $self->quiet();
       } else {
         splice @$qualifiers, $i, 1;
         $sub_qual_map->{evidence} = 'ISS';
@@ -633,7 +634,7 @@ method process_ortholog($chado_object, $term, $sub_qual_map) {
     if ($gene_name =~ /^(\S+)(?:\s+\(([cn])-term\))?$/i) {
       push @gene_names, { name => $1, term => $2 };
     } else {
-      warn qq(gene name contains whitespace "$gene_name" from "$term");
+      warn qq(gene name contains whitespace "$gene_name" from "$term") unless $self->quiet();
       return 0;
     }
   }
@@ -652,11 +653,11 @@ method process_ortholog($chado_object, $term, $sub_qual_map) {
       $ortholog_feature =
         $self->find_chado_feature($ortholog_name, 1, 1, $organism);
     } catch {
-      warn "  caught exception: $_\n";
+      warn "  caught exception: $_\n" unless $self->quiet();
     };
 
     if (!defined $ortholog_feature) {
-      warn "ortholog ($ortholog_name) not found\n";
+      warn "ortholog ($ortholog_name) not found\n" unless $self->quiet();
       next;
     }
 
@@ -693,7 +694,7 @@ method process_ortholog($chado_object, $term, $sub_qual_map) {
       warn "  created ortholog to $ortholog_name\n" if $self->verbose();
     } catch {
       warn "  failed to create ortholog relation from $chado_object_uniquename " .
-        "to $ortholog_name: $_\n";
+        "to $ortholog_name: $_\n" unless $self->quiet();
       return 0;
     };
   }
@@ -804,7 +805,7 @@ method process_one_cc($chado_object, $bioperl_feature, $qualifier,
   try {
     %qual_map = $self->split_sub_qualifiers($qualifier);
   } catch {
-    warn "  $_: failed to process sub-qualifiers from $qualifier, feature:\n";
+    warn "  $_: failed to process sub-qualifiers from $qualifier, feature:\n" unless $self->quiet();
     $self->dump_feature($bioperl_feature);
   };
 
@@ -819,7 +820,7 @@ method process_one_cc($chado_object, $bioperl_feature, $qualifier,
 
   if (!defined $term || length $term == 0) {
     if ($bioperl_feature->primary_tag() ne 'misc_RNA' || $self->verbose()) {
-      warn "no term for: $qualifier\n";
+      warn "no term for: $qualifier\n" unless $self->quiet();
     }
     return ();
   }
@@ -861,7 +862,7 @@ method process_one_cc($chado_object, $bioperl_feature, $qualifier,
             my $cv_name_in_term = $1;
             if ($cv_name_in_term ne $cv_name) {
               if ($chado_object_type ne 'gene' and $chado_object_type ne 'pseudogene') {
-                warn qq{cv_name ("$cv_name") doesn't match start of term ("$cv_name_in_term")\n};
+                warn qq{cv_name ("$cv_name") doesn't match start of term ("$cv_name_in_term")\n} unless $self->quiet();
               }
             }
           }
@@ -889,13 +890,13 @@ method process_one_cc($chado_object, $bioperl_feature, $qualifier,
         }
         $self->add_term_to_gene($chado_object, $cv_name, $term, \%qual_map, 1);
       } catch {
-        warn "$_: failed to load qualifier '$qualifier' from $systematic_id\n";
+        warn "$_: failed to load qualifier '$qualifier' from $systematic_id\n" unless $self->quiet();
         $self->dump_feature($bioperl_feature) if $self->verbose();
         return ();
       };
       warn "    loaded: $qualifier\n" if $self->verbose();
     } else {
-      warn "CV name not recognised: $qualifier\n";
+      warn "CV name not recognised: $qualifier\n" unless $self->quiet();
       return ();
     }
   } else {
@@ -903,7 +904,7 @@ method process_one_cc($chado_object, $bioperl_feature, $qualifier,
         if (!$self->process_paralog($chado_object, $term, \%qual_map)) {
           if (!$self->process_warning($chado_object, $term, \%qual_map)) {
             if (!$self->process_family($chado_object, $term, \%qual_map)) {
-              warn "qualifier not recognised: $qualifier\n";
+              warn "qualifier not recognised: $qualifier\n" unless $self->quiet();
               return ();
             }
           }
@@ -949,7 +950,7 @@ method process_one_go_qual($chado_object, $bioperl_feature, $qualifier) {
     };
     warn "    loaded: $qualifier\n" if $self->verbose();
   } else {
-    warn "  no aspect for: $qualifier\n";
+    warn "  no aspect for: $qualifier\n" unless $self->quiet();
     return ();
   }
 
@@ -959,7 +960,7 @@ method process_one_go_qual($chado_object, $bioperl_feature, $qualifier) {
 method process_product($chado_feature, $product)
 {
   if ($product =~ /\([^\)]*$|^[^\(]*\)/) {
-    warn "unbalanced parenthesis in product: $product\n";
+    warn "unbalanced parenthesis in product: $product\n" unless $self->quiet();
   }
 
   $self->add_term_to_gene($chado_feature, 'PomBase gene products',
