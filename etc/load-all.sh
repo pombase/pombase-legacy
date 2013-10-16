@@ -55,6 +55,8 @@ fi
 
 cd $HOME/git/pombase-legacy
 
+POMBASE_CHADO=../pombase-chado
+
 # see https://sourceforge.net/p/pombase/chado/61/
 cat $SOURCES/biogrid/BIOGRID-ORGANISM-Schizosaccharomyces_pombe-*.tab2.txt | ./script/pombase-import.pl ./load-pombase-chado.yaml biogrid --use_first_with_id  --organism-taxonid-filter=4896 --interaction-note-filter="Contributed by PomBase|contributed by PomBase|triple mutant" --evidence-code-filter='Co-localization' $HOST $DB $USER $PASSWORD 2>&1 | tee -a $LOG_DIR/$log_file.biogrid-load-output
 
@@ -167,7 +169,7 @@ DUMP_DIR=/var/www/pombase/dumps/$FINAL_DB
 mkdir $DUMP_DIR
 mkdir $DUMP_DIR/logs
 
-./script/pombase-export.pl ./load-pombase-chado.yaml gaf --organism-taxon-id=4896 $HOST $FINAL_DB $USER $PASSWORD > $DUMP_DIR/$FINAL_DB.gaf
+$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml gaf --organism-taxon-id=4896 $HOST $FINAL_DB $USER $PASSWORD > $DUMP_DIR/$FINAL_DB.gaf
 ./script/pombase-export.pl ./load-pombase-chado.yaml interactions --organism-taxon-id=4896 $HOST $FINAL_DB $USER $PASSWORD > $DUMP_DIR/$FINAL_DB.pombe-interactions.biogrid
 ./script/pombase-export.pl ./load-pombase-chado.yaml orthologs --organism-taxon-id=4896 --other-organism-taxon-id=9606 $HOST $FINAL_DB $USER $PASSWORD > $DUMP_DIR/$FINAL_DB.human-orthologs.txt
 /var/pomcur/sources/go-svn/software/utilities/filter-gene-association.pl -e < $DUMP_DIR/$FINAL_DB.gaf > $LOG_DIR/$log_file.gaf-check
