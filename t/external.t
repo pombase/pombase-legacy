@@ -7,7 +7,7 @@ use PomBase::External;
 
 use YAML qw(LoadFile);
 
-my $config = LoadFile('load-chado.yaml');
+my $config = LoadFile('load-pombase-chado.yaml');
 
 my @genes = PomBase::External::get_genes($config, 'Homo sapiens');
 
