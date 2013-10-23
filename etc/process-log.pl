@@ -78,6 +78,8 @@ while (defined (my $line = <>)) {
               |
                 duplicated extension
               |
+                gene expression annotations must have
+              |
                 feature has no systematic_id/x) {
     print $all_warnings "$line";
     print $qual_problems "$gene: $line";
