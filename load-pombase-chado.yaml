@@ -173,6 +173,11 @@ allowed_term_mismatches_files:
   - /home/kmr44/Dropbox/pombase/Chado/current_load_config/cumulative_ID_ok_mismatches.txt
   - /home/kmr44/Dropbox/pombase/Chado/current_load_config/cumulative_name_ok_mismatches.txt
 
+# This allows species to merged into a parent taxa when loading.  For
+# example when loading annotation from GOA into PomBase we can merge
+# taxon 284812 (Schizosaccharomyces pombe 972h-) into 4896
+# (Schizosaccharomyces pombe) rather than having two organisms for pombe
+# in Chado
 organism_taxon_map:
   284812: 4896
 
