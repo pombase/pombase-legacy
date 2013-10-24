@@ -15,6 +15,8 @@ LOG_DIR=`pwd`
 
 SOURCES=/var/pomcur/sources
 
+POMBASE_CHADO=../pombase-chado
+
 GOA_GAF_URL=ftp://ftp.ebi.ac.uk/pub/databases/GO/goa/UNIPROT/gene_association.goa_uniprot.gz
 
 cd $SOURCES/pombe-embl/
@@ -58,7 +60,7 @@ cd $HOME/git/pombase-legacy
 POMBASE_CHADO=../pombase-chado
 
 # see https://sourceforge.net/p/pombase/chado/61/
-cat $SOURCES/biogrid/BIOGRID-ORGANISM-Schizosaccharomyces_pombe-*.tab2.txt | ./script/pombase-import.pl ./load-pombase-chado.yaml biogrid --use_first_with_id  --organism-taxonid-filter=4896 --interaction-note-filter="Contributed by PomBase|contributed by PomBase|triple mutant" --evidence-code-filter='Co-localization' $HOST $DB $USER $PASSWORD 2>&1 | tee -a $LOG_DIR/$log_file.biogrid-load-output
+cat $SOURCES/biogrid/BIOGRID-ORGANISM-Schizosaccharomyces_pombe-*.tab2.txt | $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml biogrid --use_first_with_id  --organism-taxonid-filter=4896 --interaction-note-filter="Contributed by PomBase|contributed by PomBase|triple mutant" --evidence-code-filter='Co-localization' $HOST $DB $USER $PASSWORD 2>&1 | tee -a $LOG_DIR/$log_file.biogrid-load-output
 
 evidence_summary () {
   psql $DB -c "select count(feature_cvtermprop_id), value from feature_cvtermprop where type_id in (select cvterm_id from cvterm where name = 'evidence') group by value order by count(feature_cvtermprop_id)"
@@ -73,7 +75,7 @@ echo starting import of GOA GAF data
 for gaf_file in go_comp.txt go_proc.txt go_func.txt From_curation_tool GO_ORFeome_localizations2.txt
 do
   echo reading $gaf_file
-  ./script/pombase-import.pl ./load-pombase-chado.yaml gaf --assigned-by-filter=PomBase $HOST $DB $USER $PASSWORD < $SOURCES/pombe-embl/external-go-data/$gaf_file
+  $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --assigned-by-filter=PomBase $HOST $DB $USER $PASSWORD < $SOURCES/pombe-embl/external-go-data/$gaf_file
 
   echo counts:
   evidence_summary
@@ -83,7 +85,7 @@ echo $SOURCES/gene_association.pombase.inf.gaf
 GET 'http://build.berkeleybop.org/view/GAF/job/gaf-check-pombase/lastSuccessfulBuild/artifact/gene_association.pombase.inf.gaf' > $SOURCES/gene_association.pombase.inf.gaf
 if [ -s $SOURCES/gene_association.pombase.inf.gaf ]
 then
-  ./script/pombase-import.pl ./load-pombase-chado.yaml gaf --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings --assigned-by-filter=PomBase,GOC $HOST $DB $USER $PASSWORD < $SOURCES/gene_association.pombase.inf.gaf
+  $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings --assigned-by-filter=PomBase,GOC $HOST $DB $USER $PASSWORD < $SOURCES/gene_association.pombase.inf.gaf
 else
   echo "Coudn't download gene_association.pombase.inf.gaf - exiting" 1>&2
   exit 1
@@ -103,7 +105,7 @@ else
   echo "didn't download new $GOA_GAF_URL"
 fi
 
-gzip -d < $CURRENT_GOA_GAF | kgrep '\ttaxon:(4896|284812)\t' | ./script/pombase-import.pl ./load-pombase-chado.yaml gaf --use-only-first-with-id --taxon-filter=4896 --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings --assigned-by-filter=InterPro,UniProtKB,UniProt $HOST $DB $USER $PASSWORD
+gzip -d < $CURRENT_GOA_GAF | kgrep '\ttaxon:(4896|284812)\t' | $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --use-only-first-with-id --taxon-filter=4896 --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings --assigned-by-filter=InterPro,UniProtKB,UniProt $HOST $DB $USER $PASSWORD
 
 } 2>&1 | tee $LOG_DIR/$log_file.gaf-load-output
 
@@ -116,31 +118,31 @@ echo load quantitative gene expression data
 for file in $SOURCES/pombe-embl/external_data/Quantitative_gene_expression_data/*
 do
   echo loading: $file
-  ./script/pombase-import.pl load-pombase-chado.yaml quantitative --organism_taxonid=4896 $HOST $DB $USER $PASSWORD < $file 2>&1
+  $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml quantitative --organism_taxonid=4896 $HOST $DB $USER $PASSWORD < $file 2>&1
 done | tee $LOG_DIR/$log_file.quantitative
 
 
 echo phenotype data from PMID:23697806
-./script/pombase-import.pl load-pombase-chado.yaml phenotype_annotation $HOST $DB $USER $PASSWORD < $SOURCES/pombe-embl/phenotype_mapping/phaf_format_phenotypes.tsv 2>&1 | tee $LOG_DIR/$log_file.phenotypes_from_PMID_23697806
-./script/pombase-import.pl load-pombase-chado.yaml phenotype_annotation $HOST $DB $USER $PASSWORD < $SOURCES/pombe-embl/phenotype_mapping/HU_data_from_PMID_23697806 2>&1 | tee $LOG_DIR/$log_file.HU_phenotypes_from_PMID_23697806
+$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml phenotype_annotation $HOST $DB $USER $PASSWORD < $SOURCES/pombe-embl/phenotype_mapping/phaf_format_phenotypes.tsv 2>&1 | tee $LOG_DIR/$log_file.phenotypes_from_PMID_23697806
+$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml phenotype_annotation $HOST $DB $USER $PASSWORD < $SOURCES/pombe-embl/phenotype_mapping/HU_data_from_PMID_23697806 2>&1 | tee $LOG_DIR/$log_file.HU_phenotypes_from_PMID_23697806
 
 for id in 18684775 19264558 21850271 22806344 23861937 23950735
 do
-  (echo phenotype data from PMID:$id; ./script/pombase-import.pl load-pombase-chado.yaml phenotype_annotation $HOST $DB $USER $PASSWORD < $SOURCES/pombe-embl/external_data/phaf_files/chado_load/PMID_${id}_phaf.tsv) 2>&1 | tee -a $LOG_DIR/$log_file.phenotypes_from_PMID_$id
+  (echo phenotype data from PMID:$id; $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml phenotype_annotation $HOST $DB $USER $PASSWORD < $SOURCES/pombe-embl/external_data/phaf_files/chado_load/PMID_${id}_phaf.tsv) 2>&1 | tee -a $LOG_DIR/$log_file.phenotypes_from_PMID_$id
 done
 
 echo load Compara orthologs
 
-./script/pombase-import.pl load-pombase-chado.yaml orthologs --publication=PMID:19029536 --organism_1_taxonid=4896 --organism_2_taxonid=9606 --swap-direction $HOST $DB $USER $PASSWORD < $SOURCES/pombe-embl/orthologs/compara_orths.tsv 2>&1 | tee $LOG_DIR/$log_file.compara_orths
+$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml orthologs --publication=PMID:19029536 --organism_1_taxonid=4896 --organism_2_taxonid=9606 --swap-direction $HOST $DB $USER $PASSWORD < $SOURCES/pombe-embl/orthologs/compara_orths.tsv 2>&1 | tee $LOG_DIR/$log_file.compara_orths
 
 
 echo load manual pombe to human orthologs: conserved_multi.txt
 
-./script/pombase-import.pl load-pombase-chado.yaml orthologs --publication=PMID:19029536 --organism_1_taxonid=4896 --organism_2_taxonid=9606 --swap-direction $HOST $DB $USER $PASSWORD < $SOURCES/pombe-embl/orthologs/conserved_multi.txt 2>&1 | tee $LOG_DIR/$log_file.manual_multi_orths
+$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml orthologs --publication=PMID:19029536 --organism_1_taxonid=4896 --organism_2_taxonid=9606 --swap-direction $HOST $DB $USER $PASSWORD < $SOURCES/pombe-embl/orthologs/conserved_multi.txt 2>&1 | tee $LOG_DIR/$log_file.manual_multi_orths
 
 echo load manual pombe to human orthologs: conserved_one_to_one.txt
 
-./script/pombase-import.pl load-pombase-chado.yaml orthologs --publication=PMID:19029536 --organism_1_taxonid=4896 --organism_2_taxonid=9606 --swap-direction --add_org_1_term_name='predominantly single copy (one to one)' --add_org_1_term_cv='species_dist' $HOST $DB $USER $PASSWORD < $SOURCES/pombe-embl/orthologs/conserved_one_to_one.txt 2>&1 | tee $LOG_DIR/$log_file.manual_1-1_orths
+$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml orthologs --publication=PMID:19029536 --organism_1_taxonid=4896 --organism_2_taxonid=9606 --swap-direction --add_org_1_term_name='predominantly single copy (one to one)' --add_org_1_term_cv='species_dist' $HOST $DB $USER $PASSWORD < $SOURCES/pombe-embl/orthologs/conserved_one_to_one.txt 2>&1 | tee $LOG_DIR/$log_file.manual_1-1_orths
 
 FINAL_DB=$DB-l1
 
@@ -150,19 +152,19 @@ createdb -T $DB $FINAL_DB
 CURATION_TOOL_DATA=current-prod-dump.json
 scp pomcur@pombe-prod:/var/pomcur/backups/$CURATION_TOOL_DATA .
 
-./script/pombase-import.pl load-pombase-chado.yaml canto --organism-taxonid=4896 --db-prefix=PomBase $HOST $FINAL_DB $USER $PASSWORD < $CURATION_TOOL_DATA 2>&1 | tee $LOG_DIR/$log_file.curation_tool_data
+$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml canto --organism-taxonid=4896 --db-prefix=PomBase $HOST $FINAL_DB $USER $PASSWORD < $CURATION_TOOL_DATA 2>&1 | tee $LOG_DIR/$log_file.curation_tool_data
 
 echo annotation count after loading curation tool data:
 evidence_summary
 
 echo filtering redundant annotations
-./script/pombase-process.pl ./load-pombase-chado.yaml go-filter $HOST $FINAL_DB $USER $PASSWORD
+$POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter $HOST $FINAL_DB $USER $PASSWORD
 
 echo annotation count after filtering redundant annotations:
 evidence_summary
 
 echo running consistency checks
-./script/check-chado.pl ./check-db.yaml $HOST $FINAL_DB $USER $PASSWORD
+$POMBASE_CHADO/script/check-chado.pl ./check-db.yaml $HOST $FINAL_DB $USER $PASSWORD
 
 DUMP_DIR=/var/www/pombase/dumps/$FINAL_DB
 
