@@ -80,6 +80,8 @@ while (defined (my $line = <>)) {
               |
                 gene expression annotations must have
               |
+                not a valid qualifier
+              |
                 feature has no systematic_id/x) {
     print $all_warnings "$line";
     print $qual_problems "$gene: $line";
