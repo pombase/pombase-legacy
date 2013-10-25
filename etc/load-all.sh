@@ -15,14 +15,14 @@ LOG_DIR=`pwd`
 
 SOURCES=/var/pomcur/sources
 
-POMBASE_CHADO=../pombase-chado
+POMBASE_CHADO=$HOME/git/pombase-chado
 
 GOA_GAF_URL=ftp://ftp.ebi.ac.uk/pub/databases/GO/goa/UNIPROT/gene_association.goa_uniprot.gz
 
 cd $SOURCES/pombe-embl/
 svn update || exit 1
 
-cd $HOME/git/pombase-chado
+cd $POMBASE_CHADO
 git pull || exit 1
 
 cd $HOME/git/pombase-legacy
