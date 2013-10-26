@@ -207,6 +207,64 @@ parent_cv, cvterm rel_type where fc.cvterm_id = t.cvterm_id and term_cv.cv_id
 and parent_term.cv_id = parent_cv.cv_id and term_cv.name = 'PomBase annotation extension terms' and rel.type_id = rel_type.cvterm_id and rel_type.name =
 'is_a') as sub group by cv_name order by count;"
 echo
+
+echo annotation counts by evidence code and cv type, sorted by cv name:
+psql $FINAL_DB -c "with sub as (select distinct
+ fc.feature_cvterm_id as fc_id, cv.name as cv_name from cvterm t,
+ feature_cvterm fc, cv where fc.cvterm_id = t.cvterm_id and cv.cv_id = t.cv_id
+ and cv.name <> 'PomBase annotation extension terms' UNION select distinct
+ fc.feature_cvterm_id as fc_id, parent_cv.name as cv_name from cvterm t,
+ feature_cvterm fc, cv term_cv, cvterm_relationship rel, cvterm parent_term, cv
+ parent_cv, cvterm rel_type where fc.cvterm_id = t.cvterm_id and term_cv.cv_id
+ = t.cv_id and t.cvterm_id = subject_id and parent_term.cvterm_id = object_id
+ and parent_term.cv_id = parent_cv.cv_id and term_cv.name =
+ 'PomBase annotation extension terms' and rel.type_id =
+ rel_type.cvterm_id and rel_type.name = 'is_a')
+ select p.value as ev_code, cv_name, count(fc_id) from sub join
+ feature_cvtermprop p on sub.fc_id = p.feature_cvterm_id where type_id
+ = (select cvterm_id from cvterm t join cv on t.cv_id = cv.cv_id where
+ cv.name = 'feature_cvtermprop_type' and t.name = 'evidence') group by
+ p.value, cv_name order by cv_name;"
+echo
+
+echo annotation counts by evidence code and cv type, sorted by count:
+psql $FINAL_DB -c "with sub as (select distinct
+ fc.feature_cvterm_id as fc_id, cv.name as cv_name from cvterm t,
+ feature_cvterm fc, cv where fc.cvterm_id = t.cvterm_id and cv.cv_id = t.cv_id
+ and cv.name <> 'PomBase annotation extension terms' UNION select distinct
+ fc.feature_cvterm_id as fc_id, parent_cv.name as cv_name from cvterm t,
+ feature_cvterm fc, cv term_cv, cvterm_relationship rel, cvterm parent_term, cv
+ parent_cv, cvterm rel_type where fc.cvterm_id = t.cvterm_id and term_cv.cv_id
+ = t.cv_id and t.cvterm_id = subject_id and parent_term.cvterm_id = object_id
+ and parent_term.cv_id = parent_cv.cv_id and term_cv.name =
+ 'PomBase annotation extension terms' and rel.type_id =
+ rel_type.cvterm_id and rel_type.name = 'is_a')
+ select p.value as ev_code, cv_name, count(fc_id) from sub join
+ feature_cvtermprop p on sub.fc_id = p.feature_cvterm_id where type_id
+ = (select cvterm_id from cvterm t join cv on t.cv_id = cv.cv_id where
+ cv.name = 'feature_cvtermprop_type' and t.name = 'evidence') group by
+ p.value, cv_name order by count;"
+echo
+
+echo annotation counts by evidence code and cv type, sorted by cv evidence code:
+psql $FINAL_DB -c "with sub as (select distinct
+ fc.feature_cvterm_id as fc_id, cv.name as cv_name from cvterm t,
+ feature_cvterm fc, cv where fc.cvterm_id = t.cvterm_id and cv.cv_id = t.cv_id
+ and cv.name <> 'PomBase annotation extension terms' UNION select distinct
+ fc.feature_cvterm_id as fc_id, parent_cv.name as cv_name from cvterm t,
+ feature_cvterm fc, cv term_cv, cvterm_relationship rel, cvterm parent_term, cv
+ parent_cv, cvterm rel_type where fc.cvterm_id = t.cvterm_id and term_cv.cv_id
+ = t.cv_id and t.cvterm_id = subject_id and parent_term.cvterm_id = object_id
+ and parent_term.cv_id = parent_cv.cv_id and term_cv.name =
+ 'PomBase annotation extension terms' and rel.type_id =
+ rel_type.cvterm_id and rel_type.name = 'is_a')
+ select p.value as ev_code, cv_name, count(fc_id) from sub join
+ feature_cvtermprop p on sub.fc_id = p.feature_cvterm_id where type_id
+ = (select cvterm_id from cvterm t join cv on t.cv_id = cv.cv_id where
+ cv.name = 'feature_cvtermprop_type' and t.name = 'evidence') group by
+ p.value, cv_name order by p.value;"
+echo
+
 echo total:
 psql $FINAL_DB -c "select count(distinct fc_id) from (select distinct
 fc.feature_cvterm_id as fc_id, cv.name as cv_name from cvterm t,
