@@ -128,7 +128,8 @@ $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml phenotype_annota
 
 for id in 18684775 19264558 21850271 22806344 23861937 23950735
 do
-  (echo phenotype data from PMID:$id; $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml phenotype_annotation $HOST $DB $USER $PASSWORD < $SOURCES/pombe-embl/external_data/phaf_files/chado_load/PMID_${id}_phaf.tsv) 2>&1 | tee -a $LOG_DIR/$log_file.phenotypes_from_PMID_$id
+  echo loading phenotype data from PMID:$id
+  ($POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml phenotype_annotation $HOST $DB $USER $PASSWORD < $SOURCES/pombe-embl/external_data/phaf_files/chado_load/PMID_${id}_phaf.tsv) 2>&1 | tee -a $LOG_DIR/$log_file.phenotypes_from_PMID_$id
 done
 
 echo load Compara orthologs
