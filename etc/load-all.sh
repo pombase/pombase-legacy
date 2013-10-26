@@ -163,7 +163,7 @@ echo annotation count after filtering redundant annotations:
 evidence_summary
 
 echo running consistency checks
-$POMBASE_CHADO/script/check-chado.pl ./check-db.yaml $HOST $FINAL_DB $USER $PASSWORD
+./script/check-chado.pl ./check-db.yaml $HOST $FINAL_DB $USER $PASSWORD
 
 DUMP_DIR=/var/www/pombase/dumps/$FINAL_DB
 
