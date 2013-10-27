@@ -82,7 +82,10 @@ while (defined (my $line = <>)) {
               |
                 not a valid qualifier
               |
-                feature has no systematic_id/x) {
+                feature has no systematic_id
+              |
+                database inconsistency - trying to store an allele
+              /x) {
     print $all_warnings "$line";
     print $qual_problems "$gene: $line";
     next;
