@@ -87,7 +87,7 @@ cvs:
     - name: approver_email
     - name: curator_name
     - name: curator_email
-    - name: curs_key
+    - name: canto_session
     - name: interaction_note
   cat_act: []
   genome_org: []
