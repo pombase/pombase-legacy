@@ -130,11 +130,6 @@ do
   ($POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml phenotype_annotation $HOST $DB $USER $PASSWORD < $SOURCES/pombe-embl/external_data/phaf_files/chado_load/PMID_${id}_phaf.tsv) 2>&1 | tee -a $LOG_DIR/$log_file.phenotypes_from_PMID_$id
 done
 
-echo load Compara orthologs
-
-$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml orthologs --publication=PMID:19029536 --organism_1_taxonid=4896 --organism_2_taxonid=9606 --swap-direction $HOST $DB $USER $PASSWORD < $SOURCES/pombe-embl/orthologs/compara_orths.tsv 2>&1 | tee $LOG_DIR/$log_file.compara_orths
-
-
 echo load manual pombe to human orthologs: conserved_multi.txt
 
 $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml orthologs --publication=PMID:19029536 --organism_1_taxonid=4896 --organism_2_taxonid=9606 --swap-direction $HOST $DB $USER $PASSWORD < $SOURCES/pombe-embl/orthologs/conserved_multi.txt 2>&1 | tee $LOG_DIR/$log_file.manual_multi_orths
@@ -178,7 +173,6 @@ $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml orthologs --or
 cp $LOG_DIR/$log_file.gaf-load-output $DUMP_DIR/logs/
 cp $LOG_DIR/$log_file.biogrid-load-output $DUMP_DIR/logs/
 cp $LOG_DIR/$log_file.gaf-check $DUMP_DIR/logs/$log_file.gaf-check
-cp $LOG_DIR/$log_file.compara_orths $DUMP_DIR/logs/$log_file.compara-orth-load-output
 cp $LOG_DIR/$log_file.manual_multi_orths $DUMP_DIR/logs/$log_file.manual-multi-orths-output
 cp $LOG_DIR/$log_file.manual_1-1_orths $DUMP_DIR/logs/$log_file.manual-1-1-orths-output
 cp $LOG_DIR/$log_file.curation_tool_data $DUMP_DIR/logs/$log_file.curation-tool-data-load-output
