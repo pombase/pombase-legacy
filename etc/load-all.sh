@@ -122,9 +122,8 @@ done | tee $LOG_DIR/$log_file.quantitative
 
 echo phenotype data from PMID:23697806
 $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml phenotype_annotation $HOST $DB $USER $PASSWORD < $SOURCES/pombe-embl/phenotype_mapping/phaf_format_phenotypes.tsv 2>&1 | tee $LOG_DIR/$log_file.phenotypes_from_PMID_23697806
-$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml phenotype_annotation $HOST $DB $USER $PASSWORD < $SOURCES/pombe-embl/phenotype_mapping/HU_data_from_PMID_23697806 2>&1 | tee $LOG_DIR/$log_file.HU_phenotypes_from_PMID_23697806
 
-for id in 18684775 19264558 21850271 22806344 23861937 23950735
+for id in 18684775 19264558 21850271 22806344 23861937 23950735 23697806
 do
   echo loading phenotype data from PMID:$id
   ($POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml phenotype_annotation $HOST $DB $USER $PASSWORD < $SOURCES/pombe-embl/external_data/phaf_files/chado_load/PMID_${id}_phaf.tsv) 2>&1 | tee -a $LOG_DIR/$log_file.phenotypes_from_PMID_$id
