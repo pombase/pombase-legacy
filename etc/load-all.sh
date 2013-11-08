@@ -153,6 +153,9 @@ evidence_summary
 echo filtering redundant annotations
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter $HOST $FINAL_DB $USER $PASSWORD
 
+echo update out of date allele names
+$POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml update-allele-names $HOST $FINAL_DB $USER $PASSWORD
+
 echo annotation count after filtering redundant annotations:
 evidence_summary
 
