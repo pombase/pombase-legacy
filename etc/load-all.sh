@@ -145,7 +145,7 @@ createdb -T $DB $FINAL_DB
 CURATION_TOOL_DATA=current-prod-dump.json
 scp pomcur@pombe-prod:/var/pomcur/backups/$CURATION_TOOL_DATA .
 
-$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml canto --organism-taxonid=4896 --db-prefix=PomBase $HOST $FINAL_DB $USER $PASSWORD < $CURATION_TOOL_DATA 2>&1 | tee $LOG_DIR/$log_file.curation_tool_data
+$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml canto-json --organism-taxonid=4896 --db-prefix=PomBase $HOST $FINAL_DB $USER $PASSWORD < $CURATION_TOOL_DATA 2>&1 | tee $LOG_DIR/$log_file.curation_tool_data
 
 echo annotation count after loading curation tool data:
 evidence_summary
