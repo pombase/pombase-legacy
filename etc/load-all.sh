@@ -160,7 +160,7 @@ echo annotation count after filtering redundant annotations:
 evidence_summary
 
 echo running consistency checks
-./script/check-chado.pl ./check-db.yaml $HOST $FINAL_DB $USER $PASSWORD
+./script/check-chado.pl ./check-db.yaml $HOST $FINAL_DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.chado_checks
 
 DUMP_DIR=/var/www/pombase/dumps/$FINAL_DB
 
@@ -180,6 +180,7 @@ cp $LOG_DIR/$log_file.manual_1-1_orths $DUMP_DIR/logs/$log_file.manual-1-1-orths
 cp $LOG_DIR/$log_file.curation_tool_data $DUMP_DIR/logs/$log_file.curation-tool-data-load-output
 cp $LOG_DIR/$log_file.quantitative $DUMP_DIR/logs/$log_file.quantitative
 cp $LOG_DIR/$log_file.*phenotypes_from_* $DUMP_DIR/logs/
+cp $LOG_DIR/$log_file.chado_checks $DUMP_DIR/logs/
 
 psql $FINAL_DB -c "select count(id), name from (select p.cvterm_id::text || '_cvterm' as id,
  substring(type.name from 'annotation_extension_relation-(.*)') as name from
