@@ -123,7 +123,7 @@ done | tee $LOG_DIR/$log_file.quantitative
 echo phenotype data from PMID:23697806
 $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml phenotype_annotation $HOST $DB $USER $PASSWORD < $SOURCES/pombe-embl/phenotype_mapping/phaf_format_phenotypes.tsv 2>&1 | tee $LOG_DIR/$log_file.phenotypes_from_PMID_23697806
 
-for id in $SOURCES/pombe-embl/external_data/phaf_files/chado_load/PMID_*_phaf.tsv
+for i in $SOURCES/pombe-embl/external_data/phaf_files/chado_load/PMID_*_phaf.tsv
 do
   f=`basename $i .tsv`
   echo loading phenotype data from $f
