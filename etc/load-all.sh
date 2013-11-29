@@ -127,7 +127,7 @@ for i in $SOURCES/pombe-embl/external_data/phaf_files/chado_load/PMID_*_phaf.tsv
 do
   f=`basename $i .tsv`
   echo loading phenotype data from $f
-  ($POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml phenotype_annotation $HOST $DB $USER $PASSWORD < $SOURCES/pombe-embl/external_data/phaf_files/chado_load/$i) 2>&1 | tee -a $LOG_DIR/$log_file.phenotypes_from_$f
+  ($POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml phenotype_annotation $HOST $DB $USER $PASSWORD < $i) 2>&1 | tee -a $LOG_DIR/$log_file.phenotypes_from_$f
 done
 
 echo load manual pombe to human orthologs: conserved_multi.txt
