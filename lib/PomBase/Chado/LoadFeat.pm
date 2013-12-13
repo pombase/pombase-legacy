@@ -276,15 +276,17 @@ method process($feature, $chromosome)
     }
   }
 
+  my $this_feature_type_conf = $feature_loader_conf{$feat_type};
+
   my ($uniquename, $transcript_uniquename, $gene_uniquename, $has_systematic_id) =
-    $self->get_uniquename($feature, $so_type);
+    $self->get_uniquename($feature, $so_type, $this_feature_type_conf->{transcript});
 
   if (!$self->quiet()) {
     warn "processing $feat_type $uniquename",
       (defined $gene_uniquename ? " from gene: $gene_uniquename" : ""), "\n"
   }
 
-  if ($feature_loader_conf{$feat_type}->{save}) {
+  if ($this_feature_type_conf->{save}) {
     if ($so_type =~ /UTR/) {
       $self->save_utr($feature, $uniquename, $transcript_uniquename, $gene_uniquename);
     } else {
@@ -296,7 +298,7 @@ method process($feature, $chromosome)
   my $chado_feature =
     $self->store_feature_and_loc($feature, $chromosome, $so_type);
 
-  if ($feature_loader_conf{$feat_type}->{collected}) {
+  if ($this_feature_type_conf->{collected}) {
     if (!$has_systematic_id) {
       warn "  $uniquename has no uniquename - skipping\n" unless $self->quiet();
       return;

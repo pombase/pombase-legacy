@@ -43,7 +43,7 @@ use Moose::Role;
 
 with 'PomBase::Role::FeatureDumper';
 
-method get_uniquename($feature, $so_type)
+method get_uniquename($feature, $so_type, $is_transcript)
 {
   state $type_seen = {};
 
@@ -93,7 +93,7 @@ method get_uniquename($feature, $so_type)
 
 #  warn "BEFORE $so_type - systematic_id: $systematic_id\n";
 
-  if ($systematic_id !~ /\.\d$/) {
+  if ($is_transcript && $systematic_id !~ /\.\d$/) {
     $systematic_id .= '.1';
   }
 
