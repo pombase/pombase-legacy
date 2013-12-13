@@ -35,7 +35,7 @@ while (defined (my $line = <>)) {
     print $unknown_term_names "$gene: $line";
     next;
   }
-  if ($line =~ /ortholog.*not found|failed to create paralog/) {
+  if ($line =~ /failed to create ortholog|ortholog.*not found|failed to create paralog/) {
     print $all_warnings "$line";
     print $ortholog_problems "$gene: $line";
     next;
