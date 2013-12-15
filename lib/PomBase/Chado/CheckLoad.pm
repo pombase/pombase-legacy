@@ -111,7 +111,7 @@ method check
   my $gene = $gene_rs->search({ uniquename => 'SPAC1556.06' })->next();
 
   should ($gene->uniquename(), "SPAC1556.06");
-  should ($gene->feature_cvterms()->count(), 12);
+  should ($gene->feature_cvterms()->count(), 9);
 
   my $transcript = $chado->resultset('Sequence::Feature')
           ->find({ uniquename => 'SPAC977.10.1'});
@@ -139,16 +139,18 @@ method check
   my $coiled_coil_cvterm = $self->get_cvterm('sequence', 'coiled_coil');
 
   my @all_feature_cvterm = $chado->resultset('Sequence::FeatureCvterm')->all();
-  should(scalar(@all_feature_cvterm), 105);
+  should(scalar(@all_feature_cvterm), 102);
 
   my $cvterm_property_type_cv =
     $chado->resultset('Cv::Cv')->find({ name => 'cvterm_property_type' });
   my $cvtermprop_types_rs = $chado->resultset('Cv::Cvterm')->search({ cv_id => $cvterm_property_type_cv->cv_id(),
                                                                       name => { like => 'annotation_extension_relation-%' } });
 
+  should($cvtermprop_types_rs->count(), 43);
+
   my $an_ex_rel_props_rs = $chado->resultset('Cv::Cvtermprop')->search({
     type_id => { -in => $cvtermprop_types_rs->get_column('cvterm_id')->as_query() } });
-  should($an_ex_rel_props_rs->count(), 6);
+  should($an_ex_rel_props_rs->count(), 4);
 
   my ($localizes_term) = grep { $_->cvterm()->name() =~ /cellular protein localization \[localizes\] SPAC167.03c/ } @all_feature_cvterm;
   assert(defined $localizes_term);
@@ -175,12 +177,8 @@ method check
     $chado->resultset('Cv::Cvterm')->search({ name => { -like => 'orthologous to%' } });
   should($ortholog_cvterm_rs->count(), 0);
 
-  while (defined (my $orth_term = $ortholog_cvterm_rs->next())) {
-    warn $orth_term->name(), "\n";
-  }
-
   my @all_props = $chado->resultset('Sequence::FeatureCvtermprop')->all();
-  should(scalar(@all_props), 204);
+  should(scalar(@all_props), 202);
 
   my $feat_rs = $chado->resultset('Sequence::Feature');
   should ($feat_rs->count(), 74);
