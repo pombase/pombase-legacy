@@ -168,7 +168,8 @@ evidence_summary
 echo running consistency checks
 ./script/check-chado.pl ./check-db.yaml $HOST $FINAL_DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.chado_checks
 
-BUILDS_DIR=/var/www/pombase/dumps/builds
+DUMPS_DIR=/var/www/pombase/dumps
+BUILDS_DIR=$DUMPS_DIR/builds
 CURRENT_BUILD_DIR=$BUILDS_DIR/$FINAL_DB
 
 mkdir $CURRENT_BUILD_DIR
@@ -318,7 +319,7 @@ DUMP_FILE=$CURRENT_BUILD_DIR/$FINAL_DB.dump.gz
 echo dumping to $DUMP_FILE
 pg_dump $FINAL_DB | gzip -9v > $DUMP_FILE
 
-rm -f $BUILDS_DIR/latest_build
-ln -s $CURRENT_BUILD_DIR $BUILDS_DIR/latest_build
+rm -f $DUMPS_DIR/latest_build
+ln -s $CURRENT_BUILD_DIR $DUMPS_DIR/latest_build
 
 date
