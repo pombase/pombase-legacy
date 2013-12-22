@@ -169,27 +169,27 @@ echo running consistency checks
 ./script/check-chado.pl ./check-db.yaml $HOST $FINAL_DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.chado_checks
 
 BUILDS_DIR=/var/www/pombase/dumps/builds
-DUMP_DIR=$BUILDS_DIR/$FINAL_DB
+CURRENT_BUILD_DIR=$BUILDS_DIR/$FINAL_DB
 
-mkdir $DUMP_DIR
-mkdir $DUMP_DIR/logs
+mkdir $CURRENT_BUILD_DIR
+mkdir $CURRENT_BUILD_DIR/logs
 
-$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml gaf --organism-taxon-id=4896 $HOST $FINAL_DB $USER $PASSWORD | gzip -9v > $DUMP_DIR/$FINAL_DB.gaf.gz
-$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml interactions --organism-taxon-id=4896 $HOST $FINAL_DB $USER $PASSWORD | gzip -9v > $DUMP_DIR/$FINAL_DB.pombe-interactions.biogrid.gz
-$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml orthologs --organism-taxon-id=4896 --other-organism-taxon-id=9606 $HOST $FINAL_DB $USER $PASSWORD | gzip -9v > $DUMP_DIR/$FINAL_DB.human-orthologs.txt.gz
-$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml phaf --organism-taxon-id=4896 $HOST $FINAL_DB $USER $PASSWORD | gzip -9v > $DUMP_DIR/$FINAL_DB.phaf.gz
-gzip -d < $DUMP_DIR/$FINAL_DB.gaf.gz | /var/pomcur/sources/go-svn/software/utilities/filter-gene-association.pl -e > $LOG_DIR/$log_file.gaf-check
+$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml gaf --organism-taxon-id=4896 $HOST $FINAL_DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$FINAL_DB.gaf.gz
+$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml interactions --organism-taxon-id=4896 $HOST $FINAL_DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$FINAL_DB.pombe-interactions.biogrid.gz
+$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml orthologs --organism-taxon-id=4896 --other-organism-taxon-id=9606 $HOST $FINAL_DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$FINAL_DB.human-orthologs.txt.gz
+$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml phaf --organism-taxon-id=4896 $HOST $FINAL_DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$FINAL_DB.phaf.gz
+gzip -d < $CURRENT_BUILD_DIR/$FINAL_DB.gaf.gz | /var/pomcur/sources/go-svn/software/utilities/filter-gene-association.pl -e > $LOG_DIR/$log_file.gaf-check
 
-cp $LOG_DIR/$log_file.gaf-load-output $DUMP_DIR/logs/
-cp $LOG_DIR/$log_file.biogrid-load-output $DUMP_DIR/logs/
-cp $LOG_DIR/$log_file.gaf-check $DUMP_DIR/logs/$log_file.gaf-check
-cp $LOG_DIR/$log_file.compara_orths $DUMP_DIR/logs/$log_file.compara-orth-load-output
-cp $LOG_DIR/$log_file.manual_multi_orths $DUMP_DIR/logs/$log_file.manual-multi-orths-output
-cp $LOG_DIR/$log_file.manual_1-1_orths $DUMP_DIR/logs/$log_file.manual-1-1-orths-output
-cp $LOG_DIR/$log_file.curation_tool_data $DUMP_DIR/logs/$log_file.curation-tool-data-load-output
-cp $LOG_DIR/$log_file.quantitative $DUMP_DIR/logs/$log_file.quantitative
-cp $LOG_DIR/$log_file.*phenotypes_from_* $DUMP_DIR/logs/
-cp $LOG_DIR/$log_file.chado_checks $DUMP_DIR/logs/
+cp $LOG_DIR/$log_file.gaf-load-output $CURRENT_BUILD_DIR/logs/
+cp $LOG_DIR/$log_file.biogrid-load-output $CURRENT_BUILD_DIR/logs/
+cp $LOG_DIR/$log_file.gaf-check $CURRENT_BUILD_DIR/logs/$log_file.gaf-check
+cp $LOG_DIR/$log_file.compara_orths $CURRENT_BUILD_DIR/logs/$log_file.compara-orth-load-output
+cp $LOG_DIR/$log_file.manual_multi_orths $CURRENT_BUILD_DIR/logs/$log_file.manual-multi-orths-output
+cp $LOG_DIR/$log_file.manual_1-1_orths $CURRENT_BUILD_DIR/logs/$log_file.manual-1-1-orths-output
+cp $LOG_DIR/$log_file.curation_tool_data $CURRENT_BUILD_DIR/logs/$log_file.curation-tool-data-load-output
+cp $LOG_DIR/$log_file.quantitative $CURRENT_BUILD_DIR/logs/$log_file.quantitative
+cp $LOG_DIR/$log_file.*phenotypes_from_* $CURRENT_BUILD_DIR/logs/
+cp $LOG_DIR/$log_file.chado_checks $CURRENT_BUILD_DIR/logs/
 
 psql $FINAL_DB -c "select count(id), name from (select p.cvterm_id::text || '_cvterm' as id,
  substring(type.name from 'annotation_extension_relation-(.*)') as name from
@@ -198,7 +198,7 @@ psql $FINAL_DB -c "select count(id), name from (select p.cvterm_id::text || '_cv
  '_cvterm_rel' as id, t.name as name from cvterm_relationship r, cvterm t where
  t.cvterm_id = type_id and r.subject_id in (select cvterm_id from cvterm, cv
  where cvterm.cv_id = cv.cv_id and cv.name = 'PomBase annotation extension terms')) 
- as sub group by name order by name;" > $DUMP_DIR/logs/$log_file.extension_relation_counts
+ as sub group by name order by name;" > $CURRENT_BUILD_DIR/logs/$log_file.extension_relation_counts
 
 (
 echo counts of all annotation by type:
@@ -303,22 +303,22 @@ psql $FINAL_DB -c "select count(distinct fc_id), cv_name from (select
  feature_cvtermprop where type_id in (select cvterm_id from cvterm
  where name = 'canto_session'))) as sub group by cv_name order by count;"
 
- ) > $DUMP_DIR/logs/$log_file.annotation_counts_by_cv
+ ) > $CURRENT_BUILD_DIR/logs/$log_file.annotation_counts_by_cv
 
 
-cp $LOG_DIR/*.txt $DUMP_DIR/logs/
+cp $LOG_DIR/*.txt $CURRENT_BUILD_DIR/logs/
 
-mkdir $DUMP_DIR/pombe-embl
-cp -r $SOURCES/pombe-embl/* $DUMP_DIR/pombe-embl/
+mkdir $CURRENT_BUILD_DIR/pombe-embl
+cp -r $SOURCES/pombe-embl/* $CURRENT_BUILD_DIR/pombe-embl/
 
 psql $FINAL_DB -c 'grant select on all tables in schema public to public;'
 
-DUMP_FILE=$DUMP_DIR/$FINAL_DB.dump.gz
+DUMP_FILE=$CURRENT_BUILD_DIR/$FINAL_DB.dump.gz
 
 echo dumping to $DUMP_FILE
 pg_dump $FINAL_DB | gzip -9v > $DUMP_FILE
 
 rm -f $BUILDS_DIR/latest_build
-ln -s $DUMP_DIR $BUILDS_DIR/latest_build
+ln -s $CURRENT_BUILD_DIR $BUILDS_DIR/latest_build
 
 date
