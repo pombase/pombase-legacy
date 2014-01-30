@@ -56,6 +56,8 @@ rm --verbose -rf tmp
 (cd $SOURCES_DIR/pombe-embl/; svn update || exit 1)
 
 
+echo update SO from SVN
+(cd $SOURCES_DIR/song-svn; svn update)
 echo update GO from CVS
 (cd $SOURCES_DIR/go; cvs up)
 echo update GO from SVN
@@ -73,6 +75,7 @@ fi
 (cd $SOURCES_DIR/phenotype_ontology_for_chado/; up)
 
 for obo_file in \
+    song-svn/so-xp-simple.obo \
     go-svn/ontology/gene_ontology_edit.obo \
     PSI-MOD.obo \
     pombe-embl/mini-ontologies/iao.obo \
