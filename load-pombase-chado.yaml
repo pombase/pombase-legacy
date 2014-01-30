@@ -165,6 +165,7 @@ dbs:
   - InterPro
   - UniProtKB
   - UniProtKB/Swiss-Prot
+  - TreeFam
 
 taxonid: 4896
 
