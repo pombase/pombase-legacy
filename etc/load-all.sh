@@ -307,6 +307,11 @@ psql $FINAL_DB -c "select count(distinct fc_id), cv_name from (select
  ) > $CURRENT_BUILD_DIR/logs/$log_file.annotation_counts_by_cv
 
 
+DB_BASE_NAME=`echo $DB | sed 's/-v[0-9]$//'`
+
+cp -r $SOURCES/current_build_files/$DB_BASE_NAME $CURRENT_BUILD_DIR/
+
+
 cp $LOG_DIR/*.txt $CURRENT_BUILD_DIR/logs/
 
 mkdir $CURRENT_BUILD_DIR/pombe-embl
