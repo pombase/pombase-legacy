@@ -109,10 +109,10 @@ mkdir - $CURRENT_BUILD_DIR/$DB/ontologies
 (
   cd $CURRENT_BUILD_DIR/$DB/ontologies
 
-  (cd $SOURCES/go-svn; svn info) > go-svn-info.txt
+  svn info $SOURCES/go-svn > go-svn-info.txt
   cp $SOURCES/go-svn/ontology/gene_ontology_edit.obo .
 
-  (cd $SOURCES/phenotype_ontology_for_chado; svn info) > fypo-svn-info.txt
+  svn info $SOURCES/phenotype_ontology_for_chado > fypo-svn-info.txt
   cp $SOURCES/phenotype_ontology_for_chado/releases/latest/fypo-simple.obo .
 )
 
