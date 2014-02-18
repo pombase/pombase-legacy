@@ -103,7 +103,7 @@ done
 
 CURRENT_BUILD_DIR=$SOURCES_DIR/current_build_files
 
-mkdir - $CURRENT_BUILD_DIR/$DB/ontologies
+mkdir -p $CURRENT_BUILD_DIR/$DB/ontologies
 
 # Save ontology versions
 (
