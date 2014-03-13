@@ -421,26 +421,27 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
   if (defined $sub_qual_map->{allele} || $cv_name eq 'fission_yeast_phenotype') {
     my $allele = $sub_qual_map->{allele};
 
-    if (!defined $allele) {
-      $allele = 'no_name(unrecorded)';
-    }
-
     my %args = (gene => $pombe_feature);
 
-    if ($allele =~ /^(.+)\((.+)\)$/) {
-      $args{name} = $1;
-      $args{description} = $2;
-    } else {
-      if ($allele eq 'deletion') {
-        my $new_name = ($pombe_feature->name() // $pombe_feature->uniquename()) . 'delta';
-        $args{name} = $new_name;
-        $args{description} = 'deletion';
-        warn qq|storing allele=$allele as "$new_name(deletion)"\n| if $self->verbose();
+    if (defined $allele) {
+      if ($allele =~ /^(.+)\((.+)\)$/) {
+        $args{name} = $1;
+        $args{description} = $2;
       } else {
-        warn qq|allele "$allele" is not in the form "name(description)" - storing as "$allele(unknown)"\n| unless $self->quiet();
-        $args{name} = $allele;
-        $args{description} = 'unknown';
+        if ($allele eq 'deletion') {
+          my $new_name = ($pombe_feature->name() // $pombe_feature->uniquename()) . 'delta';
+          $args{name} = $new_name;
+          $args{description} = 'deletion';
+          warn qq|storing allele=$allele as "$new_name(deletion)"\n| if $self->verbose();
+        } else {
+          warn qq|allele "$allele" is not in the form "name(description)" - storing as "$allele(unknown)"\n| unless $self->quiet();
+          $args{name} = $allele;
+          $args{description} = 'unknown';
+        }
       }
+    } else {
+      $args{name} = undef;
+      $args{description} = 'unrecorded';
     }
 
     my $allele_type = delete $sub_qual_map->{allele_type} // $self->allele_type_from_desc($args{description}, $pombe_feature->name());
