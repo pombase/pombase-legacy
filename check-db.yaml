@@ -19,3 +19,23 @@ query_checks:
       = (select cv_id from cv where name = 'sequence') and name = 'gene') and
       organism_id = (select organism_id from organism where abbreviation =
       'Spombe') group by name having count(feature_id) > 1
+  - name: no_population_terms_with_penetrance
+    description: no population term should have a has_penetrance relation
+    expected: 0
+    verbose_fail: true
+    query: |
+      SELECT f.name, f.uniquename, res_fc.cvterm_name, pub.uniquename
+        FROM pombase_feature_cvterm_ext_resolved_terms res_fc
+             JOIN pub on res_fc.pub_id = pub.pub_id
+             JOIN feature f on f.feature_id = res_fc.feature_id
+             JOIN cvtermpath path on path.subject_id = res_fc.base_cvterm_id
+        WHERE object_id in
+          (SELECT cvterm_id
+             FROM cvterm t join cv on t.cv_id = cv.cv_id
+            WHERE t.name = 'cell population phenotype' and cv.name = 'fission_yeast_phenotype')
+          AND pathdistance > 0
+          AND cvterm_id in
+            (SELECT subject_id
+               FROM cvterm_relationship r
+                    JOIN cvterm type on r.type_id = type.cvterm_id
+                    AND type.name = 'has_penetrance')
