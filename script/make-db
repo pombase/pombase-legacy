@@ -101,13 +101,13 @@ do
   go2fmt.pl -p obo_text -w xml $PROP_FILTERED_OBO | go-apply-xslt oboxml_to_chadoxml - > /tmp/prop_filtered.xml && stag-storenode.pl -cache 1 -d "dbi:Pg:dbname=$DB;host=$HOST" --user $USER --password $PASSWORD /tmp/prop_filtered.xml || exit 1
 done
 
-CURRENT_BUILD_DIR=$SOURCES_DIR/current_build_files
+CURRENT_BUILD_DIR=$SOURCES_DIR/current_build_files/pombase-build-$DB_NAME_SUFFIX
 
-mkdir -p $CURRENT_BUILD_DIR/$DB/ontologies
+mkdir -p $CURRENT_BUILD_DIR/ontologies
 
 # Save ontology versions
 (
-  cd $CURRENT_BUILD_DIR/$DB/ontologies
+  cd $CURRENT_BUILD_DIR/ontologies
 
   svn info $SOURCES/go-svn > go-svn-info.txt
   cp $SOURCES/go-svn/ontology/gene_ontology_edit.obo .
