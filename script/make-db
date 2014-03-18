@@ -109,11 +109,11 @@ mkdir -p $CURRENT_BUILD_DIR/ontologies
 (
   cd $CURRENT_BUILD_DIR/ontologies
 
-  svn info $SOURCES/go-svn > go-svn-info.txt
-  cp $SOURCES/go-svn/ontology/gene_ontology_edit.obo .
+  svn info $SOURCES_DIR/go-svn > go-svn-info.txt
+  cp $SOURCES_DIR/go-svn/ontology/gene_ontology_edit.obo .
 
-  svn info $SOURCES/phenotype_ontology_for_chado > fypo-svn-info.txt
-  cp $SOURCES/phenotype_ontology_for_chado/releases/latest/fypo-simple.obo .
+  svn info $SOURCES_DIR/phenotype_ontology_for_chado > fypo-svn-info.txt
+  cp $SOURCES_DIR/phenotype_ontology_for_chado/releases/latest/fypo-simple.obo .
 )
 
 echo populate cvtermpath
