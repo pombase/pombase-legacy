@@ -346,7 +346,7 @@ contig_ena_ids:
   MISPCG: X54421.1
   AB325691: AB325691
 
-db_name_for_cv: PomBase
+db_name_for_cv: PBO
 
 phenotype_cv_name: fission_yeast_phenotype
 parental_strain:
