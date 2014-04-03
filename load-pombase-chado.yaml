@@ -143,7 +143,7 @@ cv_definitions:
   m_f_g: Miscellaneous functional groups, not captured by GO (e.g. chaperone)
   misc: Annotation which does not fit any other ontology
   name_description: Derivation of the "three letter" gene name
-  PomBase annotation extension terms: Post-composed terms used for anotation cross products
+  PomBase annotation extension terms: Post-composed terms used for annotation cross products
   PomBase family or domain: Manual annotation of Pfam false negatives and uncaptured subfamilies
   PomBase gene products: Concise gene product names
   species_dist: Broad classifiers of taxon distribution (domain/kingdom level)
@@ -360,16 +360,18 @@ phenotype_cv_name: fission_yeast_phenotype
 parental_strain:
   4896: '972 h-'
 
+# query with mysql client with "show databases like '%core\_%';"
+# mysql -u anonymous -h ensembldb.ensembl.org
 ensembl_dbs:
   'Homo sapiens':
     host: ensembldb.ensembl.org
     port: 3306
     user: anonymous
     group: core
-    dbname: homo_sapiens_core_73_37
+    dbname: homo_sapiens_core_75_37
   'Saccharomyces cerevisiae':
     host: ensembldb.ensembl.org
     port: 3306
     user: anonymous
     group: core
-    dbname: saccharomyces_cerevisiae_core_73_4
+    dbname: saccharomyces_cerevisiae_core_75_4
