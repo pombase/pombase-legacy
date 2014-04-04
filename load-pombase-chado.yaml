@@ -359,6 +359,7 @@ contig_ena_ids:
   MISPCG: X54421.1
   AB325691: AB325691
 
+# the name of the db to use when creating a cvterm
 db_name_for_cv: PBO
 
 phenotype_cv_name: fission_yeast_phenotype
