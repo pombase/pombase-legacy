@@ -339,14 +339,10 @@ evidence_types:
     definition: "ECO term name is 'quantitative polymerase chain reaction evidence'"
   'ECO:0000006':
     name: experimental evidence
-  'ECO:0000007':
-    name: immunofluorescence evidence
   'ECO:0000337':
     name: gel electrophoresis evidence
   'ECO:0000221':
     name: high throughput nucleotide sequencing assay evidence
-  'ECO:0000124':
-    name: fusion protein localization evidence
 
 
 suppressible_evidence_codes:
