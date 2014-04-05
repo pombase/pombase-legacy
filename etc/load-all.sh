@@ -156,11 +156,15 @@ $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml canto-json --org
 echo annotation count after loading curation tool data:
 evidence_summary
 
+PGPASSWORD=$PASSWORD psql -U $USER -h $HOST $FINAL_DB -c 'analyze'
+
 echo filtering redundant annotations
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter $HOST $FINAL_DB $USER $PASSWORD
 
 echo update out of date allele names
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml update-allele-names $HOST $FINAL_DB $USER $PASSWORD
+
+PGPASSWORD=$PASSWORD psql -U $USER -h $HOST $FINAL_DB -c 'analyze'
 
 echo annotation count after filtering redundant annotations:
 evidence_summary
