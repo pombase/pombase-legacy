@@ -19,6 +19,18 @@ query_checks:
       = (select cv_id from cv where name = 'sequence') and name = 'gene') and
       organism_id = (select organism_id from organism where abbreviation =
       'Spombe') group by name having count(feature_id) > 1
+  - name: alleles_instance_of_gene
+    description: all alleles should be instance_of gene
+    expected: 0
+    verbose_fail: true
+    query: |
+      SELECT f.uniquename, f.name, pt.name from feature f
+        JOIN feature_relationship r ON r.subject_id = f.feature_id
+        JOIN feature p ON r.object_id = p.feature_id
+        JOIN cvterm rt ON rt.cvterm_id = r.type_id
+        JOIN cvterm pt ON pt.cvterm_id = p.type_id
+        WHERE rt.name = 'instance_of' AND pt.name <> 'gene'
+          AND pt.name <> 'pseudogene'
   - name: no_population_terms_with_penetrance
     description: no population term should have a has_penetrance relation
     expected: 0
