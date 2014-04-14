@@ -171,6 +171,16 @@ dbs:
   - UniProtKB/Swiss-Prot
   - TreeFam
 
+# where to store the identifiers from each /db_xref we see
+db_dest_tables:
+  UniProtKB: dbxref
+  Rfam: dbxref
+  InterPro: dbxref
+  PMID: pub
+  SPD: dbxref
+  KEGG: dbxref
+  EMBL: pub
+
 taxonid: 4896
 
 allowed_unknown_term_names_files:
