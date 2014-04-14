@@ -36,8 +36,9 @@ under the same terms as Perl itself.
 =cut
 
 use perl5i::2;
-
 use Moose;
+
+use Tie::IxHash;
 
 use PomBase::Chado::QualifierLoad;
 
@@ -61,7 +62,7 @@ has organism => (is => 'ro',
 has transcript_data => (is => 'ro', isa => 'HashRef',
                   init_arg => undef,
                   default => sub {
-                    tie my %transcript_data, 'Tie::Hash::Indexed';
+                    tie my %transcript_data, 'Tie::IxHash';
                     return \%transcript_data;
                   },
                 );

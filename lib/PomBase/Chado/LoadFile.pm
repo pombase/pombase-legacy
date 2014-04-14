@@ -39,7 +39,6 @@ use perl5i::2;
 use Moose;
 
 use PomBase::Chado::LoadFeat;
-use Tie::Hash::Indexed;
 use Digest::MD5;
 use Bio::SeqIO;
 
