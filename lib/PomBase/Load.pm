@@ -139,7 +139,7 @@ func _fix_annotation_extension_rels($chado, $config)
 
 func _load_cvterms($chado, $config, $test_mode)
 {
-  my $db_name = 'PomBase';
+  my $db_name = 'PBO';
   my $db = $chado->resultset('General::Db')->find({ name => $db_name });
 
   my %cv_confs = %{$config->{cvs}};
