@@ -413,6 +413,36 @@ method get_target_curations($bioperl_feature)
   return @ret;
 }
 
+method store_feature_db_xref($feature, $db_xref)
+{
+  if ($db_xref =~ /(.+):(.*)/) {
+    my $db_name = $1;
+    my $db_dest_tables = $self->config()->{db_dest_tables};
+    my $db_dest_table = $db_dest_tables->{$db_name};
+    if (defined $db_dest_table) {
+      if ($db_dest_table eq 'dbxref') {
+        $self->add_feature_dbxref($feature, $db_xref);
+      } else {
+        if ($db_dest_table eq 'pub') {
+          my $pub = $self->find_or_create_pub($db_xref);
+
+          $self->create_feature_pub($feature, $pub);
+        } else {
+          warn qq|not storing /db_xref="$db_xref" - unknown table "$db_dest_table" | .
+            "configured in db_dest_tables\n";
+        }
+      }
+
+    } else {
+      warn qq|no destination table configured for $db_name (set "db_dest_tables")\n|;
+    }
+  } else {
+    warn "can't store /db_xref=$db_xref - it is not in the form: " .
+      '"DB:ACCESSION"\n';
+  }
+
+}
+
 method process_qualifiers($bioperl_feature, $chado_object)
 {
   my $type = $bioperl_feature->primary_tag();
@@ -445,33 +475,9 @@ method process_qualifiers($bioperl_feature, $chado_object)
     }
   }
   if ($bioperl_feature->has_tag("db_xref")) {
-    my $db_dest_tables = $self->config()->{db_dest_tables};
     # store feature /db_xrefs in pub or dbxref tables
-    for my $dbxref_value ($bioperl_feature->get_tag_values("db_xref")) {
-      if ($dbxref_value =~ /(.+):(.*)/) {
-        my $db_name = $1;
-        my $db_dest_table = $db_dest_tables->{$db_name};
-        if (defined $db_dest_table) {
-          if ($db_dest_table eq 'dbxref') {
-            $self->add_feature_dbxref($chado_object, $dbxref_value);
-          } else {
-            if ($db_dest_table eq 'pub') {
-              my $pub = $self->find_or_create_pub($dbxref_value);
-
-              $self->create_feature_pub($chado_object, $pub);
-            } else {
-              warn qq|not storing /db_xref="$dbxref_value" - unknown table "$db_dest_table" | .
-                "configured in db_dest_tables\n";
-            }
-          }
-
-        } else {
-          warn qq|no destination table configured for $db_name (set "db_dest_tables")\n|;
-        }
-      } else {
-        warn "can't store /db_xref=$dbxref_value - it is not in the form: " .
-          '"DB:ACCESSION"\n';
-      }
+    for my $db_xref_value ($bioperl_feature->get_tag_values("db_xref")) {
+      $self->store_feature_db_xref($chado_object, $db_xref_value);
     }
   }
 
