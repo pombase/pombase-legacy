@@ -530,7 +530,7 @@ method store_feature_parts($uniquename, $bioperl_feature, $chromosome, $so_type)
 
     if ($bioperl_feature->has_tag("db_xref")) {
       for my $dbxref_value ($bioperl_feature->get_tag_values("db_xref")) {
-        $self->add_feature_dbxref($chado_sub_feature, $dbxref_value);
+        $self->store_feature_db_xref($chado_sub_feature, $dbxref_value);
       }
     }
     push @new_parts, $chado_sub_feature;
