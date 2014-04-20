@@ -116,16 +116,9 @@ mkdir -p $CURRENT_BUILD_DIR/ontologies
   cp $SOURCES_DIR/phenotype_ontology_for_chado/releases/latest/fypo-simple.obo .
 )
 
-echo populate cvtermpath
-
-date; echo starting molecular_function
-./bin/gmod_make_cvtermpath.pl -H $HOST -D $DB -d 'Pg' -u $USER -p $PASSWORD -c molecular_function
-date; echo starting cellular_component
-./bin/gmod_make_cvtermpath.pl -H $HOST -D $DB -d 'Pg' -u $USER -p $PASSWORD -c cellular_component
-date; echo starting biological_process
-./bin/gmod_make_cvtermpath.pl -H $HOST -D $DB -d 'Pg' -u $USER -p $PASSWORD -c biological_process
-date; echo starting fission_yeast_phenotype
-./bin/gmod_make_cvtermpath.pl -H $HOST -D $DB -d 'Pg' -u $USER -p $PASSWORD -c fission_yeast_phenotype
+date
+echo populate cvtermpath using owltools
+$OWLTOOLS_CHADO_CLOSURE $HOST $DB $USER $PASSWORD $SOURCES_DIR/go-svn/ontology/gene_ontology_edit.obo $SOURCES_DIR/phenotype_ontology_for_chado/releases/latest/fypo-simple.obo
 date; echo finished
 
 # prevent duplicate feature uniquenames
