@@ -131,7 +131,7 @@ psql $DB -c "CREATE VIEW pombase_feature_cvterm_ext_resolved_terms AS SELECT * f
 
 echo make copies
 
-for i in `seq 1 5`
+for i in `seq 1 2`
 do
   NEW_DB=pombase-build-$DB_NAME_SUFFIX-v$i
   echo $NEW_DB
