@@ -355,6 +355,9 @@ evidence_types:
     name: high throughput nucleotide sequencing assay evidence
   'ECO:0000098':
     name: in situ hybridization assay evidence
+  'ECO:0001096':
+    name: mass spectrometry evidence
+
 
 
 suppressible_evidence_codes:
