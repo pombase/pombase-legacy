@@ -353,6 +353,8 @@ evidence_types:
     name: gel electrophoresis evidence
   'ECO:0000221':
     name: high throughput nucleotide sequencing assay evidence
+  'ECO:0000098':
+    name: in situ hybridization assay evidence
 
 
 suppressible_evidence_codes:
