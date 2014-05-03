@@ -120,6 +120,15 @@ do
 done | tee $LOG_DIR/$log_file.quantitative
 
 
+echo load bulk protein modification files
+
+for file in $SOURCES/pombe-embl/external_data/modification_files/PMID*
+do
+  echo loading: $file
+  $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml modification $HOST $DB $USER $PASSWORD < $file 2>&1
+done | tee $LOG_DIR/$log_file.modification
+
+
 echo phenotype data from PMID:23697806
 $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml phenotype_annotation $HOST $DB $USER $PASSWORD < $SOURCES/pombe-embl/phenotype_mapping/phaf_format_phenotypes.tsv 2>&1 | tee $LOG_DIR/$log_file.phenotypes_from_PMID_23697806-phenotype_mapping
 
@@ -196,6 +205,7 @@ cp $LOG_DIR/$log_file.manual_multi_orths $CURRENT_BUILD_DIR/logs/$log_file.manua
 cp $LOG_DIR/$log_file.manual_1-1_orths $CURRENT_BUILD_DIR/logs/$log_file.manual-1-1-orths-output
 cp $LOG_DIR/$log_file.curation_tool_data $CURRENT_BUILD_DIR/logs/$log_file.curation-tool-data-load-output
 cp $LOG_DIR/$log_file.quantitative $CURRENT_BUILD_DIR/logs/$log_file.quantitative
+cp $LOG_DIR/$log_file.modification $CURRENT_BUILD_DIR/logs/$log_file.modification
 cp $LOG_DIR/$log_file.*phenotypes_from_* $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.export_warnings $CURRENT_BUILD_DIR/logs/$log_file.export_warnings
 cp $LOG_DIR/$log_file.chado_checks $CURRENT_BUILD_DIR/logs/
