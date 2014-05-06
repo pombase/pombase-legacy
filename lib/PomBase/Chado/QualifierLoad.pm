@@ -894,6 +894,7 @@ method process_one_cc($chado_object, $bioperl_feature, $qualifier,
         }
         $self->add_term_to_gene($chado_object, $cv_name, $term, \%qual_map, 1);
       } catch {
+        chomp $_;
         warn "$_: failed to load qualifier '$qualifier' from $systematic_id\n" unless $self->quiet();
         $self->dump_feature($bioperl_feature) if $self->verbose();
         return ();
