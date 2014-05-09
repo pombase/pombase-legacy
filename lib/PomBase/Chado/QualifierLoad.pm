@@ -487,7 +487,10 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
   } catch {
     chomp(my $message = $_);
     warn "failed to add annotation: $message\n";
-  }
+    $chado->txn_rollback();
+  };
+
+  $chado->txn_commit();
 }
 
 method maybe_move_igi($term, $evidence_code, $qualifiers, $withs, $sub_qual_map) {
