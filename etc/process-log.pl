@@ -84,6 +84,8 @@ while (defined (my $line = <>)) {
               |
                 feature has no systematic_id
               |
+                failed to add annotation
+              |
                 trying to store an allele
               /x) {
     print $all_warnings "$line";

@@ -187,6 +187,7 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
     }
     if ($qualifier_term_id !~ /GO:(.*)/) {
       warn "  GOid doesn't start with 'GO:' for $uniquename: $qualifier_term_id\n" unless $self->quiet();
+      return;
     }
   }
 
@@ -333,7 +334,8 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
     if (grep { $_ eq $cv_name } ('biological_process', 'molecular_function',
                                  'cellular_component')) {
       warn "no evidence for $cv_name annotation: $embl_term_name in ", $uniquename, "\n" unless $self->quiet();
-    }
+      return;
+   }
 
     if ($cv_name eq 'fission_yeast_phenotype' and $db_xref eq 'PMID:20473289') {
       $evidence_code = 'Microscopy';
@@ -362,123 +364,130 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
       } @$qualifiers;
   }
 
-  my $featurecvterm =
-    $self->create_feature_cvterm($pombe_feature, $cvterm, $pub, $is_not);
+  my $chado = $self->chado();
 
-  if ($cv_name eq 'fission_yeast_phenotype') {
-    $self->move_condition_qual($featurecvterm, $sub_qual_map);
-  }
+  $chado->txn_begin();
 
-  if ($self->is_go_cv_name($cv_name)) {
-    $self->add_feature_cvtermprop($featurecvterm, assigned_by => $self->config()->{database_name});
+  try {
+    my $featurecvterm =
+      $self->create_feature_cvterm($pombe_feature, $cvterm, $pub, $is_not);
 
-    my $new_evidence_code =
-      $self->maybe_move_igi($cvterm, $evidence_code, \@qualifiers, \@withs, $sub_qual_map);
-
-    die "no evidence code" unless defined $evidence_code;
-
-    $evidence_code = $new_evidence_code;
-
-    if (defined $sub_qual_map->{from}) {
-      my @froms = split /\|/, delete $sub_qual_map->{from};
-      for (my $i = 0; $i < @froms; $i++) {
-        my $from = $froms[$i];
-        $self->add_feature_cvtermprop($featurecvterm, from => $from, $i);
-      }
+    if ($cv_name eq 'fission_yeast_phenotype') {
+      $self->move_condition_qual($featurecvterm, $sub_qual_map);
     }
-  }
 
-  for (my $i = 0; $i < @withs; $i++) {
-    my $with = $withs[$i];
-    if ($with =~ /.:./) {
-      $self->add_feature_cvtermprop($featurecvterm, with => $with, $i);
-    } else {
-      die qq|"with" identifier "$with" is not in the form db:accession\n|;
-    }
-  }
+    if ($self->is_go_cv_name($cv_name)) {
+      $self->add_feature_cvtermprop($featurecvterm, assigned_by => $self->config()->{database_name});
 
-  $self->add_feature_cvtermprop($featurecvterm, qualifier => [@qualifiers]);
+      my $new_evidence_code =
+        $self->maybe_move_igi($cvterm, $evidence_code, \@qualifiers, \@withs, $sub_qual_map);
 
-  if (defined $db_xref && $db_xref eq 'PMID:20519959') {
-    $self->add_pubmed_20519959_conditions($featurecvterm);
-  }
+      die "no evidence code" unless defined $evidence_code;
 
-  if (defined $evidence_code) {
-    if (!exists $self->config()->{evidence_types}->{$evidence_code}) {
-      die "no such evidence code: $evidence_code\n";
-    }
-    my $evidence =
-      $self->config()->{evidence_types}->{$evidence_code}->{name} // $evidence_code;
+      $evidence_code = $new_evidence_code;
 
-    $self->add_feature_cvtermprop($featurecvterm, evidence => $evidence);
-  }
-
-  if (defined $sub_qual_map->{residue}) {
-    $self->add_feature_cvtermprop($featurecvterm,
-                                  residue => delete $sub_qual_map->{residue});
-  }
-
-  if (defined $sub_qual_map->{allele} || $cv_name eq 'fission_yeast_phenotype') {
-    my $allele = $sub_qual_map->{allele};
-
-    my %args = (gene => $pombe_feature);
-
-    if (defined $allele) {
-      if ($allele =~ /^(.+)\((.+)\)$/) {
-        $args{name} = $1;
-        $args{description} = $2;
-      } else {
-        if ($allele eq 'deletion') {
-          my $new_name = ($pombe_feature->name() // $pombe_feature->uniquename()) . 'delta';
-          $args{name} = $new_name;
-          $args{description} = 'deletion';
-          warn qq|storing allele=$allele as "$new_name(deletion)"\n| if $self->verbose();
-        } else {
-          warn qq|allele "$allele" is not in the form "name(description)" - storing as "$allele(unknown)"\n| unless $self->quiet();
-          $args{name} = $allele;
-          $args{description} = 'unknown';
+      if (defined $sub_qual_map->{from}) {
+        my @froms = split /\|/, delete $sub_qual_map->{from};
+        for (my $i = 0; $i < @froms; $i++) {
+          my $from = $froms[$i];
+          $self->add_feature_cvtermprop($featurecvterm, from => $from, $i);
         }
       }
-    } else {
-      $args{name} = undef;
-      $args{description} = 'unrecorded';
     }
 
-    my $allele_type = delete $sub_qual_map->{allele_type} // $self->allele_type_from_desc($args{description}, $pombe_feature->name());
-
-    if (!defined $allele_type || length $allele_type == 0) {
-      $allele_type = 'unknown';
-      warn "ambiguous or unset allele_type for $args{name}($args{description})\n" unless $self->quiet();
+    for (my $i = 0; $i < @withs; $i++) {
+      my $with = $withs[$i];
+      if ($with =~ /.:./) {
+        $self->add_feature_cvtermprop($featurecvterm, with => $with, $i);
+      } else {
+        die qq|"with" identifier "$with" is not in the form db:accession\n|;
+      }
     }
-    $args{allele_type} = $allele_type;
 
-    my $allele_feature = $self->get_allele(\%args);
+    $self->add_feature_cvtermprop($featurecvterm, qualifier => [@qualifiers]);
 
-    $featurecvterm->feature($allele_feature);
-    $featurecvterm->update();
-  }
-
-  if (defined $sub_qual_map->{column_17}) {
-    $self->add_feature_cvtermprop($featurecvterm,
-                                  gene_product_form_id => delete $sub_qual_map->{column_17});
-  }
-
-  my $date = $self->get_and_check_date($sub_qual_map);
-  if (defined $date) {
-    $self->add_feature_cvtermprop($featurecvterm, date => $date);
-  }
-
-  my $sub_qual_copy = { %$sub_qual_map };
-  if (delete $sub_qual_map->{annotation_extension}) {
-    push @{$self->config()->{post_process}->{$featurecvterm->feature_cvterm_id()}}, {
-      feature_cvterm => $featurecvterm,
-      qualifiers => $sub_qual_copy
+    if (defined $db_xref && $db_xref eq 'PMID:20519959') {
+      $self->add_pubmed_20519959_conditions($featurecvterm);
     }
+
+    if (defined $evidence_code) {
+      if (!exists $self->config()->{evidence_types}->{$evidence_code}) {
+        die "no such evidence code: $evidence_code\n";
+      }
+      my $evidence =
+        $self->config()->{evidence_types}->{$evidence_code}->{name} // $evidence_code;
+
+      $self->add_feature_cvtermprop($featurecvterm, evidence => $evidence);
+    }
+
+    if (defined $sub_qual_map->{residue}) {
+      $self->add_feature_cvtermprop($featurecvterm,
+                                    residue => delete $sub_qual_map->{residue});
+    }
+
+    if (defined $sub_qual_map->{allele} || $cv_name eq 'fission_yeast_phenotype') {
+      my $allele = $sub_qual_map->{allele};
+
+      my %args = (gene => $pombe_feature);
+
+      if (defined $allele) {
+        if ($allele =~ /^(.+)\((.+)\)$/) {
+          $args{name} = $1;
+          $args{description} = $2;
+        } else {
+          if ($allele eq 'deletion') {
+            my $new_name = ($pombe_feature->name() // $pombe_feature->uniquename()) . 'delta';
+            $args{name} = $new_name;
+            $args{description} = 'deletion';
+            warn qq|storing allele=$allele as "$new_name(deletion)"\n| if $self->verbose();
+          } else {
+            warn qq|allele "$allele" is not in the form "name(description)" - storing as "$allele(unknown)"\n| unless $self->quiet();
+            $args{name} = $allele;
+            $args{description} = 'unknown';
+          }
+        }
+      } else {
+        $args{name} = undef;
+        $args{description} = 'unrecorded';
+      }
+
+      my $allele_type = delete $sub_qual_map->{allele_type} // $self->allele_type_from_desc($args{description}, $pombe_feature->name());
+
+      if (!defined $allele_type || length $allele_type == 0) {
+        $allele_type = 'unknown';
+        warn "ambiguous or unset allele_type for $args{name}($args{description})\n" unless $self->quiet();
+      }
+      $args{allele_type} = $allele_type;
+
+      my $allele_feature = $self->get_allele(\%args);
+
+      $featurecvterm->feature($allele_feature);
+      $featurecvterm->update();
+    }
+
+    if (defined $sub_qual_map->{column_17}) {
+      $self->add_feature_cvtermprop($featurecvterm,
+                                    gene_product_form_id => delete $sub_qual_map->{column_17});
+    }
+
+    my $date = $self->get_and_check_date($sub_qual_map);
+    if (defined $date) {
+      $self->add_feature_cvtermprop($featurecvterm, date => $date);
+    }
+
+    my $sub_qual_copy = { %$sub_qual_map };
+    if (delete $sub_qual_map->{annotation_extension}) {
+      push @{$self->config()->{post_process}->{$featurecvterm->feature_cvterm_id()}}, {
+        feature_cvterm => $featurecvterm,
+        qualifiers => $sub_qual_copy
+      }
+    }
+
+    $self->check_unused_quals(%$sub_qual_map);
+  } catch {
+    chomp(my $message = $_);
+    warn "failed to add annotation: $message\n";
   }
-
-  $self->check_unused_quals(%$sub_qual_map);
-
-  return 1;
 }
 
 method maybe_move_igi($term, $evidence_code, $qualifiers, $withs, $sub_qual_map) {
