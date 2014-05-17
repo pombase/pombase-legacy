@@ -192,7 +192,7 @@ echo running consistency checks
 
 POMBASE_EXCLUDED_GO_TERMS=$SOURCES/pombe-embl/supporting_files/GO_terms_excluded_from_pombase.txt
 echo report annotations using terms from $POMBASE_EXCLUDED_GO_TERMS 2>&1 | tee $LOG_DIR/$log_file.excluded_go_terms
-$POMBASE_CHADO/script/report-subset.pl $HOST $FINAL_DB $USER $PASSWORD $POMBASE_EXCLUDED_GO_TERMS 2>&1 | tee $LOG_DIR/$log_file.excluded_go_terms
+./script/report-subset.pl $HOST $FINAL_DB $USER $PASSWORD $POMBASE_EXCLUDED_GO_TERMS 2>&1 | tee $LOG_DIR/$log_file.excluded_go_terms
 
 DUMPS_DIR=/var/www/pombase/dumps
 BUILDS_DIR=$DUMPS_DIR/builds
