@@ -43,6 +43,7 @@ has verbose => (is => 'ro');
 
 with 'PomBase::Role::ConfigUser';
 with 'PomBase::Role::ChadoUser';
+with 'PomBase::Role::DbQuery';
 with 'PomBase::Role::CvQuery';
 with 'PomBase::Role::FeatureFinder';
 with 'PomBase::Role::OrganismFinder';

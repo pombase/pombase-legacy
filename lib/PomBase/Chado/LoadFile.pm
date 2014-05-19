@@ -44,6 +44,7 @@ use Bio::SeqIO;
 
 with 'PomBase::Role::ConfigUser';
 with 'PomBase::Role::ChadoUser';
+with 'PomBase::Role::DbQuery';
 with 'PomBase::Role::CvQuery';
 with 'PomBase::Role::XrefStorer';
 with 'PomBase::Role::FeatureStorer';
