@@ -60,7 +60,19 @@ close $fh;
 
 my $query_sth = $dbh->prepare("
 SELECT feature_cvterm_id, f.uniquename, f.name AS feature_name,
-       db.name || ':' || x.accession AS termid, t.name AS term_name
+       db.name || ':' || x.accession AS termid, t.name AS term_name,
+       (SELECT value
+          FROM feature_cvtermprop fcp
+          JOIN cvterm assigned_by_term
+            ON assigned_by_term.cvterm_id = fcp.type_id
+         WHERE fcp.feature_cvterm_id = fc.feature_cvterm_id AND
+               assigned_by_term.name = 'canto_session') AS session,
+       (SELECT value
+          FROM feature_cvtermprop fcp
+          JOIN cvterm assigned_by_term
+            ON assigned_by_term.cvterm_id = fcp.type_id
+         WHERE fcp.feature_cvterm_id = fc.feature_cvterm_id AND
+               assigned_by_term.name = 'assigned_by') AS assigned_by
   FROM feature_cvterm fc
   JOIN feature f ON fc.feature_id = f.feature_id
   JOIN cvterm t ON fc.cvterm_id = t.cvterm_id
@@ -75,17 +87,7 @@ $query_sth->execute();
 my $res = $query_sth->fetchall_arrayref({});
 
 for my $row (@$res) {
-  my $sth = $dbh->prepare("
-SELECT value FROM feature_cvtermprop p
-             JOIN cvterm t ON p.type_id = t.cvterm_id
-            WHERE feature_cvterm_id = ?
-              AND t.name = 'canto_session'");
-
-  $sth->execute($row->{feature_cvterm_id});
-
-  my ($canto_session) = $sth->fetchrow_array();
-
   print $row->{uniquename}, "\t", $row->{feature_name} // '',
     "\t", $row->{termid}, "\t", $row->{term_name},
-    "\t", $canto_session // '', "\n";
+    "\t", $row->{session} // '', "\t", $row->{assigned_by}, "\n";
 }
