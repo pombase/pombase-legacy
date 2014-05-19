@@ -182,6 +182,9 @@ $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter $HO
 echo update out of date allele names
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml update-allele-names $HOST $FINAL_DB $USER $PASSWORD
 
+echo do GO term mapping
+$POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml change-terms $HOST $FINAL_DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.go-term-mapping
+
 PGPASSWORD=$PASSWORD psql -U $USER -h $HOST $FINAL_DB -c 'analyze'
 
 echo annotation count after filtering redundant annotations:
@@ -223,6 +226,7 @@ cp $LOG_DIR/$log_file.modification $CURRENT_BUILD_DIR/logs/$log_file.modificatio
 cp $LOG_DIR/$log_file.*phenotypes_from_* $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.export_warnings $CURRENT_BUILD_DIR/logs/$log_file.export_warnings
 cp $LOG_DIR/$log_file.excluded_go_terms $CURRENT_BUILD_DIR/logs/
+cp $LOG_DIR/$log_file.go-term-mapping $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.chado_checks $CURRENT_BUILD_DIR/logs/
 
 psql $FINAL_DB -c "select count(id), name from (select p.cvterm_id::text || '_cvterm' as id,
