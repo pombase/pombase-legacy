@@ -142,7 +142,7 @@ while (defined (my $line = <>)) {
     print $db_xref_problems "$gene: $line";
     next;
   }
-  if ($line =~ /(can't find feature for: .*)/) {
+  if ($line =~ /(can't find feature .*)/) {
     print $all_warnings "$1\n";
     if (defined $gene && length $gene > 0) {
       print $identifier_problems "$gene: $1\n";
