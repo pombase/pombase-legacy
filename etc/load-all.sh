@@ -229,6 +229,8 @@ cp $LOG_DIR/$log_file.excluded_go_terms $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.go-term-mapping $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.chado_checks $CURRENT_BUILD_DIR/logs/
 
+(
+echo extension relation counts:
 psql $FINAL_DB -c "select count(id), name from (select p.cvterm_id::text || '_cvterm' as id,
  substring(type.name from 'annotation_extension_relation-(.*)') as name from
  cvterm type, cvtermprop p where p.type_id = type.cvterm_id and type.name like
@@ -236,7 +238,13 @@ psql $FINAL_DB -c "select count(id), name from (select p.cvterm_id::text || '_cv
  '_cvterm_rel' as id, t.name as name from cvterm_relationship r, cvterm t where
  t.cvterm_id = type_id and r.subject_id in (select cvterm_id from cvterm, cv
  where cvterm.cv_id = cv.cv_id and cv.name = 'PomBase annotation extension terms')) 
- as sub group by name order by name;" > $CURRENT_BUILD_DIR/logs/$log_file.extension_relation_counts
+ as sub group by name order by name;"
+
+echo
+echo number of annotations using extensions by cv:
+
+psql $FINAL_DB -c "select count(feature_cvterm_id), base_cv_name from pombase_feature_cvterm_with_ext_parents group by base_cv_name order by count;"
+) > $CURRENT_BUILD_DIR/logs/$log_file.extension_relation_counts
 
 (
 echo counts of all annotation by type:
