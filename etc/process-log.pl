@@ -24,6 +24,29 @@ open my $all_warnings, '>', 'all_warnings.txt' or die;
 my $prev_line = '';
 my $gene = '';
 
+my @qual_patterns = (
+  'no allele qualifier for phenotype',
+  'no evidence.*for',
+  'no term for:',
+  'qualifier not recognised',
+  'unknown term name.*and unknown GO ID',
+  'annotation extension qualifier .* not understood',
+  'failed to add annotation extension',
+  'in annotation extension for',
+  'unbalanced parenthesis in product',
+  '^qualifier \(.*\) has',
+  'not in the form',
+  'isn\'t a PECO term ID',
+  'duplicated extension',
+  'gene expression annotations must have',
+  'not a valid qualifier',
+  'feature has no systematic_id',
+  'failed to add annotation',
+  'trying to store an allele',
+);
+
+my $qual_pattern = join '|', @qual_patterns;
+
 while (defined (my $line = <>)) {
   if ($line =~ /ID in EMBL file/) {
     print $all_warnings "$line";
@@ -52,42 +75,7 @@ while (defined (my $line = <>)) {
     print $unknown_cv_names "$gene: $line";
     next;
   }
-  if ($line =~ /no allele qualifier for phenotype
-              |
-                no evidence.*for
-              |
-                no term for:
-              |
-                qualifier not recognised
-              |
-                unknown term name.*and unknown GO ID
-              |
-                annotation extension qualifier .* not understood
-              |
-                failed to add annotation extension
-              |
-                in annotation extension for
-              |
-                unbalanced parenthesis in product
-              |
-                ^qualifier \(.*\) has
-              |
-                not in the form
-              |
-                isn't a PECO term ID
-              |
-                duplicated extension
-              |
-                gene expression annotations must have
-              |
-                not a valid qualifier
-              |
-                feature has no systematic_id
-              |
-                failed to add annotation
-              |
-                trying to store an allele
-              /x) {
+  if ($line =~ /$qual_pattern/) {
     print $all_warnings "$line";
     print $qual_problems "$gene: $line";
     next;
