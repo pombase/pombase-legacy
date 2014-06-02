@@ -76,6 +76,11 @@ while (defined (my $line = <>)) {
     print $unknown_cv_names "$gene: $line";
     next;
   }
+  if ($line =~ /^no db_xref for/) {
+    print $all_warnings $line;
+    print $db_xref_problems "$gene: $line";
+    next;
+  }
   if ($line =~ /$qual_pattern/) {
     print $all_warnings "$line";
     print $qual_problems "$gene: $line";
@@ -124,11 +129,6 @@ while (defined (my $line = <>)) {
   if ($line =~ /no evidence for: |no such evidence code: /) {
     print $all_warnings $line;
     print $evidence_problems "$gene: $line";
-    next;
-  }
-  if ($line =~ /^no db_xref for/) {
-    print $all_warnings $line;
-    print $db_xref_problems "$gene: $line";
     next;
   }
   if ($line =~ /(can't find feature .*)/) {
