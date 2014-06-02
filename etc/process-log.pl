@@ -42,6 +42,7 @@ my @qual_patterns = (
   'not a valid qualifier',
   'feature has no systematic_id',
   'failed to add annotation',
+  'failed to load qualifier',
   'trying to store an allele',
 );
 
