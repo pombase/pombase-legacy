@@ -131,7 +131,7 @@ while (defined (my $line = <>)) {
     print $evidence_problems "$gene: $line";
     next;
   }
-  if ($line =~ /(can't find feature .*)/) {
+  if ($line =~ /(can't find feature .*)/ && $line !~ /skipping|warning in [0-9a-f]+/) {
     print $all_warnings "$1\n";
     if (defined $gene && length $gene > 0) {
       print $identifier_problems "$gene: $1\n";
