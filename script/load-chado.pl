@@ -20,6 +20,7 @@ use PomBase::Chado::CheckLoad;
 use PomBase::Chado::IdCounter;
 use PomBase::Chado::ExtensionProcessor;
 use PomBase::Chado::ParalogProcessor;
+use PomBase::Chado::GeneExQualifiersUtil;
 
 my $verbose = 0;
 my $quiet = 0;
@@ -52,6 +53,8 @@ my $password = shift;
 my $config = LoadFile($config_file);
 
 my $chado = PomBase::Chado::db_connect($host, $database, $user, $password);
+
+my $gene_ex_qualifier_util = PomBase::Chado::GeneExQualifiersUtil->new();
 
 my $guard = $chado->txn_scope_guard;
 
@@ -126,27 +129,8 @@ $config->{obsolete_term_mapping} = {
 
 $config->{target_quals} = {};
 
-func read_gene_ex_qualifiers($gene_ex_qualifiers) {
-  open my $fh, '<', $gene_ex_qualifiers
-    or die "can't opn $gene_ex_qualifiers: $!";
-
-  my @ret_val = ();
-
-  while (defined (my $line = <$fh>)) {
-    next if $line =~ /^!/;
-
-    chomp $line;
-
-    push @ret_val, $line;
-  }
-
-  close $fh;
-
-  return \@ret_val;
-}
-
 $config->{gene_ex_qualifiers} =
-  read_gene_ex_qualifiers($gene_ex_qualifiers);
+  $gene_ex_qualifier_util->read_qualifiers($gene_ex_qualifiers);
 
 for my $allowed_unknown_term_names_file (@{$config->{allowed_unknown_term_names_files}}) {
   open my $unknown_names, '<', $allowed_unknown_term_names_file or die;
