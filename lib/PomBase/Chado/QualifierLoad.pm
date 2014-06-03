@@ -209,7 +209,7 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
         $cvterm = $self->find_cvterm_by_name($cv, "$embl_term_name (obsolete $obsolete_id)",
                                              prefetch_dbxref => 1);
       }
-      if (!defined $cvterm) {
+      if (!defined $cvterm && defined $qualifier_term_id) {
         $cvterm = $self->find_cvterm_by_term_id($qualifier_term_id);
         if (!defined $cvterm) {
           die qq(unknown term name "$embl_term_name" and unknown GO ID "$qualifier_term_id"\n) unless $self->quiet();
@@ -362,6 +362,10 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
           1;
         }
       } @$qualifiers;
+  }
+
+  if (!defined $cvterm) {
+    die "couldn't find or create a cvterm for annotation in $uniquename\n";
   }
 
   my $chado = $self->chado();
