@@ -51,3 +51,13 @@ query_checks:
                FROM cvterm_relationship r
                     JOIN cvterm type on r.type_id = type.cvterm_id
                     AND type.name = 'has_penetrance')
+  - name: canto_annotations
+    description: check for annotations from Canto
+    expected: '>= 13000'
+    verbose_fail: false
+    query: |
+      SELECT fc.feature_cvterm_id
+        FROM feature_cvterm fc
+        JOIN feature_cvtermprop p ON p.feature_cvterm_id = fc.feature_cvterm_id
+        JOIN cvterm type ON p.type_id = type.cvterm_id
+       WHERE type.name = 'canto_session'
