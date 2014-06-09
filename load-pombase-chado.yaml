@@ -121,12 +121,15 @@ extension_restrictions:
   biological_process:
     not_allowed:
       - during
+      - assayed_using
   molecular_function:
     not_allowed:
       - during
+      - assayed_using
   cellular_component:
     not_allowed:
       - during
+      - assayed_using
 
 extension_relation_transform:
   cellular_component:
