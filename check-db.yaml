@@ -61,3 +61,28 @@ query_checks:
         JOIN feature_cvtermprop p ON p.feature_cvterm_id = fc.feature_cvterm_id
         JOIN cvterm type ON p.type_id = type.cvterm_id
        WHERE type.name = 'canto_session'
+  - name: missing_assayed_using
+    description: check that protein binding annotations have two assayed_using extensions
+    expected: 0
+    verbose_fail: true
+    query: |
+      WITH extension_relations_ids AS
+        (SELECT cvterm_id FROM cvterm WHERE name LIKE 'annotation_extension_relation-%')
+      SELECT f.uniquename || ' <-> ' || cvterm_name
+        FROM pombase_feature_cvterm_ext_resolved_terms t
+        JOIN feature_cvterm fc ON fc.cvterm_id = t.cvterm_id
+        JOIN feature f ON f.feature_id = fc.feature_id
+       WHERE
+         base_cvterm_id IN
+           (SELECT cvterm_id FROM cvterm WHERE dbxref_id IN
+             (SELECT dbxref_id FROM dbxref WHERE db_id IN
+               (SELECT db_id FROM db WHERE name = 'FYPO')
+                   AND accession IN
+                     ('0000702', '0000703', '0000704', '0000705', '0001275', '0001571', '0001645', '0002365', '0003206', '0003207', '0003215')))
+         AND t.cvterm_id NOT IN
+           (SELECT p1.cvterm_id
+              FROM cvtermprop p1
+              JOIN cvtermprop p2 ON p1.cvterm_id = p2.cvterm_id
+               AND p1.value <> p2.value
+               AND p1.type_id IN (SELECT cvterm_id FROM extension_relations_ids)
+               AND p2.type_id IN (SELECT cvterm_id FROM extension_relations_ids))
