@@ -247,6 +247,11 @@ psql $FINAL_DB -c "select count(feature_cvterm_id), base_cv_name from pombase_fe
 ) > $CURRENT_BUILD_DIR/logs/$log_file.extension_relation_counts
 
 (
+echo counts of qualifiers grouped by CV name
+psql $FINAL_DB -c "select count(fc.feature_cvterm_id), value, base_cv_name from feature_cvtermprop p, pombase_feature_cvterm_ext_resolved_terms fc, cvterm t where type_id = (select cvterm_id from cvterm where name = 'qualifier' and cv_id = (select cv_id from cv where name = 'feature_cvtermprop_type')) and p.feature_cvterm_id = fc.feature_cvterm_id and fc.cvterm_id = t.cvterm_id group by value, base_cv_name order by count desc;"
+) > $CURRENT_BUILD_DIR/logs/$log_file.qualifier_counts_by_cv
+
+(
 echo counts of all annotation by type:
 psql $FINAL_DB -c "select count(distinct fc_id), cv_name from (select distinct
 fc.feature_cvterm_id as fc_id, cv.name as cv_name from cvterm t,
