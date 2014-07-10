@@ -438,6 +438,8 @@ FT                   /controlled_curation="term=phenotype, viable;
 FT                   cv=phenotype; db_xref=PMID:11705997; date=20081211"
 FT                   /controlled_curation="term=phenotype, sensitive to
 FT                   caffeine; qualifier=deletion; cv=phenotype; date=20081211"
+FT                   /controlled_curation="term=phenotype, sensitive to
+FT                   caffeine; qualifier=deletion; cv=phenotype; db_xref=PMID:11705990; date=20081211"
 FT                   /controlled_curation="term=phenotype, microtubule
 FT                   organization defects; qualifier=deletion; cv=phenotype;
 FT                   db_xref=PMID:9892665; date=20090926"

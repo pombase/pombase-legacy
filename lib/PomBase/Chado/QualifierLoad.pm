@@ -340,6 +340,14 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
     if ($cv_name eq 'fission_yeast_phenotype' and $db_xref eq 'PMID:20473289') {
       $evidence_code = 'Microscopy';
     }
+
+    if (!defined $evidence_code) {
+      my $config_evidence_code = $self->config()->{auto_evidence_assignment}->{$cvterm->name()};
+
+      if (defined $config_evidence_code) {
+        $evidence_code = $config_evidence_code;
+      }
+    }
   }
 
   my $pub = $self->get_pub_from_db_xref($embl_term_name, $db_xref);

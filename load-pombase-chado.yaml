@@ -395,3 +395,48 @@ ensembl_dbs:
     user: anonymous
     group: core
     dbname: saccharomyces_cerevisiae_core_75_4
+
+# for these terms, if there is no evidence, use the given evidence code
+auto_evidence_assignment:
+  inviable vegetative cell population: Microscopy
+  viable vegetative cell population: Microscopy
+  elongated vegetative cell: Microscopy
+  short mitotic spindle: Microscopy
+  T-shaped cell: Microscopy
+  pseudohyphal growth abolished: Microscopy
+  abnormal mitotic spindle: Microscopy
+  branched vegetative cell: Microscopy
+  curved vegetative cell: Microscopy
+  pear-shaped cell: Microscopy
+  spheroid vegetative cell: Microscopy
+  small cell: Microscopy
+  stubby cell: Microscopy
+  spheroid cell: Microscopy
+  swollen cell: Microscopy
+  abnormal microtubule cytoskeleton organization: Microscopy
+  abnormal sporulation: Microscopy
+  resistance to 2-deoxyglucose: Cell growth assay
+  resistance to 5-azacytidine: Cell growth assay
+  resistance to brefeldin A: Cell growth assay
+  resistance to thiabendazole: Cell growth assay
+  resistance to amphotericin B: Cell growth assay
+  resistance to aureobasidin A: Cell growth assay
+  resistance to benomyl: Cell growth assay
+  resistance to lovastatin: Cell growth assay
+  resistance to nystatin: Cell growth assay
+  resistance to rapamycin: Cell growth assay
+  sensitive to enfumafungin: Cell growth assay
+  sensitive to 6-azauracil: Cell growth assay
+  sensitive to camptothecin: Cell growth assay
+  sensitive to tacrolimus: Cell growth assay
+  sensitive to hydrogen peroxide: Cell growth assay
+  sensitive to hydroxyurea: Cell growth assay
+  sensitive to methyl methanesulfonate: Cell growth assay
+  sensitive to cadmium: Cell growth assay
+  sensitive to caffeine: Cell growth assay
+  sensitive to thiabendazole: Cell growth assay
+  sensitive to cycloheximide: Cell growth assay
+  sensitive to latrunculin A: Cell growth assay
+  sensitive to rapamycin: Cell growth assay
+  sensitive to valproic acid: Cell growth assay
+  sensitive to zinc: Cell growth assay
