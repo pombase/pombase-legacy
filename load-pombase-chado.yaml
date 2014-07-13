@@ -434,6 +434,15 @@ auto_evidence_assignment:
   inviable elongated vegetative cell: Microscopy
   abnormal cell morphology: Microscopy
   lemon-shaped cell: Microscopy
+  elongated multiseptate cell: Microscopy
+  snowman-shaped spore: Microscopy
+  lagging mitotic chromosomes: Microscopy
+  mononucleate vegetative cell: Microscopy
+  contractile ring absent: Microscopy
+  inviable elongated dumbbell-shaped cell: Microscopy
+  large vacuoles during vegetative growth: Microscopy
+  abnormal kinetochore morphology: Microscopy
+  abnormal cytokinesis: Microscopy
   resistance to 2-deoxyglucose: Cell growth assay
   resistance to 5-azacytidine: Cell growth assay
   resistance to brefeldin A: Cell growth assay
@@ -473,3 +482,10 @@ auto_evidence_assignment:
   sensitive to N-ethylmaleimide: Cell growth assay
   sensitive to DNA damage: Cell growth assay
   sensitive to pravastatin: Cell growth assay
+  decreased cell population growth: Cell growth assay
+  abnormal cell population growth: Cell growth assay
+  sensitive to menadione: Cell growth assay
+  viable cell at high temperature: Cell growth assay
+  resistance to L-azetidine-2-carboxylic acid: Cell growth assay
+  resistance to K-252a: Cell growth assay
+  normal cell population growth: Cell growth assay
