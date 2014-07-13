@@ -415,6 +415,25 @@ auto_evidence_assignment:
   swollen cell: Microscopy
   abnormal microtubule cytoskeleton organization: Microscopy
   abnormal sporulation: Microscopy
+  increased flocculation: Microscopy
+  large and small daughter nuclei: Microscopy
+  monopolar mitotic spindle: Microscopy
+  long microtubules: Microscopy
+  multinucleate vegetative cell: Microscopy
+  elongated mutiseptate cell: Microscopy
+  abnormal nuclear morphology during vegetative growth: Microscopy
+  abnormal filament morphology: Microscopy
+  abolished septum formation: Microscopy
+  cut: Microscopy
+  abnormal spindle assembly: Microscopy
+  bottle-shaped cell: Microscopy
+  shmoo with long tip: Microscopy
+  mitochondria fused: Microscopy
+  small vacuoles present in greater numbers during vegetative growth: Microscopy
+  abnormal septation: Microscopy
+  inviable elongated vegetative cell: Microscopy
+  abnormal cell morphology: Microscopy
+  lemon-shaped cell: Microscopy
   resistance to 2-deoxyglucose: Cell growth assay
   resistance to 5-azacytidine: Cell growth assay
   resistance to brefeldin A: Cell growth assay
@@ -440,3 +459,17 @@ auto_evidence_assignment:
   sensitive to rapamycin: Cell growth assay
   sensitive to valproic acid: Cell growth assay
   sensitive to zinc: Cell growth assay
+  sensitive to heat: Cell growth assay
+  sensitive to cold: Cell growth assay
+  sensitive to ionizing radiation: Cell growth assay
+  sensitive to UV during vegetative growth: Cell growth assay
+  sensitive to cisplatin: Cell growth assay
+  sensitive to high osmolarity: Cell growth assay
+  sensitive to calcium: Cell growth assay
+  sensitive to bleomycin: Cell growth assay
+  sensitive to benomyl: Cell growth assay
+  sensitive to salt stress: Cell growth assay
+  sensitive to arsenic: Cell growth assay
+  sensitive to N-ethylmaleimide: Cell growth assay
+  sensitive to DNA damage: Cell growth assay
+  sensitive to pravastatin: Cell growth assay
