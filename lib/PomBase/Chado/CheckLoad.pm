@@ -182,7 +182,7 @@ method check
   should($ortholog_cvterm_rs->count(), 0);
 
   my @all_props = $chado->resultset('Sequence::FeatureCvtermprop')->all();
-  should(scalar(@all_props), 205);
+  should(scalar(@all_props), 206);
 
   my $feat_rs = $chado->resultset('Sequence::Feature');
   should ($feat_rs->count(), 74);
