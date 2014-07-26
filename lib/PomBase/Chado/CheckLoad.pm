@@ -148,7 +148,7 @@ method check
   my $ext_feature_cvterm_rs =
     $chado->resultset('Sequence::FeatureCvterm')->search({ 'cv.name' => 'PomBase annotation extension terms' },
                                                          { join => { cvterm => 'cv' } });
-  should($ext_feature_cvterm_rs->count(), 14);
+  should($ext_feature_cvterm_rs->count(), 13);
 
   my $cvterm_property_type_cv =
     $chado->resultset('Cv::Cv')->find({ name => 'cvterm_property_type' });
@@ -159,7 +159,7 @@ method check
 
   my $an_ex_rel_props_rs = $chado->resultset('Cv::Cvtermprop')->search({
     type_id => { -in => $cvtermprop_types_rs->get_column('cvterm_id')->as_query() } });
-  should($an_ex_rel_props_rs->count(), 5);
+  should($an_ex_rel_props_rs->count(), 4);
 
   my ($localizes_term) = grep { $_->cvterm()->name() =~ /cellular protein localization \[localizes\] SPAC167.03c/ } @all_feature_cvterm;
   assert(defined $localizes_term);
