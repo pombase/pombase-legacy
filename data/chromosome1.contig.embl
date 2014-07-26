@@ -234,6 +234,7 @@ FT                   /fasta_file="fasta/chromosome1.contig.seq.00018.out"
 FT                   /product="L-asparaginase (predicted)"
 FT                   /GO="aspect=P; term=asparagine catabolic process;
 FT                   GOid=GO:0006530; evidence=ISS; db_xref=GO_REF:0000024;
+FT                   annotation_extension=has_downstream_target(GeneDB_Spombe:SPAC977.10);
 FT                   with=Pfam:PF00710; date=20080804"
 FT                   /GO="aspect=C; term=cell division site; GOid=GO:0032153;
 FT                   evidence=IDA; db_xref=PMID:15975911;
