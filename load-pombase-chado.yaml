@@ -131,6 +131,13 @@ extension_restrictions:
       - during
       - assayed_using
 
+# names of the CVs that extension relation terms can come from
+extension_relation_cv_names:
+  - go/extensions/gorel
+  - fypo_extension_relations
+  - PSI-MOD_extension_relations
+  - gene_ex_extension_relations
+
 extension_relation_transform:
   cellular_component:
     happens_during: exists_during
