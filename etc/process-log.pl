@@ -44,6 +44,7 @@ my @qual_patterns = (
   'failed to add annotation',
   'failed to load qualifier',
   'trying to store an allele',
+  'in annotation extension for .* parse identifier',
 );
 
 my $qual_pattern = join '|', @qual_patterns;
