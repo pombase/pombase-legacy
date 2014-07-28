@@ -133,6 +133,7 @@ extension_restrictions:
 
 # names of the CVs that extension relation terms can come from
 extension_relation_cv_names:
+  - relationship
   - go/extensions/gorel
   - fypo_extension_relations
   - PSI-MOD_extension_relations
