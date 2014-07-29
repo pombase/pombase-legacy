@@ -134,10 +134,10 @@ extension_restrictions:
 # names of the CVs that extension relation terms can come from
 extension_relation_cv_names:
   - relationship
+  - gene_ex_extension_relations
   - go/extensions/gorel
   - fypo_extension_relations
   - PSI-MOD_extension_relations
-  - gene_ex_extension_relations
 
 extension_relation_transform:
   cellular_component:
