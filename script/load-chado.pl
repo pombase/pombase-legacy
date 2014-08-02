@@ -21,6 +21,7 @@ use PomBase::Chado::IdCounter;
 use PomBase::Chado::ExtensionProcessor;
 use PomBase::Chado::ParalogProcessor;
 use PomBase::Chado::GeneExQualifiersUtil;
+use PomBase::Config;
 
 my $verbose = 0;
 my $quiet = 0;
@@ -50,7 +51,7 @@ my $database = shift;
 my $user = shift;
 my $password = shift;
 
-my $config = LoadFile($config_file);
+my $config = PomBase::Config->new(file_name => $config_file);
 
 my $chado = PomBase::Chado::db_connect($host, $database, $user, $password);
 
