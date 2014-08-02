@@ -142,6 +142,8 @@ extension_relation_cv_names:
 extension_relation_transform:
   cellular_component:
     happens_during: exists_during
+    occurs_during: exists_during
+    during: exists_during
 
 cv_definitions:
   biological_process: Gene Ontology biological process terms
