@@ -11,6 +11,7 @@ BEGIN {
 };
 
 use PomBase::Check;
+use PomBase::Config;
 
 if (@ARGV != 5) {
   die "$0: needs five arguments:
@@ -25,7 +26,7 @@ my $password = shift;
 
 my $chado = PomBase::Chado::db_connect($host, $database, $username, $password);
 
-my $config = LoadFile($config_file);
+my $config = PomBase::Config->new(file_name => $config_file);
 
 my $check = PomBase::Check->new(chado => $chado, config => $config);
 
