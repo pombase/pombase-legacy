@@ -217,6 +217,10 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
         if (!$self->config()->{allowed_unknown_term_names}->{$qualifier_term_id}) {
           die "found cvterm by ID, but name doesn't match any cvterm: $qualifier_term_id " .
             "EMBL file: $embl_term_name  Chado name for ID: ", $cvterm->name(), "\n" unless $self->quiet();
+        } else {
+          warn "This is a warning about code that needs to be removed - " .
+            "please tell Kim - details: " .
+            "$qualifier_term_id + $embl_term_name";
         }
         $qualifier_term_id = undef;
       }
@@ -254,6 +258,9 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
                 $_->{embl_name} eq $embl_term_name;
               if ($res) {
                 $allowed_mismatch_type = $_->{winner};
+                warn "This is a warning about code that needs to be removed - " .
+                  "please tell Kim - details: " .
+                  "$qualifier_term_id + $embl_term_name + $new_dbxref_accession";
               }
               $res;
             } @{$allowed_mismatch_confs}) {
