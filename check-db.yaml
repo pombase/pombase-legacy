@@ -61,6 +61,13 @@ query_checks:
         JOIN feature_cvtermprop p ON p.feature_cvterm_id = fc.feature_cvterm_id
         JOIN cvterm type ON p.type_id = type.cvterm_id
        WHERE type.name = 'canto_session'
+  - name: annotation_count
+    description: check that we have enough annotations
+    expected: '>= 168769'
+    verbose_fail: true
+    query: |
+      SELECT fc.feature_cvterm_id
+        FROM feature_cvterm fc
   - name: missing_assayed_using
     description: check that protein binding annotations have two assayed_using extensions
     expected: 0
