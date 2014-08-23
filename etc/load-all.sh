@@ -206,6 +206,7 @@ mkdir $CURRENT_BUILD_DIR/logs
 
 (
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml gaf --organism-taxon-id=4896 $HOST $FINAL_DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$FINAL_DB.gaf.gz
+$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml gaf --filter-by-term=GO:0005515 --organism-taxon-id=4896 $HOST $FINAL_DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$FINAL_DB.gaf-GO:0005515-only.gz
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml interactions --organism-taxon-id=4896 $HOST $FINAL_DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$FINAL_DB.pombe-interactions.biogrid.gz
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml orthologs --organism-taxon-id=4896 --other-organism-taxon-id=9606 $HOST $FINAL_DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$FINAL_DB.human-orthologs.txt.gz
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml phaf --organism-taxon-id=4896 $HOST $FINAL_DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$FINAL_DB.phaf.gz
