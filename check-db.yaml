@@ -68,6 +68,27 @@ query_checks:
     query: |
       SELECT fc.feature_cvterm_id
         FROM feature_cvterm fc
+  - name: quantitative_annotation_qualifiers
+    description: check that all quantitative annotation have a count qualifier
+    expected: 0
+    verbose_fail: false
+    query: |
+      SELECT feature_cvterm_id
+        FROM pombase_feature_cvterm_ext_resolved_terms fc
+        JOIN feature f ON f.feature_id = fc.feature_id
+       WHERE feature_cvterm_id NOT IN
+         (SELECT feature_cvterm_id
+            FROM feature_cvtermprop
+           WHERE type_id IN
+             (SELECT cvterm_id
+                FROM cvterm
+               WHERE name = 'quant_gene_ex_avg_copies_per_cell'))
+         AND (base_cvterm_name = 'protein level' OR base_cvterm_name = 'RNA level')
+         AND base_cvterm_name = 'protein level'
+         AND feature_cvterm_id NOT IN
+           (SELECT feature_cvterm_id
+              FROM feature_cvtermprop
+             WHERE type_id IN (SELECT cvterm_id FROM cvterm WHERE name = 'qualifier'))
   - name: missing_assayed_using
     description: check that protein binding annotations have two assayed_using extensions
     expected: 0
