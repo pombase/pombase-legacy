@@ -207,6 +207,13 @@ mkdir $CURRENT_BUILD_DIR/logs
 (
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml gaf --organism-taxon-id=4896 $HOST $FINAL_DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$FINAL_DB.gaf.gz
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml gaf --filter-by-term=GO:0005515 --organism-taxon-id=4896 $HOST $FINAL_DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$FINAL_DB.gaf-GO:0005515-only.gz
+# annotations that have "has_direct_input()" as an extension relation
+$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml gaf --filter-term-by-sql="select ext_term.cvterm_id from cvterm ext_term
+  join cv ext_term_cv on ext_term_cv.cv_id = ext_term.cv_id
+  join cvtermprop ext_p on ext_term.cvterm_id = ext_p.cvterm_id
+  join cvterm ext_p_type on ext_p.type_id = ext_p_type.cvterm_id
+ where ext_term_cv.name = 'PomBase annotation extension terms'
+   and ext_p_type.name = 'annotation_extension_relation-has_direct_input'" --organism-taxon-id=4896 $HOST $FINAL_DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$FINAL_DB.gaf-has_direct_input-only.gz
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml interactions --organism-taxon-id=4896 $HOST $FINAL_DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$FINAL_DB.pombe-interactions.biogrid.gz
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml orthologs --organism-taxon-id=4896 --other-organism-taxon-id=9606 $HOST $FINAL_DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$FINAL_DB.human-orthologs.txt.gz
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml phaf --organism-taxon-id=4896 $HOST $FINAL_DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$FINAL_DB.phaf.gz
