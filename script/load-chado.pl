@@ -21,6 +21,7 @@ use PomBase::Chado::IdCounter;
 use PomBase::Chado::ExtensionProcessor;
 use PomBase::Chado::ParalogProcessor;
 use PomBase::Chado::GeneExQualifiersUtil;
+use PomBase::Chado::LoadUniProtMapping;
 use PomBase::Config;
 
 my $verbose = 0;
