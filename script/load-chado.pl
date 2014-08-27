@@ -233,6 +233,12 @@ for (my $i = 0; $i < @phylonodes; $i++) {
 }
 }
 
+my $uniprot_mapping_loader =
+  PomBase::Chado::LoadUniProtMapping->new(chado => $chado,
+                                          config => $config,
+                                          verbose => $verbose);
+$uniprot_mapping_loader->load_unprot_mapping();
+
 my $extension_processor =
   PomBase::Chado::ExtensionProcessor->new(chado => $chado,
                                           config => $config,
