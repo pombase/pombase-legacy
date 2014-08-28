@@ -22,6 +22,7 @@ cvs:
     - symbol
     - description
     - allele_type
+    - uniprot_identifier
     - canto_session
     - name: ena_id
       definition: The European Nucleotide Archive ID of the feature.
