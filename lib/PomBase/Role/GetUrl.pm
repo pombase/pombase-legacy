@@ -38,8 +38,6 @@ under the same terms as Perl itself.
 use perl5i::2;
 use Moose::Role;
 
-requires 'config';
-
 =head2
 
  Usage   : my $contents = $obj->get_url_contents($some_url);
@@ -52,7 +50,7 @@ method get_url_contents
   my $url = shift;
 
   my $ua = LWP::UserAgent->new;
-  $ua->agent($self->config()->get_application_name());
+  $ua->agent('PomBase');
 
   my $req = HTTP::Request->new(GET => $url);
   my $res = $ua->request($req);
