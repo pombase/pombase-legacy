@@ -182,6 +182,9 @@ $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter $HO
 echo update out of date allele names
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml update-allele-names $HOST $FINAL_DB $USER $PASSWORD
 
+echo change UniProtKB IDs in "with" feature_cvterprop rows to PomBase IDs
+$POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml uniprot-ids-to-local $HOST $FINAL_DB $USER $PASSWORD
+
 echo do GO term mapping
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml change-terms --mapping-file=$SOURCES/pombe-embl/chado_load_mappings/GO_mapping_to_specific_terms.txt $HOST $FINAL_DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.go-term-mapping
 
