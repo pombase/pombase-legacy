@@ -82,7 +82,7 @@ for obo_file in \
     pombe-embl/mini-ontologies/quiescence.obo \
     phenotype_ontology_for_chado/releases/latest/fypo-simple.obo \
     phenotype_ontology_for_chado/supplemental_files/fypo_extension_relations.obo \
-    go-svn/ontology/extensions/go_annotation_extension_relations.obo \
+    go-svn/ontology/extensions/gorel.obo \
     phenotype_ontology_for_chado/peco.obo \
     pro_small.obo \
     pombe-embl/mini-ontologies/fypo_extension.obo \
