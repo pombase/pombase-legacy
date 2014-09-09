@@ -76,7 +76,7 @@ fi
 
 for obo_file in \
     song-svn/so-xp-simple.obo \
-    go-svn/ontology/gene_ontology_edit.obo \
+    go-svn/ontology/go-basic.obo \
     PSI-MOD.obo \
     pombe-embl/mini-ontologies/iao.obo \
     pombe-embl/mini-ontologies/quiescence.obo \
@@ -111,7 +111,7 @@ mkdir -p $CURRENT_BUILD_DIR/ontologies
   cd $CURRENT_BUILD_DIR/ontologies
 
   svn info $SOURCES_DIR/go-svn > go-svn-info.txt
-  cp $SOURCES_DIR/go-svn/ontology/gene_ontology_edit.obo .
+  cp $SOURCES_DIR/go-svn/ontology/go-basic.obo .
 
   svn info $SOURCES_DIR/phenotype_ontology_for_chado > fypo-svn-info.txt
   cp $SOURCES_DIR/phenotype_ontology_for_chado/releases/latest/fypo-simple.obo .
@@ -119,7 +119,7 @@ mkdir -p $CURRENT_BUILD_DIR/ontologies
 
 date
 echo populate cvtermpath using owltools
-$OWLTOOLS_CHADO_CLOSURE $HOST $DB $USER $PASSWORD $SOURCES_DIR/go-svn/ontology/gene_ontology_edit.obo $SOURCES_DIR/phenotype_ontology_for_chado/releases/latest/fypo-simple.obo
+$OWLTOOLS_CHADO_CLOSURE $HOST $DB $USER $PASSWORD $SOURCES_DIR/go-svn/ontology/go-basic.obo $SOURCES_DIR/phenotype_ontology_for_chado/releases/latest/fypo-simple.obo
 date; echo finished
 
 # prevent duplicate feature uniquenames
