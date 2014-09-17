@@ -674,8 +674,9 @@ method finalise($chromosome)
 
     if (!$so_type) {
       use Data::Dumper;
-      $Data::Dumper::Maxdepth = 5;
-      warn 'no SO type:', Dumper([$feature_data]), "\n" unless $self->quiet();
+      $Data::Dumper::Maxdepth = 6;
+      warn 'no SO type:', $uniquename, ' ',
+        Dumper([$feature_data]), "\n" unless $self->quiet();
       next;
     }
 
