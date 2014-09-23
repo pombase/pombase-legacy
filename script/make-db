@@ -93,7 +93,7 @@ for obo_file in \
     pombe-embl/mini-ontologies/gene_ex_extension_relations.obo \
     pombe-embl/mini-ontologies/PSI-MOD_extension_relations.obo \
     pombe-embl/mini-ontologies/SO_feature_relations.obo \
-    pombase/pombase_terms-v45.obo \
+    pombase/pombase_terms-v46.obo \
     pombe-embl/mini-ontologies/SO_feature_relations.obo
 do
   echo loading: $obo_file
