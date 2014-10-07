@@ -119,6 +119,7 @@ extension_restrictions:
       - assayed_using
       - has_expressivity
       - occurs_in
+      - during
   biological_process:
     not_allowed:
       - during
