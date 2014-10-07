@@ -26,7 +26,7 @@ my $config = $test_util->config();
 my $map_loader = LoadUniProtMappingTest->new(config => $config,
                                              chado => $chado);
 
-$map_loader->load_unprot_mapping();
+$map_loader->load_uniprot_mapping();
 
 my $c2f12_13 = $chado->resultset('Sequence::Feature')->find({ uniquename => 'SPBC2F12.13' });
 
