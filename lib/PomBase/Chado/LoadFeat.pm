@@ -380,6 +380,10 @@ method store_colour($feature, $colour)
   my $cvterm = $self->get_cvterm('PomBase gene characterisation status',
                                  $cvterm_name);
 
+  if (!defined $cvterm) {
+    die "can't find cvterm for $cvterm_name\n";
+  }
+
   $self->create_feature_cvterm($feature, $cvterm,
                                $self->find_or_create_pub('null'), 0);
 }
