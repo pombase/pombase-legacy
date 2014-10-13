@@ -402,13 +402,13 @@ ensembl_dbs:
     port: 3306
     user: anonymous
     group: core
-    dbname: homo_sapiens_core_75_37
+    dbname: homo_sapiens_core_77_38
   'Saccharomyces cerevisiae':
     host: ensembldb.ensembl.org
     port: 3306
     user: anonymous
     group: core
-    dbname: saccharomyces_cerevisiae_core_75_4
+    dbname: saccharomyces_cerevisiae_core_77_4
 
 # for these terms, if there is no evidence, use the given evidence code
 auto_evidence_assignment:
