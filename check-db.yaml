@@ -96,7 +96,8 @@ query_checks:
     query: |
       WITH extension_relations_ids AS
         (SELECT cvterm_id FROM cvterm WHERE name LIKE 'annotation_extension_relation-%')
-      SELECT DISTINCT f.uniquename || ' <-> ' || cvterm_name || '  ',
+      SELECT DISTINCT f.uniquename || ' <-> ' || cvterm_name,
+               pub.uniquename,
                (SELECT value
                   FROM feature_cvtermprop p
                  WHERE p.feature_cvterm_id = fc.feature_cvterm_id
@@ -104,6 +105,7 @@ query_checks:
         FROM pombase_feature_cvterm_ext_resolved_terms t
         JOIN feature_cvterm fc ON fc.cvterm_id = t.cvterm_id
         JOIN feature f ON f.feature_id = fc.feature_id
+        JOIN pub ON fc.pub_id = pub.pub_id
        WHERE
          base_cvterm_id IN
            (SELECT cvterm_id FROM cvterm WHERE dbxref_id IN
