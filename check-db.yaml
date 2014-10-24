@@ -99,7 +99,7 @@ query_checks:
                (SELECT value
                   FROM feature_cvtermprop p
                  WHERE p.feature_cvterm_id = fc.feature_cvterm_id
-                   AND p.type_id IN (SELECT cvterm_id FROM cvterm WHERE name = 'canto_session') LIMIT 1)
+                   AND p.type_id IN (SELECT cvterm_id FROM cvterm WHERE name = 'canto_session') LIMIT 1) AS session
         FROM pombase_feature_cvterm_ext_resolved_terms t
         JOIN feature_cvterm fc ON fc.cvterm_id = t.cvterm_id
         JOIN feature f ON f.feature_id = fc.feature_id
