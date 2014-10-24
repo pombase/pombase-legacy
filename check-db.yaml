@@ -94,9 +94,7 @@ query_checks:
     expected: 0
     verbose_fail: true
     query: |
-      WITH extension_relations_ids AS
-        (SELECT cvterm_id FROM cvterm WHERE name LIKE 'annotation_extension_relation-%')
-      SELECT DISTINCT f.uniquename || ' <-> ' || cvterm_name,
+      SELECT DISTINCT fc.feature_cvterm_id, f.uniquename || ' <-> ' || cvterm_name,
                pub.uniquename,
                (SELECT value
                   FROM feature_cvtermprop p
@@ -108,15 +106,12 @@ query_checks:
         JOIN pub ON fc.pub_id = pub.pub_id
        WHERE
          base_cvterm_id IN
-           (SELECT cvterm_id FROM cvterm WHERE dbxref_id IN
-             (SELECT dbxref_id FROM dbxref WHERE db_id IN
-               (SELECT db_id FROM db WHERE name = 'FYPO')
-                   AND accession IN
-                     ('0000702', '0000703', '0000704', '0000705', '0001275', '0001571', '0001645', '0002365', '0003206', '0003207', '0003215')))
-         AND t.cvterm_id NOT IN
-           (SELECT p1.cvterm_id
-              FROM cvtermprop p1
-              JOIN cvtermprop p2 ON p1.cvterm_id = p2.cvterm_id
-               AND p1.value <> p2.value
-               AND p1.type_id IN (SELECT cvterm_id FROM extension_relations_ids)
-               AND p2.type_id IN (SELECT cvterm_id FROM extension_relations_ids))
+           (SELECT t.cvterm_id
+              FROM cvterm t JOIN dbxref x ON t.dbxref_id = x.dbxref_id
+                            JOIN db ON db.db_id = x.db_id
+             WHERE db.name = 'FYPO'
+               AND x.accession IN
+                 ('0000702', '0000703', '0000704', '0000705', '0001275', '0001571', '0001645', '0002365', '0003206', '0003207', '0003215'))
+         AND t.cvterm_id IN
+           (SELECT cvterm_id FROM pombase_extension_rels_and_values
+             WHERE rel_name = 'assayed_using' GROUP BY cvterm_id, rel_name HAVING COUNT(value) = 1)
