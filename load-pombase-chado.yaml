@@ -373,7 +373,8 @@ evidence_types:
     name: in situ hybridization assay evidence
   'ECO:0001096':
     name: mass spectrometry evidence
-
+  'ECO:0000059':
+    name: experimental phenotypic evidence
 
 
 suppressible_evidence_codes:
