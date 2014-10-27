@@ -32,7 +32,9 @@ new_terms_obo=/var/pomcur/sources/pombase/pombase_terms-$version.obo.new
 
 echo wrote: $new_terms_obo
 
-echo now update pombase-chado-latest with:
+echo "now update pombase-chado-latest with:"
 echo "  rm pombase-chado-latest*"
 echo "  ln -s $release_label pombase-chado-latest"
 echo "  ln -s $release_label.dump.gz pombase-chado-latest.dump.gz"
+echo
+echo "and tag release-$version"
