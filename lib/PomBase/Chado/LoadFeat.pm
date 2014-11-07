@@ -234,6 +234,11 @@ method save_transcript($feature, $uniquename, $gene_uniquename)
 
 method save_utr($feature, $uniquename, $transcript_uniquename, $gene_uniquename)
 {
+  if (!defined $transcript_uniquename) {
+    warn "no transcript_uniquename passed to save_utr() for UTR for $uniquename\n";
+    return;
+  }
+
   my $feat_type = $feature->primary_tag();
   my $so_type = $feature_loader_conf{$feat_type}->{so_type};
 
