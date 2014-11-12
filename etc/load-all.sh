@@ -242,7 +242,7 @@ psql $FINAL_DB -c "select count(id), name from (select p.cvterm_id::text || '_cv
  cvterm type, cvtermprop p where p.type_id = type.cvterm_id and type.name like
  'annotation_ex%' union all select r.cvterm_relationship_id::text ||
  '_cvterm_rel' as id, t.name as name from cvterm_relationship r, cvterm t where
- t.cvterm_id = type_id and r.subject_id in (select cvterm_id from cvterm, cv
+ t.cvterm_id = type_id and t.name <> 'is_a' and r.subject_id in (select cvterm_id from cvterm, cv
  where cvterm.cv_id = cv.cv_id and cv.name = 'PomBase annotation extension terms')) 
  as sub group by name order by name;"
 
