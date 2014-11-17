@@ -115,3 +115,18 @@ query_checks:
          AND t.cvterm_id IN
            (SELECT cvterm_id FROM pombase_extension_rels_and_values
              WHERE rel_name = 'assayed_using' GROUP BY cvterm_id, rel_name HAVING COUNT(value) = 1)
+  - name: no_duplicate_orthologs
+    description: "don't store the same ortholog twice"
+    expected: 0
+    verbose_fail: true
+    query: |
+      SELECT
+        tf.uniquename, ef.uniquename, count(*)
+      FROM
+        feature tf
+        JOIN feature_relationship fr ON (tf.feature_id=fr.object_id)
+        JOIN cvterm frt ON (fr.type_id=frt.cvterm_id)
+        JOIN feature ef ON (fr.subject_id=ef.feature_id)
+      WHERE
+        frt.name='orthologous_to'
+      GROUP BY tf.uniquename, ef.uniquename HAVING COUNT(*)>1
