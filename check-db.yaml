@@ -64,7 +64,7 @@ query_checks:
   - name: annotation_count
     description: check that we have enough annotations
     expected: '>= 168769'
-    verbose_fail: true
+    verbose_fail: false
     query: |
       SELECT fc.feature_cvterm_id
         FROM feature_cvterm fc
