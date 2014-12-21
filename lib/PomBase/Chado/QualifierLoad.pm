@@ -163,7 +163,16 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
     my $new_term = $self->find_cvterm_by_term_id($new_term_id);
 
     if (!defined $new_term) {
-      die "can't find '$new_term_id' in $cv_name\n";
+      my $obsolete = $self->find_cvterm_by_term_id($new_term_id,
+                                                   {
+                                                     include_obsolete => 1,
+                                                   });
+
+      if (defined $obsolete) {
+        die "term '$new_term_id' in $cv_name is obsolete\n";
+      } else {
+        die "can't find '$new_term_id' in $cv_name\n";
+      }
     }
 
     if ($self->verbose()) {
