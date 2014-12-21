@@ -51,6 +51,10 @@ method load_uniprot_mapping
 {
   my $url = $self->config()->{pombase_to_uniprot_mapping};
 
+  if (!defined $url) {
+    die "no pombase_to_uniprot_mapping configuation, not loading mapping\n";
+  }
+
   my $mapping = $self->get_url_contents($url);
 
   my %map = ();
