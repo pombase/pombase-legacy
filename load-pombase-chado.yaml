@@ -140,6 +140,7 @@ extension_relation_cv_names:
   - go/extensions/gorel
   - fypo_extension_relations
   - PSI-MOD_extension_relations
+  - external
 
 extension_relation_transform:
   cellular_component:
