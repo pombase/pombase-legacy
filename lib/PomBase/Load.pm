@@ -124,17 +124,15 @@ func load_genes($config, $chado, $organism, $test_mode) {
 
 func _fix_annotation_extension_rels($chado, $config)
  {
-  my @new_annotation_rel_names =
+   my @extension_rel_terms = map {
+     ($chado->resultset('Cv::Cv')->search({ 'me.name' => $_ })
+            ->search_related('cvterms')->all());
+   } @{$config->{extension_relation_cv_names}};
+
+  push @{$config->{cvs}->{cvterm_property_type}},
     map {
       'annotation_extension_relation-' . $_->name();
-    } ($chado->resultset('Cv::Cv')->search({ 'me.name' => 'go/extensions/gorel' })
-            ->search_related('cvterms')->all(),
-       $chado->resultset('Cv::Cv')->search({ 'me.name' => 'PSI-MOD_extension_relations' })
-            ->search_related('cvterms')->all(),
-       $chado->resultset('Cv::Cv')->search({ 'me.name' => 'fypo_extension_relations' })
-            ->search_related('cvterms')->all());
-
-  push @{$config->{cvs}->{cvterm_property_type}}, @new_annotation_rel_names;
+    } @extension_rel_terms;
 }
 
 func _load_cvterms($chado, $config, $test_mode)
