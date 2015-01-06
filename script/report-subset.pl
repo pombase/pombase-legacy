@@ -89,5 +89,5 @@ my $res = $query_sth->fetchall_arrayref({});
 for my $row (@$res) {
   print $row->{uniquename}, "\t", $row->{feature_name} // '',
     "\t", $row->{termid}, "\t", $row->{term_name},
-    "\t", $row->{session} // '', "\t", $row->{assigned_by}, "\n";
+    "\t", $row->{session} // '', "\t", $row->{assigned_by} // '', "\n";
 }
