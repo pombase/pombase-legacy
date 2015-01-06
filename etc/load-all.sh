@@ -202,7 +202,7 @@ echo report annotations using GO terms from $POMBASE_EXCLUDED_GO_TERMS 2>&1 | te
 
 POMBASE_EXCLUDED_FYPO_TERMS_OBO=$SOURCES/pombe-embl/mini-ontologies/FYPO_qc_do_not_annotate_subsets.obo
 echo report annotations using FYPO terms from $POMBASE_EXCLUDED_FYPO_TERMS_OBO 2>&1 | tee $LOG_DIR/$log_file.excluded_fypo_terms
-./script/report-subset.pl $HOST $FINAL_DB $USER $PASSWORD <(perl -ne 'print "$1\n" if /^id:\s*(FYPO:\S+)/' $POMBASE_EXCLUDED_FYPO_TERMS_OBO) 2>&1 | tee $LOG_DIR/$log_file.excluded_go_terms
+./script/report-subset.pl $HOST $FINAL_DB $USER $PASSWORD <(perl -ne 'print "$1\n" if /^id:\s*(FYPO:\S+)/' $POMBASE_EXCLUDED_FYPO_TERMS_OBO) 2>&1 | tee $LOG_DIR/$log_file.excluded_fypo_terms
 
 DUMPS_DIR=/var/www/pombase/dumps
 BUILDS_DIR=$DUMPS_DIR/builds
@@ -236,6 +236,7 @@ cp $LOG_DIR/$log_file.modification $CURRENT_BUILD_DIR/logs/$log_file.modificatio
 cp $LOG_DIR/$log_file.*phenotypes_from_* $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.export_warnings $CURRENT_BUILD_DIR/logs/$log_file.export_warnings
 cp $LOG_DIR/$log_file.excluded_go_terms $CURRENT_BUILD_DIR/logs/
+cp $LOG_DIR/$log_file.excluded_fypo_terms $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.go-term-mapping $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.chado_checks $CURRENT_BUILD_DIR/logs/
 
