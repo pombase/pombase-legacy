@@ -132,6 +132,11 @@ extension_restrictions:
     not_allowed:
       - during
       - assayed_using
+  post_translational_modification:
+    allowed:
+      - added_during
+      - removed_during
+      - present_during
 
 # names of the CVs that extension relation terms can come from
 extension_relation_cv_names:
