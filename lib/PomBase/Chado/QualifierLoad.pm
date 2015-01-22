@@ -389,7 +389,7 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
   }
 
   if (!defined $cvterm) {
-    die "couldn't find or create a cvterm for annotation in $uniquename\n";
+    die qq(couldn't find or create a cvterm for $embl_term_name in $uniquename\n);
   }
 
   my $chado = $self->chado();
