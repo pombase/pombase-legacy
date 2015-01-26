@@ -132,7 +132,7 @@ extension_restrictions:
     not_allowed:
       - during
       - assayed_using
-  post_translational_modification:
+  'PSI-MOD':
     allowed:
       - added_during
       - removed_during
