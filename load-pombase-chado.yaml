@@ -134,9 +134,15 @@ extension_restrictions:
       - assayed_using
   'PSI-MOD':
     allowed:
+      - absent_during
+      - added_by
       - added_during
-      - removed_during
+      - level_fluctuates_during
+      - occupancy
       - present_during
+      - removed_by
+      - removed_during
+      - required_for
 
 # names of the CVs that extension relation terms can come from
 extension_relation_cv_names:
