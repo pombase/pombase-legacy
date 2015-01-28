@@ -143,6 +143,7 @@ extension_restrictions:
       - removed_by
       - removed_during
       - required_for
+      - in_presence_of
 
 # names of the CVs that extension relation terms can come from
 extension_relation_cv_names:
