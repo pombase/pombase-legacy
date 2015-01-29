@@ -145,6 +145,20 @@ extension_restrictions:
       - required_for
       - in_presence_of
 
+# term IDs where duplicate extensions are allowed
+allowed_duplicate_extensions:
+  - 'FYPO:0000702'
+  - 'FYPO:0000703'
+  - 'FYPO:0000704'
+  - 'FYPO:0000705'
+  - 'FYPO:0001275'
+  - 'FYPO:0001571'
+  - 'FYPO:0001645'
+  - 'FYPO:0002365'
+  - 'FYPO:0003206'
+  - 'FYPO:0003207'
+  - 'FYPO:0003215'
+
 # names of the CVs that extension relation terms can come from
 extension_relation_cv_names:
   - relationship
