@@ -11,6 +11,8 @@ cvs:
   PomBase publication types:
     - paper
     - null
+  PomBase chadoprop types:
+    - db_creation_datetime
   synonym_type:
     - reserved_name
     - obsolete_name
@@ -137,6 +139,8 @@ extension_restrictions:
       - absent_during
       - added_by
       - added_during
+      - coincident_with
+      - has_direct_input
       - level_fluctuates_during
       - occupancy
       - present_during
