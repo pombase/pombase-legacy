@@ -141,13 +141,13 @@ extension_restrictions:
       - added_during
       - coincident_with
       - has_direct_input
+      - in_presence_of
       - level_fluctuates_during
       - occupancy
       - present_during
       - removed_by
       - removed_during
       - required_for
-      - in_presence_of
 
 # term IDs where duplicate extensions are allowed
 allowed_duplicate_extensions:
