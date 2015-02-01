@@ -162,6 +162,7 @@ allowed_duplicate_extensions:
   - 'FYPO:0003206'
   - 'FYPO:0003207'
   - 'FYPO:0003215'
+  - 'FYPO:0004335'
 
 # names of the CVs that extension relation terms can come from
 extension_relation_cv_names:
