@@ -185,7 +185,7 @@ $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml update-allele
 echo change UniProtKB IDs in "with" feature_cvterprop rows to PomBase IDs
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml uniprot-ids-to-local $HOST $FINAL_DB $USER $PASSWORD
 
-echo do GO term mapping
+echo do GO term re-mapping
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml change-terms --mapping-file=$SOURCES/pombe-embl/chado_load_mappings/GO_mapping_to_specific_terms.txt $HOST $FINAL_DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.go-term-mapping
 
 PGPASSWORD=$PASSWORD psql -U $USER -h $HOST $FINAL_DB -c 'analyze'
