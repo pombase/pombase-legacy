@@ -126,14 +126,17 @@ extension_restrictions:
     not_allowed:
       - during
       - assayed_using
+      - requires_modification
   molecular_function:
     not_allowed:
       - during
       - assayed_using
+      - requires_modification
   cellular_component:
     not_allowed:
       - during
       - assayed_using
+      - requires_modification
   'PSI-MOD':
     allowed:
       - absent_during
