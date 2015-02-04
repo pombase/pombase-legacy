@@ -123,17 +123,36 @@ extension_restrictions:
       - occurs_in
       - occurs_at
   biological_process:
-    not_allowed:
-      - during
-      - assayed_using
+    allowed:
+      - happens_during
+      - has_input
+      - occurs_at
+      - occurs_in
+      - has_regulation_target
+      - part_of
+      - dependent_on
+      - independent_of
+      - not_happens_during
   molecular_function:
-    not_allowed:
-      - during
-      - assayed_using
+    allowed:
+      - happens_during
+      - has_direct_input
+      - occurs_at
+      - occurs_in
+      - has_regulation_target
+      - activated_by
+      - inhibited_by
+      - part_of
+      - dependent_on
+      - independent_of
+      - not_happens_during
   cellular_component:
-    not_allowed:
-      - during
-      - assayed_using
+    allowed:
+      - exists_during
+      - part_of
+      - dependent_on
+      - independent_of
+      - not_exists_during
   'PSI-MOD':
     allowed:
       - absent_during
