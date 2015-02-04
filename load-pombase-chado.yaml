@@ -148,6 +148,12 @@ extension_restrictions:
       - removed_by
       - removed_during
       - required_for
+  gene_ex:
+    allowed:
+      - during
+      - in_absence_of
+      - in_presence_of
+      - occurs_in
 
 # term IDs where duplicate extensions are allowed
 allowed_duplicate_extensions:
