@@ -245,14 +245,18 @@ cp $LOG_DIR/$log_file.chado_checks $CURRENT_BUILD_DIR/logs/
 
 (
 echo extension relation counts:
-psql $FINAL_DB -c "select count(id), name from (select p.cvterm_id::text || '_cvterm' as id,
- substring(type.name from 'annotation_extension_relation-(.*)') as name from
- cvterm type, cvtermprop p where p.type_id = type.cvterm_id and type.name like
- 'annotation_ex%' union all select r.cvterm_relationship_id::text ||
- '_cvterm_rel' as id, t.name as name from cvterm_relationship r, cvterm t where
- t.cvterm_id = type_id and t.name <> 'is_a' and r.subject_id in (select cvterm_id from cvterm, cv
- where cvterm.cv_id = cv.cv_id and cv.name = 'PomBase annotation extension terms')) 
- as sub group by name order by name;"
+psql $FINAL_DB -c "select count(id), name, base_cv_name from (select p.cvterm_id::text || '_cvterm' as id,
+  substring(type.name from 'annotation_extension_relation-(.*)') as name, base_cv_name
+  from pombase_feature_cvterm_ext_resolved_terms fc
+       join cvtermprop p on p.cvterm_id = fc.cvterm_id
+       join cvterm type on p.type_id = type.cvterm_id
+  where type.name like 'annotation_ex%'
+UNION all select r.cvterm_relationship_id::text ||
+  '_cvterm_rel' as id, t.name as name, base_cv_name from cvterm_relationship r join cvterm t on t.cvterm_id = r.type_id join pombase_feature_cvterm_ext_resolved_terms fc on r.subject_id = fc.cvterm_id  where
+  t.name <> 'is_a' and r.subject_id in (select cvterm_id from cvterm, cv
+  where cvterm.cv_id = cv.cv_id and cv.name = 'PomBase annotation extension terms'))
+  as sub group by base_cv_name, name order by base_cv_name, name;
+"
 
 echo
 echo number of annotations using extensions by cv:
