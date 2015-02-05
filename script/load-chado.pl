@@ -7,6 +7,7 @@ use Bio::Chado::Schema;
 use Memoize;
 use Getopt::Long;
 use YAML qw(LoadFile);
+use POSIX;
 
 BEGIN {
   push @INC, 'lib';
@@ -187,6 +188,17 @@ my $id_counter = PomBase::Chado::IdCounter->new(chado => $chado,
 $config->{id_counter} = $id_counter;
 
 my $organism = PomBase::Load::init_objects($chado, $config);
+
+my $time_stamp_cvterm =
+  $chado->resultset('Cv::Cvterm')
+  ->find({ name => 'db_creation_datetime',
+           'cv.name' => 'PomBase chadoprop types' },
+         { join => 'cv' });
+
+$chado->resultset('Cv::Chadoprop')->create({
+  type_id => $time_stamp_cvterm->cvterm_id(),
+  value => strftime("%Y-%m-%d %H:%M:%S\n", localtime(time)),
+});
 
 my $org_load = PomBase::Chado::LoadOrganism->new(chado => $chado);
 

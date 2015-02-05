@@ -72,6 +72,9 @@ method check
 
   warn "checking results ...\n";
 
+  my $chadoprop_rs = $chado->resultset('Cv::Chadoprop');
+  should ($chadoprop_rs->count(), 1);
+
   my $rel_rs = $chado->resultset('Sequence::FeatureRelationship');
   should ($rel_rs->count(), 57);
 
