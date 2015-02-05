@@ -130,6 +130,7 @@ extension_restrictions:
       - occurs_in
       - has_regulation_target
       - part_of
+      - in_presence_of
       - dependent_on
       - independent_of
       - not_happens_during
