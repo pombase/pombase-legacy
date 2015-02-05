@@ -187,7 +187,7 @@ $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml uniprot-ids-t
 
 echo do GO term re-mapping
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml change-terms \
-  --exclude-by-fc-prop="canto_session"
+  --exclude-by-fc-prop="canto_session" \
   --mapping-file=$SOURCES/pombe-embl/chado_load_mappings/GO_mapping_to_specific_terms.txt \
   $HOST $FINAL_DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.go-term-mapping
 
