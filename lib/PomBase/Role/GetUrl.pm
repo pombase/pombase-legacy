@@ -49,6 +49,8 @@ method get_url_contents
 {
   my $url = shift;
 
+  local $ENV{FTP_PASSIVE} = 1;
+
   my $ua = LWP::UserAgent->new;
   $ua->agent('PomBase');
 
