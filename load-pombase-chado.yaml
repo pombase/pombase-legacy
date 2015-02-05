@@ -151,6 +151,7 @@ extension_restrictions:
     allowed:
       - exists_during
       - part_of
+      - coincident_with
       - dependent_on
       - independent_of
       - not_exists_during
