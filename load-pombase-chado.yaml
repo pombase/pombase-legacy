@@ -137,6 +137,7 @@ extension_restrictions:
     allowed:
       - happens_during
       - has_direct_input
+      - has_substrate
       - occurs_at
       - occurs_in
       - has_regulation_target
