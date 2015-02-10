@@ -88,7 +88,7 @@ method check
   should ($phase_loc_rs->count(), 9);
 
   my $feature_prop_rs = $chado->resultset('Sequence::Featureprop');
-  should ($feature_prop_rs->count(), 15);
+  should ($feature_prop_rs->count(), 23);
 
   my $feature_dbxref_rs = $chado->resultset('Sequence::FeatureDbxref');
   should ($feature_dbxref_rs->count(), 21);
@@ -146,7 +146,7 @@ method check
   my $coiled_coil_cvterm = $self->get_cvterm('sequence', 'coiled_coil');
 
   my @all_feature_cvterm = $chado->resultset('Sequence::FeatureCvterm')->all();
-  should(scalar(@all_feature_cvterm), 103);
+  should(scalar(@all_feature_cvterm), 101);
 
   my $ext_feature_cvterm_rs =
     $chado->resultset('Sequence::FeatureCvterm')->search({ 'cv.name' => 'PomBase annotation extension terms' },
@@ -158,11 +158,11 @@ method check
   my $cvtermprop_types_rs = $chado->resultset('Cv::Cvterm')->search({ cv_id => $cvterm_property_type_cv->cv_id(),
                                                                       name => { like => 'annotation_extension_relation-%' } });
 
-  should($cvtermprop_types_rs->count(), 43);
+  should($cvtermprop_types_rs->count(), 69);
 
   my $an_ex_rel_props_rs = $chado->resultset('Cv::Cvtermprop')->search({
     type_id => { -in => $cvtermprop_types_rs->get_column('cvterm_id')->as_query() } });
-  should($an_ex_rel_props_rs->count(), 4);
+  should($an_ex_rel_props_rs->count(), 2);
 
   my ($localizes_term) = grep { $_->cvterm()->name() =~ /cellular protein localization \[localizes\] SPAC167.03c/ } @all_feature_cvterm;
   assert(defined $localizes_term);
@@ -190,7 +190,7 @@ method check
   should($ortholog_cvterm_rs->count(), 0);
 
   my @all_props = $chado->resultset('Sequence::FeatureCvtermprop')->all();
-  should(scalar(@all_props), 206);
+  should(scalar(@all_props), 203);
 
   my $feat_rs = $chado->resultset('Sequence::Feature');
   should ($feat_rs->count(), 74);
