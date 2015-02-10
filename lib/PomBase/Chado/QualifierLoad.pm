@@ -56,6 +56,7 @@ with 'PomBase::Role::FeatureStorer';
 with 'PomBase::Role::Embl::FeatureRelationshipStorer';
 with 'PomBase::Role::OrganismFinder';
 with 'PomBase::Role::QualifierSplitter';
+with 'PomBase::Role::LegacyAlleleHandler';
 with 'PomBase::Role::PhenotypeFeatureFinder';
 
 has verbose => (is => 'ro', isa => 'Bool');
