@@ -162,7 +162,7 @@ method check
 
   my $an_ex_rel_props_rs = $chado->resultset('Cv::Cvtermprop')->search({
     type_id => { -in => $cvtermprop_types_rs->get_column('cvterm_id')->as_query() } });
-  should($an_ex_rel_props_rs->count(), 2);
+  should($an_ex_rel_props_rs->count(), 3);
 
   my ($localizes_term) = grep { $_->cvterm()->name() =~ /cellular protein localization \[localizes\] SPAC167.03c/ } @all_feature_cvterm;
   assert(defined $localizes_term);

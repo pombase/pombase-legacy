@@ -125,7 +125,6 @@ FT                   /GO="aspect=P; term=vesicle-mediated transport;
 FT                   GOid=GO:0016192; evidence=IMP; db_xref=PMID:11069779;
 FT                   date=20050322"
 FT                   /GO="aspect=P; term=cellular protein localization;
-FT                   qualifier=dummy|localization_dependency; GOid=GO:0034613;
 FT                   evidence=IGI; db_xref=PMID:15620657;
 FT                   with=GeneDB_Spombe:SPAC167.03c; date=20050923"
 FT                   /colour=2
@@ -162,7 +161,7 @@ FT                   with=GeneDB_Spombe:SPBC32F12.06; date=20041111"
 FT                   /GO="aspect=F; term=protein-lysine N-methyltransferase
 FT                   activity; GOid=GO:0016279; evidence=IMP;
 FT                   db_xref=PMID:18292091;
-FT                   annotation_extension=has_downstream_target(GeneDB_Spombe:SPAC977.10)|has_downstream_target(GeneDB_Spombe:SPBC409.20c);
+FT                   annotation_extension=has_regulation_target(GeneDB_Spombe:SPAC977.10)|has_regulation_target(GeneDB_Spombe:SPBC409.20c);
 FT                   date=20050510"
 FT   5'UTR           complement(1175866..1175972)
 FT                   /systematic_id="SPBC409.20c"
@@ -196,7 +195,7 @@ FT                   /systematic_id="SPAC977.11"
 FT                   /db_xref="SPD:41/41G12"
 FT                   /GO="aspect=P; term=cell cycle checkpoint;
 FT                   qualifier=required;
-FT                   annotation_extension=during(GO:0000084); GOid=GO:0000075;
+FT                   annotation_extension=happens_during(GO:0000084); GOid=GO:0000075;
 FT                   evidence=IMP; db_xref=PMID:12597774; date=20040923"
 FT                   /controlled_curation="term=phenotype, viable;
 FT                   qualifier=deletion; db_xref=PMID:20473289; cv=phenotype;
@@ -273,7 +272,7 @@ FT                   annotation_extension=has_substrate(PR:000027604)|has_substr
 FT                   evidence=IPI; db_xref=PMID:11242054;
 FT                   with=GeneDB_Spombe:SPBC1105.11c; date=20041110"
 FT                   /GO="aspect=C; term=chromosome, pericentric region;
-FT                   annotation_extension=requires_feature(SO:0001796),dependent_on(GO:0005515^has_substrate(GeneDB_Spombe:SPCC594.07c));
+FT                   annotation_extension=exists_during(SO:0001796),dependent_on(GO:0005515^has_substrate(GeneDB_Spombe:SPCC594.07c));
 FT                   GOid=GO:0000775; evidence=IDA; db_xref=PMID:17627824;
 FT                   date=20070718"
 FT   3'UTR           complement(6624..6797)
@@ -341,7 +340,7 @@ FT                   /synonym="SPAC1556.06"
 FT                   /systematic_id="SPAC1556.06.2"
 FT                   /GO="aspect=P; term=cell cycle checkpoint;
 FT                   qualifier=required;
-FT                   annotation_extension=during(GO:0000084); GOid=GO:0000075;
+FT                   annotation_extension=happens_during(GO:0000084); GOid=GO:0000075;
 FT                   evidence=IMP; db_xref=PMID:12597774; date=20040923"
 FT                   /controlled_curation="term=protein sequence feature, NLS;
 FT                   qualifier=predicted; db_xref=PMID:11376151;
