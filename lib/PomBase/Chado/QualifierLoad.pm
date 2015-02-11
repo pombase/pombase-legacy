@@ -552,7 +552,7 @@ method maybe_move_igi($term, $evidence_code, $qualifiers, $withs, $sub_qual_map)
       if (exists $sub_qual_map->{annotation_extension}) {
         warn "annotation_extension already exists when converting IGI\n" unless $self->quiet();
       } else {
-        $sub_qual_map->{annotation_extension} = "localizes($with)";
+        $sub_qual_map->{annotation_extension} = "has_input($with)";
         @$qualifiers = grep { $_ ne 'localization_dependency'; } @$qualifiers;
 
         return 'IMP';
