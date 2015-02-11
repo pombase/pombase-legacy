@@ -108,6 +108,7 @@ cvs:
   complementation: []
   warning: []
   ex_tools: []
+  external_link: []
   misc: []
   disease_associated: []
   EC numbers: []
