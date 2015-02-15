@@ -85,6 +85,13 @@ method BUILD
     disease_associated => ['disease associated'],
   };
 
+  map {
+    my $cv_name = $_;
+    if (!$self->objs()->{cv_alt_names}->{$cv_name}) {
+      $self->objs()->{cv_alt_names}->{$cv_name} = [];
+    }
+  } keys %{$self->config()->{cvs}};
+
   $self->objs()->{cv_long_names} = {
     'genome organisation' => 'genome_org',
     'genome organization' => 'genome_org',
