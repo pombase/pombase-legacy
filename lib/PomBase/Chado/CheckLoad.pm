@@ -146,7 +146,7 @@ method check
   my $coiled_coil_cvterm = $self->get_cvterm('sequence', 'coiled_coil');
 
   my @all_feature_cvterm = $chado->resultset('Sequence::FeatureCvterm')->all();
-  should(scalar(@all_feature_cvterm), 101);
+  should(scalar(@all_feature_cvterm), 102);
 
   my $ext_feature_cvterm_rs =
     $chado->resultset('Sequence::FeatureCvterm')->search({ 'cv.name' => 'PomBase annotation extension terms' },
