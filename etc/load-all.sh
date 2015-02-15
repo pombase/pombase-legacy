@@ -200,7 +200,7 @@ echo annotation count after filtering redundant annotations:
 evidence_summary
 
 echo running consistency checks
-./script/check-chado.pl ./check-db.yaml $HOST $FINAL_DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.chado_checks
+$POMBASE_CHADO/script/check-chado.pl ./check-db.yaml $HOST $FINAL_DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.chado_checks
 
 POMBASE_EXCLUDED_GO_TERMS=$SOURCES/pombe-embl/supporting_files/GO_terms_excluded_from_pombase.txt
 echo report annotations using GO terms from $POMBASE_EXCLUDED_GO_TERMS 2>&1 | tee $LOG_DIR/$log_file.excluded_go_terms
