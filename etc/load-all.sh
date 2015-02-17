@@ -188,6 +188,8 @@ $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml update-allele
 echo change UniProtKB IDs in "with" feature_cvterprop rows to PomBase IDs
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml uniprot-ids-to-local $HOST $FINAL_DB $USER $PASSWORD
 
+pg_dump $FINAL_DB > /tmp/$FINAL_DB.temp.dump
+
 echo do GO term re-mapping
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml change-terms \
   --exclude-by-fc-prop="canto_session" \
