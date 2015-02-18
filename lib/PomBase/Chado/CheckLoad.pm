@@ -115,6 +115,16 @@ method check
 
   should ($gene_rs->count(), 10);
 
+  my $allele_cvterm = $self->get_cvterm('sequence', 'allele');
+
+  my $allele_rs = $chado->resultset('Sequence::Feature')
+    ->search({
+      type_id => $gene_cvterm->cvterm_id(),
+      organism_id => $pombe->organism_id(),
+    }, { order_by => 'uniquename' });
+
+  should ($allele_rs->count(), 10);
+
   my $gene = $gene_rs->search({ uniquename => 'SPAC1556.06' })->next();
 
   should ($gene->uniquename(), "SPAC1556.06");
@@ -146,12 +156,12 @@ method check
   my $coiled_coil_cvterm = $self->get_cvterm('sequence', 'coiled_coil');
 
   my @all_feature_cvterm = $chado->resultset('Sequence::FeatureCvterm')->all();
-  should(scalar(@all_feature_cvterm), 102);
+  should(scalar(@all_feature_cvterm), 103);
 
   my $ext_feature_cvterm_rs =
     $chado->resultset('Sequence::FeatureCvterm')->search({ 'cv.name' => 'PomBase annotation extension terms' },
                                                          { join => { cvterm => 'cv' } });
-  should($ext_feature_cvterm_rs->count(), 13);
+  should($ext_feature_cvterm_rs->count(), 14);
 
   my $cvterm_property_type_cv =
     $chado->resultset('Cv::Cv')->find({ name => 'cvterm_property_type' });
@@ -162,12 +172,12 @@ method check
 
   my $an_ex_rel_props_rs = $chado->resultset('Cv::Cvtermprop')->search({
     type_id => { -in => $cvtermprop_types_rs->get_column('cvterm_id')->as_query() } });
-  should($an_ex_rel_props_rs->count(), 3);
+  should($an_ex_rel_props_rs->count(), 4);
 
-  my ($localizes_term) = grep { $_->cvterm()->name() =~ /cellular protein localization \[localizes\] SPAC167.03c/ } @all_feature_cvterm;
+  my ($localizes_term) = grep { $_->cvterm()->name() =~ /cellular protein localization \[has_input\] SPAC167.03c/ } @all_feature_cvterm;
   assert(defined $localizes_term);
 
-  should($localizes_term->feature_cvtermprops()->count(), 4);
+  should($localizes_term->feature_cvtermprops()->count(), 3);
 
   my $feature_cvterm_rs =
     $transcript->feature_cvterms()->search({
@@ -190,7 +200,7 @@ method check
   should($ortholog_cvterm_rs->count(), 0);
 
   my @all_props = $chado->resultset('Sequence::FeatureCvtermprop')->all();
-  should(scalar(@all_props), 203);
+  should(scalar(@all_props), 202);
 
   my $feat_rs = $chado->resultset('Sequence::Feature');
   should ($feat_rs->count(), 74);
@@ -244,7 +254,7 @@ method check
     for my $prop ($_->cvtermprops()) {
       warn '    ', $prop->type()->name(), ' => ', $prop->value(), "\n" if $self->verbose();
     }
-    $_->name() eq 'chromosome, centromeric region [dependent_on] protein binding (^has_substrate(GeneDB_Spombe:SPCC594.07c)) [requires_feature] regional_centromere_central_core';
+    $_->name() eq 'chromosome, centromeric region [dependent_on] protein binding (^has_substrate(GeneDB_Spombe:SPCC594.07c)) [exists_during] regional_centromere_central_core';
   } @so_ann_ex_go_terms);
 
   my $spbc409_20c_1 = 'SPBC409.20c.1';
@@ -264,7 +274,7 @@ method check
     for my $prop ($_->cvtermprops()) {
       warn '    ', $prop->type()->name(), ' => ', $prop->value(), "\n" if $self->verbose();
     }
-    $_->name() eq 'protein-lysine N-methyltransferase activity [has_downstream_target] SPAC977.10';
+    $_->name() eq 'protein-lysine N-methyltransferase activity [has_regulation_target] SPAC977.10';
   } @ann_ex_go_terms;
 
   {
@@ -286,7 +296,7 @@ method check
     for my $prop ($_->cvtermprops()) {
       warn '    ', $prop->type()->name(), ' => ', $prop->value(), "\n" if $self->verbose();
     }
-    $_->name() eq 'cellular protein localization [localizes] SPAC167.03c';
+    $_->name() eq 'cellular protein localization [has_input] SPAC167.03c';
   } @ann_ex_go_terms);
 
   # check for ISS convert to ISO when with=SGD
