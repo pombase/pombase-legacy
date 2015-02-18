@@ -351,10 +351,18 @@ evidence_types:
   'Affinity Capture-Western': ~
   'Biochemical Activity': ~
   'Chromatography evidence': ~
-  'Co-crystal Structure': ~
-  'Co-fractionation': ~
-  'Co-localization': ~
-  'Co-purification': ~
+  'Co-crystal Structure':
+    name: Co-crystal Structure
+    symmetrical: yes
+  'Co-fractionation':
+    name: Co-fractionation
+    symmetrical: yes
+  'Co-localization':
+    name: Co-localization
+    symmetrical: yes
+  'Co-purification':
+    name: Co-purification
+    symmetrical: yes
   'Dosage Growth Defect': ~
   'Dosage Lethality': ~
   'Dosage Rescue': ~
@@ -362,18 +370,29 @@ evidence_types:
     name: FRET
   'Far Western': ~
   'Microarray RNA expression level data': ~
-  'Negative Genetic': ~
+  'Negative Genetic':
+    name: Negative Genetic
+    symmetrical: yes
   'PCA':
     name: PCA
+    symmetrical: yes
   'Phenotypic Enhancement': ~
   'Phenotypic Suppression': ~
-  'Positive Genetic': ~
+  'Positive Genetic':
+    name: Positive Genetic
+    symmetrical: yes
   'Protein-RNA': ~
   'Protein-peptide': ~
   'Reconstituted Complex': ~
-  'Synthetic Growth Defect': ~
-  'Synthetic Haploinsufficiency': ~
-  'Synthetic Lethality': ~
+  'Synthetic Growth Defect':
+    name: Synthetic Growth Defect
+    symmetrical: yes
+  'Synthetic Haploinsufficiency':
+    name: Synthetic Haploinsufficiency
+    symmetrical: yes
+  'Synthetic Lethality':
+    name: Synthetic Lethality
+    symmetrical: yes
   'Synthetic Rescue': ~
   'Two-hybrid': ~
   'Reporter gene assay': ~
@@ -564,3 +583,137 @@ auto_evidence_assignment:
   resistance to L-azetidine-2-carboxylic acid: Cell growth assay
   resistance to K-252a: Cell growth assay
   normal cell population growth: Cell growth assay
+
+check_chado:
+  'PomBase::Check::FeatureCount':
+    min_count: 10000
+  query_checks:
+    - name: pombe_genes
+      expected: '>= 6980'
+      # if true, show the result set content on failure:
+      verbose_fail: false
+      query: |
+        select * from feature f, cvterm cvt, organism o where
+        f.type_id = cvt.cvterm_id and f.organism_id = o.organism_id and
+        o.common_name = 'pombe' and cvt.name = 'gene'
+    - name: no_duplicate_pombe_gene_names
+      expected: 0
+      # if true, show the result set content on failure:
+      verbose_fail: true
+      query: |
+        select count(feature_id), name from feature where
+        name is not null and type_id = (select cvterm_id from cvterm where cv_id
+        = (select cv_id from cv where name = 'sequence') and name = 'gene') and
+        organism_id = (select organism_id from organism where abbreviation =
+        'Spombe') group by name having count(feature_id) > 1
+    - name: alleles_instance_of_gene
+      description: all alleles should be instance_of gene
+      expected: 0
+      verbose_fail: true
+      query: |
+        SELECT f.uniquename, f.name, pt.name from feature f
+          JOIN feature_relationship r ON r.subject_id = f.feature_id
+          JOIN feature p ON r.object_id = p.feature_id
+          JOIN cvterm rt ON rt.cvterm_id = r.type_id
+          JOIN cvterm pt ON pt.cvterm_id = p.type_id
+          WHERE rt.name = 'instance_of' AND pt.name <> 'gene'
+            AND pt.name <> 'pseudogene'
+    - name: no_population_terms_with_penetrance
+      description: no population term should have a has_penetrance relation
+      expected: 0
+      verbose_fail: true
+      query: |
+        SELECT f.name, f.uniquename, res_fc.cvterm_name, pub.uniquename
+          FROM pombase_feature_cvterm_ext_resolved_terms res_fc
+               JOIN pub on res_fc.pub_id = pub.pub_id
+               JOIN feature f on f.feature_id = res_fc.feature_id
+               JOIN cvtermpath path on path.subject_id = res_fc.base_cvterm_id
+          WHERE object_id in
+            (SELECT cvterm_id
+               FROM cvterm t join cv on t.cv_id = cv.cv_id
+              WHERE t.name = 'cell population phenotype' and cv.name = 'fission_yeast_phenotype')
+            AND pathdistance > 0
+            AND cvterm_id in
+              (SELECT subject_id
+                 FROM cvterm_relationship r
+                      JOIN cvterm type on r.type_id = type.cvterm_id
+                      AND type.name = 'has_penetrance')
+    - name: canto_annotations
+      description: check for annotations from Canto
+      expected: '>= 13000'
+      verbose_fail: false
+      query: |
+        SELECT fc.feature_cvterm_id
+          FROM feature_cvterm fc
+          JOIN feature_cvtermprop p ON p.feature_cvterm_id = fc.feature_cvterm_id
+          JOIN cvterm type ON p.type_id = type.cvterm_id
+         WHERE type.name = 'canto_session'
+    - name: annotation_count
+      description: check that we have enough annotations
+      expected: '>= 168000'
+      verbose_fail: false
+      query: |
+        SELECT fc.feature_cvterm_id
+          FROM feature_cvterm fc
+    - name: quantitative_annotation_qualifiers
+      description: check that all quantitative annotation have a count qualifier
+      expected: 0
+      verbose_fail: false
+      query: |
+        SELECT feature_cvterm_id
+          FROM pombase_feature_cvterm_ext_resolved_terms fc
+          JOIN feature f ON f.feature_id = fc.feature_id
+         WHERE feature_cvterm_id NOT IN
+           (SELECT feature_cvterm_id
+              FROM feature_cvtermprop
+             WHERE type_id IN
+               (SELECT cvterm_id
+                  FROM cvterm
+                 WHERE name = 'quant_gene_ex_avg_copies_per_cell'))
+           AND (base_cvterm_name = 'protein level' OR base_cvterm_name = 'RNA level')
+           AND base_cvterm_name = 'protein level'
+           AND feature_cvterm_id NOT IN
+             (SELECT feature_cvterm_id
+                FROM feature_cvtermprop
+               WHERE type_id IN (SELECT cvterm_id FROM cvterm WHERE name = 'qualifier'))
+    - name: missing_assayed_using
+      description: check that protein binding annotations have two assayed_using extensions
+      expected: 0
+      verbose_fail: true
+      query: |
+        SELECT DISTINCT fc.feature_cvterm_id, f.uniquename || ' <-> ' || cvterm_name,
+                 pub.uniquename,
+                 (SELECT value
+                    FROM feature_cvtermprop p
+                   WHERE p.feature_cvterm_id = fc.feature_cvterm_id
+                     AND p.type_id IN (SELECT cvterm_id FROM cvterm WHERE name = 'canto_session') LIMIT 1) AS session
+          FROM pombase_feature_cvterm_ext_resolved_terms t
+          JOIN feature_cvterm fc ON fc.cvterm_id = t.cvterm_id
+          JOIN feature f ON f.feature_id = fc.feature_id
+          JOIN pub ON fc.pub_id = pub.pub_id
+         WHERE
+           base_cvterm_id IN
+             (SELECT t.cvterm_id
+                FROM cvterm t JOIN dbxref x ON t.dbxref_id = x.dbxref_id
+                              JOIN db ON db.db_id = x.db_id
+               WHERE db.name = 'FYPO'
+                 AND x.accession IN
+                   ('0000702', '0000703', '0000704', '0000705', '0001275', '0001571', '0001645', '0002365', '0003206', '0003207', '0003215'))
+           AND t.cvterm_id IN
+             (SELECT cvterm_id FROM pombase_extension_rels_and_values
+               WHERE rel_name = 'assayed_using' GROUP BY cvterm_id, rel_name HAVING COUNT(value) = 1)
+    - name: no_duplicate_orthologs
+      description: "don't store the same ortholog twice"
+      expected: 0
+      verbose_fail: true
+      query: |
+        SELECT
+          tf.uniquename, ef.uniquename, count(*)
+        FROM
+          feature tf
+          JOIN feature_relationship fr ON (tf.feature_id=fr.object_id)
+          JOIN cvterm frt ON (fr.type_id=frt.cvterm_id)
+          JOIN feature ef ON (fr.subject_id=ef.feature_id)
+        WHERE
+          frt.name='orthologous_to'
+        GROUP BY tf.uniquename, ef.uniquename HAVING COUNT(*)>1
