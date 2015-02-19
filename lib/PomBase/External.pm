@@ -80,7 +80,7 @@ func get_genes($config, $species) {
   SLICE: while (my $slice = shift @{$slices})
   {
     my $slice_identifier = $slice->seq_region_name();
-    my $genes = $slice->get_all_Genes;   # load genes lazily - then they can be dumped later
+    my $genes = $slice->get_all_Genes;
 
     for my $gene (@$genes) {
       my $external_name = $gene->external_name();
@@ -91,7 +91,7 @@ func get_genes($config, $species) {
 
       push @gene_data, {
         primary_identifier => $gene->stable_id(),
-        secondary_identifier => $extenal_name,
+        secondary_identifier => $external_name,
       };
     }
 
