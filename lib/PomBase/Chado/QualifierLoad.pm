@@ -454,15 +454,17 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
                                     residue => delete $sub_qual_map->{residue});
     }
 
+    my $expression = undef;
+
     if (defined $sub_qual_map->{allele} || $cv_name eq 'fission_yeast_phenotype') {
       my $allele = $sub_qual_map->{allele};
 
-      my %args = (gene => $pombe_feature);
+      my %args = ();
 
       if (defined $allele) {
-        if ($allele =~ /^(.+)\((.+)\)$/) {
-          $args{name} = $1;
-          $args{description} = $2;
+        if ($allele =~ /^.+\(.+\)$/) {
+          %args = %{$self->make_allele_data_from_display_name($pombe_feature, $allele,
+                                                              \$expression)};
         } else {
           if ($allele eq 'deletion') {
             my $new_name = ($pombe_feature->name() // $pombe_feature->uniquename()) . 'delta';
@@ -479,6 +481,8 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
         $args{name} = undef;
         $args{description} = 'unrecorded';
       }
+
+      $args{gene} = $pombe_feature;
 
       my $allele_type = delete $sub_qual_map->{allele_type} // $self->allele_type_from_desc($args{description}, $pombe_feature->name());
 
@@ -497,6 +501,10 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
     if (defined $sub_qual_map->{column_17}) {
       $self->add_feature_cvtermprop($featurecvterm,
                                     gene_product_form_id => delete $sub_qual_map->{column_17});
+    }
+
+    if (defined $expression) {
+      $self->add_feature_cvtermprop($featurecvterm, expression => $expression);
     }
 
     my $date = $self->get_and_check_date($sub_qual_map);

@@ -76,7 +76,7 @@ method check
   should ($chadoprop_rs->count(), 1);
 
   my $rel_rs = $chado->resultset('Sequence::FeatureRelationship');
-  should ($rel_rs->count(), 57);
+  should ($rel_rs->count(), 58);
 
   my $relprop_rs = $chado->resultset('Sequence::FeatureRelationshipprop');
   should ($relprop_rs->count(), 9);
@@ -88,7 +88,7 @@ method check
   should ($phase_loc_rs->count(), 9);
 
   my $feature_prop_rs = $chado->resultset('Sequence::Featureprop');
-  should ($feature_prop_rs->count(), 23);
+  should ($feature_prop_rs->count(), 25);
 
   my $feature_dbxref_rs = $chado->resultset('Sequence::FeatureDbxref');
   should ($feature_dbxref_rs->count(), 21);
@@ -119,11 +119,19 @@ method check
 
   my $allele_rs = $chado->resultset('Sequence::Feature')
     ->search({
-      type_id => $gene_cvterm->cvterm_id(),
+      type_id => $allele_cvterm->cvterm_id(),
       organism_id => $pombe->organism_id(),
     }, { order_by => 'uniquename' });
 
-  should ($allele_rs->count(), 10);
+  should ($allele_rs->count(), 3);
+
+  assert (grep {
+    defined $_->name() && $_->name() eq 'sod2+';
+  } $allele_rs->all());
+
+  assert (grep {
+    defined $_->name() && $_->name() eq 'sod2delta';
+  } $allele_rs->all());
 
   my $gene = $gene_rs->search({ uniquename => 'SPAC1556.06' })->next();
 
@@ -156,7 +164,7 @@ method check
   my $coiled_coil_cvterm = $self->get_cvterm('sequence', 'coiled_coil');
 
   my @all_feature_cvterm = $chado->resultset('Sequence::FeatureCvterm')->all();
-  should(scalar(@all_feature_cvterm), 103);
+  should(scalar(@all_feature_cvterm), 104);
 
   my $ext_feature_cvterm_rs =
     $chado->resultset('Sequence::FeatureCvterm')->search({ 'cv.name' => 'PomBase annotation extension terms' },
@@ -200,10 +208,10 @@ method check
   should($ortholog_cvterm_rs->count(), 0);
 
   my @all_props = $chado->resultset('Sequence::FeatureCvtermprop')->all();
-  should(scalar(@all_props), 202);
+  should(scalar(@all_props), 205);
 
   my $feat_rs = $chado->resultset('Sequence::Feature');
-  should ($feat_rs->count(), 74);
+  should ($feat_rs->count(), 75);
 
   for my $feat (sort { $a->uniquename() cmp $b->uniquename() } $feat_rs->all()) {
 #    print $feat->uniquename(), " ", $feat->type()->name(), "\n";
