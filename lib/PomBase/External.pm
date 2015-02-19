@@ -83,9 +83,15 @@ func get_genes($config, $species) {
     my $genes = $slice->get_all_Genes;   # load genes lazily - then they can be dumped later
 
     for my $gene (@$genes) {
+      my $external_name = $gene->external_name();
+
+      if (defined $external_name) {
+        $external_name =~ s/;$//;
+      }
+
       push @gene_data, {
         primary_identifier => $gene->stable_id(),
-        secondary_identifier => $gene->external_name(),
+        secondary_identifier => $extenal_name,
       };
     }
 
