@@ -38,3 +38,7 @@ echo "  ln -s $release_label pombase-chado-latest"
 echo "  ln -s $release_label.dump.gz pombase-chado-latest.dump.gz"
 echo
 echo "and tag release-$version"
+echo
+echo "update make-db with pombase_terms-$version.obo"
+echo
+echo "change load-all command line to $version $date_stamp"
