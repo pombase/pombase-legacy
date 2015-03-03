@@ -1,7 +1,9 @@
 # PomBase Chado load config file  -*- conf -*-
 
-# used for GAF export and for feature_cvterm creation - it's added as an
-# "assigned_by" feature_cvtermprop
+# used for GAF export, for feature_cvterm and feature_relationship
+# creation
+#  - it's added as an "assigned_by" feature_cvtermprop
+#  - source_database prop feature_relationship
 database_name: PomBase
 
 cvs:
