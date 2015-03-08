@@ -99,6 +99,9 @@ cvs:
     - name: curator_email
     - name: canto_session
     - name: interaction_note
+    - name: is_inferred
+      definition: >
+        Set to "yes" for annotation inferred during loading, "no" otherwise.
   cat_act: []
   genome_org: []
   m_f_g: []
