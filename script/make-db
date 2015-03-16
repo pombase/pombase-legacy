@@ -138,7 +138,7 @@ psql $DB -c "CREATE VIEW pombase_extension_rels_and_values AS SELECT t.cvterm_id
  WHERE pt.name LIKE 'annotation_extension_relation-%' AND t.cvterm_id IN
  (SELECT subject_id FROM cvterm_relationship WHERE object_id IN (SELECT
  cvterm_id FROM cvterm WHERE cv_id = (SELECT cv_id FROM cv WHERE name =
- 'fission_yeast_phenotype'))) UNION SELECT rel.subject_id as cvterm_id,
+ 'fission_yeast_phenotype'))) UNION ALL SELECT rel.subject_id as cvterm_id,
  rel_type.name as rel_name, object.name as value from cvterm_relationship rel join cvterm rel_type on
  rel.type_id = rel_type.cvterm_id join cvterm object on rel.object_id = object.cvterm_id
  where rel.subject_id in (select subject_id from
