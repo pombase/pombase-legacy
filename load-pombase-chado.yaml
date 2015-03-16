@@ -703,7 +703,7 @@ check_chado:
                               JOIN db ON db.db_id = x.db_id
                WHERE db.name = 'FYPO'
                  AND x.accession IN
-                   ('0000702', '0000703', '0000704', '0000705', '0001275', '0001571', '0001645', '0002365', '0003206', '0003207', '0003215'))
+                   ('0000702', '0000703', '0000704', '0000705', '0001275', '0001571', '0001645', '0002365', '0003206', '0003207', '0003215', '0004335'))
            AND t.cvterm_id IN
              (SELECT cvterm_id FROM pombase_extension_rels_and_values
                WHERE rel_name = 'assayed_using' GROUP BY cvterm_id, rel_name HAVING COUNT(value) = 1)
