@@ -37,7 +37,9 @@ echo "  rm pombase-chado-latest*"
 echo "  ln -s $release_label pombase-chado-latest"
 echo "  ln -s $release_label.dump.gz pombase-chado-latest.dump.gz"
 echo
-echo "and tag release-$version"
+echo and:
+echo "  (cd ~/git/pombase-chado; git tag -f release-$version; git push --tags)"
+echo "  (cd ~/git/pombase-legacy; git tag -f release-$version; git push --tags)"
 echo
 echo "update make-db with pombase_terms-$version.obo"
 echo
