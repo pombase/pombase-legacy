@@ -128,8 +128,8 @@ extension_restrictions:
       - has_expressivity
       - occurs_in
       - occurs_at
-     - assayed_enzyme
-     - assayed_substrate
+      - assayed_enzyme
+      - assayed_substrate
   biological_process:
     allowed:
       - happens_during
