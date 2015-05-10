@@ -724,3 +724,13 @@ check_chado:
         WHERE
           frt.name='orthologous_to'
         GROUP BY tf.uniquename, ef.uniquename HAVING COUNT(*)>1
+    - name: enough_genetic_interactions
+      expected: '> 100000'
+      query: |
+        SELECT * FROM feature_relationship fr JOIN cvterm frt ON (fr.type_id = frt.cvterm_id)
+          WHERE frt.name = 'interacts_genetically'
+    - name: enough_physical_interactions
+      expected: '> 10000'
+      query: |
+        SELECT * FROM feature_relationship fr JOIN cvterm frt ON (fr.type_id = frt.cvterm_id)
+          WHERE frt.name = 'interacts_physically'
