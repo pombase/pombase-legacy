@@ -72,7 +72,7 @@ then
   make ontologies
 fi
 
-(cd $SOURCES_DIR/phenotype_ontology_for_chado/; up)
+(cd $SOURCES_DIR/pombase_fypo_github/; git pull)
 
 for obo_file in \
     song-svn/so-xp-simple.obo \
@@ -80,8 +80,8 @@ for obo_file in \
     PSI-MOD.obo \
     pombe-embl/mini-ontologies/iao.obo \
     pombe-embl/mini-ontologies/quiescence.obo \
-    phenotype_ontology_for_chado/releases/latest/fypo-simple.obo \
-    phenotype_ontology_for_chado/supplemental_files/fypo_extension_relations.obo \
+    pombase_fypo_github/releases/latest/fypo-simple.obo \
+    pombase_fypo_github/supplemental_files/fypo_extension_relations.obo \
     go-svn/ontology/extensions/gorel.obo \
     phenotype_ontology_for_chado/peco.obo \
     pro_small.obo \
