@@ -28,7 +28,7 @@ gzip -d < $release_label.dump.gz | psql -q $release_label
 
 new_terms_obo=/var/pomcur/sources/pombase/pombase_terms-$version.obo.new
 
-(cd ~/git/pombase-chado/; ./script/pombase-export.pl ./load-pombase-chado.yaml ontology --constraint-type=db_name --constraint-value=PBO localhost pombase-chado-v46-2014-08-30 kmr44 kmr44 ) > $new_terms_obo
+(cd ~/git/pombase-chado/; ./script/pombase-export.pl ./load-pombase-chado.yaml ontology --constraint-type=db_name --constraint-value=PBO localhost $release_label kmr44 kmr44 ) > $new_terms_obo
 
 echo wrote: $new_terms_obo
 
