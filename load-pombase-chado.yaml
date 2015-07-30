@@ -185,6 +185,8 @@ extension_restrictions:
       - in_absence_of
       - in_presence_of
       - occurs_in
+  name_description:
+    allowed: []
 
 # term IDs where duplicate extensions are allowed
 allowed_duplicate_extensions:
