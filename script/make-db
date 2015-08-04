@@ -113,13 +113,13 @@ mkdir -p $CURRENT_BUILD_DIR/ontologies
   svn info $SOURCES_DIR/go-svn > go-svn-info.txt
   cp $SOURCES_DIR/go-svn/ontology/go-basic.obo .
 
-  svn info $SOURCES_DIR/phenotype_ontology_for_chado > fypo-svn-info.txt
-  cp $SOURCES_DIR/phenotype_ontology_for_chado/release/fypo-simple.obo .
+  (cd $SOURCES_DIR/pombase_fypo_github; git describe) > fypo-git-info.txt
+  cp $SOURCES_DIR/pombase_fypo_github/release/fypo-simple.obo .
 )
 
 date
 echo populate cvtermpath using owltools
-$OWLTOOLS_CHADO_CLOSURE $HOST $DB $USER $PASSWORD $SOURCES_DIR/go-svn/ontology/go-basic.obo $SOURCES_DIR/phenotype_ontology_for_chado/release/fypo-simple.obo
+$OWLTOOLS_CHADO_CLOSURE $HOST $DB $USER $PASSWORD $SOURCES_DIR/go-svn/ontology/go-basic.obo $SOURCES_DIR/pombase_fypo_github/release/fypo-simple.obo
 date; echo finished
 
 # prevent duplicate feature uniquenames
