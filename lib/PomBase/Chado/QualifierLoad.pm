@@ -334,6 +334,10 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
     if (grep { $_ eq $cv_name } ('biological_process', 'molecular_function',
                                   'cellular_component')) {
       if ($evidence_code eq 'ISS') {
+        if (!@withs) {
+          die qq(ISS must have a "with="\n);
+        }
+
         if (grep { /^SGD:/ } @withs) {
           warn "    changing ISS to ISO for @withs\n" if $self->verbose();
           $evidence_code = 'ISO';
@@ -346,8 +350,6 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
             $evidence_code = 'ISM';
           }
         }
-      } else {
-
       }
     } else {
       warn "found evidence for $embl_term_name in $cv_name\n" unless $self->quiet();
