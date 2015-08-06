@@ -88,7 +88,7 @@ method check
   should ($phase_loc_rs->count(), 9);
 
   my $feature_prop_rs = $chado->resultset('Sequence::Featureprop');
-  should ($feature_prop_rs->count(), 25);
+  should ($feature_prop_rs->count(), 24);
 
   my $feature_dbxref_rs = $chado->resultset('Sequence::FeatureDbxref');
   should ($feature_dbxref_rs->count(), 21);
