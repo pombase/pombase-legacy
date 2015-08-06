@@ -311,6 +311,10 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
 
   if ($self->is_go_cv_name($cv_name) || $cv_name eq 'fission_yeast_phenotype') {
     if (defined $sub_qual_map->{with}) {
+      if ($sub_qual_map->{with}->length() == 0) {
+        die qq("with=" has no value after the "="\n);
+      }
+
       @withs = split /\|/, delete $sub_qual_map->{with};
     }
   }
