@@ -499,9 +499,9 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
       }
       $args{allele_type} = $allele_type;
 
-      my $allele_feature = $self->get_allele(\%args);
+      my $genotype_feature = $self->get_genotype_for_allele(\%args);
 
-      $featurecvterm->feature($allele_feature);
+      $featurecvterm->feature($genotype_feature);
       $featurecvterm->update();
     }
 
