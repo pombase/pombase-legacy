@@ -499,7 +499,7 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
       }
       $args{allele_type} = $allele_type;
 
-      my $genotype_feature = $self->get_genotype_for_allele(\%args);
+      my $genotype_feature = $self->get_genotype_for_allele(\%args, $expression);
 
       $featurecvterm->feature($genotype_feature);
       $featurecvterm->update();
@@ -508,10 +508,6 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
     if (defined $sub_qual_map->{column_17}) {
       $self->add_feature_cvtermprop($featurecvterm,
                                     gene_product_form_id => delete $sub_qual_map->{column_17});
-    }
-
-    if (defined $expression) {
-      $self->add_feature_cvtermprop($featurecvterm, expression => $expression);
     }
 
     my $date = $self->get_and_check_date($sub_qual_map);
