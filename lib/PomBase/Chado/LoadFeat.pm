@@ -358,10 +358,10 @@ my %colour_map = (
   2 => 'published',
   4 => 'transposon',
   6 => 'dubious',
-  7 => 'biological_role_inferred',
-  8 => 'Schizosaccharomyces_pombe_specific_family',
-  10 => 'conserved_unknown',
-  12 => 'Schizosaccharomyces_specific_family',
+  7 => 'biological role inferred',
+  8 => 'Schizosaccharomyces pombe specific family',
+  10 => 'conserved unknown',
+  12 => 'Schizosaccharomyces specific family',
   13 => 'pseudogene',
 );
 
