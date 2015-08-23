@@ -359,9 +359,9 @@ my %colour_map = (
   4 => 'transposon',
   6 => 'dubious',
   7 => 'biological role inferred',
-  8 => 'Schizosaccharomyces pombe specific family',
+  8 => 'Schizosaccharomyces pombe specific protein, uncharacterized',
   10 => 'conserved unknown',
-  12 => 'Schizosaccharomyces specific family',
+  12 => 'Schizosaccharomyces specific protein, uncharacterized',
   13 => 'pseudogene',
 );
 
