@@ -69,12 +69,12 @@ cvs:
         term,  equivalent to, or more specific than the terms in the "GO slim"
         http://www.sanger.ac.uk/Projects/S_pombe/GO_slim.html based on
         experimental data from any organism
-    - name: Schizosaccharomyces pombe specific family
+    - name: Schizosaccharomyces pombe specific protein, uncharacterized
       definition: >
         A gene product which is not conserved outside the Schizosacchaomyces clade
         and where nothing is published about, or can be inferred from homology
         about the biological role
-    - name: Schizosaccharomyces specific family
+    - name: Schizosaccharomyces specific protein, uncharacterized
       definition: >
         A gene product which is not conserved outside the Schizosacchaomyces clade
         and where nothing is published about, or can be inferred from homology
