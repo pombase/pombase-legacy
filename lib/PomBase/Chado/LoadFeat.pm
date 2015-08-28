@@ -628,8 +628,10 @@ method store_transcript_parts($bioperl_cds, $chromosome,
   my @exons = $self->store_feature_parts($uniquename, $bioperl_cds,
                                          $chromosome, $exon_so_type);
 
-  for my $exon (@exons) {
-    $self->store_feature_rel($exon, $chado_transcript, 'part_of');
+  for (my $i = 0; $i < @exons; $i++) {
+    my $exon = $exons[$i];
+    my $rank = $i + 1;
+    $self->store_feature_rel($exon, $chado_transcript, 'part_of', 0, $rank);
   }
 
   for my $utr_data (@$utrs_5_prime) {

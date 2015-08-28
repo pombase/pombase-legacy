@@ -42,7 +42,14 @@ method coords_of_feature($feature)
 {
   carp "undefined feature passed to coords_of_feature()" unless $feature;
   my $loc = $feature->location();
-  return map { [$_->start(), $_->end()]; } $loc->each_Location();
+
+  my @coords = map { [$_->start(), $_->end()]; } $loc->each_Location();
+
+  if ($loc->strand() == -1) {
+    @coords = reverse @coords;
+  }
+
+  return @coords;
 }
 
 1;
