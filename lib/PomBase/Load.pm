@@ -180,7 +180,6 @@ func _load_cvterms($chado, $config, $test_mode)
         my $accession = $config->{id_counter}->get_dbxref_id($db_name);
         my $formatted_accession = sprintf "%07d", $accession;
 
-        warn "creating $formatted_accession in $db_name, $cv_name / $cvterm_name\n" unless $test_mode;
         my $dbxref =
           $chado->resultset('General::Dbxref')->find_or_create({
             db_id => $db->db_id(),
