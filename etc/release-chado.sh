@@ -16,7 +16,19 @@ then
 fi
 
 echo copying to the new release directory
-cp -r ../builds/$1 $release_label
+cp -r ../builds/$build_label $release_label
+
+(cd $release_label
+ mkdir build
+ for f in $build_label.{gaf.gz,human-orthologs.txt.gz,phaf.gz}
+ do
+   mv $f build/
+   dest=$(echo $f | sed "s/$build_label/$release_label/")
+   ln -s ../build/$f exports/pombase-release-$dest
+ done
+ mv $build_label.dump.gz build/
+ ln -s build/$build_label.dump.gz pombase-release-$release_label.chado_dump.gz
+)
 
 ln -s $release_label/$build_label.dump.gz $release_label.dump.gz
 
