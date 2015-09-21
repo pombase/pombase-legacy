@@ -277,6 +277,18 @@ psql $FINAL_DB -c "select t.name, db.name || ':' || x.accession as termid, array
 ) > $CURRENT_BUILD_DIR/logs/$log_file.protein_family_term_annotation
 
 (
+echo 'Alleles with type "other"'
+psql $FINAL_DB -F ',' -A -c "select f.name, f.uniquename, (select value from featureprop p where
+p.feature_id = f.feature_id and p.type_id in (select cvterm_id from cvterm
+where name = 'description')) as description, (select value from featureprop p where
+p.feature_id = f.feature_id and p.type_id in (select cvterm_id from cvterm
+where name = 'canto_session')) as session from feature f where type_id in (select
+cvterm_id from cvterm where name = 'allele') and feature_id in (select
+feature_id from featureprop p where p.type_id in (select cvterm_id from cvterm
+where name = 'allele_type') and p.value = 'other');"
+) > $CURRENT_BUILD_DIR/logs/$log_file.alleles_of_type_other
+
+(
 echo counts of all annotation by type:
 psql $FINAL_DB -c "select count(distinct fc_id), cv_name from (select distinct
 fc.feature_cvterm_id as fc_id, cv.name as cv_name from cvterm t,
