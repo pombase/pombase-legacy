@@ -1,15 +1,6 @@
 #!/bin/sh -
 
-# A script to make a Chado db from scratch using GMOD tools.  Must be
-# run in the gmod-schema/chado directory.
-
-FAST=''
-
-if [ $1 = '-f' ]
-then
-  shift
-  FAST=fast
-fi
+# A script to make a PomBase Chado db from scratch
 
 if [ ! $# = 4 ]
 then
@@ -18,14 +9,6 @@ then
 fi
 
 export PERL5LIB=lib
-
-replace() {
-  var=$1
-  new_val=$2
-  file=$3
-  perl -pne "s/$var=.*/$var=$new_val/" $file > $file.new
-  mv $file.new $file
-}
 
 DB_NAME_SUFFIX=$1
 HOST=$2
@@ -36,25 +19,16 @@ DB=pombase-chado-base-$DB_NAME_SUFFIX
 
 echo "building database: $DB on $HOST"
 
-replace CHADO_DB_NAME $DB $HOME/.gmod_profile
-replace CHADO_DB_HOST $HOST $HOME/.gmod_profile
-replace CHADO_DB_USER $USER $HOME/.gmod_profile
-replace CHADO_DB_PASS $PASSWORD $HOME/.gmod_profile
+createdb $DB
 
-replace DBNAME $DB build.conf
-replace DBHOSE $HOST build.conf
-replace DBUSER $USER build.conf
-replace DBPASS $PASSWORD build.conf
+echo Loading template
+psql $DB < pombase-chado-base.dump
 
 SOURCES_DIR=/var/pomcur/sources
 
-#dropdb $DB; createdb $DB || exit 1
-
 rm --verbose -rf tmp
 
-
 (cd $SOURCES_DIR/pombe-embl/; svn update || exit 1)
-
 
 echo update SO from SVN
 (cd $SOURCES_DIR/song-svn; svn update)
@@ -62,19 +36,12 @@ echo update GO from CVS
 (cd $SOURCES_DIR/go; cvs up)
 echo update GO from SVN
 (cd $SOURCES_DIR/go-svn; svn --ignore-externals update)
-
-if [ x$FAST = x'' ]
-then
-  perl Makefile.PL
-  make
-  make load_schema
-  make prepdb
-  make ontologies
-fi
-
+echo update FYPO from GitHub
 (cd $SOURCES_DIR/pombase_fypo_github/; git pull)
 
 for obo_file in \
+    relationship/ro.obo \
+    gmod-schema-latest/chado/load/etc/feature_property.obo \
     song-svn/so-xp-simple.obo \
     go-svn/ontology/go-basic.obo \
     PSI-MOD.obo \
