@@ -787,50 +787,6 @@ $_$;
 ALTER FUNCTION public._get_all_subject_ids(integer) OWNER TO kmr44;
 
 --
--- Name: boxquery(integer, integer); Type: FUNCTION; Schema: public; Owner: kmr44
---
-
-CREATE FUNCTION boxquery(integer, integer) RETURNS box
-    LANGUAGE sql IMMUTABLE
-    AS $_$SELECT box (create_point($1, $2), create_point($1, $2))$_$;
-
-
-ALTER FUNCTION public.boxquery(integer, integer) OWNER TO kmr44;
-
---
--- Name: boxquery(integer, integer, integer); Type: FUNCTION; Schema: public; Owner: kmr44
---
-
-CREATE FUNCTION boxquery(integer, integer, integer) RETURNS box
-    LANGUAGE sql IMMUTABLE
-    AS $_$SELECT box (create_point($1, $2), create_point($1, $3))$_$;
-
-
-ALTER FUNCTION public.boxquery(integer, integer, integer) OWNER TO kmr44;
-
---
--- Name: boxrange(integer, integer); Type: FUNCTION; Schema: public; Owner: kmr44
---
-
-CREATE FUNCTION boxrange(integer, integer) RETURNS box
-    LANGUAGE sql IMMUTABLE
-    AS $_$SELECT box (create_point(0, $1), create_point($2,500000000))$_$;
-
-
-ALTER FUNCTION public.boxrange(integer, integer) OWNER TO kmr44;
-
---
--- Name: boxrange(integer, integer, integer); Type: FUNCTION; Schema: public; Owner: kmr44
---
-
-CREATE FUNCTION boxrange(integer, integer, integer) RETURNS box
-    LANGUAGE sql IMMUTABLE
-    AS $_$SELECT box (create_point($1, $2), create_point($1,$3))$_$;
-
-
-ALTER FUNCTION public.boxrange(integer, integer, integer) OWNER TO kmr44;
-
---
 -- Name: complement_residues(text); Type: FUNCTION; Schema: public; Owner: kmr44
 --
 
@@ -39003,13 +38959,6 @@ ALTER TABLE ONLY sequence_cv_lookup_table
 SET search_path = frange, pg_catalog;
 
 --
--- Name: bingroup_boxrange; Type: INDEX; Schema: frange; Owner: kmr44; Tablespace: 
---
-
-CREATE INDEX bingroup_boxrange ON featuregroup USING gist (public.boxrange(fmin, fmax)) WHERE (is_root = 1);
-
-
---
 -- Name: featuregroup_idx1; Type: INDEX; Schema: frange; Owner: kmr44; Tablespace: 
 --
 
@@ -39270,20 +39219,6 @@ CREATE INDEX assayprop_idx1 ON assayprop USING btree (assay_id);
 --
 
 CREATE INDEX assayprop_idx2 ON assayprop USING btree (type_id);
-
-
---
--- Name: binloc_boxrange; Type: INDEX; Schema: public; Owner: kmr44; Tablespace: 
---
-
-CREATE INDEX binloc_boxrange ON featureloc USING gist (boxrange(fmin, fmax));
-
-
---
--- Name: binloc_boxrange_src; Type: INDEX; Schema: public; Owner: kmr44; Tablespace: 
---
-
-CREATE INDEX binloc_boxrange_src ON featureloc USING gist (boxrange(srcfeature_id, fmin, fmax));
 
 
 --
