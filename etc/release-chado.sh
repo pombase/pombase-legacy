@@ -27,7 +27,7 @@ cp -r ../builds/$build_label $release_label
    ln -s ../build/$f exports/pombase-release-$dest
  done
  mv $build_label.dump.gz build/
- ln -s build/$build_label.dump.gz pombase-release-$release_label.chado_dump.gz
+ ln -s build/$build_label.dump.gz $release_label.dump.gz
 )
 
 ln -s $release_label/$build_label.dump.gz $release_label.dump.gz
