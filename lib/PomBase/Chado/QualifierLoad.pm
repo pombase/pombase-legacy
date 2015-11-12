@@ -316,6 +316,12 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
       }
 
       @withs = split /\|/, delete $sub_qual_map->{with};
+
+      map {
+        if (!/^\w+:[\w\d\.]+$/) {
+          die qq(with value "$_" should be in the form "DB:ACCESSION"\n);
+        }
+      } @withs;
     }
   }
 
