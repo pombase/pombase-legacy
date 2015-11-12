@@ -24,7 +24,7 @@ cp -r ../builds/$build_label $release_label
  do
    mv $f build/
    dest=$(echo $f | sed "s/$build_label/$release_label/")
-   ln -s ../build/$f exports/pombase-release-$dest
+   ln -s ../build/$f exports/$dest
  done
  mv $build_label.dump.gz build/
  ln -s build/$build_label.dump.gz $release_label.dump.gz
