@@ -30,7 +30,7 @@ cp -r ../builds/$build_label $release_label
  ln -s build/$build_label.dump.gz $release_label.dump.gz
 )
 
-ln -s $release_label/$build_label.dump.gz $release_label.dump.gz
+ln -s $release_label/$release_label.dump.gz .
 
 echo "creating DB for $release_label"
 dropdb $release_label
