@@ -1,4 +1,4 @@
-#!/bin/sh -
+#!/bin/bash -
 
 build_label=$1
 version=$2
