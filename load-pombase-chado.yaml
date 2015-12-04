@@ -140,9 +140,6 @@ extension_restrictions:
       - occurs_in
       - has_regulation_target
       - part_of
-      - in_presence_of
-      - dependent_on
-      - independent_of
       - not_happens_during
   molecular_function:
     allowed:
@@ -156,16 +153,12 @@ extension_restrictions:
       - activated_by
       - inhibited_by
       - part_of
-      - dependent_on
-      - independent_of
       - not_happens_during
   cellular_component:
     allowed:
       - exists_during
       - part_of
       - coincident_with
-      - dependent_on
-      - independent_of
       - not_exists_during
   'PSI-MOD':
     allowed:
