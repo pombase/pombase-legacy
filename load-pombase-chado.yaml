@@ -459,6 +459,8 @@ evidence_types:
     name: mass spectrometry evidence
   'ECO:0000059':
     name: experimental phenotypic evidence
+ 'ECO:0000333':
+    name: sodium dodecyl sulfate polyacrylamide gel electrophoresis evidence
 
 
 suppressible_evidence_codes:
