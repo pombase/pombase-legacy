@@ -224,6 +224,7 @@ $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml go-substrates 
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml interactions --since-date=$PREV_DATE --organism-taxon-id=4896 $HOST $FINAL_DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/exports/pombase-interactions-since-$PREV_VERSION-$PREV_DATE.gz
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml orthologs --organism-taxon-id=4896 --other-organism-taxon-id=9606 $HOST $FINAL_DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$FINAL_DB.human-orthologs.txt.gz
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml phaf --organism-taxon-id=4896 $HOST $FINAL_DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$FINAL_DB.phaf.gz
+$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml modifications --organism-taxon-id=4896 $HOST $FINAL_DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/exports/$FINAL_DB.modifications.gz
 ) > $LOG_DIR/$log_file.export_warnings 2>&1
 
 gzip -d < $CURRENT_BUILD_DIR/$FINAL_DB.gaf.gz | /var/pomcur/sources/go-svn/software/utilities/filter-gene-association.pl -e > $LOG_DIR/$log_file.gaf-check
