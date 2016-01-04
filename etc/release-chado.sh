@@ -20,7 +20,7 @@ cp -r ../builds/$build_label $release_label
 
 (cd $release_label
  mkdir build
- for f in $build_label.{gaf.gz,human-orthologs.txt.gz,phaf.gz}
+ for f in $build_label.{gaf.gz,human-orthologs.txt.gz,phaf.gz,modifications.gz}
  do
    mv $f build/
    dest=$(echo $f | sed "s/$build_label/$release_label/")
