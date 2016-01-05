@@ -111,7 +111,7 @@ method get_and_check_date($sub_qual_map) {
   my $date = delete $sub_qual_map->{date};
 
   if (defined $date) {
-    if ($date =~ /(\d\d\d\d)(\d\d)(\d\d)/) {
+    if ($date =~ /(\d\d\d\d)-?(\d\d)-?(\d\d)/) {
       if ($1 > $current_year) {
         warn "date is in the future: $date\n" unless $self->quiet();
       } else {
@@ -122,6 +122,7 @@ method get_and_check_date($sub_qual_map) {
           warn "day ($3) not in range 1..31\n" unless $self->quiet();
         }
       }
+      $date = "$1-$2-$3"
       return $date;
     } else {
       warn "  unknown date format: $date\n" unless $self->quiet();
