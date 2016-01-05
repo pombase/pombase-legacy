@@ -122,7 +122,7 @@ method get_and_check_date($sub_qual_map) {
           warn "day ($3) not in range 1..31\n" unless $self->quiet();
         }
       }
-      $date = "$1-$2-$3"
+      $date = "$1-$2-$3";
       return $date;
     } else {
       warn "  unknown date format: $date\n" unless $self->quiet();
