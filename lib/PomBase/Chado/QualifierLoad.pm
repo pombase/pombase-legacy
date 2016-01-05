@@ -316,7 +316,7 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
         die qq("with=" has no value after the "="\n);
       }
 
-      @withs = split /\|/, delete $sub_qual_map->{with};
+      @withs = split /,/, delete $sub_qual_map->{with};
 
       map {
         if (!/^\w+:[\w\d\.]+$/) {
@@ -430,7 +430,7 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
       $evidence_code = $new_evidence_code;
 
       if (defined $sub_qual_map->{from}) {
-        my @froms = split /\|/, delete $sub_qual_map->{from};
+        my @froms = split /,/, delete $sub_qual_map->{from};
         for (my $i = 0; $i < @froms; $i++) {
           my $from = $froms[$i];
           $self->add_feature_cvtermprop($featurecvterm, from => $from, $i);
