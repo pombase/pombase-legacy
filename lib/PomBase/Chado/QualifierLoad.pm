@@ -111,6 +111,8 @@ method get_and_check_date($sub_qual_map) {
   my $date = delete $sub_qual_map->{date};
 
   if (defined $date) {
+    return undef if $date eq '19700101' or $date eq '1970-01-01';
+
     if ($date =~ /(\d\d\d\d)-?(\d\d)-?(\d\d)/) {
       if ($1 > $current_year) {
         warn "date is in the future: $date\n" unless $self->quiet();
