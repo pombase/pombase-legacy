@@ -29,6 +29,7 @@ my $builder = Module::Build->new(
       'YAML::Any'             => 0,
       'DBIx::DBStag'          => 0,
       'DBIx::DBSchema'        => 0,
+      'LWP::UserAgent'        => 0,
     },
     build_requires => {
         'Test::More' => 0,
