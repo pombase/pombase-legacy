@@ -39,6 +39,9 @@ under the same terms as Perl itself.
 use perl5i::2;
 use Moose;
 
+use LWP::UserAgent;
+use HTTP::Request;
+
 with 'PomBase::Role::ConfigUser';
 with 'PomBase::Role::ChadoUser';
 with 'PomBase::Role::XrefStorer';
