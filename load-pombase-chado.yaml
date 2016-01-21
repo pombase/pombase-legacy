@@ -182,6 +182,9 @@ extension_restrictions:
       - occurs_in
   name_description:
     allowed: []
+  subunit_composition:
+    allowed:
+      - occurs_at
 
 # term IDs where duplicate extensions are allowed
 allowed_duplicate_extensions:
