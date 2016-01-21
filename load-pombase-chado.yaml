@@ -185,6 +185,8 @@ extension_restrictions:
   subunit_composition:
     allowed:
       - occurs_at
+      - located_in
+
 
 # term IDs where duplicate extensions are allowed
 allowed_duplicate_extensions:
