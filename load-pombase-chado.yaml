@@ -600,7 +600,7 @@ check_chado:
     min_count: 10000
   query_checks:
     - name: pombe_genes
-      expected: '>= 6980'
+      expected: '>= 6960'
       # if true, show the result set content on failure:
       verbose_fail: false
       query: |
