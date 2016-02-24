@@ -112,6 +112,65 @@ psql -q $DB -c "CREATE VIEW pombase_extension_rels_and_values AS SELECT t.cvterm
  cv_id = (select cv_id from cv where name = 'fission_yeast_phenotype'))) and
  rel_type.cv_id = (select cv_id from cv where name = 'fypo_extension_relations');"
 
+# create a view of annotateed 
+psql -q $DB -c "CREATE VIEW annotated_gene_feature_per_publications AS
+WITH gene_pubs AS
+  (SELECT gene.uniquename AS gene_uniquename,
+          pub.uniquename AS pmid
+   FROM feature gene
+   JOIN cvterm gene_type on gene_type.cvterm_id = gene.type_id
+   JOIN feature_relationship r ON r.object_id = gene.feature_id
+   JOIN cvterm t ON r.type_id = t.cvterm_id
+   JOIN feature mrna ON mrna.feature_id = subject_id
+   JOIN cvterm mrna_type on mrna_type.cvterm_id = mrna.type_id
+   JOIN feature_cvterm fc ON mrna.feature_id = fc.feature_id
+   JOIN pub ON fc.pub_id = pub.pub_id
+   WHERE t.name = 'part_of' and gene_type.name = 'gene' and mrna_type.name = 'mRNA'
+   UNION SELECT gene.uniquename AS gene_uniquename,
+   pub.uniquename AS pmid
+   FROM feature gene
+   JOIN cvterm gene_type on gene_type.cvterm_id = gene.type_id
+   JOIN feature_relationship allele_gene_rel ON allele_gene_rel.object_id = gene.feature_id
+   JOIN feature allele ON allele.feature_id = allele_gene_rel.subject_id
+   JOIN cvterm allele_gene_rel_type ON allele_gene_rel.type_id = allele_gene_rel_type.cvterm_id
+   JOIN feature_relationship allele_genotype_rel ON allele_genotype_rel.subject_id = allele.feature_id
+   JOIN feature genotype ON allele_genotype_rel.object_id = genotype.feature_id
+   JOIN cvterm allele_genotype_rel_type ON allele_genotype_rel.type_id = allele_genotype_rel_type.cvterm_id
+   JOIN feature_cvterm fc ON genotype.feature_id = fc.feature_id
+   JOIN pub ON fc.pub_id = pub.pub_id
+   WHERE allele_gene_rel_type.name = 'instance_of'
+   AND allele_genotype_rel_type.name = 'part_of'and gene_type.name = 'gene' 
+   UNION SELECT sub.uniquename AS gene_uniquename,
+   pub.uniquename AS pmid
+   FROM feature_relationship r
+   JOIN cvterm rel_type on r.type_id = rel_type.cvterm_id
+   JOIN feature sub ON r.subject_id = sub.feature_id
+   JOIN cvterm ft ON sub.type_id = ft.cvterm_id
+   JOIN feature_relationship_pub frp ON frp.feature_relationship_id = r.feature_relationship_id
+   JOIN pub ON frp.pub_id = pub.pub_id
+   WHERE ft.name = 'gene' and (rel_type.name = 'interacts_genetically' OR rel_type.name = 'interacts_physically')
+   UNION SELECT obj.uniquename AS gene_uniquename,
+   pub.uniquename AS pmid
+   FROM feature_relationship r
+   JOIN cvterm rel_type on r.type_id = rel_type.cvterm_id
+   JOIN feature obj ON r.object_id = obj.feature_id
+   JOIN cvterm ft ON obj.type_id = ft.cvterm_id
+   JOIN feature_relationship_pub frp ON frp.feature_relationship_id = r.feature_relationship_id
+   JOIN pub ON frp.pub_id = pub.pub_id
+   WHERE ft.name = 'gene' and (rel_type.name = 'interacts_genetically' OR rel_type.name = 'interacts_physically')),
+genes_per_pub as
+(SELECT count(gene_uniquename), pmid
+FROM gene_pubs
+WHERE gene_uniquename IN
+    (SELECT uniquename
+     FROM feature
+     WHERE organism_id IN
+         (SELECT organism_id
+          FROM organism
+          WHERE common_name = 'pombe'))
+group by pmid) SELECT * FROM gene_pubs;"
+
+
 echo make copies
 
 for i in `seq 1 3`
