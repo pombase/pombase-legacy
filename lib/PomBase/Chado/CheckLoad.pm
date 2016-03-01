@@ -76,10 +76,10 @@ method check
   should ($chadoprop_rs->count(), 1);
 
   my $rel_rs = $chado->resultset('Sequence::FeatureRelationship');
-  should ($rel_rs->count(), 63);
+  should ($rel_rs->count(), 61);
 
   my $relprop_rs = $chado->resultset('Sequence::FeatureRelationshipprop');
-  should ($relprop_rs->count(), 10);
+  should ($relprop_rs->count(), 5);
 
   my $loc_rs = $chado->resultset('Sequence::Featureloc');
   should ($loc_rs->count(), 65);
@@ -88,7 +88,7 @@ method check
   should ($phase_loc_rs->count(), 9);
 
   my $feature_prop_rs = $chado->resultset('Sequence::Featureprop');
-  should ($feature_prop_rs->count(), 24);
+  should ($feature_prop_rs->count(), 23);
 
   my $feature_dbxref_rs = $chado->resultset('Sequence::FeatureDbxref');
   should ($feature_dbxref_rs->count(), 21);
@@ -123,7 +123,7 @@ method check
       organism_id => $pombe->organism_id(),
     }, { order_by => 'uniquename' });
 
-  should ($allele_rs->count(), 3);
+  should ($allele_rs->count(), 2);
 
   assert (grep {
     defined $_->name() && $_->name() eq 'sod2+';
