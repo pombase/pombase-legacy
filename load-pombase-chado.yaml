@@ -211,6 +211,7 @@ extension_relation_cv_names:
   - fypo_extension_relations
   - PSI-MOD_extension_relations
   - external
+  - fission_yeast_phenotype
 
 extension_relation_transform:
   cellular_component:
