@@ -113,7 +113,7 @@ psql -q $DB -c "CREATE VIEW pombase_extension_rels_and_values AS SELECT t.cvterm
  rel_type.cv_id = (select cv_id from cv where name = 'fypo_extension_relations');"
 
 # create a view of annotateed 
-psql -q $DB -c "CREATE VIEW annotated_gene_feature_per_publications AS
+psql -q $DB -c "CREATE VIEW pombase_annotated_gene_feature_per_publications AS
 WITH gene_pubs AS
   (SELECT gene.uniquename AS gene_uniquename,
           pub.uniquename AS pmid
