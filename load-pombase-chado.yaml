@@ -745,3 +745,11 @@ check_chado:
       query: |
         SELECT * FROM feature_relationship fr JOIN cvterm frt ON (fr.type_id = frt.cvterm_id)
           WHERE frt.name = 'interacts_physically'
+    - name: only_ascii_characters_in_feature_name
+      description: Check for non-ascii characters in feature names
+      expected: 0
+      verbose_fail: true
+      query: |
+        SELECT uniquename, name FROM feature
+          WHERE length(name) <> length(regexp_replace(name, '[^\x01-x7f]', '', 'g'))
+
