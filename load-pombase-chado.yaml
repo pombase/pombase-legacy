@@ -184,7 +184,6 @@ extension_restrictions:
     allowed: []
   subunit_composition:
     allowed:
-      - occurs_at
       - located_in
 
 
