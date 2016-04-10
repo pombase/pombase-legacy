@@ -613,7 +613,7 @@ check_chado:
       verbose_fail: false
       query: |
         select * from cvterm_relationship
-        where type_id in (select cvterm_id from cvterm where name = 'is_a');
+        where type_id in (select cvterm_id from cvterm where name = 'is_a')
     - name: no_duplicate_pombe_gene_names
       expected: 0
       # if true, show the result set content on failure:
