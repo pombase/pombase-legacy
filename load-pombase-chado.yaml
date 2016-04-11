@@ -750,5 +750,5 @@ check_chado:
       verbose_fail: true
       query: |
         SELECT uniquename, name FROM feature
-          WHERE length(name) <> length(regexp_replace(name, '[^\x01-x7f]', '', 'g'))
+          WHERE length(name) <> length(regexp_replace(name, '[^\x01-\x7f]', '', 'g'))
 
