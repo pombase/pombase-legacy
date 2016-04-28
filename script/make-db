@@ -169,6 +169,32 @@ WHERE gene_uniquename IN
           WHERE common_name = 'pombe'))
 group by pmid) SELECT * FROM gene_pubs;"
 
+psql -q $DB -c "CREATE VIEW pombase_genotypes_alleles_genes_mrna AS
+SELECT genotype.uniquename genotype_uniquename, genotype.feature_id as genotype_feature_id,
+ allele.uniquename as allele_uniquename, allele.name as allele_name,
+ allele.feature_id as allele_feature_id,
+ gene.feature_id as gene_feature_id,
+ gene.uniquename as gene_uniquename, gene.name as gene_name,
+ mrna.feature_id as mrna_feature_id, mrna.uniquename as mrna_uniquename
+FROM feature genotype
+JOIN cvterm genotype_type on genotype.type_id = genotype_type.cvterm_id
+JOIN feature_relationship genotype_allele_rel ON genotype_allele_rel.object_id = genotype.feature_id
+JOIN cvterm genotype_allele_rel_type ON genotype_allele_rel_type.cvterm_id = genotype_allele_rel.type_id
+JOIN feature allele ON genotype_allele_rel.subject_id = allele.feature_id
+JOIN cvterm allele_type on allele.type_id = allele_type.cvterm_id
+JOIN feature_relationship gene_genotype_rel on allele.feature_id = gene_genotype_rel.subject_id
+JOIN feature gene on gene.feature_id = gene_genotype_rel.object_id
+JOIN cvterm gene_type on gene.type_id = gene_type.cvterm_id
+JOIN cvterm gene_genotype_rel_type on gene_genotype_rel.type_id = gene_genotype_rel_type.cvterm_id
+JOIN feature_relationship gene_mrna_rel on gene.feature_id = gene_mrna_rel.object_id
+JOIN cvterm gene_mrna_rel_type on gene_mrna_rel.type_id = gene_mrna_rel_type.cvterm_id
+JOIN feature mrna on gene_mrna_rel.subject_id = mrna.feature_id
+WHERE genotype_allele_rel_type.name = 'part_of'
+  AND gene_genotype_rel_type.name = 'instance_of'
+  AND gene_mrna_rel_type.name = 'part_of'
+  AND genotype_type.name = 'genotype'
+  AND allele_type.name = 'allele'
+  AND gene_type.name = 'gene';"
 
 echo make copies
 
