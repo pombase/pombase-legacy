@@ -73,9 +73,9 @@ SELECT feature_cvterm_id, f.uniquename, f.name AS feature_name,
             ON assigned_by_term.cvterm_id = fcp.type_id
          WHERE fcp.feature_cvterm_id = fc.feature_cvterm_id AND
                assigned_by_term.name = 'assigned_by') AS assigned_by
-  FROM feature_cvterm fc
+  FROM pombase_feature_cvterm_ext_resolved_terms fc
   JOIN feature f ON fc.feature_id = f.feature_id
-  JOIN cvterm t ON fc.cvterm_id = t.cvterm_id
+  JOIN cvterm t ON fc.base_cvterm_id = t.cvterm_id
   JOIN dbxref x ON x.dbxref_id = t.dbxref_id
   JOIN db ON x.db_id = db.db_id
   JOIN temp_terms_subset subset
