@@ -749,6 +749,12 @@ check_chado:
       expected: 0
       verbose_fail: true
       query: |
-        SELECT uniquename, name FROM feature
-          WHERE length(name) <> length(regexp_replace(name, '[^\x01-\x7f]', '', 'g'))
-
+        SELECT uniquename,
+               name,
+          (SELECT value
+           FROM featureprop p
+           JOIN cvterm pt ON pt.cvterm_id = p.type_id
+           WHERE p.feature_id = f.feature_id
+             AND pt.name = 'canto_session') AS session
+        FROM feature f
+        WHERE length(name) <> length(regexp_replace(name, '[^\x01-\x7f]', '', 'g'));
