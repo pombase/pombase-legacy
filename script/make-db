@@ -43,11 +43,9 @@ for obo_file in \
     relationship/ro.obo \
     gmod-schema-latest/chado/load/etc/feature_property.obo \
     song-svn/so-xp-simple.obo \
-    go-svn/ontology/go-basic.obo \
     PSI-MOD.obo \
     pombe-embl/mini-ontologies/iao.obo \
     pombe-embl/mini-ontologies/quiescence.obo \
-    pombase_fypo_github/release/fypo-simple.obo \
     pombase_fypo_github/supplemental_files/fypo_extension_relations.obo \
     go-svn/ontology/extensions/gorel.obo \
     pombase_fypo_github/peco.obo \
@@ -59,7 +57,9 @@ for obo_file in \
     pombe-embl/mini-ontologies/gene_ex_extension_relations.obo \
     pombe-embl/mini-ontologies/PSI-MOD_extension_relations.obo \
     pombe-embl/mini-ontologies/SO_feature_relations.obo \
-    pombase/pombase_terms-v59.obo
+    pombase/pombase_terms-v60.obo \
+    go-svn/ontology/go-basic.obo \
+    pombase_fypo_github/release/fypo-simple.obo
 do
   echo loading: $obo_file
   PROP_FILTERED_OBO=/tmp/prop_filtered.obo
