@@ -758,4 +758,4 @@ check_chado:
            WHERE p.feature_id = f.feature_id
              AND pt.name = 'canto_session') AS session
         FROM feature f
-        WHERE length(name) <> length(regexp_replace(name, '[^\x01-\x7f]', '', 'g'));
+        WHERE length(name) <> length(regexp_replace(name, '[^\x01-\x7f]', '', 'g'))
