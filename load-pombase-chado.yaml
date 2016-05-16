@@ -655,6 +655,7 @@ check_chado:
                  FROM cvterm_relationship r
                       JOIN cvterm type on r.type_id = type.cvterm_id
                       AND type.name = 'has_penetrance')
+            AND path.type_id in (select cvterm_id from cvterm where name = 'is_a')
     - name: canto_annotations
       description: check for annotations from Canto
       expected: '>= 13000'
