@@ -8,6 +8,8 @@ then
   exit 1
 fi
 
+POMBASE_LEGACY=`pwd`
+
 export PERL5LIB=lib:$PERL5LIB
 
 DB_NAME_SUFFIX=$1
@@ -22,7 +24,7 @@ echo "building database: $DB on $HOST"
 createdb $DB
 
 echo Loading template
-psql -q $DB < pombase-chado-base.dump
+psql -q $DB < $POMBASE_LEGACY/pombase-chado-base.dump
 
 SOURCES_DIR=/var/pomcur/sources
 
@@ -62,7 +64,7 @@ OBO_FILES="\
  pombase_fypo_github/release/fypo-simple.obo \
  go-svn/ontology/go-basic.obo"
 
-(cd $SOURCES_DIR; $HOME/chobo/script/chobo_load.pl "dbi:Pg:dbname=$DB;host=$HOST" $USER $PASSWORD $OBO_FILES) || exit 1
+(cd $SOURCES_DIR; $HOME/chobo/script/chobo_load.pl "dbi:Pg:dbname=$DB;host=$HOST" $USER $PASSWORD $POMBASE_LEGACY/etc/pombase-relations.obo $OBO_FILES) || exit 1
 
 CURRENT_BUILD_DIR=$SOURCES_DIR/current_build_files/pombase-build-$DB_NAME_SUFFIX
 

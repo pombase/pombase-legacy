@@ -1,0 +1,12 @@
+format-version: 1.2
+data-version: 1.0.
+date: 12:05:2016 18:30
+saved-by: kmr44
+ontology: pombase_relations
+default-namespace: pombase_relations
+
+[Typedef]
+id: instance_of
+name: instance_of
+namespace: pombase_relations
+is_transitive: false
