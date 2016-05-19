@@ -8,7 +8,7 @@ then
   exit 1
 fi
 
-export PERL5LIB=lib
+export PERL5LIB=lib:$PERL5LIB
 
 DB_NAME_SUFFIX=$1
 HOST=$2
