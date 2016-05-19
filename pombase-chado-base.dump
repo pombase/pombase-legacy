@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.2
--- Dumped by pg_dump version 9.5.2
+-- Dumped from database version 9.5.3
+-- Dumped by pg_dump version 9.5.3
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -62066,6 +62066,7 @@ COPY cv (cv_id, name, definition) FROM stdin;
 2	local	Locally created terms
 5	autocreated	Terms that are automatically inserted by loading software
 6	chado_properties	Terms that are used in the chadoprop table to describe the state of the database
+7	internal	\N
 \.
 
 
@@ -62073,7 +62074,7 @@ COPY cv (cv_id, name, definition) FROM stdin;
 -- Name: cv_cv_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kmr44
 --
 
-SELECT pg_catalog.setval('cv_cv_id_seq', 6, true);
+SELECT pg_catalog.setval('cv_cv_id_seq', 7, true);
 
 
 --
@@ -62100,6 +62101,20 @@ COPY cvterm (cvterm_id, cv_id, name, definition, dbxref_id, is_obsolete, is_rela
 2	1	computer file	\N	2	0	0
 29	6	version	Chado schema version	29	0	0
 30	2	is_a	\N	30	0	1
+31	7	exact	\N	31	0	0
+32	7	narrow	\N	32	0	0
+33	7	misnomer	\N	33	0	0
+34	7	name	\N	34	0	0
+35	7	interim	\N	35	0	0
+36	7	systematic	\N	36	0	0
+37	7	feature	\N	37	0	0
+38	7	description	\N	38	0	0
+39	7	alternate	\N	39	0	0
+40	7	broad	\N	40	0	0
+41	7	label	\N	41	0	0
+42	7	related	\N	42	0	0
+43	7	reserved_name	\N	43	0	0
+44	7	obsolete_name	\N	44	0	0
 \.
 
 
@@ -62107,7 +62122,7 @@ COPY cvterm (cvterm_id, cv_id, name, definition, dbxref_id, is_obsolete, is_rela
 -- Name: cvterm_cvterm_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kmr44
 --
 
-SELECT pg_catalog.setval('cvterm_cvterm_id_seq', 30, true);
+SELECT pg_catalog.setval('cvterm_cvterm_id_seq', 44, true);
 
 
 --
@@ -62192,6 +62207,7 @@ SELECT pg_catalog.setval('cvtermsynonym_cvtermsynonym_id_seq', 1, false);
 COPY db (db_id, name, description, urlprefix, url) FROM stdin;
 1	null	a fake database for local items	\N	\N
 2	core	\N	\N	\N
+3	internal	\N	\N	\N
 \.
 
 
@@ -62199,7 +62215,7 @@ COPY db (db_id, name, description, urlprefix, url) FROM stdin;
 -- Name: db_db_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kmr44
 --
 
-SELECT pg_catalog.setval('db_db_id_seq', 2, true);
+SELECT pg_catalog.setval('db_db_id_seq', 3, true);
 
 
 --
@@ -62209,34 +62225,22 @@ SELECT pg_catalog.setval('db_db_id_seq', 2, true);
 COPY dbxref (dbxref_id, db_id, accession, version, description) FROM stdin;
 1	1	local:null		\N
 2	1	local:computer file		\N
-3	1	local:glass		\N
-4	1	local:photochemical_oligo		\N
-5	1	developmental stages:fetus		\N
-6	1	developmental stages:neonate		\N
-7	1	developmental stages:child		\N
-8	1	developmental stages:adult_young		\N
-9	1	developmental stages:adult		\N
-10	1	developmental stages:adult_old		\N
-11	1	local:survival_time		\N
-12	1	Statistical Terms:n		\N
-13	1	Statistical Terms:minimum		\N
-14	1	Statistical Terms:maximum		\N
-15	1	Statistical Terms:modality		\N
-16	1	Statistical Terms:modality p		\N
-17	1	Statistical Terms:mean		\N
-18	1	Statistical Terms:median		\N
-19	1	Statistical Terms:mode		\N
-20	1	Statistical Terms:quartile 1		\N
-21	1	Statistical Terms:quartile 3		\N
-22	1	Statistical Terms:skewness		\N
-23	1	Statistical Terms:kurtosis		\N
-24	1	Statistical Terms:chi square p		\N
-25	1	Statistical Terms:standard deviation		\N
-26	1	Statistical Terms:expectation maximization gaussian mean		\N
-27	1	Statistical Terms:expectation maximization p		\N
-28	1	Statistical Terms:histogram		\N
 29	1	chado_properties:version		\N
 30	2	is_a		\N
+31	3	exact		\N
+32	3	narrow		\N
+33	3	misnomer		\N
+34	3	name		\N
+35	3	interim		\N
+36	3	systematic		\N
+37	3	feature		\N
+38	3	description		\N
+39	3	alternate		\N
+40	3	broad		\N
+41	3	label		\N
+42	3	related		\N
+43	3	reserved_name		\N
+44	3	obsolete_name		\N
 \.
 
 
@@ -62244,7 +62248,7 @@ COPY dbxref (dbxref_id, db_id, accession, version, description) FROM stdin;
 -- Name: dbxref_dbxref_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kmr44
 --
 
-SELECT pg_catalog.setval('dbxref_dbxref_id_seq', 30, true);
+SELECT pg_catalog.setval('dbxref_dbxref_id_seq', 44, true);
 
 
 --
