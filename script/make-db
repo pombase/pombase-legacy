@@ -34,8 +34,6 @@ rm --verbose -rf tmp
 
 echo update SO from SVN
 (cd $SOURCES_DIR/song-svn; svn update)
-echo update GO from CVS
-(cd $SOURCES_DIR/go; cvs up)
 echo update GO from SVN
 (cd $SOURCES_DIR/go-svn; svn --ignore-externals update)
 echo update FYPO from GitHub
