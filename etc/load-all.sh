@@ -64,11 +64,12 @@ cd $HOME/git/pombase-legacy
 cat $SOURCES/biogrid/BIOGRID-ORGANISM-Schizosaccharomyces_pombe*.tab2.txt | $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml biogrid --use_first_with_id  --organism-taxonid-filter=284812:4896 --interaction-note-filter="Contributed by PomBase|contributed by PomBase|triple mutant" --evidence-code-filter='Co-localization' "$HOST" $DB $USER $PASSWORD 2>&1 | tee -a $LOG_DIR/$log_file.biogrid-load-output
 
 evidence_summary () {
+  DB=$1
   psql $DB -c "select count(feature_cvtermprop_id), value from feature_cvtermprop where type_id in (select cvterm_id from cvterm where name = 'evidence') group by value order by count(feature_cvtermprop_id)"
 }
 
 echo annotation evidence counts before loading
-evidence_summary
+evidence_summary $DB
 
 echo starting import of GOA GAF data
 
@@ -79,7 +80,7 @@ do
   $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --assigned-by-filter=PomBase "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/external_data/external-go-data/$gaf_file
 
   echo counts:
-  evidence_summary
+  evidence_summary $DB
 done
 
 echo $SOURCES/gene_association.pombase.inf.gaf
@@ -93,7 +94,7 @@ else
 fi
 
 echo counts after inf:
-evidence_summary
+evidence_summary $DB
 
 echo $SOURCES/gene_association.goa_uniprot.pombe
 CURRENT_GOA_GAF="$SOURCES/gene_association.goa_uniprot.gz"
@@ -111,7 +112,7 @@ gzip -d < $CURRENT_GOA_GAF | kgrep '\ttaxon:(4896|284812)\t' | $POMBASE_CHADO/sc
 } 2>&1 | tee $LOG_DIR/$log_file.gaf-load-output
 
 echo annotation count after GAF loading:
-evidence_summary
+evidence_summary $DB
 
 
 echo load quantitative gene expression data
@@ -164,70 +165,65 @@ echo load manual pombe to human orthologs: conserved_one_to_one.txt
 
 $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml orthologs --publication=PMID:19029536 --organism_1_taxonid=4896 --organism_2_taxonid=9606 --swap-direction --add_org_1_term_name='predominantly single copy (one to one)' --add_org_1_term_cv='species_dist' "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/orthologs/conserved_one_to_one.txt 2>&1 | tee $LOG_DIR/$log_file.manual_1-1_orths
 
-FINAL_DB=$DB-l1
-
-echo copying $DB to $FINAL_DB
-createdb -T $DB $FINAL_DB
-
 CURATION_TOOL_DATA=/var/pomcur/backups/current-prod-dump.json
 
-$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml canto-json --organism-taxonid=4896 --db-prefix=PomBase "$HOST" $FINAL_DB $USER $PASSWORD < $CURATION_TOOL_DATA 2>&1 | tee $LOG_DIR/$log_file.curation_tool_data
+$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml canto-json --organism-taxonid=4896 --db-prefix=PomBase "$HOST" $DB $USER $PASSWORD < $CURATION_TOOL_DATA 2>&1 | tee $LOG_DIR/$log_file.curation_tool_data
 
 echo annotation count after loading curation tool data:
-evidence_summary
+evidence_summary $DB
 
-PGPASSWORD=$PASSWORD psql -U $USER -h "$HOST" $FINAL_DB -c 'analyze'
+PGPASSWORD=$PASSWORD psql -U $USER -h "$HOST" $DB -c 'analyze'
 
 echo filtering redundant annotations
-$POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter "$HOST" $FINAL_DB $USER $PASSWORD
+$POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter "$HOST" $DB $USER $PASSWORD
 
 echo update out of date allele names
-$POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml update-allele-names "$HOST" $FINAL_DB $USER $PASSWORD
+$POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml update-allele-names "$HOST" $DB $USER $PASSWORD
 
 echo change UniProtKB IDs in "with" feature_cvterprop rows to PomBase IDs
-$POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml uniprot-ids-to-local "$HOST" $FINAL_DB $USER $PASSWORD
+$POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml uniprot-ids-to-local "$HOST" $DB $USER $PASSWORD
 
 echo do GO term re-mapping
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml change-terms \
   --exclude-by-fc-prop="canto_session" \
   --mapping-file=$SOURCES/pombe-embl/chado_load_mappings/GO_mapping_to_specific_terms.txt \
-  "$HOST" $FINAL_DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.go-term-mapping
+  "$HOST" $DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.go-term-mapping
 
-PGPASSWORD=$PASSWORD psql -U $USER -h "$HOST" $FINAL_DB -c 'analyze'
+PGPASSWORD=$PASSWORD psql -U $USER -h "$HOST" $DB -c 'analyze'
 
 echo annotation count after filtering redundant annotations:
-evidence_summary
+evidence_summary $DB
 
 echo running consistency checks
-$POMBASE_CHADO/script/check-chado.pl ./load-pombase-chado.yaml "$HOST" $FINAL_DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.chado_checks
+$POMBASE_CHADO/script/check-chado.pl ./load-pombase-chado.yaml "$HOST" $DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.chado_checks
 
 POMBASE_EXCLUDED_GO_TERMS=$SOURCES/pombe-embl/supporting_files/GO_terms_excluded_from_pombase.txt
 echo report annotations using GO terms from $POMBASE_EXCLUDED_GO_TERMS 2>&1 | tee $LOG_DIR/$log_file.excluded_go_terms
-./script/report-subset.pl "$HOST" $FINAL_DB $USER $PASSWORD $POMBASE_EXCLUDED_GO_TERMS 2>&1 | tee $LOG_DIR/$log_file.excluded_go_terms
+./script/report-subset.pl "$HOST" $DB $USER $PASSWORD $POMBASE_EXCLUDED_GO_TERMS 2>&1 | tee $LOG_DIR/$log_file.excluded_go_terms
 
 POMBASE_EXCLUDED_FYPO_TERMS_OBO=$SOURCES/pombe-embl/mini-ontologies/FYPO_qc_do_not_annotate_subsets.obo
 echo report annotations using FYPO terms from $POMBASE_EXCLUDED_FYPO_TERMS_OBO 2>&1 | tee $LOG_DIR/$log_file.excluded_fypo_terms
-./script/report-subset.pl "$HOST" $FINAL_DB $USER $PASSWORD <(perl -ne 'print "$1\n" if /^id:\s*(FYPO:\S+)/' $POMBASE_EXCLUDED_FYPO_TERMS_OBO) 2>&1 | tee $LOG_DIR/$log_file.excluded_fypo_terms
+./script/report-subset.pl "$HOST" $DB $USER $PASSWORD <(perl -ne 'print "$1\n" if /^id:\s*(FYPO:\S+)/' $POMBASE_EXCLUDED_FYPO_TERMS_OBO) 2>&1 | tee $LOG_DIR/$log_file.excluded_fypo_terms
 
 DUMPS_DIR=/var/www/pombase/dumps
 BUILDS_DIR=$DUMPS_DIR/builds
-CURRENT_BUILD_DIR=$BUILDS_DIR/$FINAL_DB
+CURRENT_BUILD_DIR=$BUILDS_DIR/$DB
 
 mkdir $CURRENT_BUILD_DIR
 mkdir $CURRENT_BUILD_DIR/logs
 mkdir $CURRENT_BUILD_DIR/exports
 
 (
-$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml gaf --organism-taxon-id=4896 "$HOST" $FINAL_DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$FINAL_DB.gaf.gz
-$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml go-physical-interactions --organism-taxon-id=4896 "$HOST" $FINAL_DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/exports/pombase-go-physical-interactions.tsv.gz
-$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml go-substrates --organism-taxon-id=4896 "$HOST" $FINAL_DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/exports/pombase-go-substrates.tsv.gz
-$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml interactions --since-date=$PREV_DATE --organism-taxon-id=4896 "$HOST" $FINAL_DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/exports/pombase-interactions-since-$PREV_VERSION-$PREV_DATE.gz
-$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml orthologs --organism-taxon-id=4896 --other-organism-taxon-id=9606 "$HOST" $FINAL_DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$FINAL_DB.human-orthologs.txt.gz
-$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml phaf --organism-taxon-id=4896 "$HOST" $FINAL_DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$FINAL_DB.phaf.gz
-$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml modifications --organism-taxon-id=4896 "$HOST" $FINAL_DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$FINAL_DB.modifications.gz
+$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml gaf --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$DB.gaf.gz
+$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml go-physical-interactions --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/exports/pombase-go-physical-interactions.tsv.gz
+$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml go-substrates --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/exports/pombase-go-substrates.tsv.gz
+$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml interactions --since-date=$PREV_DATE --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/exports/pombase-interactions-since-$PREV_VERSION-$PREV_DATE.gz
+$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml orthologs --organism-taxon-id=4896 --other-organism-taxon-id=9606 "$HOST" $DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$DB.human-orthologs.txt.gz
+$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml phaf --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$DB.phaf.gz
+$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml modifications --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$DB.modifications.gz
 ) > $LOG_DIR/$log_file.export_warnings 2>&1
 
-gzip -d < $CURRENT_BUILD_DIR/$FINAL_DB.gaf.gz | /var/pomcur/sources/go-svn/software/utilities/filter-gene-association.pl -e > $LOG_DIR/$log_file.gaf-check
+gzip -d < $CURRENT_BUILD_DIR/$DB.gaf.gz | /var/pomcur/sources/go-svn/software/utilities/filter-gene-association.pl -e > $LOG_DIR/$log_file.gaf-check
 
 cp $LOG_DIR/$log_file.gaf-load-output $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.biogrid-load-output $CURRENT_BUILD_DIR/logs/
@@ -248,7 +244,7 @@ cp $LOG_DIR/$log_file.chado_checks $CURRENT_BUILD_DIR/logs/
 
 (
 echo extension relation counts:
-psql $FINAL_DB -c "select count(id), name, base_cv_name from (select p.cvterm_id::text || '_cvterm' as id,
+psql $DB -c "select count(id), name, base_cv_name from (select p.cvterm_id::text || '_cvterm' as id,
   substring(type.name from 'annotation_extension_relation-(.*)') as name, base_cv_name
   from pombase_feature_cvterm_ext_resolved_terms fc
        join cvtermprop p on p.cvterm_id = fc.cvterm_id
@@ -264,22 +260,22 @@ UNION all select r.cvterm_relationship_id::text ||
 echo
 echo number of annotations using extensions by cv:
 
-psql $FINAL_DB -c "select count(feature_cvterm_id), base_cv_name from pombase_feature_cvterm_with_ext_parents group by base_cv_name order by count;"
+psql $DB -c "select count(feature_cvterm_id), base_cv_name from pombase_feature_cvterm_with_ext_parents group by base_cv_name order by count;"
 ) > $CURRENT_BUILD_DIR/logs/$log_file.extension_relation_counts
 
 (
 echo counts of qualifiers grouped by CV name
-psql $FINAL_DB -c "select count(fc.feature_cvterm_id), value, base_cv_name from feature_cvtermprop p, pombase_feature_cvterm_ext_resolved_terms fc, cvterm t where type_id = (select cvterm_id from cvterm where name = 'qualifier' and cv_id = (select cv_id from cv where name = 'feature_cvtermprop_type')) and p.feature_cvterm_id = fc.feature_cvterm_id and fc.cvterm_id = t.cvterm_id group by value, base_cv_name order by count desc;"
+psql $DB -c "select count(fc.feature_cvterm_id), value, base_cv_name from feature_cvtermprop p, pombase_feature_cvterm_ext_resolved_terms fc, cvterm t where type_id = (select cvterm_id from cvterm where name = 'qualifier' and cv_id = (select cv_id from cv where name = 'feature_cvtermprop_type')) and p.feature_cvterm_id = fc.feature_cvterm_id and fc.cvterm_id = t.cvterm_id group by value, base_cv_name order by count desc;"
 ) > $CURRENT_BUILD_DIR/logs/$log_file.qualifier_counts_by_cv
 
 (
 echo all protein family term and annotated genes
-psql $FINAL_DB -c "select t.name, db.name || ':' || x.accession as termid, array_to_string(array_agg(f.uniquename), ',') as gene_uniquenames from feature f join feature_cvterm fc on fc.feature_id = f.feature_id join cvterm t on t.cvterm_id = fc.cvterm_id join dbxref x on x.dbxref_id = t.dbxref_id join db on x.db_id = db.db_id join cv on t.cv_id = cv.cv_id where cv.name = 'PomBase family or domain' group by t.name, termid order by t.name, termid;"
+psql $DB -c "select t.name, db.name || ':' || x.accession as termid, array_to_string(array_agg(f.uniquename), ',') as gene_uniquenames from feature f join feature_cvterm fc on fc.feature_id = f.feature_id join cvterm t on t.cvterm_id = fc.cvterm_id join dbxref x on x.dbxref_id = t.dbxref_id join db on x.db_id = db.db_id join cv on t.cv_id = cv.cv_id where cv.name = 'PomBase family or domain' group by t.name, termid order by t.name, termid;"
 ) > $CURRENT_BUILD_DIR/logs/$log_file.protein_family_term_annotation
 
 (
 echo 'Alleles with type "other"'
-psql $FINAL_DB -F ',' -A -c "select f.name, f.uniquename, (select value from featureprop p where
+psql $DB -F ',' -A -c "select f.name, f.uniquename, (select value from featureprop p where
 p.feature_id = f.feature_id and p.type_id in (select cvterm_id from cvterm
 where name = 'description')) as description, (select value from featureprop p where
 p.feature_id = f.feature_id and p.type_id in (select cvterm_id from cvterm
@@ -291,7 +287,7 @@ where name = 'allele_type') and p.value = 'other');"
 
 (
 echo counts of all annotation by type:
-psql $FINAL_DB -c "select count(distinct fc_id), cv_name from (select distinct
+psql $DB -c "select count(distinct fc_id), cv_name from (select distinct
 fc.feature_cvterm_id as fc_id, cv.name as cv_name from cvterm t,
 feature_cvterm fc, cv where fc.cvterm_id = t.cvterm_id and cv.cv_id = t.cv_id
 and cv.name <> 'PomBase annotation extension terms' UNION select distinct
@@ -304,7 +300,7 @@ and parent_term.cv_id = parent_cv.cv_id and term_cv.name = 'PomBase annotation e
 echo
 
 echo annotation counts by evidence code and cv type, sorted by cv name:
-psql $FINAL_DB -c "with sub as (select distinct
+psql $DB -c "with sub as (select distinct
  fc.feature_cvterm_id as fc_id, cv.name as cv_name from cvterm t,
  feature_cvterm fc, cv where fc.cvterm_id = t.cvterm_id and cv.cv_id = t.cv_id
  and cv.name <> 'PomBase annotation extension terms' UNION select distinct
@@ -323,7 +319,7 @@ psql $FINAL_DB -c "with sub as (select distinct
 echo
 
 echo annotation counts by evidence code and cv type, sorted by count:
-psql $FINAL_DB -c "with sub as (select distinct
+psql $DB -c "with sub as (select distinct
  fc.feature_cvterm_id as fc_id, cv.name as cv_name from cvterm t,
  feature_cvterm fc, cv where fc.cvterm_id = t.cvterm_id and cv.cv_id = t.cv_id
  and cv.name <> 'PomBase annotation extension terms' UNION select distinct
@@ -342,7 +338,7 @@ psql $FINAL_DB -c "with sub as (select distinct
 echo
 
 echo annotation counts by evidence code and cv type, sorted by cv evidence code:
-psql $FINAL_DB -c "with sub as (select distinct
+psql $DB -c "with sub as (select distinct
  fc.feature_cvterm_id as fc_id, cv.name as cv_name from cvterm t,
  feature_cvterm fc, cv where fc.cvterm_id = t.cvterm_id and cv.cv_id = t.cv_id
  and cv.name <> 'PomBase annotation extension terms' UNION select distinct
@@ -361,7 +357,7 @@ psql $FINAL_DB -c "with sub as (select distinct
 echo
 
 echo total:
-psql $FINAL_DB -c "select count(distinct fc_id) from (select distinct
+psql $DB -c "select count(distinct fc_id) from (select distinct
 fc.feature_cvterm_id as fc_id, cv.name as cv_name from cvterm t,
 feature_cvterm fc, cv where fc.cvterm_id = t.cvterm_id and cv.cv_id = t.cv_id
 and cv.name <> 'PomBase annotation extension terms' UNION select distinct
@@ -391,8 +387,8 @@ sub_query="(select
  'is_a' and fc.feature_cvterm_id in (select feature_cvterm_id from
  feature_cvtermprop where type_id in (select cvterm_id from cvterm
  where name = 'canto_session'))) as sub"
-psql $FINAL_DB -c "select count(distinct fc_id), cv_name from $sub_query group by cv_name order by count;"
-psql $FINAL_DB -c "select count(distinct fc_id) as total from $sub_query;"
+psql $DB -c "select count(distinct fc_id), cv_name from $sub_query group by cv_name order by count;"
+psql $DB -c "select count(distinct fc_id) as total from $sub_query;"
 
  ) > $CURRENT_BUILD_DIR/logs/$log_file.annotation_counts_by_cv
 
@@ -407,12 +403,12 @@ cp $LOG_DIR/*.txt $CURRENT_BUILD_DIR/logs/
 mkdir $CURRENT_BUILD_DIR/pombe-embl
 cp -r $SOURCES/pombe-embl/* $CURRENT_BUILD_DIR/pombe-embl/
 
-psql $FINAL_DB -c 'grant select on all tables in schema public to public;'
+psql $DB -c 'grant select on all tables in schema public to public;'
 
-DUMP_FILE=$CURRENT_BUILD_DIR/$FINAL_DB.dump.gz
+DUMP_FILE=$CURRENT_BUILD_DIR/$DB.dump.gz
 
 echo dumping to $DUMP_FILE
-pg_dump $FINAL_DB | gzip -9v > $DUMP_FILE
+pg_dump $DB | gzip -9v > $DUMP_FILE
 
 rm -f $DUMPS_DIR/latest_build
 ln -s $CURRENT_BUILD_DIR $DUMPS_DIR/latest_build
