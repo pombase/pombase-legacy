@@ -205,6 +205,10 @@ POMBASE_EXCLUDED_GO_TERMS_SOFTCHECK=$SOURCES/pombe-embl/supporting_files/GO_term
 echo report annotations using GO terms from $POMBASE_EXCLUDED_GO_TERMS_SOFTCHECK 2>&1 | tee $LOG_DIR/$log_file.excluded_go_terms_softcheck
 ./script/report-subset.pl "$HOST" $DB $USER $PASSWORD $POMBASE_EXCLUDED_GO_TERMS_SOFTCHECK 2>&1 | tee -a $LOG_DIR/$log_file.excluded_go_terms_softcheck
 
+POMBASE_EXCLUDED_FYPO_TERMS_SOFTCHECK=$SOURCES/pombe-embl/supporting_files/FYPO_terms_excluded_from_pombase.txt
+echo report annotations using FYPO terms from $POMBASE_EXCLUDED_FYPO_TERMS_SOFTCHECK 2>&1 | tee $LOG_DIR/$log_file.excluded_fypo_terms_softcheck
+./script/report-subset.pl "$HOST" $DB $USER $PASSWORD $POMBASE_EXCLUDED_FYPO_TERMS_SOFTCHECK 2>&1 | tee -a $LOG_DIR/$log_file.excluded_fypo_terms_softcheck
+
 POMBASE_EXCLUDED_FYPO_TERMS_OBO=$SOURCES/pombe-embl/mini-ontologies/FYPO_qc_do_not_annotate_subsets.obo
 echo report annotations using FYPO terms from $POMBASE_EXCLUDED_FYPO_TERMS_OBO 2>&1 | tee $LOG_DIR/$log_file.excluded_fypo_terms
 ./script/report-subset.pl "$HOST" $DB $USER $PASSWORD <(perl -ne 'print "$1\n" if /^id:\s*(FYPO:\S+)/' $POMBASE_EXCLUDED_FYPO_TERMS_OBO) 2>&1 | tee -a $LOG_DIR/$log_file.excluded_fypo_terms
@@ -242,6 +246,7 @@ cp $LOG_DIR/$log_file.modification $CURRENT_BUILD_DIR/logs/$log_file.modificatio
 cp $LOG_DIR/$log_file.*phenotypes_from_* $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.export_warnings $CURRENT_BUILD_DIR/logs/$log_file.export_warnings
 cp $LOG_DIR/$log_file.excluded_go_terms_softcheck $CURRENT_BUILD_DIR/logs/
+cp $LOG_DIR/$log_file.excluded_fypo_terms_softcheck $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.excluded_fypo_terms $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.go-term-mapping $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.chado_checks $CURRENT_BUILD_DIR/logs/
