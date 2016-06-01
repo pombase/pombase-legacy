@@ -175,6 +175,8 @@ evidence_summary $DB
 
 PGPASSWORD=$PASSWORD psql -U $USER -h "$HOST" $DB -c 'analyze'
 
+createdb -T $DB $DB-pre-go-filter
+
 echo filtering redundant annotations - `date`
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter "$HOST" $DB $USER $PASSWORD
 echo done filtering - `date`
