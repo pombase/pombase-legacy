@@ -67,7 +67,7 @@ then
     CONNECT_STRING="$CONNECT_STRING;host=$HOST"
 fi
 
-(cd $SOURCES_DIR; $HOME/chobo/script/chobo_load.pl $CONNECT_STRING $USER $PASSWORD $POMBASE_LEGACY/etc/pombase-relations.obo $OBO_FILES) || exit 1
+(cd $SOURCES_DIR; $HOME/chobo/script/chobo_load $CONNECT_STRING $USER $PASSWORD $POMBASE_LEGACY/etc/pombase-relations.obo $OBO_FILES) || exit 1
 
 CURRENT_BUILD_DIR=$SOURCES_DIR/current_build_files/pombase-build-$DB_NAME_SUFFIX
 
