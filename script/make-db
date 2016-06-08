@@ -70,9 +70,11 @@ then
     CONNECT_STRING="$CONNECT_STRING;host=$HOST"
 fi
 
+CHOBO_LOAD_LOG=chobo_load.log
 echo 'Starting OBO loading at:' `date`
-(cd $SOURCES_DIR; $HOME/chobo/script/chobo_load $CONNECT_STRING $USER $PASSWORD $POMBASE_LEGACY/etc/pombase-relations.obo $OBO_FILES) || exit 1
+(cd $SOURCES_DIR; $HOME/chobo/script/chobo_load $CONNECT_STRING $USER $PASSWORD $POMBASE_LEGACY/etc/pombase-relations.obo $OBO_FILES) > $CHOBO_LOAD_LOG || exit 1
 echo 'Finished OBO loading at:' `date`
+echo log file: $CHOBO_LOAD_LOG
 
 CURRENT_BUILD_DIR=$SOURCES_DIR/current_build_files/pombase-build-$DB_NAME_SUFFIX
 
