@@ -24,7 +24,10 @@ echo "building database: $DB on $HOST"
 createdb $DB
 
 echo Loading template
-psql -q $DB < $POMBASE_LEGACY/pombase-chado-base.dump
+psql -q $DB < $POMBASE_LEGACY/pombase-chado-base.dump |
+  perl -ne 'if (/^\s*setval\s*$/) {
+              my $l2 = <>; if ($l2 =~ /-----/) { my $l3 = <>; if ($l3 =~ /^\s*\d+/) { my $l4 = <>; if ($l4 !~ /\(\d+ row/) { print } } }
+            } else { print }'
 
 SOURCES_DIR=/var/pomcur/sources
 
