@@ -62063,10 +62063,10 @@ SELECT pg_catalog.setval('control_control_id_seq', 1, false);
 
 COPY cv (cv_id, name, definition) FROM stdin;
 1	null	\N
-2	local	Locally created terms
 5	autocreated	Terms that are automatically inserted by loading software
 6	chado_properties	Terms that are used in the chadoprop table to describe the state of the database
 7	synonym_type	\N
+2	relationship	Locally created terms
 \.
 
 
