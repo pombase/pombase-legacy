@@ -55,8 +55,7 @@ has organism => (is => 'ro',
                  required => 1,
                 );
 
-method process_file($file)
-{
+method process_file($file) {
   my $chado = $self->chado();
   my $verbose = $self->verbose();
   my $config = $self->config();

@@ -50,8 +50,7 @@ with 'PomBase::Role::GetUrl';
 
 has verbose => (is => 'rw');
 
-method load_uniprot_mapping
-{
+method load_uniprot_mapping {
   my $url = $self->config()->{pombase_to_uniprot_mapping};
 
   if (!defined $url) {

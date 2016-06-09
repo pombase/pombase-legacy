@@ -50,8 +50,7 @@ with 'PomBase::Role::FeatureFinder';
 
 has verbose => (is => 'ro');
 
-func should($this, $that)
-{
+func should($this, $that) {
   if (!defined $this) {
     carp "first arg not defined in call to should()";
     return;
@@ -66,8 +65,7 @@ func should($this, $that)
   }
 }
 
-method check
-{
+method check {
   my $chado = $self->chado();
 
   warn "checking results ...\n";

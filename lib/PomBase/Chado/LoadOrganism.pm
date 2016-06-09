@@ -40,8 +40,7 @@ use Moose;
 
 with 'PomBase::Role::ChadoUser';
 
-method load_organism($genus, $species, $common_name, $abbreviation, $taxon_id)
-{
+method load_organism($genus, $species, $common_name, $abbreviation, $taxon_id) {
   my $org_prop_types_cv =
     $self->chado()->resultset('Cv::Cv')->find_or_create({
       name => 'PomBase organism property types',

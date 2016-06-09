@@ -76,8 +76,7 @@ has quiet => (is => 'ro', isa => 'Bool');
 has gene_objects => (is => 'ro', init_arg => undef, isa => 'HashRef',
                      default => sub { {} });
 
-method _build_qual_load
-{
+method _build_qual_load {
   my $chado = $self->chado();
   my $config = $self->config();
   my $verbose = $self->verbose();
@@ -186,8 +185,7 @@ map {
   }
 } keys %feature_loader_conf;
 
-method prepare_transcript_data($transcript_uniquename, $gene_uniquename)
-{
+method prepare_transcript_data($transcript_uniquename, $gene_uniquename) {
   my $data;
 
   if (defined $self->transcript_data()->{$transcript_uniquename}) {
@@ -204,8 +202,7 @@ method prepare_transcript_data($transcript_uniquename, $gene_uniquename)
   return $data;
 }
 
-method save_transcript($feature, $uniquename, $gene_uniquename)
-{
+method save_transcript($feature, $uniquename, $gene_uniquename) {
   my $feat_type = $feature->primary_tag();
   my $so_type = $feature_loader_conf{$feat_type}->{so_type};
 
@@ -232,8 +229,7 @@ method save_transcript($feature, $uniquename, $gene_uniquename)
     $feature_loader_conf{$feat_type}->{so_type};
 }
 
-method save_utr($feature, $uniquename, $transcript_uniquename, $gene_uniquename)
-{
+method save_utr($feature, $uniquename, $transcript_uniquename, $gene_uniquename) {
   if (!defined $transcript_uniquename) {
     warn "no transcript_uniquename passed to save_utr() for UTR for $uniquename\n";
     return;
@@ -253,8 +249,7 @@ method save_utr($feature, $uniquename, $transcript_uniquename, $gene_uniquename)
        {%feature_data};
 }
 
-method process($feature, $chromosome)
-{
+method process($feature, $chromosome) {
   my $feat_type = $feature->primary_tag();
   my $so_type = $feature_loader_conf{$feat_type}->{so_type};
 
@@ -325,8 +320,7 @@ method process($feature, $chromosome)
   return $chado_feature;
 }
 
-method store_product($bioperl_feature, $chado_feature, $uniquename)
-{
+method store_product($bioperl_feature, $chado_feature, $uniquename) {
   if ($bioperl_feature->has_tag("product")) {
     my @products = $bioperl_feature->get_tag_values("product");
     if (@products > 1) {
@@ -343,13 +337,11 @@ method store_product($bioperl_feature, $chado_feature, $uniquename)
   }
 }
 
-method store_note($feature, $note)
-{
+method store_note($feature, $note) {
   $self->store_featureprop($feature, 'comment', $note);
 }
 
-method store_ec_number($feature, $ec_number)
-{
+method store_ec_number($feature, $ec_number) {
   $self->qual_load()->add_term_to_gene($feature, 'EC numbers',
                                        $ec_number, {}, 1);
 }
@@ -365,8 +357,7 @@ my %colour_map = (
   13 => 'pseudogene',
 );
 
-method store_colour($feature, $colour)
-{
+method store_colour($feature, $colour) {
   my $cvterm_name = $colour_map{$colour};
 
   if (!defined $cvterm_name) {
@@ -393,8 +384,7 @@ method store_colour($feature, $colour)
                                $self->find_or_create_pub('null'), 0);
 }
 
-method get_target_curations($bioperl_feature)
-{
+method get_target_curations($bioperl_feature) {
   my @ret = ();
 
   if ($bioperl_feature->has_tag('controlled_curation')) {
@@ -423,8 +413,7 @@ method get_target_curations($bioperl_feature)
   return @ret;
 }
 
-method store_feature_db_xref($feature, $db_xref)
-{
+method store_feature_db_xref($feature, $db_xref) {
   if ($db_xref =~ /(.+):(.*)/) {
     my $db_name = $1;
     my $db_dest_tables = $self->config()->{db_dest_tables};
@@ -453,8 +442,7 @@ method store_feature_db_xref($feature, $db_xref)
 
 }
 
-method process_qualifiers($bioperl_feature, $chado_object)
-{
+method process_qualifiers($bioperl_feature, $chado_object) {
   my $type = $bioperl_feature->primary_tag();
   my $verbose = $self->verbose();
 
@@ -523,8 +511,7 @@ method process_qualifiers($bioperl_feature, $chado_object)
   }
 }
 
-method store_feature_parts($uniquename, $bioperl_feature, $chromosome, $so_type)
-{
+method store_feature_parts($uniquename, $bioperl_feature, $chromosome, $so_type) {
   my $chado = $self->chado();
 
   my @coords_list = $self->coords_of_feature($bioperl_feature);
@@ -554,10 +541,7 @@ method store_feature_parts($uniquename, $bioperl_feature, $chromosome, $so_type)
   return @new_parts;
 }
 
-method store_transcript_parts($bioperl_cds, $chromosome,
-                              $transcript_so_type,
-                              $utrs_5_prime, $utrs_3_prime, $introns)
-{
+method store_transcript_parts($bioperl_cds, $chromosome, $transcript_so_type, $utrs_5_prime, $utrs_3_prime, $introns) {
   my $uniquename = ($bioperl_cds->get_tag_values('systematic_id'))[0];
   if ($uniquename !~ /\.\d$/) {
     $uniquename .= '.1';
@@ -675,8 +659,7 @@ method store_transcript_parts($bioperl_cds, $chromosome,
 }
 
 
-method finalise($chromosome)
-{
+method finalise($chromosome) {
   while (my ($uniquename, $feature_data) = each %{$self->transcript_data()}) {
     my $gene_start = 9999999999;
     my $gene_end = -1;

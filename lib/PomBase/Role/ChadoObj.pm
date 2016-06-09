@@ -48,8 +48,7 @@ my %go_cv_map = (
   C => 'cellular_component',
 );
 
-method get_go_cv_map
-{
+method get_go_cv_map {
   return \%go_cv_map;
 }
 
@@ -57,8 +56,7 @@ method is_go_cv_name($cv_name) {
   return grep { $_ eq $cv_name } values %go_cv_map;
 }
 
-method BUILD
-{
+method BUILD {
   my $chado = $self->chado();
 
   my $db_rs = $chado->resultset('General::Db');

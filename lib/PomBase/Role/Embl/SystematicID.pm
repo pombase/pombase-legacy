@@ -43,8 +43,7 @@ use Moose::Role;
 
 with 'PomBase::Role::FeatureDumper';
 
-method get_uniquename($feature, $so_type, $is_transcript)
-{
+method get_uniquename($feature, $so_type, $is_transcript) {
   state $type_seen = {};
 
   if ($feature->{chado_uniquename}) {

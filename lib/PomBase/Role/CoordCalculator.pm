@@ -38,8 +38,7 @@ under the same terms as Perl itself.
 use perl5i::2;
 use Moose::Role;
 
-method coords_of_feature($feature)
-{
+method coords_of_feature($feature) {
   carp "undefined feature passed to coords_of_feature()" unless $feature;
   my $loc = $feature->location();
 

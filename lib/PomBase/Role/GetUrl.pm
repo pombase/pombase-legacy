@@ -45,8 +45,7 @@ use Moose::Role;
 
 =cut
 
-method get_url_contents
-{
+method get_url_contents {
   my $url = shift;
 
   local $ENV{FTP_PASSIVE} = 1;

@@ -66,8 +66,7 @@ has quiet => (is => 'ro', isa => 'Bool');
 has gene_ex_qualifiers => (is => 'ro', init_arg => undef,
                            lazy_build => 1);
 
-method _build_gene_ex_qualifiers
-{
+method _build_gene_ex_qualifiers {
   my @gene_ex_qualifiers = @{$self->config()->{gene_ex_qualifiers}};
 
   my %gene_ex_qualifiers = map { ($_, 1) } @gene_ex_qualifiers;
@@ -136,8 +135,7 @@ method get_and_check_date($sub_qual_map) {
 
 # look up cvterm by $embl_term_name first, then by GOid, complain
 # about mismatches
-method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map,
-                        $create_cvterm) {
+method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map, $create_cvterm) {
   my $extension = $sub_qual_map->{annotation_extension};
   if (defined $extension && $extension =~ /\|/) {
     # split into multiple annotations
@@ -802,8 +800,9 @@ method process_paralog($chado_object, $term, $sub_qual_map) {
   }
 }
 
-method process_warning($chado_object, $term, $sub_qual_map)
-{
+sub process_warning {
+  my ($self, $chado_object, $term, $sub_qual_map) = @_;
+
   my $chado_object_type = $chado_object->type()->name();
 
   warn "    process_warning()\n" if $self->verbose();
@@ -820,16 +819,14 @@ method process_warning($chado_object, $term, $sub_qual_map)
   }
 }
 
-method process_family($chado_object, $term, $sub_qual_map)
-{
+method process_family($chado_object, $term, $sub_qual_map) {
   warn "    process_family()\n" if $self->verbose();
   $self->add_term_to_gene($chado_object, 'PomBase family or domain', $term,
                           $sub_qual_map, 1);
   return 1;
 }
 
-method check_gene_ex_quals($term, $sub_qual_map)
-{
+method check_gene_ex_quals($term, $sub_qual_map) {
   my %gene_ex_term_names = ('RNA level' => 1,
                             'protein level' => 1,
                             'transcription' => 1,
@@ -855,8 +852,7 @@ method check_gene_ex_quals($term, $sub_qual_map)
   }
 }
 
-method process_one_cc($chado_object, $bioperl_feature, $qualifier,
-                      $target_curations) {
+method process_one_cc($chado_object, $bioperl_feature, $qualifier, $target_curations) {
   my $systematic_id = $chado_object->uniquename();
 
   warn "    process_one_cc($systematic_id, $bioperl_feature, '$qualifier')\n"
@@ -1024,8 +1020,7 @@ method process_one_go_qual($chado_object, $bioperl_feature, $qualifier) {
   return %qual_map;
 }
 
-method process_product($chado_feature, $product)
-{
+method process_product($chado_feature, $product) {
   if ($product =~ /\([^\)]*$|^[^\(]*\)/) {
     warn "unbalanced parenthesis in product: $product\n" unless $self->quiet();
   }
@@ -1034,8 +1029,7 @@ method process_product($chado_feature, $product)
                           $product, {}, 1);
 }
 
-method check_unused_quals
-{
+method check_unused_quals {
   my %quals = @_;
 
   if (scalar(keys %quals) > 0) {

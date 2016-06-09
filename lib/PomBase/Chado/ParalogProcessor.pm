@@ -52,8 +52,7 @@ with 'PomBase::Role::OrganismFinder';
 with 'PomBase::Role::ChadoObj';
 with 'PomBase::Role::Embl::FeatureRelationshippropStorer';
 
-method store_all_paralogs($paralog_data)
-{
+method store_all_paralogs($paralog_data) {
   warn "    store_all_paralogs()\n" if $self->verbose();
   my $org_name;
   my $gene_bit;

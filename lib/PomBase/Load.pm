@@ -122,8 +122,7 @@ func load_genes($config, $chado, $organism, $test_mode) {
   warn "loaded ", scalar(keys %seen_names), " genes for $org_name\n" unless $test_mode;
 }
 
-func _fix_annotation_extension_rels($chado, $config)
- {
+func _fix_annotation_extension_rels($chado, $config) {
    my @extension_rel_terms = map {
      ($chado->resultset('Cv::Cv')->search({ 'me.name' => $_ })
             ->search_related('cvterms')->all());
@@ -135,8 +134,7 @@ func _fix_annotation_extension_rels($chado, $config)
     } @extension_rel_terms;
 }
 
-func _load_cvterms($chado, $config, $test_mode)
-{
+func _load_cvterms($chado, $config, $test_mode) {
   my $db_name = 'PBO';
   my $db = $chado->resultset('General::Db')->find({ name => $db_name });
 
@@ -198,8 +196,7 @@ func _load_cvterms($chado, $config, $test_mode)
   }
 }
 
-func _load_cv_defs($chado, $config)
-{
+func _load_cv_defs($chado, $config) {
   my $db_name = 'PomBase';
 
   my %cv_defs = %{$config->{cv_definitions}};
@@ -216,8 +213,7 @@ func _load_cv_defs($chado, $config)
   }
 }
 
-func _load_dbs($chado, $config)
-{
+func _load_dbs($chado, $config) {
   my @dbs = @{$config->{dbs}};
 
   for my $db (@dbs) {
