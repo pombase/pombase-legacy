@@ -64,8 +64,7 @@ my $guard = $chado->txn_scope_guard;
 # load extra CVs, cvterms and dbxrefs
 print "loading genes into $database ...\n" unless $quiet;
 
-func read_mapping($old_name, $file_name)
-{
+func read_mapping($old_name, $file_name) {
   my %ret = ();
 
   open my $file, '<', $file_name or die "$!: $file_name\n";
@@ -87,8 +86,7 @@ func read_mapping($old_name, $file_name)
   return \%ret;
 }
 
-func process_mappings(@mappings)
-{
+func process_mappings(@mappings) {
   return map {
     if (/(.*):(.*):(.*)/) {
       ($1, { new_name => $2, mapping => read_mapping($1, $3) });
@@ -102,8 +100,7 @@ func process_mappings(@mappings)
 $config->{test_mode} = $test;
 $config->{mappings} = {process_mappings(@mappings)};
 
-func read_obsolete_term_mapping($file_name)
-{
+func read_obsolete_term_mapping($file_name) {
   my %ret = ();
 
   open my $file, '<', $file_name or die "$!: $file_name\n";
@@ -121,8 +118,7 @@ func read_obsolete_term_mapping($file_name)
   return %ret;
 }
 
-func process_obsolete_term_mapping_files(@obsolete_term_files)
-{
+func process_obsolete_term_mapping_files(@obsolete_term_files) {
   return (map { read_obsolete_term_mapping($_) } @obsolete_term_files);
 }
 
