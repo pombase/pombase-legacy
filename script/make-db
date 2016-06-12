@@ -72,7 +72,7 @@ fi
 
 CHOBO_LOAD_LOG=chobo_load.log
 echo 'Starting OBO loading at:' `date`
-(cd $SOURCES_DIR; $HOME/chobo/script/chobo_load $CONNECT_STRING $USER $PASSWORD $POMBASE_LEGACY/etc/pombase-relations.obo $OBO_FILES) > $CHOBO_LOAD_LOG || exit 1
+(cd $SOURCES_DIR; $HOME/chobo/script/chobo_load $CONNECT_STRING $USER $PASSWORD $POMBASE_LEGACY/etc/pombase-relations.obo $OBO_FILES) > $CHOBO_LOAD_LOG 2>&1 || exit 1
 echo 'Finished OBO loading at:' `date`
 echo log file: $CHOBO_LOAD_LOG
 
