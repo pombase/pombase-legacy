@@ -62066,7 +62066,6 @@ COPY cv (cv_id, name, definition) FROM stdin;
 5	autocreated	Terms that are automatically inserted by loading software
 6	chado_properties	Terms that are used in the chadoprop table to describe the state of the database
 7	synonym_type	\N
-2	relationship	Locally created terms
 \.
 
 
@@ -62100,7 +62099,6 @@ COPY cvterm (cvterm_id, cv_id, name, definition, dbxref_id, is_obsolete, is_rela
 1	1	null	\N	1	0	0
 2	1	computer file	\N	2	0	0
 29	6	version	Chado schema version	29	0	0
-30	2	is_a	\N	30	0	1
 31	7	exact	\N	31	0	0
 32	7	narrow	\N	32	0	0
 33	7	misnomer	\N	33	0	0
@@ -62206,7 +62204,6 @@ SELECT pg_catalog.setval('cvtermsynonym_cvtermsynonym_id_seq', 1, false);
 
 COPY db (db_id, name, description, urlprefix, url) FROM stdin;
 1	null	a fake database for local items	\N	\N
-2	core	\N	\N	\N
 3	internal	\N	\N	\N
 \.
 
@@ -62226,7 +62223,6 @@ COPY dbxref (dbxref_id, db_id, accession, version, description) FROM stdin;
 1	1	local:null		\N
 2	1	local:computer file		\N
 29	1	chado_properties:version		\N
-30	2	is_a		\N
 31	3	exact		\N
 32	3	narrow		\N
 33	3	misnomer		\N
