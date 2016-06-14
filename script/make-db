@@ -43,7 +43,7 @@ echo update FYPO from GitHub
 (cd $SOURCES_DIR/pombase_fypo_github/; git pull)
 
 OBO_FILES="\
- relationship/ro-chado.obo \
+ obo-relations/src/ontology/subsets/ro-chado.obo \
  gmod-schema-latest/chado/load/etc/feature_property.obo \
  song-svn/so-xp-simple.obo \
  PSI-MOD.obo \
