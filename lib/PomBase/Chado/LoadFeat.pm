@@ -667,10 +667,7 @@ method finalise($chromosome) {
     my $so_type = $feature_data->{so_type};
 
     if (!$so_type) {
-      use Data::Dumper;
-      $Data::Dumper::Maxdepth = 6;
-      warn 'no SO type:', $uniquename, ' ',
-        Dumper([$feature_data]), "\n" unless $self->quiet();
+      warn "A CDS/transcript was referenced but doesn't exist: $uniquename\n";
       next;
     }
 

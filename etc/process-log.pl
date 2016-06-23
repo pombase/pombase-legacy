@@ -141,6 +141,10 @@ while (defined (my $line = <>)) {
     }
     next;
   }
+  if ($line =~ m|A CDS/transcript was referenced but|) {
+    print $all_warnings $line;
+    print $feature_warnings "$gene: $line";
+  }
   if ($line =~ /no SO type for/) {
     print $all_warnings $line;
     print $feature_warnings "$gene: $line";
