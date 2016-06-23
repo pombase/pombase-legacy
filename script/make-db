@@ -96,6 +96,7 @@ mkdir -p $CURRENT_BUILD_DIR/ontologies
 
 date
 echo populate cvtermpath using owltools
+export OWLTOOLS_MEMORY=20g
 $OWLTOOLS_CHADO_CLOSURE $HOST $DB $USER $PASSWORD $SOURCES_DIR/$GO_OBO $SOURCES_DIR/pombase_fypo_github/release/fypo-simple.obo
 date; echo finished
 
