@@ -667,7 +667,8 @@ method finalise($chromosome) {
     my $so_type = $feature_data->{so_type};
 
     if (!$so_type) {
-      warn "A CDS/transcript was referenced but doesn't exist: $uniquename\n";
+      warn "A CDS/transcript was referenced but doesn't exist: ",
+        ($uniquename =~ s/\.\d$//r), "\n";
       next;
     }
 
