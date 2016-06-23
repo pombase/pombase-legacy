@@ -42,6 +42,8 @@ echo update GO from SVN
 echo update FYPO from GitHub
 (cd $SOURCES_DIR/pombase_fypo_github/; git pull)
 
+GO_OBO=go-svn/ontology/go-basic.obo
+
 OBO_FILES="\
  obo-relations/src/ontology/subsets/ro-chado.obo \
  gmod-schema-latest/chado/load/etc/feature_property.obo \
@@ -62,7 +64,7 @@ OBO_FILES="\
  pombe-embl/mini-ontologies/SO_feature_relations.obo \
  pombase/pombase_terms-v60.obo \
  pombase_fypo_github/release/fypo-simple.obo \
- go-svn/ontology/go-basic.obo"
+ $GO_OBO"
 
 CONNECT_STRING="dbi:Pg:dbname=$DB"
 if [ x$HOST != x ]
@@ -85,7 +87,7 @@ mkdir -p $CURRENT_BUILD_DIR/ontologies
   cd $CURRENT_BUILD_DIR/ontologies
 
   svn info $SOURCES_DIR/go-svn > go-svn-info.txt
-  cp $SOURCES_DIR/go-svn/ontology/go-basic.obo .
+  cp $SOURCES_DIR/$GO_OBO .
   cp $SOURCES_DIR/go-svn/ontology/go.obo .
 
   (cd $SOURCES_DIR/pombase_fypo_github; git describe) > fypo-git-info.txt
@@ -94,7 +96,7 @@ mkdir -p $CURRENT_BUILD_DIR/ontologies
 
 date
 echo populate cvtermpath using owltools
-$OWLTOOLS_CHADO_CLOSURE $HOST $DB $USER $PASSWORD $SOURCES_DIR/go-svn/ontology/go-basic.obo $SOURCES_DIR/pombase_fypo_github/release/fypo-simple.obo
+$OWLTOOLS_CHADO_CLOSURE $HOST $DB $USER $PASSWORD $SOURCES_DIR/$GO_OBO $SOURCES_DIR/pombase_fypo_github/release/fypo-simple.obo
 date; echo finished
 
 # prevent duplicate feature uniquenames
