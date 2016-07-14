@@ -240,7 +240,14 @@ psql -q $DB -c "CREATE VIEW pombase_genes_annotations_dates AS
 psql -q $DB -c "CREATE VIEW pombase_annotated_gene_features_per_publication AS
 WITH gene_pubs AS
   (
-SELECT gene.uniquename AS gene_uniquename, pub.uniquename AS pmid
+SELECT gene.uniquename AS gene_uniquename, pub.uniquename AS pmid,
+   (SELECT distinct(value)
+    FROM feature_cvtermprop session_prop
+    WHERE fc.feature_cvterm_id = session_prop.feature_cvterm_id
+      AND session_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'canto_session')) as session
    FROM feature gene
    JOIN cvterm gene_type ON gene_type.cvterm_id = gene.type_id
    JOIN feature_relationship r ON r.object_id = gene.feature_id
@@ -253,7 +260,14 @@ SELECT gene.uniquename AS gene_uniquename, pub.uniquename AS pmid
      AND gene_type.name = 'gene'
      AND mrna_type.name = 'mRNA'
 UNION
- SELECT gene.uniquename AS gene_uniquename, pub.uniquename AS pmid
+ SELECT gene.uniquename AS gene_uniquename, pub.uniquename AS pmid,
+   (SELECT distinct(value)
+    FROM feature_cvtermprop session_prop
+    WHERE fc.feature_cvterm_id = session_prop.feature_cvterm_id
+      AND session_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'canto_session')) as session
    FROM feature gene
    JOIN cvterm gene_type ON gene_type.cvterm_id = gene.type_id
    JOIN feature_relationship allele_gene_rel ON allele_gene_rel.object_id = gene.feature_id
@@ -268,7 +282,14 @@ UNION
      AND allele_genotype_rel_type.name = 'part_of'
      AND gene_type.name = 'gene'
 UNION
- SELECT sub.uniquename AS gene_uniquename, pub.uniquename AS pmid
+ SELECT sub.uniquename AS gene_uniquename, pub.uniquename AS pmid,
+   (SELECT distinct(value)
+    FROM feature_relationshipprop session_prop
+    WHERE r.feature_relationship_id = session_prop.feature_relationship_id
+      AND session_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'canto_session')) as session
    FROM feature_relationship r
    JOIN cvterm rel_type ON r.type_id = rel_type.cvterm_id
    JOIN feature sub ON r.subject_id = sub.feature_id
@@ -279,7 +300,14 @@ UNION
      AND (rel_type.name = 'interacts_genetically'
           OR rel_type.name = 'interacts_physically')
 UNION
- SELECT obj.uniquename AS gene_uniquename, pub.uniquename AS pmid
+ SELECT obj.uniquename AS gene_uniquename, pub.uniquename AS pmid,
+   (SELECT distinct(value)
+    FROM feature_relationshipprop session_prop
+    WHERE r.feature_relationship_id = session_prop.feature_relationship_id
+      AND session_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'canto_session')) as session
    FROM feature_relationship r
    JOIN cvterm rel_type ON r.type_id = rel_type.cvterm_id
    JOIN feature obj ON r.object_id = obj.feature_id
@@ -289,18 +317,7 @@ UNION
    WHERE ft.name = 'gene'
      AND (rel_type.name = 'interacts_genetically'
           OR rel_type.name = 'interacts_physically')
-),
-     genes_per_pub AS
-  (SELECT count(gene_uniquename), pmid
-   FROM gene_pubs
-   WHERE gene_uniquename IN
-       (SELECT uniquename
-        FROM feature
-        WHERE organism_id IN
-            (SELECT organism_id
-             FROM organism
-             WHERE common_name = 'pombe'))
-   GROUP BY pmid)
+)
 SELECT *
 FROM gene_pubs;"
 
