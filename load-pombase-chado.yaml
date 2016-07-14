@@ -104,6 +104,15 @@ cvs:
     - name: is_inferred
       definition: >
         Set to "yes" for annotation inferred during loading, "no" otherwise.
+  pubprop_type:
+    - name: canto_session
+    - name: canto_approved_date
+    - name: canto_approver_name
+    - name: canto_approver_email
+    - name: canto_curator_name
+    - name: canto_curator_email
+    - name: canto_message_for_curators
+    - name: canto_experiment_type
   cat_act: []
   genome_org: []
   m_f_g: []
