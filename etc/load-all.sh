@@ -68,6 +68,20 @@ evidence_summary () {
   psql $DB -c "select count(feature_cvtermprop_id), value from feature_cvtermprop where type_id in (select cvterm_id from cvterm where name = 'evidence') group by value order by count(feature_cvtermprop_id)"
 }
 
+refresh_views () {
+  for view in \
+    pombase_annotated_gene_features_per_publication \
+    pombase_feature_cvterm_with_ext_parents \
+    pombase_feature_cvterm_no_ext_terms \
+    pombase_feature_cvterm_ext_resolved_terms \
+    pombase_genotypes_alleles_genes_mrna \
+    pombase_extension_rels_and_values \
+    pombase_genes_annotations_dates
+  do
+    psql $DB -c "REFRESH MATERIALIZED VIEW $view;"
+  done
+}
+
 echo annotation evidence counts before loading
 evidence_summary $DB
 
@@ -190,6 +204,8 @@ $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml change-terms 
   --mapping-file=$SOURCES/pombe-embl/chado_load_mappings/GO_mapping_to_specific_terms.txt \
   "$HOST" $DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.go-term-mapping
 
+refresh_views
+
 PGPASSWORD=$PASSWORD psql -U $USER -h "$HOST" $DB -c 'analyze'
 
 echo annotation count after filtering redundant annotations:
@@ -247,6 +263,8 @@ cp $LOG_DIR/$log_file.excluded_fypo_terms_softcheck $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.excluded_fypo_terms $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.go-term-mapping $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.chado_checks $CURRENT_BUILD_DIR/logs/
+
+refresh_views
 
 (
 echo extension relation counts:
@@ -398,6 +416,7 @@ psql $DB -c "select count(distinct fc_id) as total from $sub_query;"
 
  ) > $CURRENT_BUILD_DIR/logs/$log_file.annotation_counts_by_cv
 
+refresh_views
 
 DB_BASE_NAME=`echo $DB | sed 's/-v[0-9]$//'`
 
