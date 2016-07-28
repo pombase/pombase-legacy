@@ -20,7 +20,7 @@ SOURCES=/var/pomcur/sources
 
 POMBASE_CHADO=$HOME/git/pombase-chado
 
-GOA_GAF_URL=ftp://ftp.ebi.ac.uk/pub/databases/GO/goa/UNIPROT/gene_association.goa_uniprot.gz
+GOA_GAF_URL=ftp://ftp.ebi.ac.uk/pub/databases/GO/goa/UNIPROT/goa_uniprot_all.gaf.gz
 
 cd $SOURCES/pombe-embl/
 svn update || exit 1
