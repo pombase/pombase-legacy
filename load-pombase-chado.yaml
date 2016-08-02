@@ -112,6 +112,7 @@ cvs:
     - name: canto_curator_name
     - name: canto_curator_email
     - name: canto_curator_role
+    - name: canto_triage_status
     - name: canto_session_accepted_date
     - name: canto_message_for_curators
     - name: canto_experiment_type
