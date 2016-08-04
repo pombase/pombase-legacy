@@ -192,6 +192,9 @@ echo filtering redundant annotations - `date`
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter "$HOST" $DB $USER $PASSWORD
 echo done filtering - `date`
 
+echo annotation count after filtering redundant GO annotations
+evidence_summary $DB
+
 echo update out of date allele names
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml update-allele-names "$HOST" $DB $USER $PASSWORD
 
