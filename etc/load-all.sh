@@ -187,6 +187,7 @@ echo annotation count after loading curation tool data:
 evidence_summary $DB
 
 PGPASSWORD=$PASSWORD psql -U $USER -h "$HOST" $DB -c 'analyze'
+refresh_views
 
 echo filtering redundant annotations - `date`
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter "$HOST" $DB $USER $PASSWORD
@@ -207,9 +208,8 @@ $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml change-terms 
   --mapping-file=$SOURCES/pombe-embl/chado_load_mappings/GO_mapping_to_specific_terms.txt \
   "$HOST" $DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.go-term-mapping
 
-refresh_views
-
 PGPASSWORD=$PASSWORD psql -U $USER -h "$HOST" $DB -c 'analyze'
+refresh_views
 
 echo annotation count after filtering redundant annotations:
 evidence_summary $DB
