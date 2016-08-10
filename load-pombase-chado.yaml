@@ -684,6 +684,18 @@ check_chado:
       query: |
         SELECT fc.feature_cvterm_id
           FROM feature_cvterm fc
+    - name: go_annotation_count
+      description: "check that GO filtering hasn't failed"
+      expected: '<= 40000'
+      verbose_fail: false
+      query: |
+        SELECT fc.feature_cvterm_id
+          FROM feature_cvterm fc
+          JOIN cvterm t ON t.cvterm_id = fc.cvterm_id
+          JOIN cv ON t.cv_id = cv.cv_id
+        WHERE cv.name IN ('biological_process',
+                          'molecular_function',
+                          'cellular_component')
     - name: quantitative_annotation_qualifiers
       description: check that all quantitative annotation have a count qualifier
       expected: 0
