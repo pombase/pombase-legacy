@@ -116,6 +116,10 @@ cvs:
     - name: canto_session_accepted_date
     - name: canto_message_for_curators
     - name: canto_experiment_type
+    - name: pubmed_publication_date
+    - name: pubmed_authors
+    - name: pubmed_citation
+    - name: pubmed_abstract
   cat_act: []
   genome_org: []
   m_f_g: []
@@ -782,3 +786,8 @@ check_chado:
              AND pt.name = 'canto_session') AS session
         FROM feature f
         WHERE length(name) <> length(regexp_replace(name, '[^\x01-\x7f]', '', 'g'))
+
+external_sources:
+  pubmed_efetch_url: 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmode=xml&retmax=99999&id='
+  pubmed_esearch_url: 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&remode=xml&retmax=99999&term='
+  
