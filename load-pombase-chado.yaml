@@ -114,6 +114,7 @@ cvs:
     - name: canto_curator_role
     - name: canto_triage_status
     - name: canto_session_accepted_date
+    - name: canto_session_submitted_date
     - name: canto_message_for_curators
     - name: canto_experiment_type
     - name: pubmed_publication_date
