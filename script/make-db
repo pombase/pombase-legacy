@@ -49,6 +49,7 @@ OBO_FILES="\
  gmod-schema-latest/chado/load/etc/feature_property.obo \
  song-svn/so-xp-simple.obo \
  PSI-MOD.obo \
+ pato-simple.obo \
  pombe-embl/mini-ontologies/iao.obo \
  pombe-embl/mini-ontologies/quiescence.obo \
  pombase_fypo_github/supplemental_files/fypo_extension_relations.obo \
@@ -58,7 +59,6 @@ OBO_FILES="\
  pombe-embl/mini-ontologies/fypo_extension.obo \
  pombe-embl/mini-ontologies/chebi.obo \
  pombe-embl/mini-ontologies/cl.obo \
- pombe-embl/mini-ontologies/pato.obo \
  pombe-embl/mini-ontologies/pombe_mini_PR.obo \
  pombe-embl/mini-ontologies/PSI-MOD_extension_relations.obo \
  pombe-embl/mini-ontologies/SO_feature_relations.obo \
