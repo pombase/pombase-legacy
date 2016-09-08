@@ -176,23 +176,24 @@ psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
       AND date_prop.type_id IN
         (SELECT cvterm_id
          FROM cvterm
-         WHERE name = 'date')) as annotation_date,
+         WHERE name = 'date')) AS annotation_date,
    (SELECT distinct(value)
     FROM feature_cvtermprop session_prop
     WHERE fc.feature_cvterm_id = session_prop.feature_cvterm_id
       AND session_prop.type_id IN
         (SELECT cvterm_id
          FROM cvterm
-         WHERE name = 'canto_session')) as session
+         WHERE name = 'canto_session')) AS session,
+   base_cv_name AS annotation_type
  FROM feature gene
  JOIN cvterm gene_type ON gene_type.cvterm_id = gene.type_id
  JOIN feature_relationship r ON r.object_id = gene.feature_id
- JOIN cvterm t ON r.type_id = t.cvterm_id
+ JOIN cvterm rel_type ON r.type_id = rel_type.cvterm_id
  JOIN feature mrna ON mrna.feature_id = subject_id
  JOIN cvterm mrna_type ON mrna_type.cvterm_id = mrna.type_id
- JOIN feature_cvterm fc ON mrna.feature_id = fc.feature_id
+ JOIN pombase_feature_cvterm_ext_resolved_terms fc ON mrna.feature_id = fc.feature_id
  JOIN pub ON fc.pub_id = pub.pub_id
- WHERE t.name = 'part_of'
+ WHERE rel_type.name = 'part_of'
    AND gene_type.name = 'gene'
    AND mrna_type.name = 'mRNA'
  UNION
@@ -204,14 +205,15 @@ psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
       AND date_prop.type_id IN
         (SELECT cvterm_id
          FROM cvterm
-         WHERE name = 'date')) as annotation_date,
+         WHERE name = 'date')) AS annotation_date,
    (SELECT distinct(value)
     FROM feature_cvtermprop session_prop
     WHERE fc.feature_cvterm_id = session_prop.feature_cvterm_id
       AND session_prop.type_id IN
         (SELECT cvterm_id
          FROM cvterm
-         WHERE name = 'canto_session')) as session
+         WHERE name = 'canto_session')) AS session,
+   base_cv_name AS annotation_type
  FROM feature gene
  JOIN cvterm gene_type ON gene_type.cvterm_id = gene.type_id
  JOIN feature_relationship allele_gene_rel ON allele_gene_rel.object_id = gene.feature_id
@@ -220,7 +222,7 @@ psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
  JOIN feature_relationship allele_genotype_rel ON allele_genotype_rel.subject_id = allele.feature_id
  JOIN feature genotype ON allele_genotype_rel.object_id = genotype.feature_id
  JOIN cvterm allele_genotype_rel_type ON allele_genotype_rel.type_id = allele_genotype_rel_type.cvterm_id
- JOIN feature_cvterm fc ON genotype.feature_id = fc.feature_id
+ JOIN pombase_feature_cvterm_ext_resolved_terms fc ON genotype.feature_id = fc.feature_id
  JOIN pub ON fc.pub_id = pub.pub_id
  WHERE allele_gene_rel_type.name = 'instance_of'
    AND allele_genotype_rel_type.name = 'part_of'
@@ -234,14 +236,15 @@ psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
       AND date_prop.type_id IN
         (SELECT cvterm_id
          FROM cvterm
-         WHERE name = 'date')) as annotation_date,
+         WHERE name = 'date')) AS annotation_date,
    (SELECT distinct(value)
     FROM feature_relationshipprop session_prop
     WHERE r.feature_relationship_id = session_prop.feature_relationship_id
       AND session_prop.type_id IN
         (SELECT cvterm_id
          FROM cvterm
-         WHERE name = 'canto_session')) as session
+         WHERE name = 'canto_session')) AS session,
+    rel_type.name AS annotation_type
  FROM feature_relationship r
  JOIN cvterm rel_type ON r.type_id = rel_type.cvterm_id
  JOIN feature sub ON r.subject_id = sub.feature_id
@@ -260,14 +263,15 @@ psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
       AND date_prop.type_id IN
         (SELECT cvterm_id
          FROM cvterm
-         WHERE name = 'date')) as annotation_date,
+         WHERE name = 'date')) AS annotation_date,
    (SELECT distinct(value)
     FROM feature_relationshipprop session_prop
     WHERE r.feature_relationship_id = session_prop.feature_relationship_id
       AND session_prop.type_id IN
         (SELECT cvterm_id
          FROM cvterm
-         WHERE name = 'canto_session')) as session
+         WHERE name = 'canto_session')) AS session,
+   rel_type.name AS annotation_type
  FROM feature_relationship r
  JOIN cvterm rel_type ON r.type_id = rel_type.cvterm_id
  JOIN feature obj ON r.object_id = obj.feature_id
