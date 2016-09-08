@@ -177,6 +177,13 @@ psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
         (SELECT cvterm_id
          FROM cvterm
          WHERE name = 'date')) AS annotation_date,
+   substring((SELECT distinct(value)
+    FROM feature_cvtermprop date_prop
+    WHERE fc.feature_cvterm_id = date_prop.feature_cvterm_id
+      AND date_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'date')) FROM '^(\\d\\d\\d\\d)') AS annotation_year,
    (SELECT distinct(value)
     FROM feature_cvtermprop session_prop
     WHERE fc.feature_cvterm_id = session_prop.feature_cvterm_id
@@ -220,6 +227,13 @@ psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
         (SELECT cvterm_id
          FROM cvterm
          WHERE name = 'date')) AS annotation_date,
+   substring((SELECT distinct(value)
+    FROM feature_cvtermprop date_prop
+    WHERE fc.feature_cvterm_id = date_prop.feature_cvterm_id
+      AND date_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'date')) FROM '^(\\d\\d\\d\\d)') AS annotation_year,
    (SELECT distinct(value)
     FROM feature_cvtermprop session_prop
     WHERE fc.feature_cvterm_id = session_prop.feature_cvterm_id
@@ -265,6 +279,13 @@ psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
         (SELECT cvterm_id
          FROM cvterm
          WHERE name = 'date')) AS annotation_date,
+   substring((SELECT distinct(value)
+    FROM feature_relationshipprop date_prop
+    WHERE r.feature_relationship_id = date_prop.feature_relationship_id
+      AND date_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'date')) FROM '^(\\d\\d\\d\\d)') AS annotation_year,
    (SELECT distinct(value)
     FROM feature_relationshipprop session_prop
     WHERE r.feature_relationship_id = session_prop.feature_relationship_id
@@ -300,6 +321,13 @@ psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
         (SELECT cvterm_id
          FROM cvterm
          WHERE name = 'date')) AS annotation_date,
+   substring((SELECT distinct(value)
+    FROM feature_relationshipprop date_prop
+    WHERE r.feature_relationship_id = date_prop.feature_relationship_id
+      AND date_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'date')) FROM '^(\\d\\d\\d\\d)') AS annotation_year,
    (SELECT distinct(value)
     FROM feature_relationshipprop session_prop
     WHERE r.feature_relationship_id = session_prop.feature_relationship_id
