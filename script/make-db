@@ -184,6 +184,20 @@ psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
         (SELECT cvterm_id
          FROM cvterm
          WHERE name = 'canto_session')) AS session,
+   (SELECT distinct(value)
+    FROM feature_cvtermprop evidence_prop
+    WHERE fc.feature_cvterm_id = evidence_prop.feature_cvterm_id
+      AND evidence_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'evidence')) AS evidence_code,
+   (SELECT distinct(value)
+    FROM feature_cvtermprop assigned_by_prop
+    WHERE fc.feature_cvterm_id = assigned_by_prop.feature_cvterm_id
+      AND assigned_by_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'assigned_by')) AS annotation_source,
    base_cv_name AS annotation_type
  FROM feature gene
  JOIN cvterm gene_type ON gene_type.cvterm_id = gene.type_id
@@ -213,6 +227,20 @@ psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
         (SELECT cvterm_id
          FROM cvterm
          WHERE name = 'canto_session')) AS session,
+   (SELECT distinct(value)
+    FROM feature_cvtermprop evidence_prop
+    WHERE fc.feature_cvterm_id = evidence_prop.feature_cvterm_id
+      AND evidence_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'evidence')) AS evidence_code,
+   (SELECT distinct(value)
+    FROM feature_cvtermprop assigned_by_prop
+    WHERE fc.feature_cvterm_id = assigned_by_prop.feature_cvterm_id
+      AND assigned_by_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'assigned_by')) AS annotation_source,
    base_cv_name AS annotation_type
  FROM feature gene
  JOIN cvterm gene_type ON gene_type.cvterm_id = gene.type_id
@@ -244,6 +272,14 @@ psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
         (SELECT cvterm_id
          FROM cvterm
          WHERE name = 'canto_session')) AS session,
+    null,
+   (SELECT distinct(value)
+    FROM feature_relationshipprop source_database_prop
+    WHERE r.feature_relationship_id = source_database_prop.feature_relationship_id
+      AND source_database_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'source_database')) AS annotation_source,
     rel_type.name AS annotation_type
  FROM feature_relationship r
  JOIN cvterm rel_type ON r.type_id = rel_type.cvterm_id
@@ -271,6 +307,14 @@ psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
         (SELECT cvterm_id
          FROM cvterm
          WHERE name = 'canto_session')) AS session,
+   null,
+   (SELECT distinct(value)
+    FROM feature_relationshipprop source_database_prop
+    WHERE r.feature_relationship_id = source_database_prop.feature_relationship_id
+      AND source_database_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'source_database')) AS annotation_source,
    rel_type.name AS annotation_type
  FROM feature_relationship r
  JOIN cvterm rel_type ON r.type_id = rel_type.cvterm_id
