@@ -210,6 +210,53 @@ psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
  JOIN cvterm gene_type ON gene_type.cvterm_id = gene.type_id
  JOIN feature_relationship r ON r.object_id = gene.feature_id
  JOIN cvterm rel_type ON r.type_id = rel_type.cvterm_id
+ JOIN pombase_feature_cvterm_ext_resolved_terms fc ON gene.feature_id = fc.feature_id
+ JOIN pub ON fc.pub_id = pub.pub_id
+ WHERE rel_type.name = 'part_of'
+   AND gene_type.name = 'gene'
+ UNION
+ SELECT gene.uniquename AS gene_uniquename,
+        'FC:' || fc.feature_cvterm_id AS id, pub.uniquename AS pmid,
+   (SELECT distinct(value)
+    FROM feature_cvtermprop date_prop
+    WHERE fc.feature_cvterm_id = date_prop.feature_cvterm_id
+      AND date_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'date')) AS annotation_date,
+   substring((SELECT distinct(value)
+    FROM feature_cvtermprop date_prop
+    WHERE fc.feature_cvterm_id = date_prop.feature_cvterm_id
+      AND date_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'date')) FROM '^(\\d\\d\\d\\d)') AS annotation_year,
+   (SELECT distinct(value)
+    FROM feature_cvtermprop session_prop
+    WHERE fc.feature_cvterm_id = session_prop.feature_cvterm_id
+      AND session_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'canto_session')) AS session,
+   (SELECT distinct(value)
+    FROM feature_cvtermprop evidence_prop
+    WHERE fc.feature_cvterm_id = evidence_prop.feature_cvterm_id
+      AND evidence_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'evidence')) AS evidence_code,
+   (SELECT distinct(value)
+    FROM feature_cvtermprop assigned_by_prop
+    WHERE fc.feature_cvterm_id = assigned_by_prop.feature_cvterm_id
+      AND assigned_by_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'assigned_by')) AS annotation_source,
+   base_cv_name AS annotation_type
+ FROM feature gene
+ JOIN cvterm gene_type ON gene_type.cvterm_id = gene.type_id
+ JOIN feature_relationship r ON r.object_id = gene.feature_id
+ JOIN cvterm rel_type ON r.type_id = rel_type.cvterm_id
  JOIN feature mrna ON mrna.feature_id = subject_id
  JOIN cvterm mrna_type ON mrna_type.cvterm_id = mrna.type_id
  JOIN pombase_feature_cvterm_ext_resolved_terms fc ON mrna.feature_id = fc.feature_id
