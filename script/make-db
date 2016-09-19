@@ -62,7 +62,7 @@ OBO_FILES="\
  pombe-embl/mini-ontologies/pombe_mini_PR.obo \
  pombe-embl/mini-ontologies/PSI-MOD_extension_relations.obo \
  pombe-embl/mini-ontologies/SO_feature_relations.obo \
- pombase/pombase_terms-v60.obo \
+ pombase/pombase_terms-v61.obo \
  pombase_fypo_github/release/fypo-simple.obo \
  $GO_OBO"
 
