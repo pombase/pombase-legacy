@@ -89,6 +89,7 @@ mkdir -p $CURRENT_BUILD_DIR/ontologies
   svn info $SOURCES_DIR/go-svn > go-svn-info.txt
   cp $SOURCES_DIR/$GO_OBO .
   cp $SOURCES_DIR/go-svn/ontology/go.obo .
+  cp $SOURCES_DIR/go-svn/ontology/extensions/go-plus.obo .
 
   (cd $SOURCES_DIR/pombase_fypo_github; git describe) > fypo-git-info.txt
   cp $SOURCES_DIR/pombase_fypo_github/release/fypo-simple.obo .
