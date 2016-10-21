@@ -7,12 +7,29 @@ date
 set -o pipefail
 
 HOST="$1"
-DB="$2"
+DATE="$2"
 USER="$3"
 PASSWORD="$4"
 PREV_VERSION="$5"
 CURRENT_VERSION=`echo $PREV_VERSION | perl -ne 'if (/^v?(\d+)$/) { print "v" . ($1+1) . "\n"; } else { print "vUNKNOWN" }'`
 PREV_DATE="$6"
+
+die() {
+  echo $1 1>&2
+  exit 1
+}
+
+(cd ~/chobo/; git pull) || die "Failed to update Chobo"
+(cd ~/git/pombase-chado; git pull) || die "Failed to update pombase-chado"
+(cd ~/git/pombase-legacy; git pull) || die "Failed to update pombase-legacy"
+
+(cd ~/git/pombase-legacy
+ export PATH=$HOME/chobo/script/:/usr/local/owltools-v0.2.1-255-geff650b/OWLTools-Runner/bin/:$PATH
+ export OWLTOOLS_CHADO_CLOSURE=/home/kmr44/git/pombase-chado/script/owltools-chado-closure.pl
+ export PERL5LIB=$HOME/git/pombase-chado:$HOME/chobo/lib/:$PERL5LIB
+ time nice -19 ./script/make-db $DATE $HOST $USER $PASSWORD) || die "make-db failed"
+
+DB=pombase-build-$DATE-v1
 
 LOG_DIR=`pwd`
 
