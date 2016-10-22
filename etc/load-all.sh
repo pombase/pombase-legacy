@@ -51,7 +51,7 @@ git pull || exit 1
 export PERL5LIB=$HOME/git/pombase-chado/lib:$HOME/git/pombase-legacy/lib
 
 cd $LOG_DIR
-log_file=log.`date_string`
+log_file=log.`date +'%Y-%m-%d-%H-%M-%S'`
 `dirname $0`/../script/load-chado.pl \
   --mapping "sequence_feature:sequence:$SOURCES/pombe-embl/chado_load_mappings/features-to-so_mapping_only.txt" \
   --mapping "pt_mod:PSI-MOD:$SOURCES/pombe-embl/chado_load_mappings/modification_map.txt" \
