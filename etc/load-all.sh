@@ -33,7 +33,8 @@ DB=pombase-build-$DATE-v1
 
 LOG_DIR=`pwd`
 
-SOURCES=/var/pomcur/sources
+POMCUR=/var/pomcur
+SOURCES=$POMCUR/sources
 
 POMBASE_CHADO=$HOME/git/pombase-chado
 
@@ -441,6 +442,8 @@ psql $DB -c "select count(distinct fc_id) as total from $sub_query;"
  ) > $CURRENT_BUILD_DIR/logs/$log_file.annotation_counts_by_cv
 
 refresh_views
+
+$POMCUR/bin/pombase-chado-json -c "postgres://kmr44:kmr44@localhost/$DB" -d $CURRENT_BUILD_DIR/web-json -O Schizosaccharomyces_pombe
 
 DB_BASE_NAME=`echo $DB | sed 's/-v[0-9]$//'`
 
