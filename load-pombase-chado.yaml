@@ -639,6 +639,7 @@ check_chado:
         select count(feature_id), name from feature where
         name is not null and type_id = (select cvterm_id from cvterm where cv_id
         = (select cv_id from cv where name = 'sequence') and name = 'gene') and
+        name <> 'mat3-Mm' and name <> 'mat3-Mc' and
         organism_id = (select organism_id from organism where abbreviation =
         'Spombe') group by name having count(feature_id) > 1
     - name: alleles_instance_of_gene
