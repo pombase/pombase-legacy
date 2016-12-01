@@ -172,6 +172,7 @@ extension_restrictions:
       - part_of
       - not_happens_during
       - directly_activates
+      - directly_inhibits
   cellular_component:
     allowed:
       - exists_during
