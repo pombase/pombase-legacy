@@ -171,8 +171,8 @@ extension_restrictions:
       - inhibited_by
       - part_of
       - not_happens_during
-      - directly_activates
-      - directly_inhibits
+      - directly_positively_regulates
+      - directly_negatively_regulates
   cellular_component:
     allowed:
       - exists_during
