@@ -36,7 +36,7 @@ rm --verbose -rf tmp
 (cd $SOURCES_DIR/pombe-embl/; svn update || exit 1)
 
 echo update SO from SVN
-(cd $SOURCES_DIR/song-svn; svn update)
+(cd $SOURCES_DIR/SO-Ontologies-git; git pull)
 echo update GO from SVN
 (cd $SOURCES_DIR/go-svn; svn --ignore-externals update)
 echo update FYPO from GitHub
@@ -47,7 +47,7 @@ GO_OBO=go-svn/ontology/go-basic.obo
 OBO_FILES="\
  obo-relations/src/ontology/subsets/ro-chado.obo \
  gmod-schema-latest/chado/load/etc/feature_property.obo \
- song-svn/so-xp-simple.obo \
+ SO-Ontologies-git/so-simple.obo \
  PSI-MOD.obo \
  pato-simple.obo \
  pombe-embl/mini-ontologies/iao.obo \
