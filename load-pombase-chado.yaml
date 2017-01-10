@@ -792,6 +792,17 @@ check_chado:
              AND pt.name = 'canto_session') AS session
         FROM feature f
         WHERE length(name) <> length(regexp_replace(name, '[^\x01-\x7f]', '', 'g'))
+    - name: extension_relation_genes_exist
+      description: Check that gene identifiers used in extensions exist
+      expected: 0
+      verbose_fail: true
+      query: |
+        SELECT value FROM cvtermprop
+          WHERE type_id IN
+            (SELECT cvterm_id FROM cvterm
+              WHERE name LIKE 'annotation_extension_relation-%')
+                AND value LIKE 'SP%'
+                AND value NOT IN (SELECT uniquename FROM feature WHERE uniquename LIKE 'SP%')
 
 external_sources:
   pubmed_efetch_url: 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmode=xml&retmax=99999&id='
