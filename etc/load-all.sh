@@ -4,6 +4,7 @@
 
 date
 
+set -eu
 set -o pipefail
 
 HOST="$1"
