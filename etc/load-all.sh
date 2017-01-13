@@ -104,7 +104,7 @@ refresh_views () {
 echo annotation evidence counts before loading
 evidence_summary $DB
 
-echo starting import of GOA GAF data
+echo starting import of GAF data
 
 {
 for gaf_file in go_comp.txt go_proc.txt go_func.txt From_curation_tool GO_ORFeome_localizations2.txt
@@ -129,11 +129,11 @@ fi
 echo counts after inf:
 evidence_summary $DB
 
-echo $SOURCES/gene_association.goa_uniprot.pombe
+echo reading $SOURCES/gene_association.goa_uniprot.pombe
 CURRENT_GOA_GAF="$SOURCES/gene_association.goa_uniprot.gz"
 DOWNLOADED_GOA_GAF=$CURRENT_GOA_GAF.downloaded
-GET -i $CURRENT_GOA_GAF $GOA_GAF_URL > $DOWNLOADED_GOA_GAF
-if [ -s $DOWNLOADED_GOA_GAF ]
+
+if GET -i $CURRENT_GOA_GAF $GOA_GAF_URL > $DOWNLOADED_GOA_GAF
 then
   mv $DOWNLOADED_GOA_GAF $CURRENT_GOA_GAF
 else
