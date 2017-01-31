@@ -63,7 +63,7 @@ OBO_FILES="\
  pombe-embl/mini-ontologies/PSI-MOD_extension_relations.obo \
  pombe-embl/mini-ontologies/SO_feature_relations.obo \
  pombe-embl/mini-ontologies/has_qualifier_range.obo \
- pombase/pombase_terms-v61.obo \
+ pombase/pombase_terms-v62.obo \
  pombase_fypo_github/release/fypo-simple.obo \
  $GO_OBO"
 
