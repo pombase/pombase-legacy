@@ -484,6 +484,7 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
             my $new_name = ($pombe_feature->name() // $pombe_feature->uniquename()) . 'delta';
             $args{name} = $new_name;
             $args{description} = 'deletion';
+            $expression = "Null";
             warn qq|storing allele=$allele as "$new_name(deletion)"\n| if $self->verbose();
           } else {
             warn qq|allele "$allele" is not in the form "name(description)" - storing as "$allele(unknown)"\n| unless $self->quiet();
