@@ -84,7 +84,7 @@ cat $SOURCES/biogrid/BIOGRID-ORGANISM-Schizosaccharomyces_pombe*.tab2.txt | $POM
 
 evidence_summary () {
   DB=$1
-  psql $DB -c "select count(feature_cvtermprop_id), value from feature_cvtermprop where type_id in (select cvterm_id from cvterm where name = 'evidence') group by value order by count(feature_cvtermprop_id)"
+  psql $DB -c "select count(feature_cvtermprop_id), value from feature_cvtermprop where type_id in (select cvterm_id from cvterm where name = 'evidence') group by value order by count(feature_cvtermprop_id)" | cat
 }
 
 refresh_views () {
