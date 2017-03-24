@@ -411,6 +411,7 @@ evidence_types:
   'Protein-RNA': ~
   'Protein-peptide': ~
   'Reconstituted Complex':
+    name: Reconstituted Complex
     symmetrical: yes
   'Synthetic Growth Defect':
     name: Synthetic Growth Defect
