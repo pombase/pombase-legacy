@@ -809,7 +809,7 @@ check_chado:
       verbose_fail: true
       expected: 0
       query: |
-        SELECT f.uniquename, f.name, t.name, (SELECT value FROM feature_cvtermprop p WHERE p.type_id in (SELECT cvterm_id FROM cvterm WHERE name = 'canto_session') limit 1)
+        SELECT f.uniquename, f.name, t.name, (SELECT value FROM feature_cvtermprop p WHERE p.feature_cvterm_id = fc.feature_cvterm_id and p.type_id in (SELECT cvterm_id FROM cvterm WHERE name = 'canto_session') limit 1) as canto_session
            FROM feature_cvterm fc
            JOIN feature f ON f.feature_id = fc.feature_id
            JOIN cvterm t on fc.cvterm_id = t.cvterm_id
