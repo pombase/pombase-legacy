@@ -238,7 +238,12 @@ echo annotation count after filtering redundant annotations:
 evidence_summary $DB
 
 echo running consistency checks
-$POMBASE_CHADO/script/check-chado.pl ./load-pombase-chado.yaml "$HOST" $DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.chado_checks
+if $POMBASE_CHADO/script/check-chado.pl ./load-pombase-chado.yaml "$HOST" $DB $USER $PASSWORD > $LOG_DIR/$log_file.chado_checks 2>&1
+then
+    CHADO_CHECKS_STATUS=passed
+else
+    CHADO_CHECKS_STATUS=failed
+fi
 
 POMBASE_EXCLUDED_GO_TERMS_SOFTCHECK=$SOURCES/pombe-embl/supporting_files/GO_terms_excluded_from_pombase.txt
 echo report annotations using GO terms from $POMBASE_EXCLUDED_GO_TERMS_SOFTCHECK 2>&1 | tee $LOG_DIR/$log_file.excluded_go_terms_softcheck
@@ -465,5 +470,8 @@ pg_dump $DB | gzip -9v > $DUMP_FILE
 
 rm -f $DUMPS_DIR/latest_build
 ln -s $CURRENT_BUILD_DIR $DUMPS_DIR/latest_build
+
+rm -f $DUMPS_DIR/nightly_update
+ln -s $CURRENT_BUILD_DIR $DUMPS_DIR/nightly_update
 
 date
