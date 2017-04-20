@@ -471,7 +471,10 @@ pg_dump $DB | gzip -9v > $DUMP_FILE
 rm -f $DUMPS_DIR/latest_build
 ln -s $CURRENT_BUILD_DIR $DUMPS_DIR/latest_build
 
-rm -f $DUMPS_DIR/nightly_update
-ln -s $CURRENT_BUILD_DIR $DUMPS_DIR/nightly_update
+if [ $CHADO_CHECKS_STATUS=passed ]
+then
+    rm -f $DUMPS_DIR/nightly_update
+    ln -s $CURRENT_BUILD_DIR $DUMPS_DIR/nightly_update
+fi
 
 date
