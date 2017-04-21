@@ -116,13 +116,13 @@ do
   evidence_summary $DB
 done
 
-echo $SOURCES/gene_association.pombase.inf.gaf
-GET 'http://build.berkeleybop.org/view/GAF/job/gaf-check-pombase/lastSuccessfulBuild/artifact/gene_association.pombase.inf.gaf' > $SOURCES/gene_association.pombase.inf.gaf || die failed to download gene_association.pombase.inf.gaf
-if [ -s $SOURCES/gene_association.pombase.inf.gaf ]
+echo $SOURCES/pombase-gafcheck-prediction.gaf
+GET 'http://build.berkeleybop.org/job/go-gaf-release-snapshot/lastSuccessfulBuild/artifact/pipeline/target/groups/pombase/pombase-gafcheck-prediction.gaf' > $SOURCES/gene_association.pombase.inf.gaf || die failed to download pombase-gafcheck-prediction.gaf
+if [ -s $SOURCES/pombase-gafcheck-prediction.gaf ]
 then
-  $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings --assigned-by-filter=PomBase,GOC "$HOST" $DB $USER $PASSWORD < $SOURCES/gene_association.pombase.inf.gaf
+  $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings --assigned-by-filter=PomBase,GOC "$HOST" $DB $USER $PASSWORD < $SOURCES/pombase-gafcheck-prediction.gaf
 else
-  echo "Coudn't download gene_association.pombase.inf.gaf - exiting" 1>&2
+  echo "Coudn't download pombase-gafcheck-prediction.gaf - exiting" 1>&2
   exit 1
 fi
 
