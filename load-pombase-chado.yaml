@@ -616,6 +616,71 @@ auto_evidence_assignment:
   resistance to L-azetidine-2-carboxylic acid: Cell growth assay
   resistance to K-252a: Cell growth assay
   normal cell population growth: Cell growth assay
+  abnormal G1/S phase transcription: Transcript expression level evidence
+  abnormal actin cortical patch localization: Microscopy
+  abnormal actomyosin contractile ring myosin filament organization: Microscopy
+  abnormal cellular respiration: Cell growth assay
+  abnormal chromosome condensation: Microscopy
+  abnormal chromosome segregation: Microscopy
+  abnormal cytoplasmic microtubule nucleation during mitotic interphase: Microscopy
+  abnormal endocytosis during vegetative growth: Microscopy
+  abnormal glucan synthesis: Substance quantification evidence
+  abnormal meiosis: Microscopy
+  abnormal meiotic recombination: Reporter gene assay
+  abnormal microtubule cytoskeleton organization during vegetative growth: Microscopy
+  abnormal mitotic DNA damage checkpoint: Flow cytometry data
+  abnormal mitotic sister chromatid segregation: Microscopy
+  abnormal mitotic spindle assembly: Microscopy
+  abnormal mitotic spindle elongation: Microscopy
+  abnormal negative regulation of mitotic DNA replication initiation: Flow cytometry data
+  abnormal plasma membrane sterol distribution: Microscopy
+  abnormal regulation of translation in response to nitrogen starvation: Cell growth assay
+  abnormal regulation of translation in response to osmotic stress: Cell growth assay
+  abnormal regulation of translation in response to oxidative stress: Cell growth assay
+  abnormal vegetative cell morphology: Microscopy
+  abnormal vegetative cell polarity: Microscopy
+  abolished DNA damage checkpoint override in response to caffeine:Flow cytometry data
+  abolished cell-substrate adhesion: Other
+  abolished crossover: Reporter gene assay
+  actomyosin contractile ring absent: Microscopy
+  branched, elongated cell: Microscopy
+  chromosome loss during mitotic chromosome segregation: Reporter gene assay
+  decreased cell population growth at high temperature: Cell growth assay
+  decreased cell population growth at low temperature: Cell growth assay
+  decreased cell population growth on ammonia nitrogen source: Cell growth assay
+  decreased cell population growth on galactose carbon source: Cell growth assay
+  decreased cell population growth on proline nitrogen source: Cell growth assay
+  decreased gene conversion during vegetative growth: Reporter gene assay
+  decreased vegetative cell population growth: Cell growth assay
+  elongated multiseptate vegetative cell: Microscopy
+  fragmented DNA: Microscopy
+  increased DNA recombination at mitotic DNA replication fork barriers: Reporter gene assay
+  increased HMG-CoA reductase activity: Enzyme assay data
+  increased centromeric outer repeat transcript level: Transcript expression level evidence
+  increased duration of mitotic M phase: Flow cytometry data
+  increased long tract gene conversion: Reporter gene assay
+  increased protein oxidation during vegetative growth: Western blot assay
+  increased transcription from MCB promoter: Transcript expression level evidence
+  inviable elongated vegetative cell with central constriction: Microscopy
+  mitochondrial nucleoid decreased number: Microscopy
+  mitochondrial nucleoid enlarged: Microscopy
+  mitotic G2/M transition delay: Microscopy
+  mitotic chromosome fragmentation upon segregation: Microscopy
+  mutator: Reporter gene assay
+  normal growth on ammonia nitrogen source: Cell growth assay
+  normal growth on proline nitrogen source: Cell growth assay
+  normal vegetative cell population growth: Cell growth assay
+  pear-shaped vegetative cell: Microscopy
+  pear-shaped vegetative cell: Microscopy
+  protein mislocalized to cytoplasm during vegetative growth: Microscopy
+  sensitive to caffeine during vegetative growth: Cell growth assay
+  sensitive to osmotic stress: Cell growth assay
+  slow vegetative cell population growth: Cell growth assay
+  small vegetative cell: Microscopy
+  split actomyosin contractile ring: Microscopy
+  sterile: Cell growth assay
+  stubby vegetative cell: Microscopy
+  swollen vegetative cell: Microscopy
 
 check_chado:
   'PomBase::Check::FeatureCount':
