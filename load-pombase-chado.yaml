@@ -305,7 +305,7 @@ pombase_to_uniprot_mapping: 'ftp://ftp.ebi.ac.uk/pub/databases/pombase/pombe/Map
 
 # a Perl regular expression that matches the systematic ID / uniquenames
 # in this database
-systematic_id_re: "SP.[CP]\w+\d+\w+\d+c?.\d"
+systematic_id_re: 'SP.[CP]\w+\d+\w+\d+c?.\d'
 
 # the default is to use the cv name as the db name
 db_names_for_cvs:
@@ -643,7 +643,7 @@ auto_evidence_assignment:
   abolished cell-substrate adhesion: Other
   abolished crossover: Reporter gene assay
   actomyosin contractile ring absent: Microscopy
-  branched, elongated cell: Microscopy
+  "branched, elongated cell": Microscopy
   chromosome loss during mitotic chromosome segregation: Reporter gene assay
   decreased cell population growth at high temperature: Cell growth assay
   decreased cell population growth at low temperature: Cell growth assay
