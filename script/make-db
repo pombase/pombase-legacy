@@ -1,4 +1,4 @@
-#!/bin/sh -
+#!/bin/bash -
 
 # A script to make a PomBase Chado db from scratch
 
@@ -52,7 +52,7 @@ echo update FYPO from GitHub
        mv $PRO_FILE.new $PRO_FILE
     else
       echo "no new $PRO_FILE to download"
-      rm $PRO_FILE.new
+      rm -f $PRO_FILE.new
     fi
 )
 
@@ -89,9 +89,19 @@ fi
 
 CHOBO_LOAD_LOG=chobo_load.log
 echo 'Starting OBO loading at:' `date`
-(cd $SOURCES_DIR; $HOME/chobo/script/chobo_load $CONNECT_STRING $USER $PASSWORD $POMBASE_LEGACY/etc/pombase-relations.obo $OBO_FILES) > $CHOBO_LOAD_LOG 2>&1 || exit 1
-echo 'Finished OBO loading at:' `date`
 echo log file: $CHOBO_LOAD_LOG
+OLD_DIR=`pwd`
+cd $SOURCES_DIR
+if $HOME/chobo/script/chobo_load $CONNECT_STRING $USER $PASSWORD $POMBASE_LEGACY/etc/pombase-relations.obo $OBO_FILES > $CHOBO_LOAD_LOG 2>&1
+then
+  echo 'Finished OBO loading at:' `date`
+else 
+  echo chobo_load failed:
+  cat $CHOBO_LOAD_LOG
+  exit 1
+fi
+
+cd $OLD_DIR
 
 CURRENT_BUILD_DIR=$SOURCES_DIR/current_build_files/pombase-build-$DB_NAME_SUFFIX
 
