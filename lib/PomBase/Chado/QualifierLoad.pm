@@ -42,6 +42,14 @@ use Moose;
 
 use Memoize;
 
+has verbose => (is => 'ro', isa => 'Bool');
+has quiet => (is => 'ro', isa => 'Bool');
+
+has gene_ex_qualifiers => (is => 'ro', init_arg => undef,
+                           lazy_build => 1);
+has genotype_cache => (is => 'ro', required => 1,
+                       isa => 'PomBase::Chado::GenotypeCache');
+
 with 'PomBase::Role::ConfigUser';
 with 'PomBase::Role::ChadoUser';
 with 'PomBase::Role::FeatureDumper';
@@ -59,12 +67,6 @@ with 'PomBase::Role::QualifierSplitter';
 with 'PomBase::Role::LegacyAlleleHandler';
 with 'PomBase::Role::Embl::FeatureRelationshippropStorer';
 with 'PomBase::Role::PhenotypeFeatureFinder';
-
-has verbose => (is => 'ro', isa => 'Bool');
-has quiet => (is => 'ro', isa => 'Bool');
-
-has gene_ex_qualifiers => (is => 'ro', init_arg => undef,
-                           lazy_build => 1);
 
 method _build_gene_ex_qualifiers {
   my @gene_ex_qualifiers = @{$self->config()->{gene_ex_qualifiers}};

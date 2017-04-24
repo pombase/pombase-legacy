@@ -54,6 +54,8 @@ has quiet => (is => 'ro', isa => 'Bool', default => 0);
 has organism => (is => 'ro',
                  required => 1,
                 );
+has genotype_cache => (is => 'ro', required => 1,
+                       isa => 'PomBase::Chado::GenotypeCache');
 
 method process_file($file) {
   my $chado = $self->chado();
@@ -64,6 +66,7 @@ method process_file($file) {
     PomBase::Chado::LoadFeat->new(organism => $self->organism(),
                                   config => $self->config(),
                                   chado => $self->chado(),
+                                  genotype_cache => $self->genotype_cache(),
                                   verbose => $self->verbose(),
                                   quiet => $self->quiet());
 

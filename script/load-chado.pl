@@ -23,6 +23,7 @@ use PomBase::Chado::ExtensionProcessor;
 use PomBase::Chado::ParalogProcessor;
 use PomBase::Chado::GeneExQualifiersUtil;
 use PomBase::Chado::LoadUniProtMapping;
+use PomBase::Chado::GenotypeCache;
 use PomBase::Config;
 
 my $verbose = 0;
@@ -209,8 +210,11 @@ PomBase::Load::load_genes($config, $chado, $human, $config->{test_mode});
 
 my @files = @ARGV;
 
+my $genotype_cache = PomBase::Chado::GenotypeCache->new(chado => $chado);
+
 while (defined (my $file = shift)) {
   my $load_file = PomBase::Chado::LoadFile->new(chado => $chado,
+                                                genotype_cache => $genotype_cache,
                                                 verbose => $verbose,
                                                 config => $config,
                                                 organism => $organism);

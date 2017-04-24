@@ -75,6 +75,8 @@ has quiet => (is => 'ro', isa => 'Bool');
 
 has gene_objects => (is => 'ro', init_arg => undef, isa => 'HashRef',
                      default => sub { {} });
+has genotype_cache => (is => 'ro', required => 1,
+                       isa => 'PomBase::Chado::GenotypeCache');
 
 method _build_qual_load {
   my $chado = $self->chado();
@@ -87,6 +89,7 @@ method _build_qual_load {
   }
 
   return PomBase::Chado::QualifierLoad->new(chado => $chado,
+                                            genotype_cache => $self->genotype_cache(),
                                             verbose => $verbose,
                                             quiet => $quiet,
                                             config => $config

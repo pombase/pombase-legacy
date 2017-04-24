@@ -7,6 +7,7 @@ use Test::Deep;
 use PomBase::TestUtil;
 use PomBase::Chado::LoadFile;
 use PomBase::Chado::IdCounter;
+use PomBase::Chado::GenotypeCache;
 use PomBase::Load;
 
 my $test_util = PomBase::TestUtil->new(load_test_features => 0);
@@ -21,8 +22,10 @@ $config->{id_counter} = $id_counter;
 
 my $organism = PomBase::Load::init_objects($chado, $config);
 
+my $genotype_cache = PomBase::Chado::GenotypeCache->new(chado => $chado);
+
 my $load_file = PomBase::Chado::LoadFile->new(chado => $chado,
-                                              verbose => 0,
+                                              genotype_cache => $genotype_cache,
                                               quiet => 1,
                                               config => $config,
                                               organism => $organism);
