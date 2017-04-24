@@ -19,7 +19,6 @@ my $builder = Module::Build->new(
       'Carp::Assert'          => 0,
       'Digest::MD5'           => 0,
       'File::Temp'            => 0,
-      'List::Gen'             => 0,
       'Memoize'               => 0,
       'Method::Signatures'    => 0,
       'Module::Find'          => 0,
