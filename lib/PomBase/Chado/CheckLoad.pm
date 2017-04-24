@@ -74,7 +74,7 @@ method check {
   should ($chadoprop_rs->count(), 1);
 
   my $rel_rs = $chado->resultset('Sequence::FeatureRelationship');
-  should ($rel_rs->count(), 61);
+  should ($rel_rs->count(), 62);
 
   my $relprop_rs = $chado->resultset('Sequence::FeatureRelationshipprop');
   should ($relprop_rs->count(), 5);
@@ -86,7 +86,7 @@ method check {
   should ($phase_loc_rs->count(), 9);
 
   my $feature_prop_rs = $chado->resultset('Sequence::Featureprop');
-  should ($feature_prop_rs->count(), 23);
+  should ($feature_prop_rs->count(), 24);
 
   my $feature_dbxref_rs = $chado->resultset('Sequence::FeatureDbxref');
   should ($feature_dbxref_rs->count(), 21);
@@ -121,10 +121,10 @@ method check {
       organism_id => $pombe->organism_id(),
     }, { order_by => 'uniquename' });
 
-  should ($allele_rs->count(), 2);
+  should ($allele_rs->count(), 3);
 
   assert (grep {
-    defined $_->name() && $_->name() eq 'sod2+';
+    defined $_->name() && $_->name() eq 'sod2delta';
   } $allele_rs->all());
 
   assert (grep {
@@ -167,18 +167,22 @@ method check {
   my $ext_feature_cvterm_rs =
     $chado->resultset('Sequence::FeatureCvterm')->search({ 'cv.name' => 'PomBase annotation extension terms' },
                                                          { join => { cvterm => 'cv' } });
-  should($ext_feature_cvterm_rs->count(), 14);
+  should($ext_feature_cvterm_rs->count(), 10);
 
   my $cvterm_property_type_cv =
     $chado->resultset('Cv::Cv')->find({ name => 'cvterm_property_type' });
   my $cvtermprop_types_rs = $chado->resultset('Cv::Cvterm')->search({ cv_id => $cvterm_property_type_cv->cv_id(),
                                                                       name => { like => 'annotation_extension_relation-%' } });
 
-  should($cvtermprop_types_rs->count(), 69);
+  while (defined (my $prop_type_cvterm = $cvtermprop_types_rs->next())) {
+    warn $prop_type_cvterm->name(), "\n";
+  }
+
+  should($cvtermprop_types_rs->count(), 71);
 
   my $an_ex_rel_props_rs = $chado->resultset('Cv::Cvtermprop')->search({
     type_id => { -in => $cvtermprop_types_rs->get_column('cvterm_id')->as_query() } });
-  should($an_ex_rel_props_rs->count(), 4);
+  should($an_ex_rel_props_rs->count(), 3);
 
   my ($localizes_term) = grep { $_->cvterm()->name() =~ /cellular protein localization \[has_input\] SPAC167.03c/ } @all_feature_cvterm;
   assert(defined $localizes_term);
@@ -192,12 +196,14 @@ method check {
 
   my $feature_cvterm = $feature_cvterm_rs->next();
 
+  should($feature_cvterm_rs->count(), 1);
+
   {
     my @actual_props = map { ( $_->type()->name(), $_->value() ) } $feature_cvterm->feature_cvtermprops();
 
     my @expected_props = ( 'qualifier', 'region',
                            'evidence', 'Inferred from Direct Assay',
-                           'date', '19700101');
+                           'date', '1999-10-05');
     assert(Compare(\@expected_props, \@actual_props));
   }
 
@@ -206,10 +212,10 @@ method check {
   should($ortholog_cvterm_rs->count(), 0);
 
   my @all_props = $chado->resultset('Sequence::FeatureCvtermprop')->all();
-  should(scalar(@all_props), 204);
+  should(scalar(@all_props), 192);
 
   my $feat_rs = $chado->resultset('Sequence::Feature');
-  should ($feat_rs->count(), 80);
+  should ($feat_rs->count(), 79);
 
   for my $feat (sort { $a->uniquename() cmp $b->uniquename() } $feat_rs->all()) {
 #    print $feat->uniquename(), " ", $feat->type()->name(), "\n";
@@ -253,16 +259,6 @@ method check {
   my @so_ann_ex_go_terms =
     $so_ann_ex_gene->feature_cvterms()->search_related('cvterm');
 
-  # check for annotation extension with a SO term
-  warn "cvterms for $spac977_12_1:\n" if $self->verbose();
-  assert (grep {
-    warn '  props for ', $_->name(), ":\n" if $self->verbose();
-    for my $prop ($_->cvtermprops()) {
-      warn '    ', $prop->type()->name(), ' => ', $prop->value(), "\n" if $self->verbose();
-    }
-    $_->name() eq 'chromosome, centromeric region [dependent_on] protein binding (^has_substrate(GeneDB_Spombe:SPCC594.07c)) [exists_during] regional_centromere_central_core';
-  } @so_ann_ex_go_terms);
-
   my $spbc409_20c_1 = 'SPBC409.20c.1';
 
   my $ann_ex_gene =
@@ -271,7 +267,7 @@ method check {
   my @ann_ex_go_terms =
     $ann_ex_gene->feature_cvterms()->search_related('cvterm');
 
-  should(scalar(@ann_ex_go_terms), 8);
+  should(scalar(@ann_ex_go_terms), 9);
 
   # check for annotation extension targeting genes
   warn "cvterms for $spbc409_20c_1:\n" if $self->verbose();
@@ -287,9 +283,14 @@ method check {
     my $fcs = $methyltransferase_activity_term->feature_cvterms();
     my @actual_props = map { ( $_->type()->name(), $_->value() ) } $fcs->first()->feature_cvtermprops();
 
-    my @expected_props = ( 'assigned_by', 'PomBase',
-                           'evidence', 'Inferred from Mutant Phenotype',
-                           'date', '20050510', );
+    my @expected_props = (
+          'assigned_by',
+          'PomBase',
+          'evidence',
+          'Inferred from Mutant Phenotype',
+          'date',
+          '2005-05-10'
+        );
 
     should(scalar(@expected_props), scalar(@actual_props));
 
@@ -321,7 +322,7 @@ method check {
   my @expected_props = ( 'assigned_by', 'PomBase',
                          'with', 'SGD:S000002371',
                          'evidence', 'Inferred from Sequence Orthology',
-                         'date', '20050322', );
+                         'date', '2005-03-22', );
 
   assert(scalar(@expected_props) == scalar(@actual_props));
 

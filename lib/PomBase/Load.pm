@@ -125,7 +125,8 @@ func load_genes($config, $chado, $organism, $test_mode) {
 func _fix_annotation_extension_rels($chado, $config) {
    my @extension_rel_terms = map {
      ($chado->resultset('Cv::Cv')->search({ 'me.name' => $_ })
-            ->search_related('cvterms')->all());
+        ->search_related('cvterms')
+        ->search({ is_relationshiptype => 1 })->all());
    } @{$config->{extension_relation_cv_names}};
 
   push @{$config->{cvs}->{cvterm_property_type}},

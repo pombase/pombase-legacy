@@ -73,12 +73,10 @@ FT                   db_xref=PMID:19547744; cv=pt_mod; date=20100606"
 FT                   /controlled_curation="term=phenotype, viable;
 FT                   db_xref=PMID:20473289; cv=phenotype;
 FT                   date=20100406; allele=aname(A10T)"
-FT                   /controlled_curation="term=phenotype, growth auxotrophic
-FT                   for ethanolamine; cv=phenotype; db_xref=PMID:198286980;
-FT                   allele=deletion;
-FT                   with=GeneDB_Spombe:SPAC25B8.03|GeneDB_Spombe:SPBC16E9.18;
+FT                   /controlled_curation="term=phenotype, DNA damage checkpoint override in response to caffeine abolished;
+FT                   cv=phenotype; db_xref=PMID:198286980; allele=deletion;
 FT                   date=20090727"
-FT                   /controlled_curation="term=phenotype, growth auxotrophic for arginine;
+FT                   /controlled_curation="term=phenotype, cell morphology, small cells;
 FT                   db_xref=PMID:20473289; cv=phenotype;
 FT                   date=20100406; allele=noname(overexpression)"
 FT                   /controlled_curation="term=orthologous to S. cerevisiae
@@ -98,7 +96,7 @@ FT                   evidence=IDA"
 FT                   /controlled_curation="term=species distribution, conserved
 FT                   in fungi; date=20081110; qualifier=predicted"
 FT                   /controlled_curation="term=sequence feature, coiled-coil;
-FT                   qualifier=predicted|region; date=19700101; evidence=IDA"
+FT                   qualifier=predicted|region; date=1999-10-05; evidence=IDA"
 FT                   /GO="aspect=P; term=cytokinesis, contractile ring
 FT                   formation; column_17=PR:000027731; GOid=GO:0000915;
 FT                   evidence=IMP; db_xref=PMID:12589679; date=20040917"
@@ -139,8 +137,7 @@ FT                   /systematic_id="SPBC409.20c"
 FT                   /controlled_curation="term=phenotype, viable;
 FT                   qualifier=deletion; db_xref=20473289; PMID:12345; cv=phenotype;
 FT                   date=20100406"
-FT                   /controlled_curation="term=protein sequence feature,
-FT                   N-terminal signal sequence; qualifier=predicted;
+FT                   /controlled_curation="term=N-terminal signal sequence; qualifier=predicted;
 FT                   cv=sequence_feature; date=19700101"
 FT                   /controlled_curation="term=protein sequence feature,
 FT                   transmembrane helices; cv=sequence_feature; date=19700101"
@@ -234,7 +231,7 @@ FT                   /fasta_file="fasta/chromosome1.contig.seq.00018.out"
 FT                   /product="L-asparaginase (predicted)"
 FT                   /GO="aspect=P; term=asparagine catabolic process;
 FT                   GOid=GO:0006530; evidence=ISS; db_xref=GO_REF:0000024;
-FT                   annotation_extension=has_downstream_target(GeneDB_Spombe:SPAC637.07,GeneDB_Spombe:SPAC977.10);
+FT                   annotation_extension=has_downstream_target(GeneDB_Spombe:SPAC637.07);
 FT                   with=Pfam:PF00710; date=20080804"
 FT                   /controlled_curation="term=external_link, deletion mutant
 FT                   expression profiling; db_xref=ArrayExpress:E-MTAB-2543"
@@ -274,9 +271,9 @@ FT                   GOid=GO:0031493;
 FT                   annotation_extension=has_substrate(PR:000027604)|has_substrate(PR:000027591);
 FT                   evidence=IPI; db_xref=PMID:11242054;
 FT                   with=GeneDB_Spombe:SPBC1105.11c; date=20041110"
-FT                   /GO="aspect=C; term=chromosome, pericentric region;
-FT                   annotation_extension=exists_during(SO:0001796),dependent_on(GO:0005515^has_substrate(GeneDB_Spombe:SPCC594.07c));
-FT                   GOid=GO:0000775; evidence=IDA; db_xref=PMID:17627824;
+FT                   /GO="aspect=P; term=ascospore formation; GOid=GO:0030437;
+FT                   annotation_extension=exists_during(SO:0001796),has_downstream_target(GO:0005515^has_substrate(GeneDB_Spombe:SPCC594.07c));
+FT                   evidence=IDA; db_xref=PMID:17627824;
 FT                   date=20070718"
 FT   3'UTR           complement(6624..6797)
 FT                   /note="mRNA from AU009839"
@@ -304,7 +301,7 @@ FT                   /systematic_id="SPAC1556.06.1"
 FT                   /controlled_curation="term=protein sequence feature, NLS;
 FT                   qualifier=predicted; db_xref=PMID:11376151;
 FT                   cv=sequence_feature; date=20060605"
-FT                   /controlled_curation="term=protein sequence feature,
+FT                   /controlled_curation="term=sequence feature,
 FT                   coiled-coil; qualifier=region; cv=sequence_feature;
 FT                   date=20060605"
 FT                   /controlled_curation="term=gene expression, translation;
