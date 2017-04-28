@@ -55,6 +55,7 @@ with 'PomBase::Role::FeatureCvtermCreator';
 with 'PomBase::Role::CoordCalculator';
 with 'PomBase::Role::QualifierSplitter';
 with 'PomBase::Role::Embl::FeatureRelationshipStorer';
+with 'PomBase::Role::FeatureSequenceStorer';
 
 has organism => (is => 'ro',
                  required => 1,
