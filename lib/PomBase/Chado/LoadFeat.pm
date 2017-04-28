@@ -539,6 +539,8 @@ method store_feature_parts($uniquename, $bioperl_feature, $chromosome, $so_type)
 
     $self->store_location($chado_sub_feature, $chromosome, $strand,
                           $start, $end);
+    $self->store_feature_sequence($chado_sub_feature, $chromosome, $strand,
+                                  $start, $end);
   }
 
   return @new_parts;
