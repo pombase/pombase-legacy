@@ -31,6 +31,7 @@ cvs:
     - name: ena_id
       definition: The European Nucleotide Archive ID of the feature.
     - genotype_background
+    - molecular_weight
   PomBase allele types:
     - name: amino_acid_mutation
     - name: nucleotide_mutation

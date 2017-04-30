@@ -56,6 +56,7 @@ with 'PomBase::Role::CoordCalculator';
 with 'PomBase::Role::QualifierSplitter';
 with 'PomBase::Role::Embl::FeatureRelationshipStorer';
 with 'PomBase::Role::FeatureSequenceStorer';
+with 'PomBase::Role::SequenceTranslator';
 
 has organism => (is => 'ro',
                  required => 1,
@@ -515,6 +516,10 @@ method process_qualifiers($bioperl_feature, $chado_object) {
   }
 }
 
+method get_mrna_sequence($exons) {
+  return join '', map { $_->residues() } @$exons;
+}
+
 method store_feature_parts($uniquename, $bioperl_feature, $chromosome, $so_type) {
   my $chado = $self->chado();
 
@@ -618,6 +623,11 @@ method store_transcript_parts($bioperl_cds, $chromosome, $transcript_so_type, $u
   my @exons = $self->store_feature_parts($uniquename, $bioperl_cds,
                                          $chromosome, $exon_so_type);
 
+  my $mrna_sequence = $self->get_mrna_sequence(\@exons);
+
+  $chado_transcript->residues($mrna_sequence);
+  $chado_transcript->update();
+
   for (my $i = 0; $i < @exons; $i++) {
     my $exon = $exons[$i];
     my $rank = $i + 1;
@@ -650,6 +660,12 @@ method store_transcript_parts($bioperl_cds, $chromosome, $transcript_so_type, $u
     my $chado_peptide = $self->store_feature("$uniquename:pep", undef,
                                              [], 'polypeptide',
                                              $self->organism());
+    my ($prot_seq, $weight) = $self->translate_sequence($mrna_sequence, $phase);
+
+    $chado_peptide->residues($prot_seq);
+    $chado_peptide->update();
+
+    $self->store_featureprop($chado_peptide, "molecular_weight", $weight);
 
     $self->store_feature_rel($chado_peptide, $chado_transcript, 'derives_from');
 
