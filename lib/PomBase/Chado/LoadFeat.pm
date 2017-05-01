@@ -660,7 +660,8 @@ method store_transcript_parts($bioperl_cds, $chromosome, $transcript_so_type, $u
     my $chado_peptide = $self->store_feature("$uniquename:pep", undef,
                                              [], 'polypeptide',
                                              $self->organism());
-    my ($prot_seq, $weight) = $self->translate_sequence($mrna_sequence, $phase);
+    my $is_mito = $chromosome->uniquename() eq 'MISPCG';
+    my ($prot_seq, $weight) = $self->translate_sequence($mrna_sequence, $phase, $is_mito);
 
     $chado_peptide->residues($prot_seq);
     $chado_peptide->update();
