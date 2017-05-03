@@ -65,7 +65,7 @@ method split_sub_qualifiers($cc_qualifier) {
         warn "  qualifier name ('$name') contains a space\n" unless $self->verbose() == 10;
       }
 
-      if ($value =~ /=/) {
+      if ($value =~ /=/ && $value !~ /=\s*[\d\.]+/) {
         warn "  qualifier value ('$value') contains an equals '='\n";
       }
 
