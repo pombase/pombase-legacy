@@ -489,6 +489,9 @@ evidence_types:
     name: experimental phenotypic evidence
   'ECO:0000333':
     name: sodium dodecyl sulfate polyacrylamide gel electrophoresis evidence
+  'ECO:0000279':
+    name: western blot evidence used in manual assertion
+
 
 
 suppressible_evidence_codes:
