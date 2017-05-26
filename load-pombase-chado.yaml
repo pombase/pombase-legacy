@@ -32,6 +32,10 @@ cvs:
       definition: The European Nucleotide Archive ID of the feature.
     - genotype_background
     - molecular_weight
+    - average_residue_weight
+    - charge_at_ph7
+    - isoelectric_point
+    - codon_adaptation_index
   PomBase allele types:
     - name: amino_acid_mutation
     - name: nucleotide_mutation

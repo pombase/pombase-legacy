@@ -661,12 +661,16 @@ method store_transcript_parts($bioperl_cds, $chromosome, $transcript_so_type, $u
                                              [], 'polypeptide',
                                              $self->organism());
     my $is_mito = $chromosome->uniquename() eq 'MISPCG';
-    my ($prot_seq, $weight) = $self->translate_sequence($mrna_sequence, $phase, $is_mito);
+    my ($prot_seq, $stats) = $self->translate_sequence($mrna_sequence, $phase, $is_mito);
 
     $chado_peptide->residues($prot_seq);
     $chado_peptide->update();
 
-    $self->store_featureprop($chado_peptide, "molecular_weight", $weight);
+    $self->store_featureprop($chado_peptide, "molecular_weight", $stats->{molecular_weight});
+    $self->store_featureprop($chado_peptide, "average_residue_weight", $stats->{average_residue_weight});
+    $self->store_featureprop($chado_peptide, "charge_at_ph7", $stats->{charge_at_ph7});
+    $self->store_featureprop($chado_peptide, "isoelectric_point", $stats->{isoelectric_point});
+    $self->store_featureprop($chado_peptide, "codon_adaptation_index", $stats->{codon_adaptation_index});
 
     $self->store_feature_rel($chado_peptide, $chado_transcript, 'derives_from');
 
