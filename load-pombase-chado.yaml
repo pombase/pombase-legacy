@@ -164,6 +164,7 @@ extension_restrictions:
       - has_regulation_target
       - part_of
       - not_happens_during
+      - regulates_activity_of
   molecular_function:
     allowed:
       - happens_during
@@ -179,6 +180,7 @@ extension_restrictions:
       - not_happens_during
       - directly_positively_regulates
       - directly_negatively_regulates
+      - regulates_activity_of
   cellular_component:
     allowed:
       - exists_during
