@@ -107,7 +107,7 @@ evidence_summary $DB
 echo starting import of GAF data
 
 {
-for gaf_file in go_comp.txt go_proc.txt go_func.txt From_curation_tool GO_ORFeome_localizations2.txt
+for gaf_file in go_comp.txt go_proc.txt go_func.txt From_curation_tool GO_ORFeome_localizations2.txt PMID_27984725_gaf.tsv
 do
   echo reading $gaf_file
   $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --assigned-by-filter=PomBase "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/external_data/external-go-data/$gaf_file
