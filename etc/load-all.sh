@@ -117,14 +117,15 @@ do
 done
 
 echo $SOURCES/pombase-gafcheck-prediction.gaf
-GET 'http://build.berkeleybop.org/job/go-gaf-release-snapshot/lastSuccessfulBuild/artifact/pipeline/target/groups/pombase/pombase-gafcheck-prediction.gaf' > $SOURCES/pombase-gafcheck-prediction.gaf || die failed to download pombase-gafcheck-prediction.gaf
-if [ -s $SOURCES/pombase-gafcheck-prediction.gaf ]
-then
+#GET 'http://build.berkeleybop.org/job/go-gaf-release-snapshot/lastSuccessfulBuild/artifact/pipeline/target/groups/pombase/pombase-gafcheck-prediction.gaf' > $SOURCES/pombase-gafcheck-prediction.gaf || die failed to download pombase-gafcheck-prediction.gaf
+#if [ -s $SOURCES/pombase-gafcheck-prediction.gaf ]
+#then
   $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings --assigned-by-filter=PomBase,GOC "$HOST" $DB $USER $PASSWORD < $SOURCES/pombase-gafcheck-prediction.gaf
-else
-  echo "Coudn't download pombase-gafcheck-prediction.gaf - exiting" 1>&2
-  exit 1
-fi
+#else
+#  echo "Coudn't download pombase-gafcheck-prediction.gaf - exiting" 1>&2
+#  exit 1
+#fi
+
 
 echo counts after loading pombase-gafcheck-prediction.gaf:
 evidence_summary $DB
