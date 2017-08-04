@@ -498,6 +498,8 @@ evidence_types:
     name: sodium dodecyl sulfate polyacrylamide gel electrophoresis evidence
   'ECO:0000279':
     name: western blot evidence used in manual assertion
+  'ECO:0005653':
+    name: northern assay evidence used in manual assertion
 
 
 
