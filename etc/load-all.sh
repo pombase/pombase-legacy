@@ -480,4 +480,8 @@ then
     ln -s $CURRENT_BUILD_DIR $DUMPS_DIR/nightly_update
 fi
 
+(cd ~/git/pombase-chado && ./etc/build_container.sh ~/git/pombase-chado/etc/docker-conf pombase-build-2017-08-20-v1 $DUMPS_DIR/latest_build preview)
+(cd ~/git/pombase-chado && ./etc/build_container.sh ~/git/pombase-chado/etc/docker-conf pombase-build-2017-08-20-v1 $DUMPS_DIR/latest_build preview-debug)
+(cd ~/git/pombase-chado && ./etc/build_container.sh ~/git/pombase-chado/etc/docker-conf pombase-build-2017-08-20-v1 $DUMPS_DIR/latest_build dev)
+
 date
