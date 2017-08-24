@@ -30,7 +30,8 @@ die() {
  export PERL5LIB=$HOME/git/pombase-chado:$HOME/chobo/lib/
  time nice -19 ./script/make-db $DATE "$HOST" $USER $PASSWORD) || die "make-db failed"
 
-DB=pombase-build-$DATE-v1
+DB_DATE_VERSION=$DATE-v1
+DB=pombase-build-$DB_DATE_VERSION
 
 LOG_DIR=`pwd`
 
@@ -480,8 +481,8 @@ then
     ln -s $CURRENT_BUILD_DIR $DUMPS_DIR/nightly_update
 fi
 
-(cd ~/git/pombase-chado && ./etc/build_container.sh ~/git/pombase-chado/etc/docker-conf pombase-build-2017-08-20-v1 $DUMPS_DIR/latest_build preview)
-(cd ~/git/pombase-chado && ./etc/build_container.sh ~/git/pombase-chado/etc/docker-conf pombase-build-2017-08-20-v1 $DUMPS_DIR/latest_build preview-debug)
-(cd ~/git/pombase-chado && ./etc/build_container.sh ~/git/pombase-chado/etc/docker-conf pombase-build-2017-08-20-v1 $DUMPS_DIR/latest_build dev)
+(cd ~/git/pombase-chado && ./etc/build_container.sh ~/git/pombase-chado/etc/docker-conf $DB_DATE_VERSION $DUMPS_DIR/latest_build preview)
+(cd ~/git/pombase-chado && ./etc/build_container.sh ~/git/pombase-chado/etc/docker-conf $DB_DATE_VERSION $DUMPS_DIR/latest_build preview-debug)
+(cd ~/git/pombase-chado && ./etc/build_container.sh ~/git/pombase-chado/etc/docker-conf $DB_DATE_VERSION $DUMPS_DIR/latest_build dev)
 
 date
