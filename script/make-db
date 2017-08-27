@@ -578,9 +578,6 @@ WHERE genotype_allele_rel_type.name = 'part_of'
 
 echo make copies
 
-for i in `seq 1`
-do
-  NEW_DB=pombase-build-$DB_NAME_SUFFIX-v$i
-  echo $NEW_DB
-  createdb -T $DB $NEW_DB
-done
+NEW_DB=pombase-build-$DB_NAME_SUFFIX
+echo $NEW_DB
+createdb -T $DB $NEW_DB
