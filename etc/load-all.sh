@@ -30,7 +30,7 @@ die() {
  export PERL5LIB=$HOME/git/pombase-chado:$HOME/chobo/lib/
  time nice -19 ./script/make-db $DATE "$HOST" $USER $PASSWORD) || die "make-db failed"
 
-DB_DATE_VERSION=$DATE-v1
+DB_DATE_VERSION=$DATE
 DB=pombase-build-$DB_DATE_VERSION
 
 LOG_DIR=`pwd`
