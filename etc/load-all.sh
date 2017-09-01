@@ -482,10 +482,7 @@ then
 fi
 
 (cd ~/git/pombase-chado && nice -10 ./etc/build_container.sh ~/git/pombase-chado/etc/docker-conf $DB_DATE_VERSION $DUMPS_DIR/latest_build preview)
-(nice -19 docker save pombase/pombase-base:$DB_DATE_VERSION-preview | nice -19 gzip -9v > /data/pombase/saved_containers/$DB_DATE_VERSION-preview.tar.gz) &
-#(cd ~/git/pombase-chado && nice -10 ./etc/build_container.sh ~/git/pombase-chado/etc/docker-conf $DB_DATE_VERSION $DUMPS_DIR/latest_build preview-debug)
+nice -19 docker save pombase/web:$DB_DATE_VERSION-preview | ssh pombase-admin@149.155.131.177 sudo docker load
 (cd ~/git/pombase-chado && nice -10 ./etc/build_container.sh ~/git/pombase-chado/etc/docker-conf $DB_DATE_VERSION $DUMPS_DIR/latest_build dev)
-
-wait
 
 date
