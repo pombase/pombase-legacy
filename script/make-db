@@ -73,6 +73,7 @@ OBO_FILES="\
  pombe-embl/mini-ontologies/fypo_extension.obo \
  pombe-embl/mini-ontologies/chebi.obo \
  pombe-embl/mini-ontologies/cl.obo \
+ pombe-embl/mini-ontologies/disease_associated.obo \
  pombe-embl/mini-ontologies/pombe_mini_PR.obo \
  pombe-embl/mini-ontologies/PSI-MOD_extension_relations.obo \
  pombe-embl/mini-ontologies/SO_feature_relations.obo \
