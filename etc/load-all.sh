@@ -481,6 +481,7 @@ then
     ln -s $CURRENT_BUILD_DIR $DUMPS_DIR/nightly_update
 fi
 
+(cd ~/git/pombase-chado && nice -10 docker build -f etc/docker-conf/Dockerfile-base -t=pombase/web-base:v1 .)
 (cd ~/git/pombase-chado && nice -10 ./etc/build_container.sh ~/git/pombase-chado/etc/docker-conf $DB_DATE_VERSION $DUMPS_DIR/latest_build preview)
 nice -19 docker save pombase/web:$DB_DATE_VERSION-preview | ssh pombase-admin@149.155.131.177 sudo docker load
 
