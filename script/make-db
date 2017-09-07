@@ -129,8 +129,6 @@ echo populate cvtermpath using owltools
 export OWLTOOLS_MEMORY=20g
 (cd /var/pomcur/sources/; echo $OWLTOOLS_CHADO_CLOSURE $HOST $DB $USER $PASSWORD $OBO_FILES)
 
-exit
-
 date; echo finished
 
 # prevent duplicate feature uniquenames
