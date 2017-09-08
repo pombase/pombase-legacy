@@ -127,7 +127,7 @@ mkdir -p $CURRENT_BUILD_DIR/ontologies
 date
 echo populate cvtermpath using owltools
 export OWLTOOLS_MEMORY=20g
-(cd /var/pomcur/sources/; echo $OWLTOOLS_CHADO_CLOSURE $HOST $DB $USER $PASSWORD $OBO_FILES)
+(cd /var/pomcur/sources/; $OWLTOOLS_CHADO_CLOSURE $HOST $DB $USER $PASSWORD $OBO_FILES)
 
 date; echo finished
 
