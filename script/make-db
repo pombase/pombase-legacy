@@ -72,7 +72,6 @@ OBO_FILES="\
  pombase_fypo_github/supplemental_files/fypo_extension_relations.obo \
  go-svn/ontology/extensions/gorel.obo \
  go-svn/scratch/xps/go_annotation_extension_relations.obo \
- pombase_fypo_github/peco.obo \
  pombe-embl/mini-ontologies/fypo_extension.obo \
  pombe-embl/mini-ontologies/chebi.obo \
  pombe-embl/mini-ontologies/cl.obo \
@@ -96,7 +95,7 @@ echo log file: $CHOBO_LOAD_LOG
 OLD_DIR=`pwd`
 cd $SOURCES_DIR
 if $HOME/chobo/script/chobo_load $CONNECT_STRING $USER $PASSWORD $POMBASE_LEGACY/etc/pombase-relations.obo $OBO_FILES \
-   pombase/pombase_terms-v62.obo > $CHOBO_LOAD_LOG 2>&1
+   pombase_fypo_github/peco.obo pombase/pombase_terms-v62.obo > $CHOBO_LOAD_LOG 2>&1
 then
   echo 'Finished OBO loading at:' `date`
 else 
