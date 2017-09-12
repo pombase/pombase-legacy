@@ -451,7 +451,7 @@ psql $DB -c "select count(distinct fc_id) as total from $sub_query;"
 
 refresh_views
 
-$POMCUR/bin/pombase-chado-json -c $SOURCES/pombe-embl/website/pombase_v2_config.json -p "postgres://kmr44:kmr44@localhost/$DB" -d $CURRENT_BUILD_DIR/web-json  -i /var/pomcur/sources/interpro/pombe_domain_results.json 2>&1 | tee $LOG_DIR/$log_file.web-json-write
+$POMCUR/bin/pombase-chado-json -c $SOURCES/pombe-embl/website/pombase_v2_config.json -p "postgres://kmr44:kmr44@localhost/$DB" -d $CURRENT_BUILD_DIR/  -i /var/pomcur/sources/interpro/pombe_domain_results.json 2>&1 | tee $LOG_DIR/$log_file.web-json-write
 
 cp $LOG_DIR/$log_file.web-json-write $CURRENT_BUILD_DIR/logs/
 
