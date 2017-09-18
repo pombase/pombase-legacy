@@ -489,6 +489,6 @@ nice -19 docker save pombase/web:$DB_DATE_VERSION-preview | ssh pombase-admin@14
 echo copied pombase/web:$DB_DATE_VERSION-preview to the server
 
 (cd ~/git/pombase-chado && nice -10 ./etc/build_container.sh $DB_DATE_VERSION $DUMPS_DIR/latest_build dev)
-docker service update --image=pombase/web:$DB_DATE_VERSION-dev pombase-web
+docker service update --image=pombase/web:$DB_DATE_VERSION-dev pombase-dev
 
 date
