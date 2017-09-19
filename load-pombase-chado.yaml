@@ -165,6 +165,8 @@ extension_restrictions:
       - part_of
       - not_happens_during
       - regulates_activity_of
+      - directly_positively_regulates
+      - directly_negatively_regulates
   molecular_function:
     allowed:
       - happens_during
