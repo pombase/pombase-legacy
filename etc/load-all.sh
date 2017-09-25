@@ -451,7 +451,9 @@ psql $DB -c "select count(distinct fc_id) as total from $sub_query;"
 
 refresh_views
 
-$POMCUR/bin/pombase-chado-json -c $SOURCES/pombe-embl/website/pombase_v2_config.json -p "postgres://kmr44:kmr44@localhost/$DB" -d $CURRENT_BUILD_DIR/web-json  -i /var/pomcur/sources/interpro/pombe_domain_results.json 2>&1 | tee $LOG_DIR/$log_file.web-json-write
+$POMCUR/bin/pombase-chado-json -c $SOURCES/pombe-embl/website/pombase_v2_config.json -p "postgres://kmr44:kmr44@localhost/$DB" -d $CURRENT_BUILD_DIR/  -i /var/pomcur/sources/interpro/pombe_domain_results.json 2>&1 | tee $LOG_DIR/$log_file.web-json-write
+
+gzip -r9 $CURRENT_BUILD_DIR/fasta
 
 cp $LOG_DIR/$log_file.web-json-write $CURRENT_BUILD_DIR/logs/
 
@@ -482,10 +484,11 @@ then
 fi
 
 (cd ~/git/pombase-chado && nice -10 docker build -f etc/docker-conf/Dockerfile-base -t=pombase/web-base:v2 .)
-(cd ~/git/pombase-chado && nice -10 ./etc/build_container.sh ~/git/pombase-chado/etc/docker-conf $DB_DATE_VERSION $DUMPS_DIR/latest_build preview)
+(cd ~/git/pombase-chado && nice -10 ./etc/build_container.sh $DB_DATE_VERSION $DUMPS_DIR/latest_build preview)
 nice -19 docker save pombase/web:$DB_DATE_VERSION-preview | ssh pombase-admin@149.155.131.177 sudo docker load
+echo copied pombase/web:$DB_DATE_VERSION-preview to the server
 
-(cd ~/git/pombase-chado && nice -10 ./etc/build_container.sh ~/git/pombase-chado/etc/docker-conf $DB_DATE_VERSION $DUMPS_DIR/latest_build dev)
-docker service update --image=pombase/web:$DB_DATE_VERSION-dev pombase-web
+(cd ~/git/pombase-chado && nice -10 ./etc/build_container.sh $DB_DATE_VERSION $DUMPS_DIR/latest_build dev)
+docker service update --image=pombase/web:$DB_DATE_VERSION-dev pombase-dev
 
 date

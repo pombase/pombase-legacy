@@ -72,7 +72,6 @@ OBO_FILES="\
  pombase_fypo_github/supplemental_files/fypo_extension_relations.obo \
  go-svn/ontology/extensions/gorel.obo \
  go-svn/scratch/xps/go_annotation_extension_relations.obo \
- pombase_fypo_github/peco.obo \
  pombe-embl/mini-ontologies/fypo_extension.obo \
  pombe-embl/mini-ontologies/chebi.obo \
  pombe-embl/mini-ontologies/cl.obo \
@@ -81,7 +80,6 @@ OBO_FILES="\
  pombe-embl/mini-ontologies/PSI-MOD_extension_relations.obo \
  pombe-embl/mini-ontologies/SO_feature_relations.obo \
  pombe-embl/mini-ontologies/has_qualifier_range.obo \
- pombase/pombase_terms-v62.obo \
  pombase_fypo_github/release/fypo-simple.obo \
  $GO_OBO"
 
@@ -96,7 +94,8 @@ echo 'Starting OBO loading at:' `date`
 echo log file: $CHOBO_LOAD_LOG
 OLD_DIR=`pwd`
 cd $SOURCES_DIR
-if $HOME/chobo/script/chobo_load $CONNECT_STRING $USER $PASSWORD $POMBASE_LEGACY/etc/pombase-relations.obo $OBO_FILES > $CHOBO_LOAD_LOG 2>&1
+if $HOME/chobo/script/chobo_load $CONNECT_STRING $USER $PASSWORD $POMBASE_LEGACY/etc/pombase-relations.obo $OBO_FILES \
+   pombase_fypo_github/peco.obo pombase/pombase_terms-v62.obo > $CHOBO_LOAD_LOG 2>&1
 then
   echo 'Finished OBO loading at:' `date`
 else 
@@ -127,9 +126,7 @@ mkdir -p $CURRENT_BUILD_DIR/ontologies
 date
 echo populate cvtermpath using owltools
 export OWLTOOLS_MEMORY=20g
-(cd /var/pomcur/sources/; echo $OWLTOOLS_CHADO_CLOSURE $HOST $DB $USER $PASSWORD $OBO_FILES)
-
-exit
+(cd /var/pomcur/sources/; $OWLTOOLS_CHADO_CLOSURE $HOST $DB $USER $PASSWORD $OBO_FILES)
 
 date; echo finished
 
