@@ -29,6 +29,7 @@ my $builder = Module::Build->new(
       'DBIx::DBStag'          => 0,
       'DBIx::DBSchema'        => 0,
       'LWP::UserAgent'        => 0,
+      'Iterator::Simple'      => 0.06,
     },
     build_requires => {
         'Test::More' => 0,
