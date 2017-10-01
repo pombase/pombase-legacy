@@ -489,7 +489,7 @@ then
     (cd ~/git/pombase-chado && nice -10 ./etc/build_container.sh $DB_DATE_VERSION $DUMPS_DIR/nightly_update preview)
     nice -19 docker save pombase/web:$DB_DATE_VERSION-preview | ssh pombase-admin@149.155.131.177 sudo docker load
     echo copied pombase/web:$DB_DATE_VERSION-preview to the server
-    rsync -avPHS $CURRENT_BUILD_DIR/ pombase-admin@149.155.131.177:/home/ftp/pombase/nightly_update/
+    rsync --delete-after -aHS $CURRENT_BUILD_DIR/ pombase-admin@149.155.131.177:/home/ftp/pombase/nightly_update/
 fi
 
 date
