@@ -378,6 +378,8 @@ evidence_types:
     name: Not Recorded
   TAS:
     name: Traceable Author Statement
+  HTP:  
+    name: Inferred from high throughput experiment
   UNK:
     name: Unknown
   Microscopy: ~
