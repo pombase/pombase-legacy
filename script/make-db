@@ -36,8 +36,6 @@ SOURCES_DIR=/var/pomcur/sources
 
 rm --verbose -rf tmp
 
-(cd $SOURCES_DIR/pombe-embl/; svn update || exit 1)
-
 echo update SO from SVN
 (cd $SOURCES_DIR/SO-Ontologies-git; git pull)
 echo update GO from SVN

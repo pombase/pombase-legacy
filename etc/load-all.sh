@@ -20,9 +20,14 @@ die() {
   exit 1
 }
 
+POMCUR=/var/pomcur
+SOURCES=$POMCUR/sources
+
 (cd ~/chobo/; git pull) || die "Failed to update Chobo"
 (cd ~/git/pombase-chado; git pull) || die "Failed to update pombase-chado"
 (cd ~/git/pombase-legacy; git pull) || die "Failed to update pombase-legacy"
+
+(cd $SOURCES/pombe-embl/; svn update || exit 1)
 
 (cd ~/git/pombase-legacy
  export PATH=$HOME/chobo/script/:/usr/local/owltools-v0.2.1-255-geff650b/OWLTools-Runner/bin/:$PATH
@@ -35,15 +40,9 @@ DB=pombase-build-$DB_DATE_VERSION
 
 LOG_DIR=`pwd`
 
-POMCUR=/var/pomcur
-SOURCES=$POMCUR/sources
-
 POMBASE_CHADO=$HOME/git/pombase-chado
 
 GOA_GAF_URL=ftp://ftp.ebi.ac.uk/pub/databases/GO/goa/UNIPROT/goa_uniprot_all.gaf.gz
-
-cd $SOURCES/pombe-embl/
-svn update || exit 1
 
 cd $POMBASE_CHADO
 git pull || exit 1
