@@ -482,17 +482,17 @@ rm -f $DUMPS_DIR/latest_build
 ln -s $CURRENT_BUILD_DIR $DUMPS_DIR/latest_build
 
 (cd ~/git/pombase-chado && nice -10 docker build -f etc/docker-conf/Dockerfile-base -t=pombase/web-base:v5 .)
-(cd ~/git/pombase-chado && nice -10 ./etc/build_container.sh $DB_DATE_VERSION $DUMPS_DIR/latest_build dev)
-docker service update --image=pombase/web:$DB_DATE_VERSION-dev pombase-dev
+(cd ~/git/pombase-chado && nice -10 ./etc/build_container.sh $DB_DATE_VERSION $DUMPS_DIR/latest_build prod)
+docker service update --image=pombase/web:$DB_DATE_VERSION-prod pombase-dev
 
 if [ $CHADO_CHECKS_STATUS=passed ]
 then
     rm -f $DUMPS_DIR/nightly_update
     ln -s $CURRENT_BUILD_DIR $DUMPS_DIR/nightly_update
-    echo building preview image
-    (cd ~/git/pombase-chado && nice -10 ./etc/build_container.sh $DB_DATE_VERSION $DUMPS_DIR/nightly_update preview)
-    nice -19 docker save pombase/web:$DB_DATE_VERSION-preview | ssh pombase-admin@149.155.131.177 sudo docker load
-    echo copied pombase/web:$DB_DATE_VERSION-preview to the server
+
+    nice -19 docker save pombase/web:$DB_DATE_VERSION-prod | ssh pombase-admin@149.155.131.177 sudo docker load
+    echo copied pombase/web:$DB_DATE_VERSION-prod to the server
+
     rsync --delete-after -aHS $CURRENT_BUILD_DIR/ pombase-admin@149.155.131.177:/home/ftp/pombase/nightly_update/
 fi
 
