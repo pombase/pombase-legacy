@@ -482,7 +482,7 @@ pg_dump $DB | gzip -9v > $DUMP_FILE
 rm -f $DUMPS_DIR/latest_build
 ln -s $CURRENT_BUILD_DIR $DUMPS_DIR/latest_build
 
-(cd ~/git/pombase-chado && nice -10 docker build -f etc/docker-conf/Dockerfile-base -t=pombase/web-base:v2 .)
+(cd ~/git/pombase-chado && nice -10 docker build -f etc/docker-conf/Dockerfile-base -t=pombase/web-base:v5 .)
 (cd ~/git/pombase-chado && nice -10 ./etc/build_container.sh $DB_DATE_VERSION $DUMPS_DIR/latest_build dev)
 docker service update --image=pombase/web:$DB_DATE_VERSION-dev pombase-dev
 
