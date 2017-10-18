@@ -494,6 +494,8 @@ then
     echo copied pombase/web:$DB_DATE_VERSION-prod to the server
 
     rsync --delete-after -aHS $CURRENT_BUILD_DIR/ pombase-admin@149.155.131.177:/home/ftp/pombase/nightly_update/
+
+    rsync --delete-after -aHS --exclude '.listing' $SOURCES/pombe-embl/ftp_site/pombe/ pombase-admin@149.155.131.177:/home/ftp/pombase/pombe/
 fi
 
 date
