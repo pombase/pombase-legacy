@@ -313,7 +313,7 @@ allowed_term_mismatches_files:
 organism_taxon_map:
   284812: 4896
 
-pombase_to_uniprot_mapping: 'ftp://ftp.ebi.ac.uk/pub/databases/pombase/pombe/Mappings/PomBase2UniProt.tsv'
+pombase_to_uniprot_mapping: 'ftp://ftp.pombase.org/pombe/names_and_identifiers/PomBase2UniProt.tsv'
 
 # a Perl regular expression that matches the systematic ID / uniquenames
 # in this database
