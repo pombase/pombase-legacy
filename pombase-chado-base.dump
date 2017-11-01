@@ -62066,6 +62066,7 @@ COPY cv (cv_id, name, definition) FROM stdin;
 5	autocreated	Terms that are automatically inserted by loading software
 6	chado_properties	Terms that are used in the chadoprop table to describe the state of the database
 7	synonym_type	\N
+8	is_a_relation	\N
 \.
 
 
@@ -62073,7 +62074,7 @@ COPY cv (cv_id, name, definition) FROM stdin;
 -- Name: cv_cv_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kmr44
 --
 
-SELECT pg_catalog.setval('cv_cv_id_seq', 7, true);
+SELECT pg_catalog.setval('cv_cv_id_seq', 8, true);
 
 
 --
@@ -62113,7 +62114,7 @@ COPY cvterm (cvterm_id, cv_id, name, definition, dbxref_id, is_obsolete, is_rela
 42	7	related	\N	42	0	0
 43	7	reserved_name	\N	43	0	0
 44	7	obsolete_name	\N	44	0	0
-45	5	is_a	\N	45	0	1
+45	8	is_a	\N	45	0	1
 \.
 
 
@@ -62121,7 +62122,7 @@ COPY cvterm (cvterm_id, cv_id, name, definition, dbxref_id, is_obsolete, is_rela
 -- Name: cvterm_cvterm_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kmr44
 --
 
-SELECT pg_catalog.setval('cvterm_cvterm_id_seq', 44, true);
+SELECT pg_catalog.setval('cvterm_cvterm_id_seq', 45, true);
 
 
 --
@@ -62206,6 +62207,7 @@ SELECT pg_catalog.setval('cvtermsynonym_cvtermsynonym_id_seq', 1, false);
 COPY db (db_id, name, description, urlprefix, url) FROM stdin;
 1	null	a fake database for local items	\N	\N
 3	internal	\N	\N	\N
+4	is_a_db	\N	\N	\N
 \.
 
 
@@ -62213,7 +62215,7 @@ COPY db (db_id, name, description, urlprefix, url) FROM stdin;
 -- Name: db_db_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kmr44
 --
 
-SELECT pg_catalog.setval('db_db_id_seq', 3, true);
+SELECT pg_catalog.setval('db_db_id_seq', 4, true);
 
 
 --
@@ -62238,7 +62240,7 @@ COPY dbxref (dbxref_id, db_id, accession, version, description) FROM stdin;
 42	3	related		\N
 43	3	reserved_name		\N
 44	3	obsolete_name		\N
-45	3	is_a		\N
+45	4	is_a		\N
 \.
 
 
@@ -62246,7 +62248,7 @@ COPY dbxref (dbxref_id, db_id, accession, version, description) FROM stdin;
 -- Name: dbxref_dbxref_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kmr44
 --
 
-SELECT pg_catalog.setval('dbxref_dbxref_id_seq', 44, true);
+SELECT pg_catalog.setval('dbxref_dbxref_id_seq', 45, true);
 
 
 --
