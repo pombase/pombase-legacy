@@ -118,16 +118,18 @@ done
 
 echo Updating $SOURCES/pombase-prediction.gaf
 
-GET 'http://build.berkeleybop.org/job/go-gaf-release-snapshot/lastSuccessfulBuild/artifact/pipeline/target/groups/pombase/pombase-gafcheck-prediction.gaf' > $SOURCES/pombase-prediction.gaf.new || echo failed to download pombase-prediction.gaf
+GET 'http://build.berkeleybop.org/job/go-gaf-release-snapshot/lastSuccessfulBuild/artifact/pipeline/target/groups/pombase/pombase-prediction.gaf' > $SOURCES/pombase-prediction.gaf.new || echo failed to download pombase-prediction.gaf
 if [ -s $SOURCES/pombase-prediction.gaf.new ]
 then
+  mv $SOURCES/pombase-prediction.gaf $SOURCES/pombase-prediction.gaf.old
   mv $SOURCES/pombase-prediction.gaf.new $SOURCES/pombase-prediction.gaf
-  $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings --assigned-by-filter=PomBase,GOC "$HOST" $DB $USER $PASSWORD < $SOURCES/pombase-prediction.gaf
 else
-  echo "Coudn't download new pombase-prediction.gaf" 1>&2
+  echo "Coudn't download new pombase-prediction.gaf - file is empty" 1>&2
 fi
 
-echo counts after loading pombase-gafcheck-prediction.gaf:
+$POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings --assigned-by-filter=PomBase,GOC "$HOST" $DB $USER $PASSWORD < $SOURCES/pombase-prediction.gaf
+
+echo counts after loading pombase-prediction.gaf:
 evidence_summary $DB
 
 echo reading $SOURCES/gene_association.goa_uniprot.pombe
