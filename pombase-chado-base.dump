@@ -62113,6 +62113,7 @@ COPY cvterm (cvterm_id, cv_id, name, definition, dbxref_id, is_obsolete, is_rela
 42	7	related	\N	42	0	0
 43	7	reserved_name	\N	43	0	0
 44	7	obsolete_name	\N	44	0	0
+45	5	is_a	\N	45	0	1
 \.
 
 
@@ -62237,6 +62238,7 @@ COPY dbxref (dbxref_id, db_id, accession, version, description) FROM stdin;
 42	3	related		\N
 43	3	reserved_name		\N
 44	3	obsolete_name		\N
+45	3	is_a		\N
 \.
 
 
