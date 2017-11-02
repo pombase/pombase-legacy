@@ -62066,7 +62066,7 @@ COPY cv (cv_id, name, definition) FROM stdin;
 5	autocreated	Terms that are automatically inserted by loading software
 6	chado_properties	Terms that are used in the chadoprop table to describe the state of the database
 7	synonym_type	\N
-8	is_a_relation	\N
+8	relationship	\N
 \.
 
 

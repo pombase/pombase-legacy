@@ -235,7 +235,7 @@ allowed_duplicate_extensions:
 
 # names of the CVs that extension relation terms can come from
 extension_relation_cv_names:
-  - relations
+  - relationship
   - go/extensions/gorel
   - fypo_extension_relations
   - PSI-MOD_extension_relations
