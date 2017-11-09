@@ -116,20 +116,20 @@ do
   evidence_summary $DB
 done
 
-echo Updating $SOURCES/pombase-prediction.gaf
+echo Updating $SOURCES/gene_association.pombase.inf.gaf
 
-GET 'http://build.berkeleybop.org/job/go-gaf-release-snapshot/lastSuccessfulBuild/artifact/pipeline/target/groups/pombase/pombase-prediction.gaf' > $SOURCES/pombase-prediction.gaf.new || echo failed to download pombase-prediction.gaf
-if [ -s $SOURCES/pombase-prediction.gaf.new ]
+GET 'http://build.berkeleybop.org/job/gaf-check-pombase/lastSuccessfulBuild/artifact/gene_association.pombase.inf.gaf' | perl -ne 'print unless /\tC\t/' > $SOURCES/gene_association.pombase.inf.gaf.new || echo failed to download gene_association.pombase.inf.gaf
+if [ -s $SOURCES/gene_association.pombase.inf.gaf.new ]
 then
-  mv $SOURCES/pombase-prediction.gaf $SOURCES/pombase-prediction.gaf.old
-  mv $SOURCES/pombase-prediction.gaf.new $SOURCES/pombase-prediction.gaf
+  mv $SOURCES/gene_association.pombase.inf.gaf $SOURCES/gene_association.pombase.inf.gaf.old
+  mv $SOURCES/gene_association.pombase.inf.gaf.new $SOURCES/gene_association.pombase.inf.gaf
 else
-  echo "Coudn't download new pombase-prediction.gaf - file is empty" 1>&2
+  echo "Coudn't download new gene_association.pombase.inf.gaf - file is empty" 1>&2
 fi
 
-$POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings --assigned-by-filter=PomBase,GOC "$HOST" $DB $USER $PASSWORD < $SOURCES/pombase-prediction.gaf
+$POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings --assigned-by-filter=PomBase,GOC "$HOST" $DB $USER $PASSWORD < $SOURCES/gene_association.pombase.inf.gaf
 
-echo counts after loading pombase-prediction.gaf:
+echo counts after loading gene_association.pombase.inf.gaf:
 evidence_summary $DB
 
 echo reading $SOURCES/gene_association.goa_uniprot.pombe
