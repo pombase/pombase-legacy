@@ -530,13 +530,13 @@ parental_strain:
 # mysql -u anonymous -h ensembldb.ensembl.org
 ensembl_dbs:
   'Homo sapiens':
-    host: useastdb.ensembl.org
+    host: ensembldb.ensembl.org
     port: 3306
     user: anonymous
     group: core
     dbname: homo_sapiens_core_87_38
   'Saccharomyces cerevisiae':
-    host: useastdb.ensembl.org
+    host: ensembldb.ensembl.org
     port: 3306
     user: anonymous
     group: core
