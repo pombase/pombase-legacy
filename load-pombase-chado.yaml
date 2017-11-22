@@ -380,6 +380,14 @@ evidence_types:
     name: Traceable Author Statement
   HTP:  
     name: Inferred from high throughput experiment
+  HDA:
+    name: Inferred from high throughput direct assay
+  HEP:
+    name: Inferred from high throughput expression pattern
+  HGI:
+    name: Inferred from high throughput genetic interaction
+  HMP:
+    name: Inferred from high throughput mutant phenotype
   UNK:
     name: Unknown
   Microscopy: ~
