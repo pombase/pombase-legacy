@@ -29,6 +29,11 @@ SOURCES=$POMCUR/sources
 
 (cd $SOURCES/pombe-embl/; svn update || exit 1)
 
+wget -q -N ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/tsv/hgnc_complete_set.txt ||
+    echo failed to download HGNC data
+wget -q -N http://downloads.yeastgenome.org/curation/chromosomal_feature/SGD_features.tab ||
+    echo failed to download SGD data
+
 (cd ~/git/pombase-legacy
  export PATH=$HOME/chobo/script/:/usr/local/owltools-v0.2.1-255-geff650b/OWLTools-Runner/bin/:$PATH
  export OWLTOOLS_CHADO_CLOSURE=/home/kmr44/git/pombase-chado/script/owltools-chado-closure.pl
@@ -483,7 +488,7 @@ pg_dump $DB | gzip -9v > $DUMP_FILE
 rm -f $DUMPS_DIR/latest_build
 ln -s $CURRENT_BUILD_DIR $DUMPS_DIR/latest_build
 
-(cd ~/git/pombase-chado && nice -10 docker build -f etc/docker-conf/Dockerfile-base -t=pombase/web-base:v5 .)
+(cd ~/git/pombase-chado && nice -10 docker build -f etc/docker-conf/Dockerfile-base -t=pombase/web-base:v6 .)
 (cd ~/git/pombase-chado && nice -10 ./etc/build_container.sh $DB_DATE_VERSION $DUMPS_DIR/latest_build prod)
 docker service update --image=pombase/web:$DB_DATE_VERSION-prod pombase-dev
 
