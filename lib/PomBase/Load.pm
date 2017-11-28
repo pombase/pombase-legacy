@@ -223,19 +223,10 @@ func _load_dbs($chado, $config) {
 }
 
 func init_objects($chado, $config) {
-  my $org_load = PomBase::Chado::LoadOrganism->new(chado => $chado);
-
-  my $pombe_org =
-    $org_load->load_organism("Schizosaccharomyces", "pombe", "pombe",
-                             "Spombe", 4896);
-
-
   _fix_annotation_extension_rels($chado, $config);
   _load_cvterms($chado, $config, $config->{test});
   _load_cv_defs($chado, $config);
   _load_dbs($chado, $config);
-
-  return $pombe_org;
 }
 
 1;

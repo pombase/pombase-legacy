@@ -184,7 +184,7 @@ my $id_counter = PomBase::Chado::IdCounter->new(chado => $chado,
 
 $config->{id_counter} = $id_counter;
 
-my $organism = PomBase::Load::init_objects($chado, $config);
+PomBase::Load::init_objects($chado, $config);
 
 my $time_stamp_cvterm =
   $chado->resultset('Cv::Cvterm')
@@ -196,17 +196,6 @@ $chado->resultset('Cv::Chadoprop')->create({
   type_id => $time_stamp_cvterm->cvterm_id(),
   value => strftime("%Y-%m-%d %H:%M:%S", localtime(time)),
 });
-
-my $org_load = PomBase::Chado::LoadOrganism->new(chado => $chado);
-
-my $human =
-  $org_load->load_organism('Homo', 'sapiens', 'human', 'human', 9606);
-my $scerevisiae =
-  $org_load->load_organism('Saccharomyces', 'cerevisiae', 'Scerevisiae',
-                           'Scerevisiae', 4932);
-
-PomBase::Load::load_genes($config, $chado, $scerevisiae, $config->{test_mode});
-PomBase::Load::load_genes($config, $chado, $human, $config->{test_mode});
 
 my @files = @ARGV;
 
