@@ -48,12 +48,13 @@ with 'PomBase::Role::DbQuery';
 with 'PomBase::Role::CvQuery';
 with 'PomBase::Role::XrefStorer';
 with 'PomBase::Role::FeatureStorer';
+with 'PomBase::Role::OrganismFinder';
 
 has verbose => (is => 'ro', isa => 'Bool');
 has quiet => (is => 'ro', isa => 'Bool', default => 0);
-has organism => (is => 'ro',
-                 required => 1,
-                );
+has organism_taxonid => (is => 'ro',
+                         required => 1,
+                       );
 has genotype_cache => (is => 'ro', required => 1,
                        isa => 'PomBase::Chado::GenotypeCache');
 
@@ -61,6 +62,8 @@ method process_file($file) {
   my $chado = $self->chado();
   my $verbose = $self->verbose();
   my $config = $self->config();
+
+  my $organism = $self->find_organism_by_taxonid($self->organism_taxonid());
 
   my $feature_loader =
     PomBase::Chado::LoadFeat->new(organism => $self->organism(),

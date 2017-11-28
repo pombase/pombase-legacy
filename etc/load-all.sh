@@ -75,7 +75,7 @@ $POMBASE_CHADO/script/pombase-import.pl $HOME/git/pombase-legacy/load-pombase-ch
 
 cd $LOG_DIR
 log_file=log.`date +'%Y-%m-%d-%H-%M-%S'`
-`dirname $0`/../script/load-chado.pl \
+`dirname $0`/../script/load-chado.pl --taxonid=4896 \
   --mapping "sequence_feature:sequence:$SOURCES/pombe-embl/chado_load_mappings/features-to-so_mapping_only.txt" \
   --mapping "pt_mod:PSI-MOD:$SOURCES/pombe-embl/chado_load_mappings/modification_map.txt" \
   --mapping "phenotype:fission_yeast_phenotype:$SOURCES/pombe-embl/chado_load_mappings/phenotype-map.txt" \

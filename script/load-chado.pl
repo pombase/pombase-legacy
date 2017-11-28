@@ -30,6 +30,7 @@ my $verbose = 0;
 my $quiet = 0;
 my $dry_run = 0;
 my $test = 0;
+my $taxonid = undef;
 my @obsolete_term_mapping_files = ();
 my $gene_ex_qualifiers;
 my @mappings = ();
@@ -42,6 +43,7 @@ if (!GetOptions("verbose|v" => \$verbose,
                 "dry-run|d" => \$dry_run,
                 "quiet|q" => \$quiet,
                 "test|t" => \$test,
+                "taxonid=s" => \$taxonid,
                 "obsolete-term-map=s" => \@obsolete_term_mapping_files,
                 "gene-ex-qualifiers=s" => \$gene_ex_qualifiers,
                 "mapping|m=s" => \@mappings)) {
@@ -206,7 +208,7 @@ while (defined (my $file = shift)) {
                                                 genotype_cache => $genotype_cache,
                                                 verbose => $verbose,
                                                 config => $config,
-                                                organism => $organism);
+                                                organism_taxonid => $taxonid);
 
   $load_file->process_file($file);
 }
