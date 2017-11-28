@@ -61856,8 +61856,8 @@ COPY cvterm (cvterm_id, cv_id, name, definition, dbxref_id, is_obsolete, is_rela
 42	7	related	\N	42	0	0
 43	7	reserved_name	\N	43	0	0
 44	7	obsolete_name	\N	44	0	0
-45	5	is_a	\N	45	0	0
 46	8	taxon_id	\N	46	0	0
+45	5	is_a	\N	45	0	1
 \.
 
 
@@ -65074,7 +65074,7 @@ SELECT pg_catalog.setval('control_control_id_seq', 1, false);
 -- Name: cv_cv_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kmr44
 --
 
-SELECT pg_catalog.setval('cv_cv_id_seq', 8, true);
+SELECT pg_catalog.setval('cv_cv_id_seq', 9, true);
 
 
 --
