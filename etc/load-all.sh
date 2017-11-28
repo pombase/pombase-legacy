@@ -59,15 +59,15 @@ wget -q -N http://downloads.yeastgenome.org/curation/chromosomal_feature/SGD_fea
     echo failed to download SGD data
 )
 
-./script/pombase-import.pl $HOME/git/pombase-legacy/load-pombase-chado.yaml organisms \
+$POMBASE_CHADO/script/pombase-import.pl $HOME/git/pombase-legacy/load-pombase-chado.yaml organisms \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/pombase_organism_config.tsv
 
-./script/pombase-import.pl $HOME/git/pombase-legacy/load-pombase-chado.yaml features \
+$POMBASE_CHADO/script/pombase-import.pl $HOME/git/pombase-legacy/load-pombase-chado.yaml features \
     --organism-taxonid=4896 --uniquename-column=1 --name-column=2 --feature-type=gene \
     --ignore-first_line --ignore-short-lines \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/hgnc_complete_set.txt)
 
-./script/pombase-import.pl $HOME/git/pombase-legacy/load-pombase-chado.yaml features \
+$POMBASE_CHADO/script/pombase-import.pl $HOME/git/pombase-legacy/load-pombase-chado.yaml features \
     --organism-taxonid=4896 --uniquename-column=4 --name-column=5 \
     --column-filter="2=ORF" --feature-type=gene \
     --ignore-first_line --ignore-short-lines \
