@@ -87,7 +87,7 @@ method process_file($file) {
     type_id => $chromosome_cvterm->cvterm_id(),
     uniquename => $display_id,
     name => undef,
-    organism_id => $self->organism()->organism_id(),
+    organism_id => $organism,
     residues => $seq_obj->seq(),
     seqlen => length $seq_obj->seq(),
     md5checksum => $md5->hexdigest(),
