@@ -65,13 +65,13 @@ $POMBASE_CHADO/script/pombase-import.pl $HOME/git/pombase-legacy/load-pombase-ch
 $POMBASE_CHADO/script/pombase-import.pl $HOME/git/pombase-legacy/load-pombase-chado.yaml features \
     --organism-taxonid=4896 --uniquename-column=1 --name-column=2 --feature-type=gene \
     --ignore-first-line --ignore-short-lines \
-    "$HOST" $DB $USER $PASSWORD < $SOURCES/hgnc_complete_set.txt)
+    "$HOST" $DB $USER $PASSWORD < $SOURCES/hgnc_complete_set.txt
 
 $POMBASE_CHADO/script/pombase-import.pl $HOME/git/pombase-legacy/load-pombase-chado.yaml features \
     --organism-taxonid=4896 --uniquename-column=4 --name-column=5 \
     --column-filter="2=ORF" --feature-type=gene \
     --ignore-short-lines \
-    "$HOST" $DB $USER $PASSWORD < $SOURCES/SGD_features.tab)
+    "$HOST" $DB $USER $PASSWORD < $SOURCES/SGD_features.tab
 
 cd $LOG_DIR
 log_file=log.`date +'%Y-%m-%d-%H-%M-%S'`
