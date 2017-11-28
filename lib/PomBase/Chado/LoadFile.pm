@@ -66,7 +66,7 @@ method process_file($file) {
   my $organism = $self->find_organism_by_taxonid($self->organism_taxonid());
 
   my $feature_loader =
-    PomBase::Chado::LoadFeat->new(organism => $self->organism(),
+    PomBase::Chado::LoadFeat->new(organism => $organism,
                                   config => $self->config(),
                                   chado => $self->chado(),
                                   genotype_cache => $self->genotype_cache(),
