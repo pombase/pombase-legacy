@@ -237,6 +237,8 @@ $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml canto-json --org
 echo annotation count after loading curation tool data:
 evidence_summary $DB
 
+$POMBASE_CHADO/script/pombase-process.pl load-pombase-chado.yaml add-reciprocal-ipi-annotations  --organism-taxonid=4896 "$HOST" $DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.add_reciprocal_ipi_annotations
+
 PGPASSWORD=$PASSWORD psql -U $USER -h "$HOST" $DB -c 'analyze'
 refresh_views
 
@@ -315,6 +317,7 @@ cp $LOG_DIR/$log_file.gaf-check $CURRENT_BUILD_DIR/logs/$log_file.gaf-check
 cp $LOG_DIR/$log_file.compara_orths $CURRENT_BUILD_DIR/logs/$log_file.compara-orth-load-output
 cp $LOG_DIR/$log_file.manual_multi_orths $CURRENT_BUILD_DIR/logs/$log_file.manual-multi-orths-output
 cp $LOG_DIR/$log_file.manual_1-1_orths $CURRENT_BUILD_DIR/logs/$log_file.manual-1-1-orths-output
+cp $LOG_DIR/$log_file.add_reciprocal_ipi_annotations $CURRENT_BUILD_DIR/logs/$log_file.curation_tool_data
 cp $LOG_DIR/$log_file.curation_tool_data $CURRENT_BUILD_DIR/logs/$log_file.curation-tool-data-load-output
 cp $LOG_DIR/$log_file.quantitative $CURRENT_BUILD_DIR/logs/$log_file.quantitative
 cp $LOG_DIR/$log_file.qualitative $CURRENT_BUILD_DIR/logs/$log_file.qualitative
