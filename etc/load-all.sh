@@ -85,6 +85,14 @@ log_file=log.`date +'%Y-%m-%d-%H-%M-%S'`
 
 $HOME/git/pombase-legacy/etc/process-log.pl $log_file
 
+echo loading features without coordinates
+$POMBASE_CHADO/script/pombase-import.pl $HOME/git/pombase-legacy/load-pombase-chado.yaml features \
+    --organism-taxonid=4896 --uniquename-column=1 --name-column=2 --feature-type=promoter \
+    --reference-column=6 --date-column=7 \
+    --parent-feature-id-column=5 --parent-feature-rel-column=4 \
+    --ignore-lines-matching="^Identifier" \
+    "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/features_without_coordinates.txt
+
 echo starting import of biogrid data | tee $log_file.biogrid-load-output
 
 (cd $SOURCES/biogrid
