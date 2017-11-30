@@ -67,6 +67,7 @@ $POMBASE_CHADO/script/pombase-import.pl $HOME/git/pombase-legacy/load-pombase-ch
     --ignore-lines-matching="^hgnc_id.symbol" --ignore-short-lines \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/hgnc_complete_set.txt
 
+echo loading protein coding genes from SGD data file
 $POMBASE_CHADO/script/pombase-import.pl $HOME/git/pombase-legacy/load-pombase-chado.yaml features \
     --organism-taxonid=4932 --uniquename-column=4 --name-column=5 \
     --column-filter="2=ORF" --feature-type=gene \
@@ -75,6 +76,7 @@ $POMBASE_CHADO/script/pombase-import.pl $HOME/git/pombase-legacy/load-pombase-ch
 
 for so_type in ncRNA snoRNA
 do
+  echo loading $so_type genes from SGD data file
   $POMBASE_CHADO/script/pombase-import.pl $HOME/git/pombase-legacy/load-pombase-chado.yaml features \
       --organism-taxonid=4932 --uniquename-column=4 --name-column=5 \
       --column-filter="2=$so_type" --feature-type=${so_type}_gene \
