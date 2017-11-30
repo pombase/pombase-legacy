@@ -73,6 +73,15 @@ $POMBASE_CHADO/script/pombase-import.pl $HOME/git/pombase-legacy/load-pombase-ch
     --ignore-short-lines \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/SGD_features.tab
 
+for so_type in ncRNA snoRNA
+do
+  $POMBASE_CHADO/script/pombase-import.pl $HOME/git/pombase-legacy/load-pombase-chado.yaml features \
+      --organism-taxonid=4932 --uniquename-column=4 --name-column=5 \
+      --column-filter="2=$so_type" --feature-type=${so_type}_gene \
+      --ignore-short-lines \
+      "$HOST" $DB $USER $PASSWORD < $SOURCES/SGD_features.tab
+done
+
 cd $LOG_DIR
 log_file=log.`date +'%Y-%m-%d-%H-%M-%S'`
 `dirname $0`/../script/load-chado.pl --taxonid=4896 \
