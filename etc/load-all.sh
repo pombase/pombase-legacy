@@ -108,7 +108,9 @@ echo starting import of biogrid data | tee $log_file.biogrid-load-output
 
 (cd $SOURCES/biogrid
 mv BIOGRID-* old/
-wget --no-verbose http://thebiogrid.org/downloads/archives/Latest%20Release/BIOGRID-ORGANISM-LATEST.tab2.zip
+wget -q -N https://downloads.thebiogrid.org/Download/BioGRID/Latest-Release/BIOGRID-ORGANISM-LATEST.tab2.zip ||
+    die failed to download new BIOGRID data
+
 unzip -q BIOGRID-ORGANISM-LATEST.tab2.zip
 if [ ! -e BIOGRID-ORGANISM-Schizosaccharomyces_pombe*.tab2.txt ]
 then
