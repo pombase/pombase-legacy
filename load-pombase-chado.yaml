@@ -391,7 +391,6 @@ evidence_types:
   UNK:
     name: Unknown
   Microscopy: ~
-  'Cell growth assay': ~
   'Other': ~
   'Other direct assay': ~
   'Affinity Capture-Luminescence': ~
@@ -446,25 +445,19 @@ evidence_types:
     symmetrical: yes
   'Synthetic Rescue': ~
   'Two-hybrid': ~
-  'Reporter gene assay': ~
   'Enzyme assay data': ~
   'Flow cytometry data': ~
   'Chromatin immunoprecipitation experiment': ~
-  'Fusion protein localization experiment': ~
   'Immunolocalization experiment data': ~
   'Epitope-tagged protein immunolocalization experiment data': ~
   'Protein localization experiment': ~
   'Co-immunoprecipitation experiment': ~
   'Electrophoretic mobility shift assay data': ~
-  'Northern assay evidence': ~
   'Particle size and count assay': ~
   'Western blot assay': ~
   'Substance quantification': ~
   'Substance quantification evidence': ~
-  'Transcript expression level evidence': ~
-  'competitive growth assay evidence': ~
   'Plasmid maintenance assay evidence': ~
-  'Sodium dodecyl sulfate polyacrylamide gel electrophoresis': ~
   'FPR':
     name: fitness profiling
     definition: "ECO term name is 'competitive growth assay evidence' (ECO:0000336)"
