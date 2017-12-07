@@ -36,6 +36,8 @@ cvs:
     - charge_at_ph7
     - isoelectric_point
     - codon_adaptation_index
+    - name: annotation_date
+      definition: The date that this feature was added to the database.
   PomBase allele types:
     - name: amino_acid_mutation
     - name: nucleotide_mutation
