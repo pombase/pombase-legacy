@@ -592,63 +592,63 @@ auto_evidence_assignment:
   large vacuoles during vegetative growth: Microscopy
   abnormal kinetochore morphology: Microscopy
   abnormal cytokinesis: Microscopy
-  resistance to 2-deoxyglucose: Cell growth assay
-  resistance to 5-azacytidine: Cell growth assay
-  resistance to brefeldin A: Cell growth assay
-  resistance to thiabendazole: Cell growth assay
-  resistance to amphotericin B: Cell growth assay
-  resistance to aureobasidin A: Cell growth assay
-  resistance to benomyl: Cell growth assay
-  resistance to lovastatin: Cell growth assay
-  resistance to nystatin: Cell growth assay
-  resistance to rapamycin: Cell growth assay
-  sensitive to enfumafungin: Cell growth assay
-  sensitive to 6-azauracil: Cell growth assay
-  sensitive to camptothecin: Cell growth assay
-  sensitive to tacrolimus: Cell growth assay
-  sensitive to hydrogen peroxide: Cell growth assay
-  sensitive to hydroxyurea: Cell growth assay
-  sensitive to methyl methanesulfonate: Cell growth assay
-  sensitive to cadmium: Cell growth assay
-  sensitive to caffeine: Cell growth assay
-  sensitive to thiabendazole: Cell growth assay
-  sensitive to cycloheximide: Cell growth assay
-  sensitive to latrunculin A: Cell growth assay
-  sensitive to rapamycin: Cell growth assay
-  sensitive to valproic acid: Cell growth assay
-  sensitive to zinc: Cell growth assay
-  sensitive to heat: Cell growth assay
-  sensitive to cold: Cell growth assay
-  sensitive to ionizing radiation: Cell growth assay
-  sensitive to UV during vegetative growth: Cell growth assay
-  sensitive to cisplatin: Cell growth assay
-  sensitive to high osmolarity: Cell growth assay
-  sensitive to calcium: Cell growth assay
-  sensitive to bleomycin: Cell growth assay
-  sensitive to benomyl: Cell growth assay
-  sensitive to salt stress: Cell growth assay
-  sensitive to arsenic: Cell growth assay
-  sensitive to N-ethylmaleimide: Cell growth assay
-  sensitive to DNA damage: Cell growth assay
-  sensitive to pravastatin: Cell growth assay
-  decreased cell population growth: Cell growth assay
-  abnormal cell population growth: Cell growth assay
-  sensitive to menadione: Cell growth assay
-  viable cell at high temperature: Cell growth assay
-  resistance to L-azetidine-2-carboxylic acid: Cell growth assay
-  resistance to K-252a: Cell growth assay
-  normal cell population growth: Cell growth assay
-  abnormal G1/S phase transcription: Transcript expression level evidence
+  resistance to 2-deoxyglucose: cell growth assay evidence
+  resistance to 5-azacytidine: cell growth assay evidence
+  resistance to brefeldin A: cell growth assay evidence
+  resistance to thiabendazole: cell growth assay evidence
+  resistance to amphotericin B: cell growth assay evidence
+  resistance to aureobasidin A: cell growth assay evidence
+  resistance to benomyl: cell growth assay evidence
+  resistance to lovastatin: cell growth assay evidence
+  resistance to nystatin: cell growth assay evidence
+  resistance to rapamycin: cell growth assay evidence
+  sensitive to enfumafungin: cell growth assay evidence
+  sensitive to 6-azauracil: cell growth assay evidence
+  sensitive to camptothecin: cell growth assay evidence
+  sensitive to tacrolimus: cell growth assay evidence
+  sensitive to hydrogen peroxide: cell growth assay evidence
+  sensitive to hydroxyurea: cell growth assay evidence
+  sensitive to methyl methanesulfonate: cell growth assay evidence
+  sensitive to cadmium: cell growth assay evidence
+  sensitive to caffeine: cell growth assay evidence
+  sensitive to thiabendazole: cell growth assay evidence
+  sensitive to cycloheximide: cell growth assay evidence
+  sensitive to latrunculin A: cell growth assay evidence
+  sensitive to rapamycin: cell growth assay evidence
+  sensitive to valproic acid: cell growth assay evidence
+  sensitive to zinc: cell growth assay evidence
+  sensitive to heat: cell growth assay evidence
+  sensitive to cold: cell growth assay evidence
+  sensitive to ionizing radiation: cell growth assay evidence
+  sensitive to UV during vegetative growth: cell growth assay evidence
+  sensitive to cisplatin: cell growth assay evidence
+  sensitive to high osmolarity: cell growth assay evidence
+  sensitive to calcium: cell growth assay evidence
+  sensitive to bleomycin: cell growth assay evidence
+  sensitive to benomyl: cell growth assay evidence
+  sensitive to salt stress: cell growth assay evidence
+  sensitive to arsenic: cell growth assay evidence
+  sensitive to N-ethylmaleimide: cell growth assay evidence
+  sensitive to DNA damage: cell growth assay evidence
+  sensitive to pravastatin: cell growth assay evidence
+  decreased cell population growth: cell growth assay evidence
+  abnormal cell population growth: cell growth assay evidence
+  sensitive to menadione: cell growth assay evidence
+  viable cell at high temperature: cell growth assay evidence
+  resistance to L-azetidine-2-carboxylic acid: cell growth assay evidence
+  resistance to K-252a: cell growth assay evidence
+  normal cell population growth: cell growth assay evidence
+  abnormal G1/S phase transcription: transcript expression level evidence
   abnormal actin cortical patch localization: Microscopy
   abnormal actomyosin contractile ring myosin filament organization: Microscopy
-  abnormal cellular respiration: Cell growth assay
+  abnormal cellular respiration: cell growth assay evidence
   abnormal chromosome condensation: Microscopy
   abnormal chromosome segregation: Microscopy
   abnormal cytoplasmic microtubule nucleation during mitotic interphase: Microscopy
   abnormal endocytosis during vegetative growth: Microscopy
   abnormal glucan synthesis: Substance quantification evidence
   abnormal meiosis: Microscopy
-  abnormal meiotic recombination: Reporter gene assay
+  abnormal meiotic recombination: reporter gene assay evidence
   abnormal microtubule cytoskeleton organization during vegetative growth: Microscopy
   abnormal mitotic DNA damage checkpoint: Flow cytometry data
   abnormal mitotic sister chromatid segregation: Microscopy
@@ -656,50 +656,50 @@ auto_evidence_assignment:
   abnormal mitotic spindle elongation: Microscopy
   abnormal negative regulation of mitotic DNA replication initiation: Flow cytometry data
   abnormal plasma membrane sterol distribution: Microscopy
-  abnormal regulation of translation in response to nitrogen starvation: Cell growth assay
-  abnormal regulation of translation in response to osmotic stress: Cell growth assay
-  abnormal regulation of translation in response to oxidative stress: Cell growth assay
+  abnormal regulation of translation in response to nitrogen starvation: cell growth assay evidence
+  abnormal regulation of translation in response to osmotic stress: cell growth assay evidence
+  abnormal regulation of translation in response to oxidative stress: cell growth assay evidence
   abnormal vegetative cell morphology: Microscopy
   abnormal vegetative cell polarity: Microscopy
   abolished DNA damage checkpoint override in response to caffeine: Flow cytometry data
   abolished cell-substrate adhesion: Other
-  abolished crossover: Reporter gene assay
+  abolished crossover: reporter gene assay evidence
   actomyosin contractile ring absent: Microscopy
   "branched, elongated cell": Microscopy
-  chromosome loss during mitotic chromosome segregation: Reporter gene assay
-  decreased cell population growth at high temperature: Cell growth assay
-  decreased cell population growth at low temperature: Cell growth assay
-  decreased cell population growth on ammonia nitrogen source: Cell growth assay
-  decreased cell population growth on galactose carbon source: Cell growth assay
-  decreased cell population growth on proline nitrogen source: Cell growth assay
-  decreased gene conversion during vegetative growth: Reporter gene assay
-  decreased vegetative cell population growth: Cell growth assay
+  chromosome loss during mitotic chromosome segregation: reporter gene assay evidence
+  decreased cell population growth at high temperature: cell growth assay evidence
+  decreased cell population growth at low temperature: cell growth assay evidence
+  decreased cell population growth on ammonia nitrogen source: cell growth assay evidence
+  decreased cell population growth on galactose carbon source: cell growth assay evidence
+  decreased cell population growth on proline nitrogen source: cell growth assay evidence
+  decreased gene conversion during vegetative growth: reporter gene assay evidence
+  decreased vegetative cell population growth: cell growth assay evidence
   elongated multiseptate vegetative cell: Microscopy
   fragmented DNA: Microscopy
-  increased DNA recombination at mitotic DNA replication fork barriers: Reporter gene assay
+  increased DNA recombination at mitotic DNA replication fork barriers: reporter gene assay evidence
   increased HMG-CoA reductase activity: Enzyme assay data
-  increased centromeric outer repeat transcript level: Transcript expression level evidence
+  increased centromeric outer repeat transcript level: transcript expression level evidence
   increased duration of mitotic M phase: Flow cytometry data
-  increased long tract gene conversion: Reporter gene assay
+  increased long tract gene conversion: reporter gene assay evidence
   increased protein oxidation during vegetative growth: Western blot assay
-  increased transcription from MCB promoter: Transcript expression level evidence
+  increased transcription from MCB promoter: transcript expression level evidence
   inviable elongated vegetative cell with central constriction: Microscopy
   mitochondrial nucleoid decreased number: Microscopy
   mitochondrial nucleoid enlarged: Microscopy
   mitotic G2/M transition delay: Microscopy
   mitotic chromosome fragmentation upon segregation: Microscopy
-  mutator: Reporter gene assay
-  normal growth on ammonia nitrogen source: Cell growth assay
-  normal growth on proline nitrogen source: Cell growth assay
-  normal vegetative cell population growth: Cell growth assay
+  mutator: reporter gene assay evidence
+  normal growth on ammonia nitrogen source: cell growth assay evidence
+  normal growth on proline nitrogen source: cell growth assay evidence
+  normal vegetative cell population growth: cell growth assay evidence
   pear-shaped vegetative cell: Microscopy
   protein mislocalized to cytoplasm during vegetative growth: Microscopy
-  sensitive to caffeine during vegetative growth: Cell growth assay
-  sensitive to osmotic stress: Cell growth assay
-  slow vegetative cell population growth: Cell growth assay
+  sensitive to caffeine during vegetative growth: cell growth assay evidence
+  sensitive to osmotic stress: cell growth assay evidence
+  slow vegetative cell population growth: cell growth assay evidence
   small vegetative cell: Microscopy
   split actomyosin contractile ring: Microscopy
-  sterile: Cell growth assay
+  sterile: cell growth assay evidence
   stubby vegetative cell: Microscopy
   swollen vegetative cell: Microscopy
 
