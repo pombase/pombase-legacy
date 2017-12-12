@@ -321,6 +321,10 @@ $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml interactions -
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml orthologs --organism-taxon-id=4896 --other-organism-taxon-id=9606 "$HOST" $DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$DB.human-orthologs.txt.gz
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml phaf --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$DB.phaf.gz
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml modifications --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$DB.modifications.gz
+psql $DB -t --no-align -c "
+SELECT uniquename FROM pub WHERE uniquename LIKE 'PMID:%'
+   AND pub_id IN (SELECT pub_id FROM feature_cvterm UNION SELECT pub_id FROM feature_relationship_pub)
+ ORDER BY substring(uniquename FROM 'PMID:(\d+)')::integer;" > $CURRENT_BUILD_DIR/publications_with_annotations.txt
 ) > $LOG_DIR/$log_file.export_warnings 2>&1
 
 gzip -d < $CURRENT_BUILD_DIR/$DB.gaf.gz | /var/pomcur/sources/go-svn/software/utilities/filter-gene-association.pl -e > $LOG_DIR/$log_file.gaf-check
