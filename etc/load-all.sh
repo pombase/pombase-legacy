@@ -41,16 +41,17 @@ DB=pombase-build-$DB_DATE_VERSION
 LOG_DIR=`pwd`
 
 POMBASE_CHADO=$HOME/git/pombase-chado
+POMBASE_LEGACY=$HOME/git/pombase-legacy
 
 GOA_GAF_URL=ftp://ftp.ebi.ac.uk/pub/databases/GO/goa/UNIPROT/goa_uniprot_all.gaf.gz
 
 cd $POMBASE_CHADO
 git pull || exit 1
 
-cd $HOME/git/pombase-legacy
+cd $POMBASE_LEGACY
 git pull || exit 1
 
-export PERL5LIB=$HOME/git/pombase-chado/lib:$HOME/git/pombase-legacy/lib
+export PERL5LIB=$HOME/git/pombase-chado/lib:$POMBASE_LEGACY/lib
 
 (cd $SOURCES
 wget -q -N ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/tsv/hgnc_complete_set.txt ||
@@ -59,17 +60,17 @@ wget -q -N http://downloads.yeastgenome.org/curation/chromosomal_feature/SGD_fea
     echo failed to download SGD data
 )
 
-$POMBASE_CHADO/script/pombase-import.pl $HOME/git/pombase-legacy/load-pombase-chado.yaml organisms \
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml organisms \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/pombase_organism_config.tsv
 
-$POMBASE_CHADO/script/pombase-import.pl $HOME/git/pombase-legacy/load-pombase-chado.yaml features \
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml features \
     --organism-taxonid=9606 --uniquename-column=1 --name-column=2 --feature-type=gene \
     --product-column=3 \
     --ignore-lines-matching="^hgnc_id.symbol" --ignore-short-lines \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/hgnc_complete_set.txt
 
 echo loading protein coding genes from SGD data file
-$POMBASE_CHADO/script/pombase-import.pl $HOME/git/pombase-legacy/load-pombase-chado.yaml features \
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml features \
     --organism-taxonid=4932 --uniquename-column=4 --name-column=5 \
     --product-column=16 \
     --column-filter="2=ORF,blocked_reading_frame" --feature-type=gene \
@@ -79,7 +80,7 @@ $POMBASE_CHADO/script/pombase-import.pl $HOME/git/pombase-legacy/load-pombase-ch
 for so_type in ncRNA snoRNA
 do
   echo loading $so_type genes from SGD data file
-  $POMBASE_CHADO/script/pombase-import.pl $HOME/git/pombase-legacy/load-pombase-chado.yaml features \
+  $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml features \
       --organism-taxonid=4932 --uniquename-column=4 --name-column=5 \
       --column-filter="2=${so_type}_gene" --feature-type=gene \
       --ignore-short-lines \
@@ -93,13 +94,13 @@ log_file=log.`date +'%Y-%m-%d-%H-%M-%S'`
   --mapping "pt_mod:PSI-MOD:$SOURCES/pombe-embl/chado_load_mappings/modification_map.txt" \
   --mapping "phenotype:fission_yeast_phenotype:$SOURCES/pombe-embl/chado_load_mappings/phenotype-map.txt" \
   --gene-ex-qualifiers $SOURCES/pombe-embl/supporting_files/gene_ex_qualifiers \
-  --obsolete-term-map $HOME/pombe/go-doc/obsoletes-exact $HOME/git/pombase-legacy/load-pombase-chado.yaml \
+  --obsolete-term-map $HOME/pombe/go-doc/obsoletes-exact $POMBASE_LEGACY/load-pombase-chado.yaml \
   "$HOST" $DB $USER $PASSWORD $SOURCES/pombe-embl/*.contig 2>&1 | tee $log_file || exit 1
 
-$HOME/git/pombase-legacy/etc/process-log.pl $log_file
+$POMBASE_LEGACY/etc/process-log.pl $log_file
 
 echo loading features without coordinates
-$POMBASE_CHADO/script/pombase-import.pl $HOME/git/pombase-legacy/load-pombase-chado.yaml features \
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml features \
     --organism-taxonid=4896 --uniquename-column=1 --name-column=2 --feature-type=promoter \
     --reference-column=6 --date-column=7 \
     --parent-feature-id-column=5 --parent-feature-rel-column=4 \
@@ -120,7 +121,7 @@ then
 fi
 ) 2>&1 | tee -a $log_file.biogrid-load-output
 
-cd $HOME/git/pombase-legacy
+cd $POMBASE_LEGACY
 
 # see https://sourceforge.net/p/pombase/chado/61/
 cat $SOURCES/biogrid/BIOGRID-ORGANISM-Schizosaccharomyces_pombe*.tab2.txt | $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml biogrid --use_first_with_id  --organism-taxonid-filter=284812:4896 --interaction-note-filter="Contributed by PomBase|contributed by PomBase|triple mutant" --evidence-code-filter='Co-localization' "$HOST" $DB $USER $PASSWORD 2>&1 | tee -a $LOG_DIR/$log_file.biogrid-load-output
@@ -155,7 +156,7 @@ echo starting import of GAF data
 for gaf_file in go_comp.txt go_proc.txt go_func.txt From_curation_tool GO_ORFeome_localizations2.txt PMID_*_gaf.tsv
 do
   echo reading $gaf_file
-  $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --assigned-by-filter=PomBase "$HOST" $DB $USER $PASSWORD < $gaf_file
+  $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf --assigned-by-filter=PomBase "$HOST" $DB $USER $PASSWORD < $gaf_file
 
   echo counts:
   evidence_summary $DB
