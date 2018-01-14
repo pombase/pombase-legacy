@@ -39,7 +39,6 @@ under the same terms as Perl itself.
 use perl5i::2;
 use Carp;
 
-use PomBase::External;
 use PomBase::Chado::LoadOrganism;
 
 use YAML::Any qw(DumpFile LoadFile);
