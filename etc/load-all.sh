@@ -94,7 +94,7 @@ log_file=log.`date +'%Y-%m-%d-%H-%M-%S'`
   --mapping "pt_mod:PSI-MOD:$SOURCES/pombe-embl/chado_load_mappings/modification_map.txt" \
   --mapping "phenotype:fission_yeast_phenotype:$SOURCES/pombe-embl/chado_load_mappings/phenotype-map.txt" \
   --gene-ex-qualifiers $SOURCES/pombe-embl/supporting_files/gene_ex_qualifiers \
-  --obsolete-term-map $HOME/pombe/go-doc/obsoletes-exact $POMBASE_LEGACY/load-pombase-chado.yaml \
+  --obsolete-term-map $SOURCES/go-svn/doc/obsoletes-exact $POMBASE_LEGACY/load-pombase-chado.yaml \
   "$HOST" $DB $USER $PASSWORD $SOURCES/pombe-embl/*.contig 2>&1 | tee $log_file || exit 1
 
 $POMBASE_LEGACY/etc/process-log.pl $log_file
