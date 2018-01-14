@@ -28,6 +28,7 @@ my $builder = Module::Build->new(
       'DBIx::DBSchema'        => 0,
       'LWP::UserAgent'        => 0,
       'Iterator::Simple'      => 0.06,
+      'Tie/IxHash'            => 0,
     },
     build_requires => {
         'Test::More' => 0,
