@@ -19,6 +19,7 @@ open my $db_xref_problems, '>', 'db_xref_problems.txt' or die;
 open my $identifier_problems, '>', 'identifier_problems.txt' or die;
 open my $missing_products, '>', 'missing_products.txt' or die;
 open my $feature_warnings, '>', 'feature_warnings.txt' or die;
+open my $misc_term_warnings, '>', 'misc_term_warnings.txt' or die;
 open my $all_warnings, '>', 'all_warnings.txt' or die;
 
 my $prev_line = '';
@@ -46,6 +47,7 @@ my @qual_patterns = (
   'trying to store an allele',
   'in annotation extension for .* parse identifier',
   'qualifier value .* contains an equals',
+  'qualifier name .* contains a space',
 );
 
 my $qual_pattern = join '|', @qual_patterns;
@@ -154,6 +156,13 @@ while (defined (my $line = <>)) {
   if ($line =~ /no product for/) {
     print $all_warnings $line;
     print $missing_products "$gene: $line";
+    next;
+  }
+  if ($line =~ /GOid doesn't start with/ ||
+     $line =~ /no GOid for/) {
+    print $all_warnings $line;
+    print $misc_term_warnings "$gene: $line";
+    next;
   }
 
   $prev_line = $line;
