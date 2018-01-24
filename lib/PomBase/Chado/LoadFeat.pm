@@ -446,6 +446,28 @@ method store_feature_db_xref($feature, $db_xref) {
 
 }
 
+my %handled_qualifiers = (
+  systematic_id => 1,
+  obsolete_name => 1,
+  synonym => 1,
+  gene => 1,
+  product => 1,
+  SO => 1,
+  GO => 1,
+  controlled_curation => 1,
+  colour => 1,
+  note => 1,
+  primary_name => 1,
+  fasta_file => 1,
+  clustalx_file => 1,
+  pseudo => 1,
+  db_xref => 1,
+  EC_number => 1,
+  reserved_name => 1,
+  other_transcript => 1,
+  protein_id => 1,
+);
+
 method process_qualifiers($bioperl_feature, $chado_object) {
   my $type = $bioperl_feature->primary_tag();
   my $verbose = $self->verbose();
@@ -728,6 +750,12 @@ method finalise($chromosome) {
 
     $self->process_qualifiers($transcript_bioperl_feature, $chado_transcript);
 
+    for my $tag ($transcript_bioperl_feature->all_tags()) {
+      if (!$handled_qualifiers{$tag}) {
+        warn "unknown qualifier: /$tag\n";
+      }
+    }
+
     my $gene_uniquename = $feature_data->{gene_uniquename};
     my $chado_gene = $self->gene_objects()->{$gene_uniquename};
 
@@ -742,28 +770,6 @@ method finalise($chromosome) {
 
     $self->store_feature_rel($chado_transcript, $chado_gene, 'part_of');
   }
-
-  my %handled_qualifiers = (
-    systematic_id => 1,
-    obsolete_name => 1,
-    synonym => 1,
-    gene => 1,
-    product => 1,
-    SO => 1,
-    GO => 1,
-    controlled_curation => 1,
-    colour => 1,
-    note => 1,
-    primary_name => 1,
-    fasta_file => 1,
-    clustalx_file => 1,
-    pseudo => 1,
-    db_xref => 1,
-    EC_number => 1,
-    reserved_name => 1,
-    other_transcript => 1,
-    protein_id => 1,
-  );
 
   warn "counts of EMBL qualifiers by feature type and un-handled qualifiers:\n" unless $self->quiet();
 

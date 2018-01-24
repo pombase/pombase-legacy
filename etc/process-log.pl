@@ -53,6 +53,7 @@ my @qual_patterns = (
   'unknown date format',
   'ignoring .*systematic_id=.* on',
   'month .*\d+.* not in range',
+  'unknown qualifier:',
 );
 
 my $qual_pattern = join '|', @qual_patterns;
