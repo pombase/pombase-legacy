@@ -48,6 +48,11 @@ my @qual_patterns = (
   'in annotation extension for .* parse identifier',
   'qualifier value .* contains an equals',
   'qualifier name .* contains a space',
+  'has \d+ /.* qualifier\(s\)',
+  'has more than one',
+  'unknown date format',
+  'ignoring .*systematic_id=.* on',
+  'month .*\d+.* not in range',
 );
 
 my $qual_pattern = join '|', @qual_patterns;
@@ -144,11 +149,7 @@ while (defined (my $line = <>)) {
     }
     next;
   }
-  if ($line =~ m|A CDS/transcript was referenced but|) {
-    print $all_warnings $line;
-    print $feature_warnings "$gene: $line";
-  }
-  if ($line =~ /no SO type for/) {
+  if ($line =~ m:A CDS/transcript was referenced but|has no uniquename|gene name contains whitespace|no SO type for:) {
     print $all_warnings $line;
     print $feature_warnings "$gene: $line";
     next;
