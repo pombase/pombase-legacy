@@ -677,6 +677,10 @@ method store_transcript_parts($bioperl_cds, $chromosome, $transcript_so_type, $u
     $self->store_feature_rel($intron->{chado_feature}, $chado_transcript, 'part_of');
   }
 
+  if ($bioperl_cds->has_tag("partial")) {
+    $self->store_featureprop($chado_transcript, "partial_sequence", "yes")
+  }
+
   if ($transcript_so_type eq 'mRNA') {
     my $chado_peptide = $self->store_feature("$uniquename:pep", undef,
                                              [], 'polypeptide',

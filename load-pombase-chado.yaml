@@ -37,6 +37,9 @@ cvs:
     - charge_at_ph7
     - isoelectric_point
     - codon_adaptation_index
+    - name: partial_sequence
+      definition: >
+         This qualifier is present if the source feature has the EMBL /partial qualifer.
     - name: annotation_date
       definition: The date that this feature was added to the database.
   PomBase allele types:
