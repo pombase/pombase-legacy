@@ -54,6 +54,7 @@ my @qual_patterns = (
   'ignoring .*systematic_id=.* on',
   'month .*\d+.* not in range',
   'unknown qualifier:',
+  'unknown sub-qualifier:',
 );
 
 my $qual_pattern = join '|', @qual_patterns;
