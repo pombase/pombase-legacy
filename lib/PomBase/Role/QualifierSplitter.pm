@@ -99,7 +99,6 @@ method split_sub_qualifiers($cc_qualifier) {
         warn "  annotation should be split into two qualifier: $name=$value\n";
       }
 
-      warn "QUAL_NAME: $name\n";
     } else {
       die qq(qualifier not in the form "key=value": "$bit"\n);
     }
