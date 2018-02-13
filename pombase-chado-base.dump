@@ -61823,6 +61823,7 @@ COPY cv (cv_id, name, definition) FROM stdin;
 6	chado_properties	Terms that are used in the chadoprop table to describe the state of the database
 7	synonym_type	\N
 8	organism property types	\N
+10	cv_property_type	\N
 \.
 
 
@@ -61858,6 +61859,7 @@ COPY cvterm (cvterm_id, cv_id, name, definition, dbxref_id, is_obsolete, is_rela
 44	7	obsolete_name	\N	44	0	0
 46	8	taxon_id	\N	46	0	0
 45	5	is_a	\N	45	0	1
+48	10	cv_version	\N	47	0	0
 \.
 
 
@@ -61935,6 +61937,7 @@ COPY dbxref (dbxref_id, db_id, accession, version, description) FROM stdin;
 44	3	obsolete_name		\N
 45	3	is_a		\N
 46	1	NCBI Taxonomy id		\N
+47	3	cv_version		\N
 \.
 
 
@@ -65074,7 +65077,7 @@ SELECT pg_catalog.setval('control_control_id_seq', 1, false);
 -- Name: cv_cv_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kmr44
 --
 
-SELECT pg_catalog.setval('cv_cv_id_seq', 9, true);
+SELECT pg_catalog.setval('cv_cv_id_seq', 10, true);
 
 
 --
@@ -65088,7 +65091,7 @@ SELECT pg_catalog.setval('cvprop_cvprop_id_seq', 1, false);
 -- Name: cvterm_cvterm_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kmr44
 --
 
-SELECT pg_catalog.setval('cvterm_cvterm_id_seq', 46, true);
+SELECT pg_catalog.setval('cvterm_cvterm_id_seq', 48, true);
 
 
 --
@@ -65137,7 +65140,7 @@ SELECT pg_catalog.setval('db_db_id_seq', 3, true);
 -- Name: dbxref_dbxref_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kmr44
 --
 
-SELECT pg_catalog.setval('dbxref_dbxref_id_seq', 46, true);
+SELECT pg_catalog.setval('dbxref_dbxref_id_seq', 47, true);
 
 
 --
