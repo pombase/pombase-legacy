@@ -150,6 +150,8 @@ cvs:
   misc: []
   disease_associated: []
   EC numbers: []
+  cv_property_type:
+    - cv_version
 
 # define the allowed extension relation for each annotation type
 extension_restrictions:
