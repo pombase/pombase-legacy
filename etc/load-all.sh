@@ -319,13 +319,21 @@ mkdir $CURRENT_BUILD_DIR/logs
 mkdir $CURRENT_BUILD_DIR/exports
 
 (
+echo starting gaf export at `date`
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml gaf --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$DB.gaf.gz
+echo starting go-physical-interactions export at `date`
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml go-physical-interactions --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/exports/pombase-go-physical-interactions.tsv.gz
+echo starting go-substrates export at `date`
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml go-substrates --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/exports/pombase-go-substrates.tsv.gz
+echo starting interactions export at `date`
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml interactions --since-date=$PREV_DATE --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/exports/pombase-interactions-since-$PREV_VERSION-$PREV_DATE.gz
+echo starting orthologs export at `date`
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml orthologs --organism-taxon-id=4896 --other-organism-taxon-id=9606 "$HOST" $DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$DB.human-orthologs.txt.gz
+echo starting phaf export at `date`
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml phaf --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$DB.phaf.gz
+echo starting modifications export at `date`
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml modifications --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip -9v > $CURRENT_BUILD_DIR/$DB.modifications.gz
+echo starting publications with annotations export at `date`
 psql $DB -t --no-align -c "
 SELECT uniquename FROM pub WHERE uniquename LIKE 'PMID:%'
    AND pub_id IN (SELECT pub_id FROM feature_cvterm UNION SELECT pub_id FROM feature_relationship_pub)
