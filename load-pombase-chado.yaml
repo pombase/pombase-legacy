@@ -43,15 +43,20 @@ cvs:
     - name: annotation_date
       definition: The date that this feature was added to the database.
   PomBase allele types:
+    - name: amino_acid_deletion_and_mutation
+    - name: amino_acid_insertion
+    - name: amino_acid_insertion_and_deletion
+    - name: amino_acid_insertion_and_mutation
     - name: amino_acid_mutation
-    - name: nucleotide_mutation
     - name: deletion
+    - name: disruption
+    - name: nonsense_mutation
+    - name: nucleotide_insertion
+    - name: nucleotide_mutation
+    - name: partial_nucleotide_deletion
+    - name: wild_type
     - name: partial_amino_acid_deletion
       description: Deletion of part of a gene.
-    - name: partial_nucleotide_deletion
-    - name: nonsense_mutation
-    - name: wild_type
-    - name: disruption
     - name: unrecorded
       description: An allele whose type is not apparent from the paper.
     - name: unknown
