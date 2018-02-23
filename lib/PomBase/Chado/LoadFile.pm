@@ -79,6 +79,21 @@ method process_file($file) {
   my $seq_obj = $io->next_seq;
 
   my $display_id = $seq_obj->display_id();
+
+  my %chr_name_map = (
+    "CU329670.1" => "chromosome_1",
+    "CU329671.1" => "chromosome_2",
+    "CU329672.1" => "chromosome_3",
+    "FP565355" => "mating_type_region",
+    "MISPCG" => "mitochondrial",
+    "X54421.1" => "mitochondrial",
+    "AB325691" => "chr_II_telomeric_gap",
+  );
+
+  if ($chr_name_map{$display_id}) {
+    $display_id = $chr_name_map{$display_id};
+  }
+
   my $chromosome_cvterm = $self->get_cvterm('sequence', 'chromosome');
   my $md5 = Digest::MD5->new;
   $md5->add($seq_obj->seq());
