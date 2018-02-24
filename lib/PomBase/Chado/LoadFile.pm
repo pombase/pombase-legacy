@@ -78,21 +78,18 @@ method process_file($file) {
   my $io = Bio::SeqIO->new(-file => $file, -format => "embl" );
   my $seq_obj = $io->next_seq;
 
-  my $display_id = $seq_obj->display_id();
+  my $ena_id = $seq_obj->display_id();
 
   my %chr_name_map = (
-    "CU329670.1" => "chromosome_1",
-    "CU329671.1" => "chromosome_2",
-    "CU329672.1" => "chromosome_3",
+    "CU329670" => "chromosome_1",
+    "CU329671" => "chromosome_2",
+    "CU329672" => "chromosome_3",
     "FP565355" => "mating_type_region",
-    "MISPCG" => "mitochondrial",
-    "X54421.1" => "mitochondrial",
+    "X54421" => "mitochondrial",
     "AB325691" => "chr_II_telomeric_gap",
   );
 
-  if ($chr_name_map{$display_id}) {
-    $display_id = $chr_name_map{$display_id};
-  }
+  my $chr_uniquename = $chr_name_map{$ena_id};
 
   my $chromosome_cvterm = $self->get_cvterm('sequence', 'chromosome');
   my $md5 = Digest::MD5->new;
@@ -100,7 +97,7 @@ method process_file($file) {
 
   my %create_args = (
     type_id => $chromosome_cvterm->cvterm_id(),
-    uniquename => $display_id,
+    uniquename => $chr_uniquename,
     name => undef,
     organism_id => $organism->organism_id(),
     residues => $seq_obj->seq(),
@@ -111,8 +108,7 @@ method process_file($file) {
   my $chromosome =
     $chado->resultset('Sequence::Feature')->create({%create_args});
 
-  $self->store_featureprop($chromosome, 'ena_id',
-                           $config->{contig_ena_ids}->{$display_id});
+  $self->store_featureprop($chromosome, 'ena_id', $ena_id);
 
   my $anno_collection = $seq_obj->annotation;
 
