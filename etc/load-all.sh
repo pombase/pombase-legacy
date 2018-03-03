@@ -398,7 +398,7 @@ psql $DB -c "select t.name, db.name || ':' || x.accession as termid, array_to_st
 echo 'Alleles with type "other"'
 psql $DB -F ',' -A -c "select f.name, f.uniquename, (select value from featureprop p where
 p.feature_id = f.feature_id and p.type_id in (select cvterm_id from cvterm
-where name = 'description')) as description, (select value from featureprop p where
+where name = 'description')) as description, ARRAY(select value from featureprop p where
 p.feature_id = f.feature_id and p.type_id in (select cvterm_id from cvterm
 where name = 'canto_session')) as session from feature f where type_id in (select
 cvterm_id from cvterm where name = 'allele') and feature_id in (select
