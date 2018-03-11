@@ -201,7 +201,7 @@ evidence_summary $DB
 
 echo load quantitative gene expression data
 
-for file in $SOURCES/pombe-embl/external_data/Quantitative_gene_expression_data/*
+for file in $SOURCES/pombe-embl/external_data/Quantitative_gene_expression_data/*.txt
 do
   echo loading: $file
   $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml quantitative --organism_taxonid=4896 "$HOST" $DB $USER $PASSWORD < $file 2>&1
