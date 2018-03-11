@@ -147,7 +147,13 @@ cvs:
   name_description: []
   species_dist: []
   subunit_composition: []
-  gene_ex: []
+  gene_ex:
+    - RNA level
+    - protein level
+    - transcription
+    - RNA degradation
+    - translation
+    - protein degradation
   complementation: []
   warning: []
   ex_tools: []
