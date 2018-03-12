@@ -219,7 +219,7 @@ done | tee $LOG_DIR/$log_file.modification
 
 echo load bulk qualitative gene expression files
 
-for file in $SOURCES/pombe-embl/external_data/qualitative_gene_expression_data/*
+for file in $SOURCES/pombe-embl/external_data/qualitative_gene_expression_data/*.txt
 do
   echo loading: $file
   $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml qualitative --gene-ex-qualifiers=$SOURCES/pombe-embl/supporting_files/gene_ex_qualifiers "$HOST" $DB $USER $PASSWORD < $file 2>&1
