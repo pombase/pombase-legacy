@@ -395,7 +395,7 @@ evidence_types:
     name: Not Recorded
   TAS:
     name: Traceable Author Statement
-  HTP:  
+  HTP:
     name: Inferred from high throughput experiment
   HDA:
     name: Inferred from high throughput direct assay
