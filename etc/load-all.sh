@@ -256,6 +256,8 @@ $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml canto-json --org
 echo annotation count after loading curation tool data:
 evidence_summary $DB
 
+refresh_views
+
 $POMBASE_CHADO/script/pombase-process.pl load-pombase-chado.yaml add-reciprocal-ipi-annotations  --organism-taxonid=4896 "$HOST" $DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.add_reciprocal_ipi_annotations
 
 PGPASSWORD=$PASSWORD psql -U $USER -h "$HOST" $DB -c 'analyze'
