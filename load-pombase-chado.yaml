@@ -935,6 +935,26 @@ check_chado:
           WHERE (fc.base_cv_name = 'cellular_component' OR fc.base_cv_name = 'biological_process' OR fc.base_cv_name = 'molecular_function')
           GROUP BY f.uniquename, gene.name, cvterm_name, evidence, pub.uniquename, afp.value, with_prop, session
          HAVING count(fc.feature_cvterm_id) > 1;
+    - name: illegal_with_prefix
+      verbose_fail: true
+      description: "'with' values that have an unsupported DB prefix"
+      expected: 0
+      query: |
+         SELECT substring(value FROM '(.*):.*') AS with_db_prefix,
+            (SELECT value FROM feature_cvtermprop p2
+             JOIN cvterm p2t ON p2.type_id = p2t.cvterm_id
+             WHERE p2t.name = 'canto_session' AND p.feature_cvterm_id = p2.feature_cvterm_id) AS SESSION,
+                 pub.uniquename AS pubmed_id
+          FROM feature_cvtermprop p
+          JOIN cvterm t ON p.type_id = t.cvterm_id
+          JOIN feature_cvterm fc ON fc.feature_cvterm_id = p.feature_cvterm_id
+          JOIN pub ON pub.pub_id = fc.pub_id
+          WHERE t.name = 'with'
+            AND substring(value FROM '(.*):.*')
+                NOT IN ('AGI_LocusCode', 'CBS', 'dictyBase', 'EC', 'ECOGENE', 'FB', 'GO',
+                        'InterPro', 'MGI', 'PANTHER', 'PDB', 'Pfam', 'PomBase', 'RGD',
+                        'SGD', 'SUPERFAMILY', 'UniPathway', 'UniProtKB', 'UniProtKB-KW',
+                        'UniProtKB-SubCell', 'UniRule', 'WB');
 
 external_sources:
   pubmed_efetch_url: 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmode=xml&retmax=99999&id='
