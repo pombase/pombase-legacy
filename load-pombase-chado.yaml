@@ -526,7 +526,8 @@ evidence_types:
     name: northern assay evidence used in manual assertion
   'ECO:0001232':
     name: microscopy evidence used in manual assertion
-
+  'ECO:0007087':
+    name: ribosome profiling evidence
 
 suppressible_evidence_codes:
 
