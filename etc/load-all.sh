@@ -549,15 +549,20 @@ rm -f $DUMPS_DIR/latest_build
 ln -s $CURRENT_BUILD_DIR $DUMPS_DIR/latest_build
 
 (cd ~/git/pombase-chado && nice -10 ./etc/build_container.sh $DB_DATE_VERSION $DUMPS_DIR/latest_build prod)
-docker service update --image=pombase/web:$DB_DATE_VERSION-prod pombase-dev
+
+IMAGE_NAME=pombase/web:$DB_DATE_VERSION-prod
+
+docker service update --image=$IMAGE_NAME pombase-dev
 
 if [ $CHADO_CHECKS_STATUS=passed ]
 then
     rm -f $DUMPS_DIR/nightly_update
     ln -s $CURRENT_BUILD_DIR $DUMPS_DIR/nightly_update
 
-    nice -19 docker save pombase/web:$DB_DATE_VERSION-prod | ssh pombase-admin@149.155.131.177 sudo docker load
-    echo copied pombase/web:$DB_DATE_VERSION-prod to the server
+    nice -19 docker save $IMAGE_NAME | ssh pombase-admin@149.155.131.177 sudo docker load &&
+      ssh pombase-admin@149.155.131.177 "sudo /home/pombase-admin/bin/update_alt_image $IMAGE_NAME"
+
+    echo copied $IMAGE_NAME to the server
 
     rsync --delete-after -aHS $CURRENT_BUILD_DIR/ pombase-admin@149.155.131.177:/home/ftp/pombase/nightly_update/
 
