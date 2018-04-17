@@ -404,7 +404,7 @@ sub check_record {
 
   if (defined $display) {
     my ($acc) = $header =~ /^>(\S+)/;
-    $acc =~ s/\.\d+:pep$//;
+    $acc =~ s/:pep$//;
 
     my $name = $id_map{$acc}->{name} // '';
     my $product = $id_map{$acc}->{product} // '';
