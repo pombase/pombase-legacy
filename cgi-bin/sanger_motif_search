@@ -267,7 +267,7 @@ if (scalar @params < 2) {
 
 sub display_form {
   my($cgi) = @_;
-  print $cgi->start_form('GET'), "Query: ";
+  print $cgi->start_form('GET'), "Motif query: ";
   print $cgi->textfield('test'), "<P>";
   print $cgi->hidden('org', $org);
   print $cgi->submit('Submit'), "&nbsp;&nbsp;&nbsp;";
