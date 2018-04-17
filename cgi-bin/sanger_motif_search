@@ -400,6 +400,8 @@ sub doSearch {
 sub check_record {
   my ($header, $body_no_linebreak, $num_lines, $search_re) = @_;
 
+  $body_no_linebreak =~ s/\*$//;
+
   my $display = matches($body_no_linebreak, $search_re);
 
   if (defined $display) {
