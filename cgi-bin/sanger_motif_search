@@ -33,7 +33,7 @@ my $cgi = new CGI;
 my $ids_only = $cgi->param('ids_only');
 
 if (!$ids_only) {
-  print qq(<p><a href="http://www.pombase.org"><img src="http://www.pombase.org/sites/pombase.org/themes/custom/pombase/logo.png"></a></p>\n);
+  print qq(<p><a href="http://www.pombase.org"><img src="https://www.pombase.org/assets/pombase-logo.png"></a></p>\n);
 }
 
 $ENV{'PATH'} = "";
