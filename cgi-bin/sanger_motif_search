@@ -206,7 +206,7 @@ if (scalar @params < 2) {
   my $db = "$sources/Schizosaccharomyces_pombe.2018-03-27.pep.all.fa";
 
   # Check search
-  if ($syn !~ /^[A-Za-z0-9\.\+\?\{\}\,\[\]\*\^\$]+$/) {
+  if ($syn !~ /^[A-Za-z0-9\.\+\?\{\}\,\[\]\*\^\$\|]+$/) {
     print qq(Your query contained invalid characters. Please alter your query and try again.);
 
     &display_form($cgi);
