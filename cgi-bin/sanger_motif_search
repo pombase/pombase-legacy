@@ -203,7 +203,7 @@ if (scalar @params < 2) {
     print "<a href='$ids_only_url'>View only the IDs</a></p>\n";
   }
 
-  my $db = "$sources/Schizosaccharomyces_pombe.ASM294v1.18.pep.all.fa";
+  my $db = "$sources/Schizosaccharomyces_pombe.2018-03-27.pep.all.fa";
 
   # Check search
   if ($syn !~ /^[A-Za-z0-9\.\+\?\{\}\,\[\]\*\^\$]+$/) {
