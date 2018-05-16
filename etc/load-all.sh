@@ -564,9 +564,10 @@ then
 
     echo copied $IMAGE_NAME to the server
 
-    rsync --delete-after -aHS $CURRENT_BUILD_DIR/ pombase-admin@149.155.131.177:/home/ftp/pombase/nightly_update/
-
-    rsync --delete-after -aHS $SOURCES/pombe-embl/ftp_site/pombe/ pombase-admin@149.155.131.177:/home/ftp/pombase/pombe/
+    #  --delete-after
+    rsync -aHS $CURRENT_BUILD_DIR/ pombase-admin@149.155.131.177:/home/ftp/pombase/nightly_update/
+    #  --delete-after
+    rsync -aHS $SOURCES/pombe-embl/ftp_site/pombe/ pombase-admin@149.155.131.177:/home/ftp/pombase/pombe/
 fi
 
 date
