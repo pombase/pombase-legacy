@@ -711,6 +711,7 @@ auto_evidence_assignment:
   sterile: cell growth assay evidence
   stubby vegetative cell: Microscopy
   swollen vegetative cell: Microscopy
+  abnormal septum assembly: Microscopy
 
 check_chado:
   'PomBase::Check::FeatureCount':
