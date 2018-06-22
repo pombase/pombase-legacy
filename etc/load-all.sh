@@ -540,7 +540,7 @@ mkdir $CURRENT_BUILD_DIR/pombe-embl
 
 psql $DB -c 'grant select on all tables in schema public to public;'
 
-DUMP_FILE=$CURRENT_BUILD_DIR/$DB.dump.gz
+DUMP_FILE=$CURRENT_BUILD_DIR/$DB.chado_dump.gz
 
 echo dumping to $DUMP_FILE
 pg_dump $DB | gzip -9 > $DUMP_FILE
