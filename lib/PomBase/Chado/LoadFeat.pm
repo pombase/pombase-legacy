@@ -140,6 +140,9 @@ my %feature_loader_conf = (
   repeat_region => {
     so_type => 'repeat_region',
   },
+  misc_difference => {
+    so_type => 'SNP',
+  },
   "5'UTR" => {
     save => 1,
     so_type => 'five_prime_UTR',
