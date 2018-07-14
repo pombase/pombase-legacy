@@ -528,6 +528,8 @@ evidence_types:
     name: microscopy evidence used in manual assertion
   'ECO:0007087':
     name: ribosome profiling evidence
+  'ECO:0007464':
+    name: tryptic phosphopeptide mapping assay evidence used in automatic assertion
 
 suppressible_evidence_codes:
 
