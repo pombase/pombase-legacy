@@ -47,6 +47,7 @@ open my $fh, '<', $term_file or die "can't open $term_file: $!\n";
 
 while (my $line = <$fh>) {
   chomp $line;
+  next if $line =~ /^\s*$|^#/;
   my @bits = split /\t/, $line;
   my $termid = $bits[0];
   if ($termid =~ /(\w+):(\w+)/) {
