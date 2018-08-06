@@ -569,6 +569,16 @@ then
 
     echo copied $IMAGE_NAME to the server
 
+    (cd $SOURCES/pombe-embl/ftp_site/pombe/; svn update)
+
+    cp $CURRENT_BUILD_DIR/misc/gene_IDs_names.tsv          $SOURCES/pombe-embl/ftp_site/pombe/names_and_identifiers/
+    cp $CURRENT_BUILD_DIR/misc/gene_IDs_names_products.tsv $SOURCES/pombe-embl/ftp_site/pombe/names_and_identifiers/
+    cp $CURRENT_BUILD_DIR/$DB.human-orthologs.txt.gz       $SOURCES/pombe-embl/ftp_site/pombe/orthologs/human-orthologs.txt.gz
+    cp $CURRENT_BUILD_DIR/$DB.modifications.gz             $SOURCES/pombe-embl/ftp_site/pombe/annotations/modifications/pombase-chado.modifications.gz
+    cp $CURRENT_BUILD_DIR/$DB.phaf.gz                      $SOURCES/pombe-embl/ftp_site/pombe/annotations/Phenotype_annotations/phenotype_annotations.pombase.phaf.gz
+
+    (cd $SOURCES/pombe-embl/ftp_site/pombe/; svn commit -m "Automatic file update for $DB")
+
     #  --delete-after
     rsync -aHS $CURRENT_BUILD_DIR/ pombase-admin@149.155.131.177:/home/ftp/pombase/nightly_update/
     #  --delete-after
