@@ -57,7 +57,9 @@ echo update FYPO from GitHub
     fi
 )
 
-GO_OBO=go-svn/ontology/go-basic.obo
+(cd $SOURCES_DIR/; wget -N http://purl.obolibrary.org/obo/go/go-basic.obo)
+
+GO_OBO=go-basic.obo
 
 OBO_FILES="\
  obo-relations/src/ontology/subsets/ro-chado.obo \
