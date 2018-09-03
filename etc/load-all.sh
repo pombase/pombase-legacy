@@ -576,6 +576,15 @@ then
     cp $CURRENT_BUILD_DIR/misc/sysID2product.tsv           $SOURCES/pombe-embl/ftp_site/pombe/names_and_identifiers/
     cp $CURRENT_BUILD_DIR/misc/sysID2product.rna.tsv       $SOURCES/pombe-embl/ftp_site/pombe/names_and_identifiers/
     cp $CURRENT_BUILD_DIR/misc/Complex_annotation.tsv      $SOURCES/pombe-embl/ftp_site/pombe/annotations/Gene_ontology/GO_complexes/Complex_annotation.tsv
+
+    cp $CURRENT_BUILD_DIR/fasta/feature_sequences/cds+introns+utrs.fa.gz $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/feature_sequences/cds+introns+utrs.fa.gz
+    cp $CURRENT_BUILD_DIR/fasta/feature_sequences/cds+introns.fa.gz      $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/feature_sequences/cds+introns.fa.gz
+    cp $CURRENT_BUILD_DIR/fasta/feature_sequences/cds.fa.gz              $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/feature_sequences/cds.fa.gz
+#    cp $CURRENT_BUILD_DIR/fasta/feature_sequences/introns.fa.gz          $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/feature_sequences/introns.fa.gz
+    cp $CURRENT_BUILD_DIR/fasta/feature_sequences/five_prime_utrs.fa.gz  $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/feature_sequences/UTR/5UTR.fa.gz
+    cp $CURRENT_BUILD_DIR/fasta/feature_sequences/three_prime_utrs.fa.gz $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/feature_sequences/UTR/3UTR.fa.gz
+    cp $CURRENT_BUILD_DIR/fasta/feature_sequences/peptide.fa.gz          $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/feature_sequences/peptide.fa.gz
+
     cp $CURRENT_BUILD_DIR/$DB.human-orthologs.txt.gz       $SOURCES/pombe-embl/ftp_site/pombe/orthologs/human-orthologs.txt.gz
     cp $CURRENT_BUILD_DIR/$DB.modifications.gz             $SOURCES/pombe-embl/ftp_site/pombe/annotations/modifications/pombase-chado.modifications.gz
     cp $CURRENT_BUILD_DIR/$DB.phaf.gz                      $SOURCES/pombe-embl/ftp_site/pombe/annotations/Phenotype_annotations/phenotype_annotations.pombase.phaf.gz
