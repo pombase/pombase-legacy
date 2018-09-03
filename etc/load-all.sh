@@ -580,7 +580,7 @@ then
     cp $CURRENT_BUILD_DIR/fasta/feature_sequences/cds+introns+utrs.fa.gz $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/feature_sequences/cds+introns+utrs.fa.gz
     cp $CURRENT_BUILD_DIR/fasta/feature_sequences/cds+introns.fa.gz      $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/feature_sequences/cds+introns.fa.gz
     cp $CURRENT_BUILD_DIR/fasta/feature_sequences/cds.fa.gz              $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/feature_sequences/cds.fa.gz
-#    cp $CURRENT_BUILD_DIR/fasta/feature_sequences/introns.fa.gz          $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/feature_sequences/introns.fa.gz
+    cp $CURRENT_BUILD_DIR/fasta/feature_sequences/introns.fa.gz          $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/feature_sequences/introns.fa.gz
     cp $CURRENT_BUILD_DIR/fasta/feature_sequences/five_prime_utrs.fa.gz  $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/feature_sequences/UTR/5UTR.fa.gz
     cp $CURRENT_BUILD_DIR/fasta/feature_sequences/three_prime_utrs.fa.gz $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/feature_sequences/UTR/3UTR.fa.gz
     cp $CURRENT_BUILD_DIR/fasta/feature_sequences/peptide.fa.gz          $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/feature_sequences/peptide.fa.gz
