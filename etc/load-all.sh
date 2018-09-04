@@ -585,6 +585,13 @@ then
     cp $CURRENT_BUILD_DIR/fasta/feature_sequences/three_prime_utrs.fa.gz   $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/feature_sequences/UTR/3UTR.fa.gz
     cp $CURRENT_BUILD_DIR/fasta/feature_sequences/peptide.fa.gz            $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/feature_sequences/peptide.fa.gz
 
+    for f in all_chromosomes chr_II_telomeric_gap chromosome_I chromosome_II \
+             chromosome_III mating_type_region mitochondrial_chromosome
+    do
+        file_name=Schizosaccharomyces_pombe_$f.gff3
+        gzip -9 < $CURRENT_BUILD_DIR/gff/$file_name > $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/gff3/$file_name.gz
+    done
+
     cp $CURRENT_BUILD_DIR/$DB.human-orthologs.txt.gz       $SOURCES/pombe-embl/ftp_site/pombe/orthologs/human-orthologs.txt.gz
     cp $CURRENT_BUILD_DIR/$DB.modifications.gz             $SOURCES/pombe-embl/ftp_site/pombe/annotations/modifications/pombase-chado.modifications.gz
     cp $CURRENT_BUILD_DIR/$DB.phaf.gz                      $SOURCES/pombe-embl/ftp_site/pombe/annotations/Phenotype_annotations/phenotype_annotations.pombase.phaf.gz
