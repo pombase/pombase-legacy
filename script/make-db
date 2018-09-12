@@ -57,7 +57,7 @@ echo update FYPO from GitHub
     fi
 )
 
-(cd $SOURCES_DIR/; wget -N http://purl.obolibrary.org/obo/go/go-basic.obo)
+(cd $SOURCES_DIR/; wget -N http://purl.obolibrary.org/obo/go/snapshot/go-basic.obo)
 
 GO_OBO=go-basic.obo
 
