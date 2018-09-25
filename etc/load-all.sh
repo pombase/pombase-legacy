@@ -127,8 +127,11 @@ cd $POMBASE_LEGACY
 cat $SOURCES/biogrid/BIOGRID-ORGANISM-Schizosaccharomyces_pombe*.tab2.txt | $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml biogrid --use_first_with_id  --organism-taxonid-filter=284812:4896 --interaction-note-filter="Contributed by PomBase|contributed by PomBase|triple mutant" --evidence-code-filter='Co-localization' "$HOST" $DB $USER $PASSWORD 2>&1 | tee -a $LOG_DIR/$log_file.biogrid-load-output
 
 
-# PomBase curated interactions
-$POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml biogrid --organism-taxonid-filter=284812:4896 "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/external_data/interactions/PMID_25795664_scored_interactions.tab2.txt 2>&1 | tee -a $LOG_DIR/$log_file.pombase-curated-interactions
+for i in $SOURCES/pombe-embl/external_data/interactions/*.tab2.txt
+do
+    # PomBase curated interactions
+    $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml biogrid --organism-taxonid-filter=284812:4896 "$HOST" $DB $USER $PASSWORD < $i 2>&1 | tee -a $LOG_DIR/$log_file.pombase-curated-interactions
+done
 
 
 evidence_summary () {
