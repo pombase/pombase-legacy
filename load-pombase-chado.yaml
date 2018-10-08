@@ -27,6 +27,8 @@ cvs:
     - description
     - allele_type
     - uniprot_identifier
+    - name: biogrid_interactor_id
+      definition: the ID of this gene in the BioGRID database
     - canto_session
     - name: ena_id
       definition: The European Nucleotide Archive ID of the feature.
