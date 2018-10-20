@@ -81,7 +81,6 @@ OBO_FILES="\
  pombe-embl/mini-ontologies/SO_feature_relations.obo \
  pombe-embl/mini-ontologies/has_qualifier_range.obo \
  pombase_fypo_github/release/fypo-simple.obo \
- doid.obo \
  $GO_OBO"
 
 CONNECT_STRING="dbi:Pg:dbname=$DB"
