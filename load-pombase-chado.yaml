@@ -10,6 +10,9 @@ cvs:
   cvterm_property_type:
     - nested_extension
     - extension_relations_status
+    - malacards_disease_name
+    - malacards_displayed_disease_name
+    - malacards_disease_slug
   PomBase publication types:
     - paper
     - null
