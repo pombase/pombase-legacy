@@ -74,6 +74,7 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     --organism-taxonid=4932 --uniquename-column=4 --name-column=5 \
     --product-column=16 \
     --column-filter="2=ORF,blocked_reading_frame" --feature-type=gene \
+    --transcript-so-name=transcript \
     --ignore-short-lines \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/SGD_features.tab
 
