@@ -98,7 +98,7 @@ OLD_DIR=`pwd`
 cd $SOURCES_DIR
 if $HOME/chobo/script/chobo_load $CONNECT_STRING $USER $PASSWORD $POMBASE_LEGACY/etc/pombase-relations.obo $OBO_FILES \
    gmod-schema-latest/chado/load/etc/feature_property.obo \
-   pombase_fypo_github/peco.obo pombase/pombase_terms-v62.obo > $CHOBO_LOAD_LOG 2>&1
+   pombase_fypo_github/peco.obo pombase/pombase_terms-2018-12-02.obo > $CHOBO_LOAD_LOG 2>&1
 then
   echo 'Finished OBO loading at:' `date`
 else 
