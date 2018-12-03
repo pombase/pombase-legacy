@@ -353,6 +353,10 @@ SELECT uniquename FROM pub WHERE uniquename LIKE 'PMID:%'
  ORDER BY substring(uniquename FROM 'PMID:(\d+)')::integer;" > $CURRENT_BUILD_DIR/publications_with_annotations.txt
 ) > $LOG_DIR/$log_file.export_warnings 2>&1
 
+POMBASE_TERMS=pombase_terms-$DB_DATE_VERSION.obo
+$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml ontology --constraint-type=db_name --constraint-value=PBO "$HOST" $DB $USER $PASSWORD ) > $SOURCES/pombase/$POMBASE_TERMS
+(cd $SOURCES/pombase; ln -sf $POMBASE_TERMS pombase_terms-latest.obo)
+
 gzip -d < $CURRENT_BUILD_DIR/$DB.gaf.gz | /var/pomcur/sources/go-svn/software/utilities/filter-gene-association.pl -e > $LOG_DIR/$log_file.gaf-check
 
 cp $LOG_DIR/$log_file.gaf-load-output $CURRENT_BUILD_DIR/logs/
