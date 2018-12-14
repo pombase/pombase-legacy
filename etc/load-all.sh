@@ -260,6 +260,8 @@ $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml orthologs --publ
 
 $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml malacards --destination-taxonid=4896 "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/external_data/disease/malacards_data_for_chado.tsv 2>&1 | tee $LOG_DIR/$log_file.malacards_data
 
+$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml generic-annotation --organism-taxonid=4896 "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/external_data/disease/pombase_disease_associations.txt 2>&1 | tee $LOG_DIR/$log_file.disease_associations
+
 CURATION_TOOL_DATA=/var/pomcur/backups/current-prod-dump.json
 
 $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml canto-json --organism-taxonid=4896 --db-prefix=PomBase "$HOST" $DB $USER $PASSWORD < $CURATION_TOOL_DATA 2>&1 | tee $LOG_DIR/$log_file.curation_tool_data
@@ -366,6 +368,7 @@ cp $LOG_DIR/$log_file.compara_orths $CURRENT_BUILD_DIR/logs/$log_file.compara-or
 cp $LOG_DIR/$log_file.manual_multi_orths $CURRENT_BUILD_DIR/logs/$log_file.manual-multi-orths-output
 cp $LOG_DIR/$log_file.manual_1-1_orths $CURRENT_BUILD_DIR/logs/$log_file.manual-1-1-orths-output
 cp $LOG_DIR/$log_file.malacards_data $CURRENT_BUILD_DIR/logs/$log_file.malacards_data
+cp $LOG_DIR/$log_file.disease_associations $CURRENT_BUILD_DIR/logs/$log_file.disease_associations
 cp $LOG_DIR/$log_file.add_reciprocal_ipi_annotations $CURRENT_BUILD_DIR/logs/$log_file.add_reciprocal_ipi_annotations
 cp $LOG_DIR/$log_file.curation_tool_data $CURRENT_BUILD_DIR/logs/$log_file.curation-tool-data-load-output
 cp $LOG_DIR/$log_file.quantitative $CURRENT_BUILD_DIR/logs/$log_file.quantitative
