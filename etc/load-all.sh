@@ -63,6 +63,9 @@ wget -q -N http://downloads.yeastgenome.org/curation/chromosomal_feature/SGD_fea
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml organisms \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/pombase_organism_config.tsv
 
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml references-file \
+    "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/PB_references.txt
+
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml features \
     --organism-taxonid=9606 --uniquename-column=1 --name-column=2 --feature-type=gene \
     --product-column=3 \
