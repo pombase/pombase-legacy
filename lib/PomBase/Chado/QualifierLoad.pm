@@ -383,6 +383,10 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
     }
   }
 
+  if (!$db_xref && $mapping_conf->{db_xref}) {
+    $db_xref = $mapping_conf->{db_xref};
+  }
+
   my $pub = $self->get_pub_from_db_xref($embl_term_name, $db_xref);
 
   my $is_not = 0;
