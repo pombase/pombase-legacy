@@ -91,8 +91,9 @@ func read_mapping($old_name, $file_name) {
 
 func process_mappings(@mappings) {
   return map {
-    if (/(.*):(.*):(.*)/) {
-      ($1, { new_name => $2, mapping => read_mapping($1, $3) });
+    my @parts = split /:/, $_, 4;
+    if (@parts >= 3) {
+      ($parts[0], { new_name => $parts[1], mapping => read_mapping($parts[0], $parts[2]), db_xref => $parts[3] });
     } else {
       warn "unknown mapping: $_\n";
       usage();
