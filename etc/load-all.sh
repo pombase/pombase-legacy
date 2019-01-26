@@ -30,7 +30,7 @@ SOURCES=$POMCUR/sources
 (cd $SOURCES/pombe-embl/; svn update || exit 1)
 
 (cd ~/git/pombase-legacy
- export PATH=$HOME/chobo/script/:/usr/local/owltools-v0.2.1-255-geff650b/OWLTools-Runner/bin/:$PATH
+ export PATH=$HOME/chobo/script/:/usr/local/owltools-v0.3.0-74-gee0f8bbd/OWLTools-Runner/bin/:$PATH
  export OWLTOOLS_CHADO_CLOSURE=$HOME/git/pombase-chado/script/owltools-chado-closure.pl
  export PERL5LIB=$HOME/git/pombase-chado:$HOME/chobo/lib/
  time nice -19 ./script/make-db $DATE "$HOST" $USER $PASSWORD) || die "make-db failed"
