@@ -582,6 +582,9 @@ then
     rm -f $DUMPS_DIR/nightly_update
     ln -s $CURRENT_BUILD_DIR $DUMPS_DIR/nightly_update
 
+    # reload to make sure that update_alt_image doesn't upadte the
+    # running webapp
+    ssh pombase-admin@149.155.131.177 "sudo service httpd reload"
     nice -19 docker save $IMAGE_NAME | ssh pombase-admin@149.155.131.177 sudo docker load &&
       ssh pombase-admin@149.155.131.177 "sudo /home/pombase-admin/bin/update_alt_image $IMAGE_NAME"
 
