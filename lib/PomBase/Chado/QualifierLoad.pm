@@ -423,10 +423,15 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
 
     if ($cv_name eq 'fission_yeast_phenotype') {
       $self->move_condition_qual($featurecvterm, $sub_qual_map);
+      $self->add_feature_cvtermprop($featurecvterm, 'annotation_throughput_type',
+                                    'low throughput');
     }
 
     if ($self->is_go_cv_name($cv_name)) {
       $self->add_feature_cvtermprop($featurecvterm, assigned_by => $self->config()->{database_name});
+
+      $self->add_feature_cvtermprop($featurecvterm, 'annotation_throughput_type',
+                                    'low throughput');
 
       my $new_evidence_code =
         $self->maybe_move_igi($cvterm, $evidence_code, \@qualifiers, \@withs, $sub_qual_map);
