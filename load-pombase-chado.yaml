@@ -193,6 +193,7 @@ extension_restrictions:
   molecular_function:
     allowed:
       - happens_during
+      - has_input
       - has_direct_input
       - has_substrate
       - occurs_at
