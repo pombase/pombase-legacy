@@ -131,7 +131,13 @@ fi
 cd $POMBASE_LEGACY
 
 # see https://sourceforge.net/p/pombase/chado/61/
-cat $SOURCES/biogrid/BIOGRID-ORGANISM-Schizosaccharomyces_pombe*.tab2.txt | $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml biogrid --use_first_with_id  --organism-taxonid-filter=284812:4896 --interaction-note-filter="Contributed by PomBase|contributed by PomBase|triple mutant" --evidence-code-filter='Co-localization' "$HOST" $DB $USER $PASSWORD 2>&1 | tee -a $LOG_DIR/$log_file.biogrid-load-output
+cat $SOURCES/biogrid/BIOGRID-ORGANISM-Schizosaccharomyces_pombe*.tab2.txt |
+  $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml biogrid \
+     --use_first_with_id --source-database-filter=PomBase \
+     --organism-taxonid-filter=284812:4896 \
+     --interaction-note-filter="triple mutant"
+     --evidence-code-filter='Co-localization' "$HOST" $DB $USER $PASSWORD 2>&1 |
+  tee -a $LOG_DIR/$log_file.biogrid-load-output
 
 
 for i in $SOURCES/pombe-embl/external_data/interactions/*.tab2.txt
