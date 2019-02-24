@@ -232,6 +232,20 @@ psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
          FROM cvterm
          WHERE name = 'curator_name')) AS curator_name,
    (SELECT distinct(value)
+    FROM feature_cvtermprop session_prop
+    WHERE fc.feature_cvterm_id = session_prop.feature_cvterm_id
+      AND session_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'community_curated'))::boolean AS community_curated,
+   (SELECT distinct(value)
+    FROM feature_cvtermprop session_prop
+    WHERE fc.feature_cvterm_id = session_prop.feature_cvterm_id
+      AND session_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'annotation_throughput_type') limit 1) AS annotation_throughput_type,
+   (SELECT distinct(value)
     FROM feature_cvtermprop evidence_prop
     WHERE fc.feature_cvterm_id = evidence_prop.feature_cvterm_id
       AND evidence_prop.type_id IN
@@ -285,6 +299,20 @@ psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
         (SELECT cvterm_id
          FROM cvterm
          WHERE name = 'curator_name')) AS curator_name,
+   (SELECT distinct(value)
+    FROM feature_cvtermprop session_prop
+    WHERE fc.feature_cvterm_id = session_prop.feature_cvterm_id
+      AND session_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'community_curated'))::boolean AS community_curated,
+   (SELECT distinct(value)
+    FROM feature_cvtermprop session_prop
+    WHERE fc.feature_cvterm_id = session_prop.feature_cvterm_id
+      AND session_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'annotation_throughput_type') limit 1) AS annotation_throughput_type,
    (SELECT distinct(value)
     FROM feature_cvtermprop evidence_prop
     WHERE fc.feature_cvterm_id = evidence_prop.feature_cvterm_id
@@ -342,6 +370,20 @@ psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
         (SELECT cvterm_id
          FROM cvterm
          WHERE name = 'curator_name')) AS curator_name,
+   (SELECT distinct(value)
+    FROM feature_cvtermprop session_prop
+    WHERE fc.feature_cvterm_id = session_prop.feature_cvterm_id
+      AND session_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'community_curated'))::boolean AS community_curated,
+   (SELECT distinct(value)
+    FROM feature_cvtermprop session_prop
+    WHERE fc.feature_cvterm_id = session_prop.feature_cvterm_id
+      AND session_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'annotation_throughput_type') limit 1) AS annotation_throughput_type,
    (SELECT distinct(value)
     FROM feature_cvtermprop evidence_prop
     WHERE fc.feature_cvterm_id = evidence_prop.feature_cvterm_id
@@ -401,6 +443,20 @@ psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
         (SELECT cvterm_id
          FROM cvterm
          WHERE name = 'curator_name')) AS curator_name,
+   (SELECT distinct(value)
+    FROM feature_relationshipprop session_prop
+    WHERE r.feature_relationship_id = session_prop.feature_relationship_id
+      AND session_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'community_curated') limit 1)::boolean AS community_curated,
+   (SELECT distinct(value)
+    FROM feature_relationshipprop session_prop
+    WHERE r.feature_relationship_id = session_prop.feature_relationship_id
+      AND session_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'annotation_throughput_type') limit 1) AS annotation_throughput_type,
    NULL,
    (SELECT distinct(value)
     FROM feature_relationshipprop source_database_prop
@@ -450,6 +506,20 @@ psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
         (SELECT cvterm_id
          FROM cvterm
          WHERE name = 'curator_name')) AS curator_name,
+   (SELECT distinct(value)
+    FROM feature_relationshipprop session_prop
+    WHERE r.feature_relationship_id = session_prop.feature_relationship_id
+      AND session_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'community_curated') limit 1)::boolean AS community_curated,
+   (SELECT distinct(value)
+    FROM feature_relationshipprop session_prop
+    WHERE r.feature_relationship_id = session_prop.feature_relationship_id
+      AND session_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'annotation_throughput_type') limit 1) AS annotation_throughput_type,
    NULL,
    (SELECT distinct(value)
     FROM feature_relationshipprop source_database_prop
@@ -469,9 +539,11 @@ psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
    AND (rel_type.name = 'interacts_genetically'
         OR rel_type.name = 'interacts_physically');"
 
+psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_annotation_summary AS
+SELECT distinct id, pmid, annotation_date, annotation_year, session, curator_name, community_curated, annotation_throughput_type, evidence_code, annotation_source, annotation_type
+  FROM pombase_genes_annotations_dates;"
+
 psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_annotated_gene_features_per_publication AS
-WITH gene_pubs AS
-  (
 SELECT gene.uniquename AS gene_uniquename, pub.uniquename AS pmid,
    (SELECT distinct(value)
     FROM feature_cvtermprop session_prop
@@ -548,10 +620,7 @@ UNION
    JOIN pub ON frp.pub_id = pub.pub_id
    WHERE ft.name = 'gene'
      AND (rel_type.name = 'interacts_genetically'
-          OR rel_type.name = 'interacts_physically')
-)
-SELECT *
-FROM gene_pubs;"
+          OR rel_type.name = 'interacts_physically');"
 
 psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_genotypes_alleles_genes_mrna AS
 SELECT genotype.uniquename genotype_uniquename, genotype.feature_id as genotype_feature_id,

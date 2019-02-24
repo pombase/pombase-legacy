@@ -160,7 +160,8 @@ refresh_views () {
     pombase_feature_cvterm_ext_resolved_terms \
     pombase_genotypes_alleles_genes_mrna \
     pombase_extension_rels_and_values \
-    pombase_genes_annotations_dates
+    pombase_genes_annotations_dates \
+    pombase_annotation_summary
   do
     psql $DB -c "REFRESH MATERIALIZED VIEW $view;"
   done
