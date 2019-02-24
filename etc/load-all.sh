@@ -135,7 +135,7 @@ cat $SOURCES/biogrid/BIOGRID-ORGANISM-Schizosaccharomyces_pombe*.tab2.txt |
   $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml biogrid \
      --use_first_with_id --source-database-filter=PomBase \
      --organism-taxonid-filter=284812:4896 \
-     --interaction-note-filter="triple mutant"
+     --interaction-note-filter="triple mutant" \
      --evidence-code-filter='Co-localization' "$HOST" $DB $USER $PASSWORD 2>&1 |
   tee -a $LOG_DIR/$log_file.biogrid-load-output
 
