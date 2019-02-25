@@ -431,10 +431,12 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
     if ($self->is_go_cv_name($cv_name)) {
       $self->add_feature_cvtermprop($featurecvterm, assigned_by => $self->config()->{database_name});
 
-      my $annotation_throughput_type = $self->annotation_throughput_type($evidence_code);
-      if ($annotation_throughput_type) {
-        $self->add_feature_cvtermprop($featurecvterm, 'annotation_throughput_type',
-                                      $annotation_throughput_type);
+      if ($evidence_code) {
+        my $annotation_throughput_type = $self->annotation_throughput_type($evidence_code);
+        if ($annotation_throughput_type) {
+          $self->add_feature_cvtermprop($featurecvterm, 'annotation_throughput_type',
+                                        $annotation_throughput_type);
+        }
       }
 
       my $new_evidence_code =
