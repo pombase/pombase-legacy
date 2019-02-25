@@ -357,60 +357,83 @@ geneontology_qualifier_flags:
 evidence_types:
   IMP:
     name: Inferred from Mutant Phenotype
+    throughput_type: low throughput
   IDA:
     name: Inferred from Direct Assay
+    throughput_type: low throughput
   IGI:
     name: Inferred from Genetic Interaction
+    throughput_type: low throughput
     with_gene: 1
   IPI:
     name: Inferred from Physical Interaction
+    throughput_type: low throughput
     with_gene: 1
   EXP:
     name: Inferred from Experiment
+    throughput_type: low throughput
   IEP:
     name: Inferred from Expression Pattern
+    throughput_type: non-experimental
   ISS:
     name: Inferred from Sequence or Structural Similarity
+    throughput_type: non-experimental
   ISO:
     name: Inferred from Sequence Orthology
+    throughput_type: non-experimental
   ISA:
     name: Inferred from Sequence Alignment
+    throughput_type: non-experimental
   ISM:
     name: Inferred from Sequence Model
+    throughput_type: non-experimental
   IGC:
     name: Inferred from Genomic Context
+    throughput_type: non-experimental
   IBA:
     name: Inferred from Biological aspect of Ancestor
+    throughput_type: non-experimental
   IBD:
     name: Inferred from Biological aspect of Descendant
+    throughput_type: non-experimental
   IKR:
     name: Inferred from Key Residues
+    throughput_type: non-experimental
   IRD:
     name: Inferred from Rapid Divergence
   RCA:
     name: inferred from Reviewed Computational Analysis
   NAS:
     name: Non-traceable Author Statement
+    throughput_type: non-experimental
   IC:
     name: Inferred by Curator
+    throughput_type: non-experimental
   ND:
     name: No biological Data available
   IEA:
     name: Inferred from Electronic Annotation
+    throughput_type: non-experimental
   NR:
     name: Not Recorded
   TAS:
     name: Traceable Author Statement
+    throughput_type: non-experimental
   HTP:
     name: Inferred from high throughput experiment
+    throughput_type: high throughput
   HDA:
     name: Inferred from high throughput direct assay
+    throughput_type: high throughput
   HEP:
     name: Inferred from high throughput expression pattern
+    throughput_type: high throughput
   HGI:
     name: Inferred from high throughput genetic interaction
+    throughput_type: high throughput
   HMP:
     name: Inferred from high throughput mutant phenotype
+    throughput_type: high throughput
   UNK:
     name: Unknown
   Microscopy: ~
