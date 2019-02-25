@@ -432,8 +432,10 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
       $self->add_feature_cvtermprop($featurecvterm, assigned_by => $self->config()->{database_name});
 
       my $annotation_throughput_type = $self->annotation_throughput_type($evidence_code);
-      $self->add_feature_cvtermprop($featurecvterm, 'annotation_throughput_type',
-                                    $annotation_throughput_type);
+      if ($annotation_throughput_type) {
+        $self->add_feature_cvtermprop($featurecvterm, 'annotation_throughput_type',
+                                      $annotation_throughput_type);
+      }
 
       my $new_evidence_code =
         $self->maybe_move_igi($cvterm, $evidence_code, \@qualifiers, \@withs, $sub_qual_map);
