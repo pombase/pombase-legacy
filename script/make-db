@@ -223,7 +223,7 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
       AND date_prop.type_id IN
         (SELECT cvterm_id
          FROM cvterm
-         WHERE name = 'date')) FROM E'^(\\d\\d\\d\\d)') AS annotation_year,
+         WHERE name = 'date')) FROM E'^(\\d\\d\\d\\d)')::integer AS annotation_year,
    (SELECT distinct(value)
     FROM feature_cvtermprop session_prop
     WHERE fc.feature_cvterm_id = session_prop.feature_cvterm_id
@@ -292,7 +292,7 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
       AND date_prop.type_id IN
         (SELECT cvterm_id
          FROM cvterm
-         WHERE name = 'date')) FROM E'^(\\d\\d\\d\\d)') AS annotation_year,
+         WHERE name = 'date')) FROM E'^(\\d\\d\\d\\d)')::integer AS annotation_year,
    (SELECT distinct(value)
     FROM feature_cvtermprop session_prop
     WHERE fc.feature_cvterm_id = session_prop.feature_cvterm_id
@@ -364,7 +364,7 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
       AND date_prop.type_id IN
         (SELECT cvterm_id
          FROM cvterm
-         WHERE name = 'date')) FROM E'^(\\d\\d\\d\\d)') AS annotation_year,
+         WHERE name = 'date')) FROM E'^(\\d\\d\\d\\d)')::integer AS annotation_year,
    (SELECT distinct(value)
     FROM feature_cvtermprop session_prop
     WHERE fc.feature_cvterm_id = session_prop.feature_cvterm_id
@@ -438,7 +438,7 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
       AND date_prop.type_id IN
         (SELECT cvterm_id
          FROM cvterm
-         WHERE name = 'date')) FROM E'^(\\d\\d\\d\\d)') AS annotation_year,
+         WHERE name = 'date')) FROM E'^(\\d\\d\\d\\d)')::integer AS annotation_year,
    (SELECT distinct(value)
     FROM feature_relationshipprop session_prop
     WHERE r.feature_relationship_id = session_prop.feature_relationship_id
@@ -502,7 +502,7 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
       AND date_prop.type_id IN
         (SELECT cvterm_id
          FROM cvterm
-         WHERE name = 'date')) FROM E'^(\\d\\d\\d\\d)') AS annotation_year,
+         WHERE name = 'date')) FROM E'^(\\d\\d\\d\\d)')::integer AS annotation_year,
    (SELECT distinct(value)
     FROM feature_relationshipprop session_prop
     WHERE r.feature_relationship_id = session_prop.feature_relationship_id
