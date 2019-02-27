@@ -422,10 +422,11 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
     my $featurecvterm =
       $self->create_feature_cvterm($pombe_feature, $cvterm, $pub, $is_not);
 
+    my $annotation_throughput = undef;
+
     if ($cv_name eq 'fission_yeast_phenotype') {
       $self->move_condition_qual($featurecvterm, $sub_qual_map);
-      $self->add_feature_cvtermprop($featurecvterm, 'annotation_throughput_type',
-                                    'low throughput');
+      $annotation_throughput = 'low throughput';
     }
 
     if ($self->is_go_cv_name($cv_name)) {
@@ -434,8 +435,7 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
       if ($evidence_code) {
         my $annotation_throughput_type = $self->annotation_throughput_type($evidence_code);
         if ($annotation_throughput_type) {
-          $self->add_feature_cvtermprop($featurecvterm, 'annotation_throughput_type',
-                                        $annotation_throughput_type);
+          $annotation_throughput = $annotation_throughput_type;
         }
       }
 
@@ -454,6 +454,13 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
         }
       }
     }
+
+    if (!defined $annotation_throughput) {
+      $annotation_throughput = 'non-experimental';
+    }
+
+    $self->add_feature_cvtermprop($featurecvterm, 'annotation_throughput_type',
+                                  $annotation_throughput);
 
     for (my $i = 0; $i < @withs; $i++) {
       my $with = $withs[$i];
