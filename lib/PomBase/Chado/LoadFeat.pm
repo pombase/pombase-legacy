@@ -387,8 +387,12 @@ method store_colour($feature, $colour) {
     die "can't find cvterm for $cvterm_name\n";
   }
 
-  $self->create_feature_cvterm($feature, $cvterm,
-                               $self->find_or_create_pub('null'), 0);
+  my $feature_cvterm =
+    $self->create_feature_cvterm($feature, $cvterm,
+                                 $self->find_or_create_pub('null'), 0);
+
+  $self->add_feature_cvtermprop($feature_cvterm, 'annotation_throughput_type',
+                                'non-experimental');
 }
 
 method get_target_curations($bioperl_feature) {
