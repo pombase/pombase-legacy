@@ -143,7 +143,10 @@ cat $SOURCES/biogrid/BIOGRID-ORGANISM-Schizosaccharomyces_pombe*.tab2.txt |
 for i in $SOURCES/pombe-embl/external_data/interactions/*.tab2.txt
 do
     # PomBase curated interactions
-    $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml biogrid --organism-taxonid-filter=284812:4896 "$HOST" $DB $USER $PASSWORD < $i 2>&1 | tee -a $LOG_DIR/$log_file.pombase-curated-interactions
+    file_date=`stat -c %y $i | awk '{printf $1 "\n"}'`
+    $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml biogrid --organism-taxonid-filter=284812:4896 \
+       --annotation-date=$file_date \
+       "$HOST" $DB $USER $PASSWORD < $i 2>&1 | tee -a $LOG_DIR/$log_file.pombase-curated-interactions
 done
 
 
