@@ -568,7 +568,7 @@ cp $LOG_DIR/*.txt $CURRENT_BUILD_DIR/logs/
 mkdir $CURRENT_BUILD_DIR/pombe-embl
 (
   cd $SOURCES/pombe-embl
-  cp -r website *.contig external_data mini-ontologies \
+  cp -r *.contig external_data mini-ontologies \
     supporting_files orthologs \
     $CURRENT_BUILD_DIR/pombe-embl/
 )
