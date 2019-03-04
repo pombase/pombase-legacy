@@ -202,14 +202,21 @@ psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_extension_rels_and_values AS SE
 
 psql -q $DB <<'EOF'
 CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
- WITH pubmed_publication_years AS
+ WITH
+  pubmed_publication_years AS
   (SELECT pub.pub_id, substring(value FROM E'\\d\\d\\d\\d')::integer AS year
     FROM pubprop date_prop join pub on pub.pub_id = date_prop.pub_id
     JOIN cvterm prop_type on date_prop.type_id = prop_type.cvterm_id
-   WHERE prop_type.name = 'pubmed_publication_date')
+   WHERE prop_type.name = 'pubmed_publication_date'),
+  pub_community_curated_flags AS
+  (SELECT pub.pub_id, CASE WHEN value = 'community' THEN true WHEN value IS NOT NULL THEN false ELSE null END AS flag
+    FROM pubprop date_prop join pub on pub.pub_id = date_prop.pub_id
+    JOIN cvterm prop_type on date_prop.type_id = prop_type.cvterm_id
+   WHERE prop_type.name = 'canto_curator_role')
  SELECT gene.uniquename AS gene_uniquename,
         'FC:' || fc.feature_cvterm_id AS id, pub.uniquename AS pmid,
-   (SELECT year FROM pubmed_publication_years ppy WHERE ppy.pub_id = pub.pub_id LIMIT 1) as publication_year,
+   (SELECT year FROM pubmed_publication_years ppy WHERE ppy.pub_id = pub.pub_id LIMIT 1) AS publication_year,
+   (SELECT flag FROM pub_community_curated_flags fl WHERE fl.pub_id = pub.pub_id) AS publication_community_curated,
    (SELECT distinct(value)
     FROM feature_cvtermprop date_prop
     WHERE fc.feature_cvterm_id = date_prop.feature_cvterm_id
@@ -279,6 +286,7 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
  SELECT gene.uniquename AS gene_uniquename,
         'FC:' || fc.feature_cvterm_id AS id, pub.uniquename AS pmid,
    (SELECT year FROM pubmed_publication_years ppy WHERE ppy.pub_id = pub.pub_id LIMIT 1) as publication_year,
+   (SELECT flag FROM pub_community_curated_flags fl WHERE fl.pub_id = pub.pub_id) as publication_community_curated,
    (SELECT distinct(value)
     FROM feature_cvtermprop date_prop
     WHERE fc.feature_cvterm_id = date_prop.feature_cvterm_id
@@ -351,6 +359,7 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
  SELECT gene.uniquename AS gene_uniquename,
         'FC:' || fc.feature_cvterm_id AS id, pub.uniquename AS pmid,
    (SELECT year FROM pubmed_publication_years ppy WHERE ppy.pub_id = pub.pub_id LIMIT 1) as publication_year,
+   (SELECT flag FROM pub_community_curated_flags fl WHERE fl.pub_id = pub.pub_id) as publication_community_curated,
    (SELECT distinct(value)
     FROM feature_cvtermprop date_prop
     WHERE fc.feature_cvterm_id = date_prop.feature_cvterm_id
@@ -425,6 +434,7 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
  SELECT sub.uniquename AS gene_uniquename,
         'FR:' || r.feature_relationship_id AS id, pub.uniquename AS pmid,
    (SELECT year FROM pubmed_publication_years ppy WHERE ppy.pub_id = pub.pub_id LIMIT 1) as publication_year,
+   (SELECT flag FROM pub_community_curated_flags fl WHERE fl.pub_id = pub.pub_id) as publication_community_curated,
    (SELECT distinct(value)
     FROM feature_relationshipprop date_prop
     WHERE r.feature_relationship_id = date_prop.feature_relationship_id
@@ -489,6 +499,7 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
  SELECT obj.uniquename AS gene_uniquename,
         'FR:' || r.feature_relationship_id AS id, pub.uniquename AS pmid,
    (SELECT year FROM pubmed_publication_years ppy WHERE ppy.pub_id = pub.pub_id LIMIT 1) as publication_year,
+   (SELECT flag FROM pub_community_curated_flags fl WHERE fl.pub_id = pub.pub_id) as publication_community_curated,
    (SELECT distinct(value)
     FROM feature_relationshipprop date_prop
     WHERE r.feature_relationship_id = date_prop.feature_relationship_id
@@ -552,7 +563,9 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
 EOF
 
 psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_annotation_summary AS
-SELECT distinct id, pmid, publication_year, annotation_date, annotation_year, session, curator_name, community_curated, annotation_throughput_type, evidence_code, annotation_source, annotation_type
+SELECT distinct id, pmid, publication_year, publication_community_curated, annotation_date,
+       annotation_year, session, curator_name, community_curated, annotation_throughput_type,
+       evidence_code, annotation_source, annotation_type
   FROM pombase_genes_annotations_dates;"
 
 psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_annotated_gene_features_per_publication AS
