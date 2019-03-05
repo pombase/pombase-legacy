@@ -129,6 +129,7 @@ cvs:
     - name: canto_session
     - name: canto_first_sent_to_curator_date
     - name: canto_first_approved_date
+    - name: canto_annotation_status
     - name: canto_approved_date
     - name: canto_approver_name
     - name: canto_approver_email
