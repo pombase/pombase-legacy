@@ -127,6 +127,7 @@ cvs:
         Set to "yes" for annotation inferred during loading, "no" otherwise.
   pubprop_type:
     - name: canto_session
+    - name: canto_first_sent_to_curator_date
     - name: canto_first_approved_date
     - name: canto_approved_date
     - name: canto_approver_name
