@@ -424,6 +424,10 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
 
     my $annotation_throughput = undef;
 
+    if ($cv_name eq 'cat_act') {
+      $annotation_throughput = 'low throughput';
+    }
+
     if ($cv_name eq 'fission_yeast_phenotype') {
       $self->move_condition_qual($featurecvterm, $sub_qual_map);
       $annotation_throughput = 'low throughput';
