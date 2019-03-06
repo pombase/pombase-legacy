@@ -745,6 +745,13 @@ WITH all_pubs_raw AS
       FROM pubprop pp
       JOIN cvterm ppt ON pp.type_id = ppt.cvterm_id
       WHERE pp.pub_id = pub.pub_id
+        AND ppt.name = 'canto_annotation_status'
+      LIMIT 1) AS canto_annotation_status,
+
+     (SELECT value
+      FROM pubprop pp
+      JOIN cvterm ppt ON pp.type_id = ppt.cvterm_id
+      WHERE pp.pub_id = pub.pub_id
         AND ppt.name = 'canto_curator_role'
       LIMIT 1) AS canto_curator_role,
 
