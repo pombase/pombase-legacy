@@ -274,14 +274,14 @@ for i in $SOURCES/pombe-embl/external_data/phaf_files/chado_load/htp_phafs/PMID_
 do
   f=`basename $i .tsv`
   echo loading HTP phenotype data from $f
-  ($POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml phenotype-annotation "$HOST" $DB $USER $PASSWORD < $i) 2>&1 | tee -a $LOG_DIR/$log_file.phenotypes_from_$f
+  ($POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml phenotype-annotation --throughput-type='high throughput' "$HOST" $DB $USER $PASSWORD < $i) 2>&1 | tee -a $LOG_DIR/$log_file.phenotypes_from_$f
 done
 
 for i in $SOURCES/pombe-embl/external_data/phaf_files/chado_load/ltp_phafs/PMID_*.*[^~]
 do
   f=`basename $i .tsv`
   echo loading LTP phenotype data from $f
-  ($POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml phenotype-annotation "$HOST" $DB $USER $PASSWORD < $i) 2>&1 | tee -a $LOG_DIR/$log_file.phenotypes_from_$f
+  ($POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml phenotype-annotation --throughput-type='low throughput' "$HOST" $DB $USER $PASSWORD < $i) 2>&1 | tee -a $LOG_DIR/$log_file.phenotypes_from_$f
 done
 
 echo load Compara orthologs
