@@ -424,8 +424,16 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
 
     my $annotation_throughput = undef;
 
-    if ($cv_name eq 'cat_act' || $cv_name eq 'PSI-MOD' || $cv_name eq 'subunit_composition') {
+    if ($cv_name eq 'cat_act' || $cv_name eq 'subunit_composition') {
       $annotation_throughput = 'low throughput';
+    }
+
+    if (cv_name eq 'PSI-MOD') {
+      if ($pub->uniquename() eq 'PMID:19547744') {
+        $annotation_throughput = 'high throughput';
+      } else {
+        $annotation_throughput = 'low throughput';
+      }
     }
 
     if ($cv_name eq 'fission_yeast_phenotype') {
