@@ -428,7 +428,7 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
       $annotation_throughput = 'low throughput';
     }
 
-    if (cv_name eq 'PSI-MOD') {
+    if ($cv_name eq 'PSI-MOD') {
       if ($pub->uniquename() eq 'PMID:19547744') {
         $annotation_throughput = 'high throughput';
       } else {
