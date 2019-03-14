@@ -210,7 +210,6 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
    WHERE prop_type.name = 'canto_curator_role')
  SELECT gene.uniquename AS gene_uniquename,
         'FC:' || fc.feature_cvterm_id AS id, pub.uniquename AS pmid,
-   (SELECT year FROM pubmed_publication_years ppy WHERE ppy.pub_id = pub.pub_id LIMIT 1) AS publication_year,
    (SELECT flag FROM pub_community_curated_flags fl WHERE fl.pub_id = pub.pub_id) AS publication_community_curated,
    (SELECT distinct(value)
     FROM feature_cvtermprop date_prop
@@ -280,7 +279,6 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
  UNION
  SELECT gene.uniquename AS gene_uniquename,
         'FC:' || fc.feature_cvterm_id AS id, pub.uniquename AS pmid,
-   (SELECT year FROM pubmed_publication_years ppy WHERE ppy.pub_id = pub.pub_id LIMIT 1) as publication_year,
    (SELECT flag FROM pub_community_curated_flags fl WHERE fl.pub_id = pub.pub_id) as publication_community_curated,
    (SELECT distinct(value)
     FROM feature_cvtermprop date_prop
@@ -353,7 +351,6 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
  UNION
  SELECT gene.uniquename AS gene_uniquename,
         'FC:' || fc.feature_cvterm_id AS id, pub.uniquename AS pmid,
-   (SELECT year FROM pubmed_publication_years ppy WHERE ppy.pub_id = pub.pub_id LIMIT 1) as publication_year,
    (SELECT flag FROM pub_community_curated_flags fl WHERE fl.pub_id = pub.pub_id) as publication_community_curated,
    (SELECT distinct(value)
     FROM feature_cvtermprop date_prop
@@ -428,7 +425,6 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
  UNION
  SELECT sub.uniquename AS gene_uniquename,
         'FR:' || r.feature_relationship_id AS id, pub.uniquename AS pmid,
-   (SELECT year FROM pubmed_publication_years ppy WHERE ppy.pub_id = pub.pub_id LIMIT 1) as publication_year,
    (SELECT flag FROM pub_community_curated_flags fl WHERE fl.pub_id = pub.pub_id) as publication_community_curated,
    (SELECT distinct(value)
     FROM feature_relationshipprop date_prop
@@ -493,7 +489,6 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
  UNION
  SELECT obj.uniquename AS gene_uniquename,
         'FR:' || r.feature_relationship_id AS id, pub.uniquename AS pmid,
-   (SELECT year FROM pubmed_publication_years ppy WHERE ppy.pub_id = pub.pub_id LIMIT 1) as publication_year,
    (SELECT flag FROM pub_community_curated_flags fl WHERE fl.pub_id = pub.pub_id) as publication_community_curated,
    (SELECT distinct(value)
     FROM feature_relationshipprop date_prop
@@ -558,7 +553,7 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
 EOF
 
 psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_annotation_summary AS
-SELECT distinct id, pmid, publication_year, publication_community_curated, annotation_date,
+SELECT distinct id, pmid, publication_community_curated, annotation_date,
        annotation_year, session, curator_name, community_curated, annotation_throughput_type,
        evidence_code, annotation_source, annotation_type
   FROM pombase_genes_annotations_dates;"
