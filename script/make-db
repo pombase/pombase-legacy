@@ -202,12 +202,6 @@ psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_extension_rels_and_values AS SE
 
 psql -q $DB <<'EOF'
 CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
- WITH
-  pubmed_publication_years AS
-  (SELECT pub.pub_id, substring(value FROM E'\\d\\d\\d\\d')::integer AS year
-    FROM pubprop date_prop join pub on pub.pub_id = date_prop.pub_id
-    JOIN cvterm prop_type on date_prop.type_id = prop_type.cvterm_id
-   WHERE prop_type.name = 'pubmed_publication_date'),
   pub_community_curated_flags AS
   (SELECT pub.pub_id, CASE WHEN value = 'community' THEN true WHEN value IS NOT NULL THEN false ELSE null END AS flag
     FROM pubprop date_prop join pub on pub.pub_id = date_prop.pub_id
@@ -767,15 +761,23 @@ WITH all_pubs_raw AS
       JOIN cvterm ppt ON pp.type_id = ppt.cvterm_id
       WHERE pp.pub_id = pub.pub_id
         AND ppt.name = 'pubmed_publication_date'
-      LIMIT 1) AS pubmed_publication_date
+      LIMIT 1) AS pubmed_publication_date,
+
+     (SELECT substring(value FROM E'\\d\\d\\d\\d')::integer
+      FROM pubprop pp
+      JOIN cvterm ppt ON pp.type_id = ppt.cvterm_id
+      WHERE pp.pub_id = pub.pub_id
+        AND ppt.name = 'pubmed_publication_date'
+      LIMIT 1) AS pubmed_publication_year
+
    FROM pub WHERE uniquename LIKE 'PMID:%')
 SELECT all_pubs_raw.*,
-       EXTRACT (YEAR FROM canto_added_date) AS canto_added_year,
-       EXTRACT (YEAR FROM canto_first_sent_to_curator_date) AS canto_first_sent_to_curator_year,
-       EXTRACT (YEAR FROM canto_first_approved_date) AS canto_first_approved_year,
-       EXTRACT (YEAR FROM canto_session_accepted_date) AS canto_session_accepted_year,
-       EXTRACT (YEAR FROM canto_session_submitted_date) AS canto_session_submitted_year,
-       EXTRACT (YEAR FROM canto_approved_date) AS canto_approved_year
+       EXTRACT (YEAR FROM canto_added_date)::integer AS canto_added_year,
+       EXTRACT (YEAR FROM canto_first_sent_to_curator_date)::integer AS canto_first_sent_to_curator_year,
+       EXTRACT (YEAR FROM canto_first_approved_date)::integer AS canto_first_approved_year,
+       EXTRACT (YEAR FROM canto_session_accepted_date)::integer AS canto_session_accepted_year,
+       EXTRACT (YEAR FROM canto_session_submitted_date)::integer AS canto_session_submitted_year,
+       EXTRACT (YEAR FROM canto_approved_date)::integer AS canto_approved_year
 FROM all_pubs_raw;"
 
 echo make copies
