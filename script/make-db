@@ -665,7 +665,8 @@ WHERE genotype_allele_rel_type.name = 'part_of'
   AND gene_type.name = 'gene';"
 
 
-psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_publication_curation_summary AS
+psql -q $DB -c <<'EOF'
+CREATE MATERIALIZED VIEW pombase_publication_curation_summary AS
 WITH all_pubs_raw AS
   (SELECT uniquename AS pmid,
      (SELECT value
@@ -774,7 +775,8 @@ SELECT all_pubs_raw.*,
        EXTRACT (YEAR FROM canto_session_accepted_date)::integer AS canto_session_accepted_year,
        EXTRACT (YEAR FROM canto_session_submitted_date)::integer AS canto_session_submitted_year,
        EXTRACT (YEAR FROM canto_approved_date)::integer AS canto_approved_year
-FROM all_pubs_raw;"
+FROM all_pubs_raw;
+EOF
 
 echo make copies
 
