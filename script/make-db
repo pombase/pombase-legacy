@@ -665,7 +665,7 @@ WHERE genotype_allele_rel_type.name = 'part_of'
   AND gene_type.name = 'gene';"
 
 
-psql -q $DB -c <<'EOF'
+psql -q $DB <<'EOF'
 CREATE MATERIALIZED VIEW pombase_publication_curation_summary AS
 WITH all_pubs_raw AS
   (SELECT uniquename AS pmid,
