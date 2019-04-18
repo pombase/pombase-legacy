@@ -634,6 +634,7 @@ then
     cp $CURRENT_BUILD_DIR/misc/sysID2product.rna.tsv       $SOURCES/pombe-embl/ftp_site/pombe/names_and_identifiers/
     cp $CURRENT_BUILD_DIR/misc/Complex_annotation.tsv      $SOURCES/pombe-embl/ftp_site/pombe/annotations/Gene_ontology/GO_complexes/Complex_annotation.tsv
     cp $CURRENT_BUILD_DIR/misc/FYPOviability.tsv           $SOURCES/pombe-embl/ftp_site/pombe/annotations/Phenotype_annotations/FYPOviability.tsv
+    cp $CURRENT_BUILD_DIR/misc/transmembrane_domain_coords_and_seqs.tsv    $SOURCES/pombe-embl/ftp_site/pombe/Protein_data/transmembrane_domain_coords_and_seqs.tsv
 
     cp $CURRENT_BUILD_DIR/exports/pombase-go-physical-interactions.tsv.gz  $SOURCES/pombe-embl/ftp_site/pombe/exports/
     cp $CURRENT_BUILD_DIR/exports/pombase-go-substrates.tsv.gz             $SOURCES/pombe-embl/ftp_site/pombe/exports/
