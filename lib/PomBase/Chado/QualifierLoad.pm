@@ -424,7 +424,8 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
 
     my $annotation_throughput = undef;
 
-    if ($cv_name eq 'cat_act' || $cv_name eq 'subunit_composition') {
+    if ($cv_name eq 'cat_act' || $cv_name eq 'subunit_composition' ||
+        $cv_name eq 'gene_ex') {
       $annotation_throughput = 'low throughput';
     }
 
