@@ -46,6 +46,12 @@ cvs:
     - codon_adaptation_index
     - name: sgd_identifier
       definition: "An ID like SGD:S000005390"
+    - name: interaction_type
+      definition: Evidence code for interaction features.
+    - source_database
+    - curator_name
+    - community_curated
+    - annotation_throughput_type
     - name: partial_sequence
       definition: This qualifier is present if the source feature has the EMBL /partial qualifer.
     - name: annotation_date
