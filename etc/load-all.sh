@@ -27,6 +27,7 @@ SOURCES=$POMCUR/sources
 (cd ~/git/pombase-config; git pull) || die "Failed to update pombase-config"
 (cd ~/git/pombase-chado; git pull) || die "Failed to update pombase-chado"
 (cd ~/git/pombase-legacy; git pull) || die "Failed to update pombase-legacy"
+(cd ~/git/pombase-website; git pull) || die "Failed to update pombase-website"
 
 (cd $SOURCES/pombe-embl/; svn update || exit 1)
 
@@ -577,7 +578,7 @@ psql $DB -c "select count(distinct fc_id) as total from $sub_query;"
 
 refresh_views
 
-$POMCUR/bin/pombase-chado-json -c ~/git/pombase-config/website/pombase_v2_config.json -p "postgres://kmr44:kmr44@localhost/$DB" -d $CURRENT_BUILD_DIR/  -i /var/pomcur/sources/interpro/pombe_domain_results.json 2>&1 | tee $LOG_DIR/$log_file.web-json-write
+$POMCUR/bin/pombase-chado-json -c ~/git/pombase-config/website/pombase_v2_config.json  --doc-config-file ~/git/pombase-website/src/app/config/doc-config.json -p "postgres://kmr44:kmr44@localhost/$DB" -d $CURRENT_BUILD_DIR/  -i /var/pomcur/sources/interpro/pombe_domain_results.json 2>&1 | tee $LOG_DIR/$log_file.web-json-write
 
 gzip -r9 $CURRENT_BUILD_DIR/fasta
 
