@@ -66,6 +66,7 @@ cvs:
     - name: unknown
       description: An allele whose type has not been established.
     - name: other
+    - name: unspecified
   PomBase annotation extension terms: []
   PomBase gene products: []
   PomBase family or domain: []
