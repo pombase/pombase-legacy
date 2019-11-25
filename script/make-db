@@ -59,6 +59,10 @@ echo update FYPO from GitHub
 
 (cd $SOURCES_DIR/; wget -N http://purl.obolibrary.org/obo/go/snapshot/go-basic.obo)
 
+curl --compressed -L http://purl.obolibrary.org/obo/go/snapshot/extensions/go-plus.owl > $SOURCES_DIR/go-plus.owl &&
+(cd $SOURCES_DIR/go-svn/ontology/extensions; owltools $SOURCES_DIR/go-plus.owl --reasoner elk --make-species-subset --perform-macro-expansion false -t NCBITaxon:4896 -o -f obo --no-check $SOURCES_DIR/go-plus-pombe-only.obo)
+
+
 #(cd $SOURCES_DIR/; wget -N http://purl.obolibrary.org/obo/doid.obo)
 
 GO_OBO=go-basic.obo
