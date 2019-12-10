@@ -49,6 +49,7 @@ has gene_ex_qualifiers => (is => 'ro', init_arg => undef,
                            lazy_build => 1);
 has genotype_cache => (is => 'ro', required => 1,
                        isa => 'PomBase::Chado::GenotypeCache');
+has source_file => (is => 'ro', required => 1);
 
 with 'PomBase::Role::ConfigUser';
 with 'PomBase::Role::ChadoUser';
@@ -474,6 +475,8 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
 
     $self->add_feature_cvtermprop($featurecvterm, 'annotation_throughput_type',
                                   $annotation_throughput);
+
+    $self->add_feature_cvtermprop($featurecvterm, 'source_file', $self->source_file());
 
     for (my $i = 0; $i < @withs; $i++) {
       my $with = $withs[$i];

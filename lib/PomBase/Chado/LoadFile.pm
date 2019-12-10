@@ -71,7 +71,9 @@ method process_file($file) {
                                   chado => $self->chado(),
                                   genotype_cache => $self->genotype_cache(),
                                   verbose => $self->verbose(),
-                                  quiet => $self->quiet());
+                                  quiet => $self->quiet(),
+                                  source_file => $file,
+                                );
 
   warn "reading from: $file\n" unless $self->quiet();
 
