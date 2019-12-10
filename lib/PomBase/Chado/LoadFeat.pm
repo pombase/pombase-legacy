@@ -91,12 +91,14 @@ method _build_qual_load {
     die "LoadFeat: can't be verbose and quiet at the same time";
   }
 
+  my $short_source_file = $self->source_file() =~ s|.*/||r;
+
   return PomBase::Chado::QualifierLoad->new(chado => $chado,
                                             genotype_cache => $self->genotype_cache(),
                                             verbose => $verbose,
                                             quiet => $quiet,
                                             config => $config,
-                                            source_file => $self->source_file(),
+                                            source_file => $short_source_file,
                                           );
 }
 
