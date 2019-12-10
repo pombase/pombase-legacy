@@ -1022,6 +1022,36 @@ check_chado:
            AND fcp.value NOT IN
              (SELECT term_id
               FROM all_term_ids);
+    - name: duplicate_allele_descriptions
+      verbose_fail: true
+      description: "alleles with the same description that have different names"
+      github_issue: "https://github.com/pombase/canto/issues/828"
+      expected: 0
+      query: |
+         SELECT gene.uniquename,
+                allele1.name as allele1_name,
+                (select value from featureprop fp where fp.feature_id = allele1.feature_id AND fp.type_id in (select cvterm_id from cvterm where name = 'canto_session')  limit 1) as allele1_session,
+                allele1_prop.value AS description,
+                allele2.name as allele2_name,
+                (select value from featureprop fp where fp.feature_id = allele2.feature_id AND fp.type_id in (select cvterm_id from cvterm where name = 'canto_session')  limit 1) as allele2_session
+         FROM feature allele1
+         JOIN featureprop allele1_prop ON allele1_prop.feature_id = allele1.feature_id
+         JOIN cvterm a1_prop_type ON a1_prop_type.cvterm_id = allele1_prop.type_id
+         JOIN feature_relationship rel1 ON allele1.feature_id = rel1.subject_id
+         JOIN cvterm rel1_type ON rel1_type.cvterm_id = rel1.type_id
+         JOIN feature gene ON rel1.object_id = gene.feature_id
+         JOIN feature_relationship rel2 ON rel2.object_id = gene.feature_id
+         JOIN cvterm rel2_type ON rel2.type_id = rel2_type.cvterm_id
+         JOIN feature allele2 ON rel2.subject_id = allele2.feature_id
+         JOIN featureprop allele2_prop ON allele2_prop.feature_id = allele2.feature_id
+         JOIN cvterm a2_prop_type ON a2_prop_type.cvterm_id = allele2_prop.type_id
+         WHERE allele1.feature_id <> allele2.feature_id
+           AND allele1.name <> allele2.name
+           AND rel1_type.name = 'instance_of'
+           AND rel2_type.name = 'instance_of'
+           AND a1_prop_type.name = 'description'
+           AND a2_prop_type.name = 'description'
+           AND allele1_prop.value = allele2_prop.value;
 
 external_sources:
   pubmed_efetch_url: 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmode=xml&retmax=99999&id='
