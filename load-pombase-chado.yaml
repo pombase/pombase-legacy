@@ -114,6 +114,7 @@ cvs:
   feature_relationshipprop_type:
     - name: evidence
     - name: source database
+    - name: source file
     - name: homology type
     - name: ortholog qualifier
     - name: first_approved_timestamp
