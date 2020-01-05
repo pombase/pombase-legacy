@@ -408,7 +408,6 @@ cp $LOG_DIR/$log_file.manual_multi_orths $CURRENT_BUILD_DIR/logs/$log_file.manua
 cp $LOG_DIR/$log_file.manual_1-1_orths $CURRENT_BUILD_DIR/logs/$log_file.manual-1-1-orths-output
 cp $LOG_DIR/$log_file.malacards_data $CURRENT_BUILD_DIR/logs/$log_file.malacards_data
 cp $LOG_DIR/$log_file.disease_associations $CURRENT_BUILD_DIR/logs/$log_file.disease_associations
-cp $LOG_DIR/$log_file.add_reciprocal_ipi_annotations $CURRENT_BUILD_DIR/logs/$log_file.add_reciprocal_ipi_annotations
 cp $LOG_DIR/$log_file.curation_tool_data $CURRENT_BUILD_DIR/logs/$log_file.curation-tool-data-load-output
 cp $LOG_DIR/$log_file.quantitative $CURRENT_BUILD_DIR/logs/$log_file.quantitative
 cp $LOG_DIR/$log_file.qualitative $CURRENT_BUILD_DIR/logs/$log_file.qualitative
