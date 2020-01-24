@@ -223,6 +223,7 @@ extension_restrictions:
       - absent_during
       - added_by
       - added_during
+      - affected_by
       - coincident_with
       - has_direct_input
       - in_presence_of
