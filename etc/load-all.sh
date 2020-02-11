@@ -74,14 +74,18 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     --ignore-lines-matching="^hgnc_id.symbol" --ignore-short-lines \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/hgnc_complete_set.txt
 
+
+# create the input file with:
+# (cd git/pombase-legacy/; ./etc/query_yeastmine_genes.py > /var/pomcur/sources/sgd_yeastmine_genes.tsv)
+
 echo loading protein coding genes from SGD data file
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml features \
-    --organism-taxonid=4932 --uniquename-column=4 --name-column=5 \
-    --product-column=16 \
-    --column-filter="2=ORF,blocked_reading_frame" --feature-type=gene \
+    --organism-taxonid=4932 --uniquename-column=7 --name-column=8 \
+    --product-column=5 \
+    --column-filter="1=ORF,blocked_reading_frame" --feature-type=gene \
     --transcript-so-name=transcript \
-    --ignore-short-lines \
-    "$HOST" $DB $USER $PASSWORD < $SOURCES/SGD_features.trimmed.tab
+    --ignore-short-lines --ignore-duplicate-uniquenames \
+    "$HOST" $DB $USER $PASSWORD < /var/pomcur/sources/sgd_yeastmine_genes.tsv
 
 for so_type in ncRNA snoRNA
 do
