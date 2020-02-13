@@ -82,7 +82,7 @@ echo loading protein coding genes from SGD data file
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml features \
     --organism-taxonid=4932 --uniquename-column=7 --name-column=8 \
     --product-column=5 \
-    --column-filter="1=ORF,blocked_reading_frame" --feature-type=gene \
+    --column-filter="1=ORF,blocked_reading_frame,blocked reading frame" --feature-type=gene \
     --transcript-so-name=transcript \
     --ignore-short-lines --ignore-duplicate-uniquenames \
     "$HOST" $DB $USER $PASSWORD < /var/pomcur/sources/sgd_yeastmine_genes.tsv
