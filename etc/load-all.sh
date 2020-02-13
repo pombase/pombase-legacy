@@ -80,20 +80,18 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
 
 echo loading protein coding genes from SGD data file
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml features \
-    --organism-taxonid=4932 --uniquename-column=7 --name-column=8 \
-    --product-column=5 \
+    --organism-taxonid=4932 --uniquename-column=5 --name-column=6 \
+    --product-column=4 \
     --column-filter="1=ORF,blocked_reading_frame,blocked reading frame" --feature-type=gene \
     --transcript-so-name=transcript \
-    --ignore-short-lines --ignore-duplicate-uniquenames \
     "$HOST" $DB $USER $PASSWORD < /var/pomcur/sources/sgd_yeastmine_genes.tsv
 
 for so_type in ncRNA snoRNA
 do
   echo loading $so_type genes from SGD data file
   $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml features \
-      --organism-taxonid=4932 --uniquename-column=4 --name-column=5 \
-      --column-filter="2=${so_type}_gene" --feature-type=gene \
-      --ignore-short-lines \
+      --organism-taxonid=4932 --uniquename-column=5 --name-column=6 \
+      --column-filter="1=${so_type}_gene" --feature-type=gene \
       "$HOST" $DB $USER $PASSWORD < $SOURCES/SGD_features.trimmed.tab
 done
 

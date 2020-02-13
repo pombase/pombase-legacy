@@ -11,28 +11,21 @@ query = service.new_query("Gene")
 
 # The view specifies the output columns
 query.add_view(
-    "featureType", "name", "primaryIdentifier", "sgdAlias", "description",
-    "transcripts.primaryIdentifier", "secondaryIdentifier", "symbol"
+    "primaryIdentifier", "symbol", "featureType", "name", "secondaryIdentifier",
+    "description"
 )
 
-# Uncomment and edit the line below (the default) to select a custom sort order:
-# query.add_sort_order("Gene.featureType", "ASC")
-
-# Outer Joins
-# (display properties of these relations if they exist,
-# but also show objects without these relationships)
-query.outerjoin("transcripts")
-
-def null_to_empty(el):
+def fix_field(el):
     if el is None:
         return ''
     else:
-        return el
-
+        return el.replace('\n', ' ')
 
 for row in query.rows():
-    row_list = [row["featureType"], row["name"], row["primaryIdentifier"],
-                row["sgdAlias"], row["description"],
-                row["transcripts.primaryIdentifier"],
-                row["secondaryIdentifier"], row["symbol"]]
-    print("\t".join(map(null_to_empty, row_list)))
+    row_list = [row["featureType"],
+                row["name"],
+                row["primaryIdentifier"],
+                row["description"],
+                row["secondaryIdentifier"],
+                row["symbol"]]
+    print("\t".join(map(fix_field, row_list)))
