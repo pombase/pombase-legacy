@@ -145,6 +145,7 @@ cvs:
     - name: canto_message_for_curators
     - name: canto_experiment_type
     - name: pubmed_publication_date
+    - name: pubmed_electronic_publication_date
     - name: pubmed_authors
     - name: pubmed_citation
     - name: pubmed_abstract
