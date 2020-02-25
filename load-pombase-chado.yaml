@@ -135,6 +135,8 @@ cvs:
     - name: canto_approved_date
     - name: canto_approver_name
     - name: canto_approver_email
+    - name: canto_initial_curator_name
+    - name: canto_initial_curator_email
     - name: canto_curator_name
     - name: canto_curator_email
     - name: canto_curator_role
