@@ -251,7 +251,7 @@ if GET http://rest.kegg.jp/link/pathway/spo > $TEMP_KEGG
 then
     if [ -s $TEMP_KEGG ]
     then
-        cp $TEMP_KEGG $SOURCES/latest_pombe_kegg.tsv
+        cp $TEMP_KEGG $SOURCES/pombe_kegg_latest.tsv
     else
         echo failed to fetch KEGG data, empty result 1>&2
     fi
