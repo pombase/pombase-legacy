@@ -243,6 +243,23 @@ echo annotation count after GAF loading:
 evidence_summary $DB
 
 
+echo load pombe KEGG data
+
+TEMP_KEGG=/tmp/temp_egg.$$.tsv
+
+if GET http://rest.kegg.jp/link/pathway/spo > $TEMP_KEGG
+then
+    if [ -s $TEMP_KEGG ]
+    then
+        cp $TEMP_KEGG $SOURCES/latest_pombe_kegg.tsv
+    else
+        echo failed to fetch KEGG data, empty result 1>&2
+    fi
+else
+    echo failed to fetch KEGG data, error code: $? 1>&2
+fi
+
+
 echo load quantitative gene expression data
 
 for file in $SOURCES/pombe-embl/external_data/Quantitative_gene_expression_data/*.txt
