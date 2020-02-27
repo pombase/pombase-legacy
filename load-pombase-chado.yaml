@@ -1059,7 +1059,8 @@ check_chado:
            AND rel2_type.name = 'instance_of'
            AND a1_prop_type.name = 'description'
            AND a2_prop_type.name = 'description'
-           AND allele1_prop.value = allele2_prop.value;
+           AND allele1_prop.value = allele2_prop.value
+           AND allele1_prop.value <> 'unknown';
 
 external_sources:
   pubmed_efetch_url: 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmode=xml&retmax=99999&id='
