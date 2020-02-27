@@ -924,11 +924,12 @@ check_chado:
       query: |
         SELECT uniquename,
                name,
-          (SELECT value
+          (SELECT distinct value
            FROM featureprop p
            JOIN cvterm pt ON pt.cvterm_id = p.type_id
            WHERE p.feature_id = f.feature_id
-             AND pt.name = 'canto_session') AS session
+             AND pt.name = 'canto_session'
+           LIMIT 1) AS session
         FROM feature f
         WHERE length(name) <> length(regexp_replace(name, '[^\x01-\x7f]', '', 'g'))
     - name: extension_relation_genes_exist
