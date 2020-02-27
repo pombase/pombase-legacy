@@ -767,6 +767,20 @@ WITH all_pubs_raw AS
         AND ppt.name = 'pubmed_publication_date'
       LIMIT 1) AS pubmed_publication_date,
 
+     (SELECT value
+      FROM pubprop pp
+      JOIN cvterm ppt ON pp.type_id = ppt.cvterm_id
+      WHERE pp.pub_id = pub.pub_id
+        AND ppt.name = 'pubmed_electronic_publication_date'
+      LIMIT 1) AS pubmed_electronic_publication_date,
+
+     (SELECT value
+      FROM pubprop pp
+      JOIN cvterm ppt ON pp.type_id = ppt.cvterm_id
+      WHERE pp.pub_id = pub.pub_id
+        AND ppt.name = 'pubmed_entrez_date'
+      LIMIT 1) AS pubmed_entrez_date,
+
      (SELECT substring(value FROM E'\\d\\d\\d\\d')::integer
       FROM pubprop pp
       JOIN cvterm ppt ON pp.type_id = ppt.cvterm_id
@@ -776,6 +790,11 @@ WITH all_pubs_raw AS
 
    FROM pub WHERE uniquename LIKE 'PMID:%')
 SELECT all_pubs_raw.*,
+       CASE WHEN pubmed_electronic_publication_date IS NOT NULL
+             AND pubmed_electronic_publication_date < pubmed_entrez_date
+          THEN pubmed_electronic_publication_date
+          ELSE pubmed_entrez_date
+       END AS pubmed_earliest_date,
        EXTRACT (YEAR FROM canto_added_date)::integer AS canto_added_year,
        EXTRACT (YEAR FROM canto_first_sent_to_curator_date)::integer AS canto_first_sent_to_curator_year,
        EXTRACT (YEAR FROM canto_first_approved_date)::integer AS canto_first_approved_year,
