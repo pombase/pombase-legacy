@@ -274,6 +274,13 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
         (SELECT cvterm_id
          FROM cvterm
          WHERE name = 'assigned_by')) AS annotation_source,
+   (SELECT distinct(value)
+    FROM feature_cvtermprop source_file_prop
+    WHERE fc.feature_cvterm_id = source_file_prop.feature_cvterm_id
+      AND source_file_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'source_file')) AS source_file,
    base_cv_name AS annotation_type
  FROM feature gene
  JOIN cvterm gene_type ON gene_type.cvterm_id = gene.type_id
@@ -343,6 +350,13 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
         (SELECT cvterm_id
          FROM cvterm
          WHERE name = 'assigned_by')) AS annotation_source,
+   (SELECT distinct(value)
+    FROM feature_cvtermprop source_file_prop
+    WHERE fc.feature_cvterm_id = source_file_prop.feature_cvterm_id
+      AND source_file_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'source_file')) AS source_file,
    base_cv_name AS annotation_type
  FROM feature gene
  JOIN cvterm gene_type ON gene_type.cvterm_id = gene.type_id
@@ -415,6 +429,13 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
         (SELECT cvterm_id
          FROM cvterm
          WHERE name = 'assigned_by')) AS annotation_source,
+   (SELECT distinct(value)
+    FROM feature_cvtermprop source_file_prop
+    WHERE fc.feature_cvterm_id = source_file_prop.feature_cvterm_id
+      AND source_file_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'source_file')) AS source_file,
    base_cv_name AS annotation_type
  FROM feature gene
  JOIN cvterm gene_type ON gene_type.cvterm_id = gene.type_id
@@ -483,6 +504,13 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
         (SELECT cvterm_id
          FROM cvterm
          WHERE name = 'source_database')) AS annotation_source,
+   (SELECT distinct(value)
+    FROM feature_relationshipprop source_file_prop
+    WHERE r.feature_relationship_id = source_file_prop.feature_relationship_id
+      AND source_file_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'source_file')) AS source_file,
     rel_type.name AS annotation_type
  FROM feature_relationship r
  JOIN cvterm rel_type ON r.type_id = rel_type.cvterm_id
@@ -547,6 +575,13 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
         (SELECT cvterm_id
          FROM cvterm
          WHERE name = 'source_database')) AS annotation_source,
+   (SELECT distinct(value)
+    FROM feature_relationshipprop source_file_prop
+    WHERE r.feature_relationship_id = source_file_prop.feature_relationship_id
+      AND source_file_prop.type_id IN
+        (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'source_file')) AS source_file,
    rel_type.name AS annotation_type
  FROM feature_relationship r
  JOIN cvterm rel_type ON r.type_id = rel_type.cvterm_id
@@ -562,7 +597,7 @@ EOF
 psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_annotation_summary AS
 SELECT distinct id, pmid, publication_community_curated, annotation_date,
        annotation_year, session, curator_name, community_curated, annotation_throughput_type,
-       evidence_code, annotation_source, annotation_type
+       evidence_code, annotation_source, source_file, annotation_type
   FROM pombase_genes_annotations_dates;"
 
 psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_annotated_gene_features_per_publication AS
