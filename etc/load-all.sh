@@ -259,6 +259,12 @@ else
     echo failed to fetch KEGG data, error code: $? 1>&2
 fi
 
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml kegg-pathway \
+    --organism-taxon=4896 --organism-prefix=spo \
+    "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe_kegg_latest.tsv \
+    2>&1 | tee $LOG_DIR/$log_file.kegg-pathway
+
+
 
 echo load quantitative gene expression data
 
@@ -430,6 +436,7 @@ cp $LOG_DIR/$log_file.disease_associations $CURRENT_BUILD_DIR/logs/$log_file.dis
 cp $LOG_DIR/$log_file.curation_tool_data $CURRENT_BUILD_DIR/logs/$log_file.curation-tool-data-load-output
 cp $LOG_DIR/$log_file.quantitative $CURRENT_BUILD_DIR/logs/$log_file.quantitative
 cp $LOG_DIR/$log_file.qualitative $CURRENT_BUILD_DIR/logs/$log_file.qualitative
+cp $LOG_DIR/$log_file.kegg-pathway $CURRENT_BUILD_DIR/logs/$log_file.kegg-pathway
 cp $LOG_DIR/$log_file.modification $CURRENT_BUILD_DIR/logs/$log_file.modification
 cp $LOG_DIR/$log_file.*phenotypes_from_* $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.export_warnings $CURRENT_BUILD_DIR/logs/$log_file.export_warnings
