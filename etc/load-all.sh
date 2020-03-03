@@ -260,8 +260,7 @@ else
 fi
 
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml kegg-pathway \
-    --organism-taxon=4896 --organism-prefix=spo \
-    "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe_kegg_latest.tsv \
+    --organism-prefix=spo "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe_kegg_latest.tsv \
     2>&1 | tee $LOG_DIR/$log_file.kegg-pathway
 
 
