@@ -46,6 +46,7 @@ cvs:
       definition: This qualifier is present if the source feature has the EMBL /partial qualifer.
     - name: annotation_date
       definition: The date that this feature was added to the database.
+    - name: kegg_pathway
   PomBase allele types:
     - name: amino_acid_deletion_and_mutation
     - name: amino_acid_insertion
