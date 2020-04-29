@@ -556,11 +556,13 @@ method get_mrna_sequence($exons) {
   return join '', map { $_->residues() } @$exons;
 }
 
-method store_feature_parts($uniquename, $bioperl_feature, $chromosome, $so_type) {
+method store_feature_parts($uniquename, $bioperl_feature, $chromosome, $so_type, $phase) {
   my $chado = $self->chado();
 
   my @coords_list = $self->coords_of_feature($bioperl_feature);
   my @new_parts = ();
+
+  my $exon_phase = undef;
 
   for (my $i = 0; $i < @coords_list; $i++) {
     my ($start, $end) = @{$coords_list[$i]};
@@ -579,8 +581,17 @@ method store_feature_parts($uniquename, $bioperl_feature, $chromosome, $so_type)
 
     my $strand = $bioperl_feature->location()->strand();
 
+    # write the phase for the first exon only
+    if ($so_type eq 'exon') {
+      if (defined $exon_phase) {
+        $exon_phase = 0;
+      } else {
+        $exon_phase = $phase;
+      }
+    }
+
     $self->store_location($chado_sub_feature, $chromosome, $strand,
-                          $start, $end);
+                          $start, $end, $exon_phase);
     $self->store_feature_sequence($chado_sub_feature, $chromosome, $strand,
                                   $start, $end);
   }
@@ -657,7 +668,7 @@ method store_transcript_parts($bioperl_cds, $chromosome, $transcript_so_type, $u
                         $transcript_start, $transcript_end, $phase);
 
   my @exons = $self->store_feature_parts($uniquename, $bioperl_cds,
-                                         $chromosome, $exon_so_type);
+                                         $chromosome, $exon_so_type, $phase);
 
   my $mrna_sequence = $self->get_mrna_sequence(\@exons);
 
