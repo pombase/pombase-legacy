@@ -87,7 +87,7 @@ method process_file($file) {
     "CU329671" => "chromosome_2",
     "CU329672" => "chromosome_3",
     "FP565355" => "mating_type_region",
-    "X54421" => "mitochondrial",
+    "MK618072" => "mitochondrial",
     "AB325691" => "chr_II_telomeric_gap",
   );
 
