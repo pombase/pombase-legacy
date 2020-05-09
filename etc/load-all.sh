@@ -276,7 +276,7 @@ done | tee $LOG_DIR/$log_file.quantitative
 
 echo load bulk protein modification files
 
-for file in $SOURCES/pombe-embl/external_data/modification_files/PMID*
+for file in $SOURCES/pombe-embl/external_data/modification_files/PMID*[^~]
 do
   echo loading: $file
   $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml modification "$HOST" $DB $USER $PASSWORD < $file 2>&1
