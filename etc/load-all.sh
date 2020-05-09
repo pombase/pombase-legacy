@@ -119,9 +119,9 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
 echo starting import of biogrid data | tee $log_file.biogrid-load-output
 
 (cd $SOURCES/biogrid
-wget -q -N https://downloads.thebiogrid.org/Download/BioGRID/Latest-Release/BIOGRID-ORGANISM-LATEST.tab2.zip ||
-    die failed to download new BIOGRID data
+ wget -q -N https://downloads.thebiogrid.org/Download/BioGRID/Latest-Release/BIOGRID-ORGANISM-LATEST.tab2.zip) || { echo "failed to download new BioGRID data" 1>&2; exit 1}
 
+(cd $SOURCES/biogrid
 rm $SOURCES/biogrid/BIOGRID-ORGANISM-*.tab2.txt
 
 unzip -qo BIOGRID-ORGANISM-LATEST.tab2.zip
