@@ -101,7 +101,7 @@ log_file=log.`date +'%Y-%m-%d-%H-%M-%S'`
   --mapping "sequence_feature:sequence:$SOURCES/pombe-embl/chado_load_mappings/features-to-so_mapping_only.txt" \
   --mapping "pt_mod:PSI-MOD:$SOURCES/pombe-embl/chado_load_mappings/modification_map.txt" \
   --mapping "phenotype:fission_yeast_phenotype:$SOURCES/pombe-embl/chado_load_mappings/phenotype-map.txt" \
-  --mapping "disease_associated:disease_ontology:$SOURCES/pombe-embl/chado_load_mappings/pombase_disease_name_to_DOID_mapping.txt:PB_REF:0000003" \
+  --mapping "disease_associated:mondo:$SOURCES/pombe-embl/chado_load_mappings/disease_name_to_MONDO_mapping.txt:PB_REF:0000003" \
   --gene-ex-qualifiers $SOURCES/pombe-embl/supporting_files/gene_ex_qualifiers \
   --obsolete-term-map $SOURCES/go-svn/doc/obsoletes-exact $POMBASE_LEGACY/load-pombase-chado.yaml \
   "$HOST" $DB $USER $PASSWORD $SOURCES/pombe-embl/*.contig 2>&1 | tee $log_file || exit 1
@@ -322,9 +322,9 @@ echo load manual pombe to human orthologs: conserved_one_to_one.txt
 
 $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml orthologs --publication=null --organism_1_taxonid=4896 --organism_2_taxonid=9606 --swap-direction --add_org_1_term_name='predominantly single copy (one to one)' --add_org_1_term_cv='species_dist' "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/orthologs/conserved_one_to_one.txt 2>&1 | tee $LOG_DIR/$log_file.manual_1-1_orths
 
-$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml malacards --destination-taxonid=4896 "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/external_data/disease/malacards_data_for_chado.tsv 2>&1 | tee $LOG_DIR/$log_file.malacards_data
+$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml malacards --destination-taxonid=4896 "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/external_data/disease/malacards_data_for_chado_mondo_ids.tsv 2>&1 | tee $LOG_DIR/$log_file.malacards_data
 
-$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml generic-annotation --organism-taxonid=4896 "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/external_data/disease/pombase_disease_associations.txt 2>&1 | tee $LOG_DIR/$log_file.disease_associations
+$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml generic-annotation --organism-taxonid=4896 "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/external_data/disease/pombase_disease_associations_mondo_ids.txt 2>&1 | tee $LOG_DIR/$log_file.disease_associations
 
 CURATION_TOOL_DATA=/var/pomcur/backups/current-prod-dump.json
 
