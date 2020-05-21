@@ -308,7 +308,7 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
         }
       }
     } else {
-      die "database ID ($qualifier_term_id) doesn't contain a colon";
+      die qq|database ID "$qualifier_term_id" doesn't contain a colon|;
     }
   }
 
