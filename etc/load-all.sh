@@ -337,13 +337,6 @@ evidence_summary $DB
 PGPASSWORD=$PASSWORD psql -U $USER -h "$HOST" $DB -c 'analyze'
 refresh_views
 
-echo filtering redundant annotations - `date`
-$POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter "$HOST" $DB $USER $PASSWORD
-echo done filtering - `date`
-
-echo annotation count after filtering redundant GO annotations
-evidence_summary $DB
-
 echo update out of date allele names
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml update-allele-names "$HOST" $DB $USER $PASSWORD
 
@@ -355,6 +348,13 @@ $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml change-terms 
   --exclude-by-fc-prop="canto_session" \
   --mapping-file=$SOURCES/pombe-embl/chado_load_mappings/GO_mapping_to_specific_terms.txt \
   "$HOST" $DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.go-term-mapping
+
+echo filtering redundant annotations - `date`
+$POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter "$HOST" $DB $USER $PASSWORD
+echo done filtering - `date`
+
+echo annotation count after filtering redundant GO annotations
+evidence_summary $DB
 
 echo query PubMed for publication details, then store
 $POMBASE_CHADO/script/pubmed_util.pl ./load-pombase-chado.yaml \
