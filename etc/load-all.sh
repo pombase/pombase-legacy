@@ -314,20 +314,28 @@ echo load Compara orthologs
 $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml orthologs --publication=PMID:19029536 --organism_1_taxonid=4896 --organism_2_taxonid=9606 --swap-direction "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/orthologs/compara_orths.tsv 2>&1 | tee $LOG_DIR/$log_file.compara_orths
 
 
+echo
 echo load manual pombe to human orthologs: conserved_multi.txt
 
 $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml orthologs --publication=null --organism_1_taxonid=4896 --organism_2_taxonid=9606 --swap-direction "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/orthologs/conserved_multi.txt 2>&1 | tee $LOG_DIR/$log_file.manual_multi_orths
 
+echo
 echo load manual pombe to human orthologs: conserved_one_to_one.txt
 
 $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml orthologs --publication=null --organism_1_taxonid=4896 --organism_2_taxonid=9606 --swap-direction --add_org_1_term_name='predominantly single copy (one to one)' --add_org_1_term_cv='species_dist' "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/orthologs/conserved_one_to_one.txt 2>&1 | tee $LOG_DIR/$log_file.manual_1-1_orths
 
+echo
+echo load Malacard data from malacards_data_for_chado_mondo_ids.tsv
 $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml malacards --destination-taxonid=4896 "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/external_data/disease/malacards_data_for_chado_mondo_ids.tsv 2>&1 | tee $LOG_DIR/$log_file.malacards_data
 
+echo
+echo load disease associations from pombase_disease_associations_mondo_ids.txt
 $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml generic-annotation --organism-taxonid=4896 "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/external_data/disease/pombase_disease_associations_mondo_ids.txt 2>&1 | tee $LOG_DIR/$log_file.disease_associations
 
 CURATION_TOOL_DATA=/var/pomcur/backups/current-prod-dump.json
 
+echo
+echo load Canto data
 $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml canto-json --organism-taxonid=4896 --db-prefix=PomBase "$HOST" $DB $USER $PASSWORD < $CURATION_TOOL_DATA 2>&1 | tee $LOG_DIR/$log_file.curation_tool_data
 
 echo annotation count after loading curation tool data:
