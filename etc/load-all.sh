@@ -118,8 +118,8 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
 
 echo starting import of biogrid data | tee $log_file.biogrid-load-output
 
-#(cd $SOURCES/biogrid
-# wget -q -N https://downloads.thebiogrid.org/Download/BioGRID/Latest-Release/BIOGRID-ORGANISM-LATEST.tab2.zip) || { echo "failed to download new BioGRID data" 1>&2; exit 1; }
+(cd $SOURCES/biogrid
+ wget -q -N https://downloads.thebiogrid.org/Download/BioGRID/Latest-Release/BIOGRID-ORGANISM-LATEST.tab2.zip) || { echo "failed to download new BioGRID data" 1>&2; exit 1; }
 
 (cd $SOURCES/biogrid
 rm -f $SOURCES/biogrid/BIOGRID-ORGANISM-*.tab2.txt
@@ -236,6 +236,12 @@ else
 fi
 
 gzip -d < $CURRENT_GOA_GAF | perl -ne 'print if /\ttaxon:(4896|284812)\t/' | $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --use-only-first-with-id --taxon-filter=4896 --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings --assigned-by-filter=InterPro,UniProtKB,UniProt "$HOST" $DB $USER $PASSWORD
+
+
+(cd $SOURCES/snapshot.geneontology.org && wget -N http://snapshot.geneontology.org/annotations/pombase.gaf.gz)
+
+# echo loading PANTHER annotation
+#gzip -d < $SOURCES/snapshot.geneontology.org/pombase.gaf.gz | $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --with-prefix-filter="PANTHER:" --taxon-filter=4896 --assigned-by-filter=GO_Central "$HOST" $DB $USER $PASSWORD
 
 } 2>&1 | tee $LOG_DIR/$log_file.gaf-load-output
 
