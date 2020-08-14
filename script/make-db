@@ -127,8 +127,6 @@ mkdir -p $CURRENT_BUILD_DIR/ontologies
 
   (cd $SOURCES_DIR/pombase_fypo_github; git describe) > fypo-git-info.txt
   cp $SOURCES_DIR/pombase_fypo_github/release/fypo-simple.obo .
-
-  wget -N http://purl.obolibrary.org/obo/eco/gaf-eco-mapping.txt
 )
 
 date
