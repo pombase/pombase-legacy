@@ -338,6 +338,16 @@ echo
 echo load disease associations from pombase_disease_associations_mondo_ids.txt
 $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml generic-annotation --organism-taxonid=4896 "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/external_data/disease/pombase_disease_associations_mondo_ids.txt 2>&1 | tee $LOG_DIR/$log_file.disease_associations
 
+
+refresh_views
+
+# run this before loading the Canto data because the Canto loader creates
+# reciprocals automatically
+# See: https://github.com/pombase/pombase-chado/issues/723
+# and: https://github.com/pombase/pombase-chado/issues/788
+$POMBASE_CHADO/script/pombase-process.pl load-pombase-chado.yaml add-reciprocal-ipi-annotations  --organism-taxonid=4896 "$HOST" $DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.add_reciprocal_ipi_annotations
+
+
 CURATION_TOOL_DATA=/var/pomcur/backups/current-prod-dump.json
 
 echo
