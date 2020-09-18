@@ -47,6 +47,7 @@ cvs:
     - name: annotation_date
       definition: The date that this feature was added to the database.
     - name: kegg_pathway
+    - name: rnacentral_identifier
   PomBase allele types:
     - name: amino_acid_deletion_and_mutation
     - name: amino_acid_insertion

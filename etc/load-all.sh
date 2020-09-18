@@ -270,6 +270,14 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     2>&1 | tee $LOG_DIR/$log_file.kegg-pathway
 
 
+echo load RNAcentral pombe identifiers
+curl -s -o rnacentral_pombe_identifiers.tsv -z rnacentral_pombe_identifiers.tsv ftp://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/id_mapping/database_mappings/pombase.tsv
+
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY//load-pombase-chado.yaml generic-property \
+    --property-name="rnacentral_identifier" --organism-taxonid=4896 \
+    --feature-uniquename-column=100 --property-column=100 \
+    "$HOST" $DB $USER $PASSWORD < $SOURCES/rnacentral_pombe_identifiers.tsv
+
 
 echo load quantitative gene expression data
 
