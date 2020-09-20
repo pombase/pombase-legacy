@@ -279,6 +279,10 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     "$HOST" $DB $USER $PASSWORD < $SOURCES/rnacentral_pombe_identifiers.tsv
 
 
+echo update RNAcentral data file
+curl -o $SOURCES/rfam_annotations.tsv.gz -z $SOURCES/rfam_annotations.tsv.gz  http://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/rfam/rfam_annotations.tsv.gz
+
+
 echo load quantitative gene expression data
 
 for file in $SOURCES/pombe-embl/external_data/Quantitative_gene_expression_data/*.txt
