@@ -638,7 +638,13 @@ refresh_views
 
 (cd $SOURCES; wget -N http://purl.obolibrary.org/obo/eco/gaf-eco-mapping.txt)
 
-$POMCUR/bin/pombase-chado-json -c ~/git/pombase-config/website/pombase_v2_config.json  --doc-config-file ~/git/pombase-website/src/app/config/doc-config.json -p "postgres://kmr44:kmr44@localhost/$DB" -d $CURRENT_BUILD_DIR/ --go-eco-mapping=$SOURCES/gaf-eco-mapping.txt  -i /var/pomcur/sources/interpro/pombe_domain_results.json 2>&1 | tee $LOG_DIR/$log_file.web-json-write
+$POMCUR/bin/pombase-chado-json -c ~/git/pombase-config/website/pombase_v2_config.json \
+   --doc-config-file ~/git/pombase-website/src/app/config/doc-config.json \
+   -p "postgres://kmr44:kmr44@localhost/$DB" \
+   -d $CURRENT_BUILD_DIR/ --go-eco-mapping=$SOURCES/gaf-eco-mapping.txt \
+   -i /var/pomcur/sources/interpro/pombe_domain_results.json \
+   -r /var/pomcur/sources/interpro/rnacentral_pombe_rfam.json \
+   2>&1 | tee $LOG_DIR/$log_file.web-json-write
 
 gzip -r9 $CURRENT_BUILD_DIR/fasta
 
