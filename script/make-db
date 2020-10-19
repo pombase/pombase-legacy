@@ -62,6 +62,8 @@ echo update FYPO from GitHub
 curl --compressed -L http://purl.obolibrary.org/obo/go/snapshot/extensions/go-plus.owl > $SOURCES_DIR/go-plus.owl &&
 (cd $SOURCES_DIR/go-svn/ontology/extensions; owltools $SOURCES_DIR/go-plus.owl --reasoner elk --make-species-subset --perform-macro-expansion false -t NCBITaxon:4896 -o -f obo --no-check $SOURCES_DIR/go-plus-pombe-only.obo)
 
+PROCESSED_MINI_PRO_OBO=/tmp/processed_mini_pro_$(logname)_$$.obo
+$POMBASE_LEGACY/etc/process_pombe_mini_pr.pl $SOURCES_DIR/pombe-embl/mini-ontologies/pombe_mini_PR.obo > $PROCESSED_MINI_PRO_OBO
 
 (cd $SOURCES_DIR/; wget -N http://purl.obolibrary.org/obo/mondo.obo)
 
@@ -80,7 +82,7 @@ OBO_FILES="\
  pombe-embl/mini-ontologies/fypo_extension.obo \
  pombe-embl/mini-ontologies/chebi.obo \
  pombe-embl/mini-ontologies/cl.obo \
- pombe-embl/mini-ontologies/pombe_mini_PR.obo \
+ $PROCESSED_MINI_PRO_OBO \
  pombe-embl/mini-ontologies/PSI-MOD_extension_relations.obo \
  pombe-embl/mini-ontologies/SO_feature_relations.obo \
  pombe-embl/mini-ontologies/has_qualifier_range.obo \
