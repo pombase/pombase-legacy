@@ -173,6 +173,11 @@ evidence_summary () {
   psql $DB -c "select count(feature_cvtermprop_id), value from feature_cvtermprop where type_id in (select cvterm_id from cvterm where name = 'evidence') group by value order by count(feature_cvtermprop_id)" | cat
 }
 
+assigned_by_summary () {
+  DB=$1
+  psql $DB -c "select count(feature_cvtermprop_id), value from feature_cvtermprop where type_id in (select cvterm_id from cvterm where name = 'assigned_by') group by value order by count(feature_cvtermprop_id);" | cat
+}
+
 refresh_views () {
   for view in \
     pombase_annotated_gene_features_per_publication \
@@ -385,13 +390,25 @@ $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml change-terms 
   --mapping-file=$SOURCES/pombe-embl/chado_load_mappings/GO_mapping_to_specific_terms.txt \
   "$HOST" $DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.go-term-mapping
 
+
+echo
+echo counts of assigned_by before filtering:
+assigned_by_summary $DB
+
+echo
 echo filtering redundant annotations - `date`
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter "$HOST" $DB $USER $PASSWORD
 echo done filtering - `date`
 
+echo
+echo counts of assigned_by after filtering:
+assigned_by_summary $DB
+
+echo
 echo annotation count after filtering redundant GO annotations
 evidence_summary $DB
 
+echo
 echo query PubMed for publication details, then store
 $POMBASE_CHADO/script/pubmed_util.pl ./load-pombase-chado.yaml \
   "$HOST" $DB $USER $PASSWORD --add-missing-fields 2>&1 | tee $LOG_DIR/$log_file.pubmed_query
@@ -399,9 +416,7 @@ $POMBASE_CHADO/script/pubmed_util.pl ./load-pombase-chado.yaml \
 PGPASSWORD=$PASSWORD psql -U $USER -h "$HOST" $DB -c 'analyze'
 refresh_views
 
-echo annotation count after filtering redundant annotations:
-evidence_summary $DB
-
+echo
 echo running consistency checks
 if $POMBASE_CHADO/script/check-chado.pl ./load-pombase-chado.yaml "$HOST" $DB $USER $PASSWORD > $LOG_DIR/$log_file.chado_checks 2>&1
 then
