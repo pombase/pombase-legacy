@@ -229,6 +229,9 @@ $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --term-id-
 echo counts after loading pombase-prediction.gaf:
 evidence_summary $DB
 
+pg_dump $DB | gzip -5 > /tmp/pombase-chado-before-goa.dump.gz
+
+
 echo reading $SOURCES/gene_association.goa_uniprot.pombe
 CURRENT_GOA_GAF="$SOURCES/gene_association.goa_uniprot.gz"
 DOWNLOADED_GOA_GAF=$CURRENT_GOA_GAF.downloaded
@@ -241,6 +244,8 @@ else
 fi
 
 gzip -d < $CURRENT_GOA_GAF | perl -ne 'print if /\ttaxon:(4896|284812)\t/' | $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --use-only-first-with-id --taxon-filter=4896 --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings --assigned-by-filter=InterPro,UniProtKB,UniProt "$HOST" $DB $USER $PASSWORD
+
+pg_dump $DB | gzip -5 > /tmp/pombase-chado-after-goa.dump.gz
 
 
 (cd $SOURCES/snapshot.geneontology.org && wget -N http://snapshot.geneontology.org/annotations/pombase.gaf.gz)
@@ -365,6 +370,9 @@ refresh_views
 $POMBASE_CHADO/script/pombase-process.pl load-pombase-chado.yaml add-reciprocal-ipi-annotations  --organism-taxonid=4896 "$HOST" $DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.add_reciprocal_ipi_annotations
 
 
+pg_dump $DB | gzip -5 > /tmp/pombase-chado-before-canto.dump.gz
+
+
 CURATION_TOOL_DATA=/var/pomcur/backups/current-prod-dump.json
 
 echo
@@ -373,6 +381,8 @@ $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml canto-json --org
 
 echo annotation count after loading curation tool data:
 evidence_summary $DB
+
+pg_dump $DB | gzip -5 > /tmp/pombase-chado-after-canto.dump.gz
 
 
 PGPASSWORD=$PASSWORD psql -U $USER -h "$HOST" $DB -c 'analyze'
@@ -395,10 +405,16 @@ echo
 echo counts of assigned_by before filtering:
 assigned_by_summary $DB
 
+
+pg_dump $DB | gzip -5 > /tmp/pombase-chado-before-go-filter.dump.gz
+
 echo
 echo filtering redundant annotations - `date`
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter "$HOST" $DB $USER $PASSWORD
 echo done filtering - `date`
+
+pg_dump $DB | gzip -5 > /tmp/pombase-chado-after-go-filter.dump.gz
+
 
 echo
 echo counts of assigned_by after filtering:
