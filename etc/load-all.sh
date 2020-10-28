@@ -251,7 +251,7 @@ pg_dump $DB | gzip -5 > /tmp/pombase-chado-after-goa.dump.gz
 (cd $SOURCES/snapshot.geneontology.org && wget -N http://snapshot.geneontology.org/annotations/pombase.gaf.gz)
 
 # echo loading PANTHER annotation
-#gzip -d < $SOURCES/snapshot.geneontology.org/pombase.gaf.gz | $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --with-prefix-filter="PANTHER:" --taxon-filter=4896 --assigned-by-filter=GO_Central "$HOST" $DB $USER $PASSWORD
+gzip -d < $SOURCES/snapshot.geneontology.org/pombase.gaf.gz | $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --with-prefix-filter="PANTHER:" --taxon-filter=4896 --assigned-by-filter=GO_Central "$HOST" $DB $USER $PASSWORD
 
 } 2>&1 | tee $LOG_DIR/$log_file.gaf-load-output
 
