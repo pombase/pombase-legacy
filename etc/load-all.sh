@@ -707,8 +707,7 @@ rm -f $DUMPS_DIR/latest_build
 ln -s $CURRENT_BUILD_DIR $DUMPS_DIR/latest_build
 
 (cd ~/git/pombase-chado &&
- nice -10 ./etc/build_container.sh $DB_DATE_VERSION $DUMPS_DIR/latest_build prod \
-      /var/pomcur/sources/go-svn/doc/GO.xrf_abbs)
+ nice -10 ./etc/build_container.sh $DB_DATE_VERSION $DUMPS_DIR/latest_build prod)
 
 IMAGE_NAME=pombase/web:$DB_DATE_VERSION-prod
 
