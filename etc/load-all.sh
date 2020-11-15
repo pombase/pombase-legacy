@@ -57,9 +57,9 @@ export PERL5LIB=$HOME/git/pombase-chado/lib:$POMBASE_LEGACY/lib
 
 (cd $SOURCES
 wget -q -N ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/tsv/hgnc_complete_set.txt ||
-    echo failed to download HGNC data
+    echo failed to download new HGNC data
 wget -q -N http://downloads.yeastgenome.org/curation/chromosomal_feature/SGD_features.tab ||
-    echo failed to download SGD data
+    echo failed to download new SGD data
 )
 
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml organisms \
@@ -281,7 +281,8 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
 
 
 echo load RNAcentral pombe identifiers
-curl -s -o $SOURCES/rnacentral_pombe_identifiers.tsv -z $SOURCES/rnacentral_pombe_identifiers.tsv ftp://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/id_mapping/database_mappings/pombase.tsv
+curl -s -o $SOURCES/rnacentral_pombe_identifiers.tsv -z $SOURCES/rnacentral_pombe_identifiers.tsv ftp://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/id_mapping/database_mappings/pombase.tsv ||
+  echo failed to download new RNAcentral identifier file, continuing with previous version
 
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-property \
     --property-name="rnacentral_identifier" --organism-taxonid=4896 \
@@ -290,8 +291,8 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
 
 
 echo update RNAcentral data file
-curl -o $SOURCES/rfam_annotations.tsv.gz -z $SOURCES/rfam_annotations.tsv.gz  http://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/rfam/rfam_annotations.tsv.gz
-
+curl -o $SOURCES/rfam_annotations.tsv.gz -z $SOURCES/rfam_annotations.tsv.gz  http://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/rfam/rfam_annotations.tsv.gz ||
+  echo failed to download new RNAcentral annotations file, continuing with previous version
 
 echo load quantitative gene expression data
 
