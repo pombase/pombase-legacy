@@ -23,6 +23,8 @@ die() {
 POMCUR=/var/pomcur
 SOURCES=$POMCUR/sources
 
+POMBASE_WEB_CONFIG=$HOME/git/pombase-config/website/pombase_v2_config.json
+
 (cd ~/chobo/; git pull) || die "Failed to update Chobo"
 (cd ~/git/pombase-config; git pull) || die "Failed to update pombase-config"
 (cd ~/git/pombase-chado; git pull) || die "Failed to update pombase-chado"
@@ -435,7 +437,7 @@ refresh_views
 
 echo
 echo running consistency checks
-if $POMBASE_CHADO/script/check-chado.pl ./load-pombase-chado.yaml "$HOST" $DB $USER $PASSWORD > $LOG_DIR/$log_file.chado_checks 2>&1
+if $POMBASE_CHADO/script/check-chado.pl ./load-pombase-chado.yaml $POMBASE_WEB_CONFIG "$HOST" $DB $USER $PASSWORD > $LOG_DIR/$log_file.chado_checks 2>&1
 then
     CHADO_CHECKS_STATUS=passed
 else
@@ -670,7 +672,7 @@ refresh_views
 
 (cd $SOURCES; wget -N http://purl.obolibrary.org/obo/eco/gaf-eco-mapping.txt)
 
-$POMCUR/bin/pombase-chado-json -c ~/git/pombase-config/website/pombase_v2_config.json \
+$POMCUR/bin/pombase-chado-json -c $POMBASE_WEB_CONFIG \
    --doc-config-file ~/git/pombase-website/src/app/config/doc-config.json \
    -p "postgres://kmr44:kmr44@localhost/$DB" \
    -d $CURRENT_BUILD_DIR/ --go-eco-mapping=$SOURCES/gaf-eco-mapping.txt \
