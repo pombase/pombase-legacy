@@ -492,11 +492,8 @@ POMBASE_TERMS=pombase_terms-v62-with-severity-terms.obo
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml ontology --constraint-type=db_name --constraint-value=PBO "$HOST" $DB $USER $PASSWORD > $SOURCES/pombase/$POMBASE_TERMS
 (cd $SOURCES/pombase; ln -sf $POMBASE_TERMS pombase_terms-latest.obo)
 
-gzip -d < $CURRENT_BUILD_DIR/$DB.gaf.gz | /var/pomcur/sources/go-svn/software/utilities/filter-gene-association.pl -e > $LOG_DIR/$log_file.gaf-check
-
 cp $LOG_DIR/$log_file.gaf-load-output $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.biogrid-load-output $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.gaf-check $CURRENT_BUILD_DIR/logs/$log_file.gaf-check
 cp $LOG_DIR/$log_file.compara_orths $CURRENT_BUILD_DIR/logs/$log_file.compara-orth-load-output
 cp $LOG_DIR/$log_file.manual_multi_orths $CURRENT_BUILD_DIR/logs/$log_file.manual-multi-orths-output
 cp $LOG_DIR/$log_file.manual_1-1_orths $CURRENT_BUILD_DIR/logs/$log_file.manual-1-1-orths-output
