@@ -990,7 +990,7 @@ check_chado:
       description: "'with' values that have an unsupported DB prefix"
       expected: 0
       query: |
-         SELECT substring(value FROM '(.*):.*') AS with_db_prefix,
+         SELECT distinct substring(value FROM '(.*):.*') AS with_db_prefix,
             (SELECT value FROM feature_cvtermprop p2
              JOIN cvterm p2t ON p2.type_id = p2t.cvterm_id
              WHERE p2t.name = 'canto_session' AND p.feature_cvterm_id = p2.feature_cvterm_id) AS SESSION,
@@ -1001,10 +1001,10 @@ check_chado:
           JOIN pub ON pub.pub_id = fc.pub_id
           WHERE t.name = 'with'
             AND substring(value FROM '(.*):.*')
-                NOT IN ('AGI_LocusCode', 'CBS', 'dictyBase', 'EC', 'ECOGENE', 'FB', 'GO',
-                        'InterPro', 'MGI', 'PANTHER', 'PDB', 'Pfam', 'PomBase', 'RGD',
-                        'SGD', 'SUPERFAMILY', 'UniPathway', 'UniProtKB', 'UniProtKB-KW',
-                        'UniProtKB-SubCell', 'UniRule', 'WB');
+                NOT IN ('AGI_LocusCode', 'CBS', 'CGD', 'dictyBase', 'EC', 'ECOGENE', 'FB', 'GO',
+                        'HGNC', 'InterPro', 'MGI', 'PANTHER', 'PDB', 'Pfam', 'PomBase', 'RGD',
+                        'SGD', 'SUPERFAMILY', 'TAIR', 'TAIR:locus', 'UniPathway', 'UniProtKB', 'UniProtKB-KW',
+                        'UniProtKB-SubCell', 'UniRule', 'WB', 'ZFIN');
     - name: prop_values_with_missing_terms
       verbose_fail: true
       description: "relation ranges / annotation properties where the term is missing from the database, eg. from(...) or column_17(...)"
