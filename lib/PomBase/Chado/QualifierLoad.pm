@@ -886,32 +886,6 @@ method process_family($chado_object, $term, $sub_qual_map) {
   return 1;
 }
 
-method check_gene_ex_quals($term, $sub_qual_map) {
-  my %gene_ex_term_names = ('RNA level' => 1,
-                            'protein level' => 1,
-                            'transcription' => 1,
-                            'translation' => 1,
-                            'RNA degradation' => 1,
-                            'protein degradation' => 1,
-                          );
-
-  if (!exists $gene_ex_term_names{$term}) {
-    die qq(gene expression cv has no "$term" term\n);
-  }
-
-  my $qualifier = $sub_qual_map->{qualifier};
-
-  if (!defined $qualifier) {
-    die qq(gene expression annotations must have a "qualifier=" sub-qualifier\n);
-  }
-
-  my $qual_val = $qualifier->[0];
-
-  if (!exists $self->gene_ex_qualifiers()->{$qual_val}) {
-    die qq("$qual_val" is not a valid qualifier for gene expression annotation\n);
-  }
-}
-
 method process_one_cc($chado_object, $bioperl_feature, $qualifier, $target_curations) {
   my $systematic_id = $chado_object->uniquename();
 
@@ -1005,9 +979,6 @@ method process_one_cc($chado_object, $bioperl_feature, $qualifier, $target_curat
       try {
         if (defined $qual_map{qualifier}) {
           $self->maybe_move_predicted($qual_map{qualifier}, \%qual_map);
-        }
-        if ($cv_name eq 'gene_ex') {
-          $self->check_gene_ex_quals($term, \%qual_map);
         }
         $self->add_term_to_gene($chado_object, $cv_name, $term, \%qual_map, 1);
       } catch {
