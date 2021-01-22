@@ -141,6 +141,11 @@ method get_and_check_date($sub_qual_map) {
 # about mismatches
 method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map, $create_cvterm) {
   if ($cv_name eq 'gene_ex') {
+    if ($embl_term_name =~ /RNA/) {
+      $cv_name = 'PomGeneExRNA';
+    } else {
+      $cv_name = 'PomGeneExProt';
+    }
     my $qualifiers = $sub_qual_map->{qualifier};
 
     if (defined $qualifiers && @$qualifiers != 0) {

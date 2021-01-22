@@ -239,7 +239,13 @@ extension_restrictions:
       - removed_by
       - removed_during
       - required_for
-  gene_ex:
+  PomGeneExRNA:
+    allowed:
+      - during
+      - in_absence_of
+      - in_presence_of
+      - occurs_in
+  PomGeneExProt:
     allowed:
       - during
       - in_absence_of
