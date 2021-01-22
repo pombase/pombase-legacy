@@ -156,8 +156,6 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
       } else {
         die "too many qualifiers for $embl_term_name: @{$qualifiers}\n";
       }
-    } else {
-      die "no qualifiers for $embl_term_name\n";
     }
   }
 
