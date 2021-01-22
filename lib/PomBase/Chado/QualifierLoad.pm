@@ -362,7 +362,7 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
 
   if (defined $evidence_code) {
     if (grep { $_ eq $cv_name } ('biological_process', 'molecular_function',
-                                  'cellular_component')) {
+                                  'cellular_component', 'gene_ex')) {
       if ($evidence_code eq 'ISS') {
         if (!@withs) {
           die qq(ISS must have a "with="\n);
@@ -386,7 +386,7 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
     }
   } else {
     if (grep { $_ eq $cv_name } ('biological_process', 'molecular_function',
-                                 'cellular_component')) {
+                                 'cellular_component', 'gene_ex')) {
       warn "no evidence for $cv_name annotation: $embl_term_name in ", $uniquename, "\n" unless $self->quiet();
       return;
    }
