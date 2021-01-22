@@ -140,6 +140,27 @@ method get_and_check_date($sub_qual_map) {
 # look up cvterm by $embl_term_name first, then by GOid, complain
 # about mismatches
 method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map, $create_cvterm) {
+  if ($cv_name eq 'gene_ex') {
+    my $qualifiers = $sub_qual_map->{qualifier};
+
+    if (defined $qualifiers && @$qualifiers != 0) {
+      if (@$qualifiers == 1) {
+        my $qualifier = $qualifiers->[0];
+
+        if ($qualifier eq 'present' or $qualifier eq 'absent') {
+          $embl_term_name =~ s/\s+level$//;
+        }
+        $embl_term_name .= " $qualifier";
+
+        delete $sub_qual_map->{qualifier};
+      } else {
+        die "too many qualifiers for $embl_term_name: @{$qualifiers}\n";
+      }
+    } else {
+      die "no qualifiers for $embl_term_name\n";
+    }
+  }
+
   my $extension = $sub_qual_map->{annotation_extension};
   if (defined $extension && $extension =~ /\|/) {
     # split into multiple annotations
