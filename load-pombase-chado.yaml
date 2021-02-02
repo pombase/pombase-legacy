@@ -231,8 +231,10 @@ extension_restrictions:
       - added_during
       - affected_by
       - coincident_with
+      - decreased_during
       - has_direct_input
       - in_presence_of
+      - increased_during
       - level_fluctuates_during
       - occupancy
       - present_during
