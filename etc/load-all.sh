@@ -86,6 +86,7 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     --product-column=4 \
     --column-filter="1=ORF,blocked_reading_frame,blocked reading frame" --feature-type=gene \
     --transcript-so-name=transcript \
+    --feature-prop-from-column=sgd_identifier:3
     "$HOST" $DB $USER $PASSWORD < $SOURCES/sgd_yeastmine_genes.tsv
 
 for so_type in ncRNA snoRNA
