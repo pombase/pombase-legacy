@@ -6,6 +6,8 @@
 from intermine.webservice import Service
 service = Service("https://yeastmine.yeastgenome.org/yeastmine/service")
 
+import re
+
 # Get a new query on the class (table) you will be querying:
 query = service.new_query("Gene")
 
@@ -22,9 +24,11 @@ def fix_field(el):
         return el.replace('\n', ' ')
 
 for row in query.rows():
+    primary_identifier = re.sub(r"^(S[0-9]{9})$", r"SGD:\1", row["primaryIdentifier"])
+
     row_list = [row["featureType"],
                 row["name"],
-                row["primaryIdentifier"],
+                primary_identifier,
                 row["description"],
                 row["secondaryIdentifier"],
                 row["symbol"]]
