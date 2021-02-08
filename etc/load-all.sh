@@ -57,7 +57,7 @@ git pull || exit 1
 
 export PERL5LIB=$HOME/git/pombase-chado/lib:$POMBASE_LEGACY/lib
 
-./script/pombase-admin.pl $POMBASE_LEGACY/load-pombase-chado.yaml chado-init \
+$POMBASE_CHADO/script/pombase-admin.pl $POMBASE_LEGACY/load-pombase-chado.yaml chado-init \
   "$HOST" $DB $USER $PASSWORD || exit 1
 
 
