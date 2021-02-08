@@ -14,7 +14,6 @@ BEGIN {
 };
 
 use PomBase::Chado;
-use PomBase::Load;
 use PomBase::Chado::LoadFile;
 use PomBase::Chado::QualifierLoad;
 use PomBase::Chado::CheckLoad;
@@ -186,8 +185,6 @@ my $id_counter = PomBase::Chado::IdCounter->new(chado => $chado,
                                                 config => $config);
 
 $config->{id_counter} = $id_counter;
-
-PomBase::Load::init_objects($chado, $config);
 
 my $time_stamp_cvterm =
   $chado->resultset('Cv::Cvterm')
