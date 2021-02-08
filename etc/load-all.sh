@@ -57,6 +57,10 @@ git pull || exit 1
 
 export PERL5LIB=$HOME/git/pombase-chado/lib:$POMBASE_LEGACY/lib
 
+./script/pombase-admin.pl $POMBASE_LEGACY/load-pombase-chado.yaml chado-init \
+  "$HOST" $DB $USER $PASSWORD || exit 1
+
+
 (cd $SOURCES
 wget -q -N ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/tsv/hgnc_complete_set.txt ||
     echo failed to download new HGNC data
@@ -70,18 +74,7 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml references-file \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/PB_references.txt
 
-cd $LOG_DIR
-log_file=log.`date +'%Y-%m-%d-%H-%M-%S'`
-`dirname $0`/../script/load-chado.pl --taxonid=4896 \
-  --mapping "sequence_feature:sequence:$SOURCES/pombe-embl/chado_load_mappings/features-to-so_mapping_only.txt" \
-  --mapping "pt_mod:PSI-MOD:$SOURCES/pombe-embl/chado_load_mappings/modification_map.txt" \
-  --mapping "phenotype:fission_yeast_phenotype:$SOURCES/pombe-embl/chado_load_mappings/phenotype-map.txt" \
-  --mapping "disease_associated:mondo:$SOURCES/pombe-embl/chado_load_mappings/disease_name_to_MONDO_mapping.txt:PB_REF:0000003" \
-  --gene-ex-qualifiers $SOURCES/pombe-embl/supporting_files/gene_ex_qualifiers \
-  --obsolete-term-map $SOURCES/go-svn/doc/obsoletes-exact $POMBASE_LEGACY/load-pombase-chado.yaml \
-  "$HOST" $DB $USER $PASSWORD $SOURCES/pombe-embl/*.contig 2>&1 | tee $log_file || exit 1
 
-$POMBASE_LEGACY/etc/process-log.pl $log_file
 
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml features \
     --organism-taxonid=9606 --uniquename-column=1 --name-column=2 --feature-type=gene \
@@ -111,6 +104,19 @@ do
       "$HOST" $DB $USER $PASSWORD < $SOURCES/sgd_yeastmine_genes.tsv
 done
 
+
+cd $LOG_DIR
+log_file=log.`date +'%Y-%m-%d-%H-%M-%S'`
+`dirname $0`/../script/load-chado.pl --taxonid=4896 \
+  --mapping "sequence_feature:sequence:$SOURCES/pombe-embl/chado_load_mappings/features-to-so_mapping_only.txt" \
+  --mapping "pt_mod:PSI-MOD:$SOURCES/pombe-embl/chado_load_mappings/modification_map.txt" \
+  --mapping "phenotype:fission_yeast_phenotype:$SOURCES/pombe-embl/chado_load_mappings/phenotype-map.txt" \
+  --mapping "disease_associated:mondo:$SOURCES/pombe-embl/chado_load_mappings/disease_name_to_MONDO_mapping.txt:PB_REF:0000003" \
+  --gene-ex-qualifiers $SOURCES/pombe-embl/supporting_files/gene_ex_qualifiers \
+  --obsolete-term-map $SOURCES/go-svn/doc/obsoletes-exact $POMBASE_LEGACY/load-pombase-chado.yaml \
+  "$HOST" $DB $USER $PASSWORD $SOURCES/pombe-embl/*.contig 2>&1 | tee $log_file || exit 1
+
+$POMBASE_LEGACY/etc/process-log.pl $log_file
 
 echo loading features without coordinates
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml features \
