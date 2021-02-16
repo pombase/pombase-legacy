@@ -260,7 +260,12 @@ extension_restrictions:
       - in_absence_of
       - in_presence_of
       - occurs_in
-  name_description:
+  PomGeneExRD:
+    allowed:
+      - during
+      - in_absence_of
+      - in_presence_of
+name_description:
     allowed: []
   subunit_composition:
     allowed:
