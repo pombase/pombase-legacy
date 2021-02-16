@@ -265,7 +265,7 @@ extension_restrictions:
       - during
       - in_absence_of
       - in_presence_of
-name_description:
+  name_description:
     allowed: []
   subunit_composition:
     allowed:
