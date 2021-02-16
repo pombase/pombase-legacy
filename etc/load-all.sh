@@ -57,6 +57,7 @@ git pull || exit 1
 
 export PERL5LIB=$HOME/git/pombase-chado/lib:$POMBASE_LEGACY/lib
 
+echo initialising Chado with CVs and cvterms 
 $POMBASE_CHADO/script/pombase-admin.pl $POMBASE_LEGACY/load-pombase-chado.yaml chado-init \
   "$HOST" $DB $USER $PASSWORD || exit 1
 
@@ -68,14 +69,16 @@ wget -q -N http://downloads.yeastgenome.org/curation/chromosomal_feature/SGD_fea
     echo failed to download new SGD data
 )
 
+echo loading organisms
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml organisms \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/pombase_organism_config.tsv
 
+echo loading PB refs
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml references-file \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/PB_references.txt
 
 
-
+echo loading human genes
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml features \
     --organism-taxonid=9606 --uniquename-column=1 --name-column=2 --feature-type=gene \
     --product-column=3 \
