@@ -77,35 +77,34 @@ cvs:
   PomBase gene characterisation status:
     - name: published
       definition: >
-        A gene product characterised, or partially characterised in a small
-        scale experiment to providing published information about the biological
+        A gene product characterised, or partially characterised, in a small
+        scale experiment to provide published information about the biological
         process. The biological process annotation must be equivalent to, or
-        more specific than terms in the "GO slim"
-        http://www.sanger.ac.uk/Projects/S_pombe/GO_slim.html
+        more specific than, terms in the "GO BP slim"
+        https://www.pombase.org/browse-curation/fission-yeast-bp-go-slim-terms
     - name: biological role inferred
       definition: >
         A gene product whose biological process is inferred from homology to an
-        experimentally characterised gene product.  The biological process
-        annotation must be equivalent to, or more specific than terms in the "GO
-        slim"  http://www.sanger.ac.uk/Projects/S_pombe/GO_slim.html
+        experimentally characterised gene product. The biological process
+        annotation must be equivalent to, or more specific than, terms in the "GO
+        BP slim"  https://www.pombase.org/browse-curation/fission-yeast-bp-go-slim-terms
     - name: conserved unknown
       definition: >
         A gene product which is conserved more broadly than the
-        Schizosacchaomyces clade,  but cannot be assigned a biological process
-        term,  equivalent to, or more specific than the terms in the "GO slim"
-        http://www.sanger.ac.uk/Projects/S_pombe/GO_slim.html based on
+        Schizosacchaomyces clade, but cannot be assigned a biological process
+        term equivalent to, or more specific than, the terms in the "GO BP slim"
+        https://www.pombase.org/browse-curation/fission-yeast-bp-go-slim-terms based on
         experimental data from any organism
     - name: Schizosaccharomyces pombe specific protein, uncharacterized
       definition: >
         A gene product which is not conserved outside the Schizosacchaomyces clade
         and where nothing is published about, or can be inferred from homology
-        about the biological role
+        about, the biological role
     - name: Schizosaccharomyces specific protein, uncharacterized
       definition: >
         A gene product which is not conserved outside the Schizosacchaomyces clade
         and where nothing is published about, or can be inferred from homology
-        about the biological role
-        but are present in more than one copy in fission yeast
+        about, the biological role
     - name: dubious
       definition: Unlikely to be coding
     - name: transposon
@@ -305,7 +304,7 @@ cv_definitions:
   disease_associated: Orthology to a human disease gene
   DNA_binding_specificity: Target sequence consensus of a DNA binding protein
   ex_tools: Uses of gene products as experimental tools (e.g. constructs, selectable markers, antibodies, etc.)
-  gene_ex: GP annotations realted to gene expression annotations
+  gene_ex: GP annotations related to gene expression
   genome_org: Genome organization attributes (e.g. tandem repeat)
   m_f_g: Miscellaneous functional groups, not captured by GO (e.g. chaperone)
   misc: Annotation which does not fit any other ontology
@@ -322,7 +321,7 @@ dbs:
   - RFAM
   - GOA
   - UniProtKB/Swiss-Prot
-  - Uniprot
+  - UniProt
   - SPD
   - PMID
   - EMBL
@@ -591,6 +590,8 @@ evidence_types:
     name: tryptic phosphopeptide mapping assay evidence used in automatic assertion
   'ECO:0007183':
     name: protein expression level evidence based on western blot used in manual assertion
+  'ECO:0000295':
+    name: RNA-sequencing evidence
 
 suppressible_evidence_codes:
 
