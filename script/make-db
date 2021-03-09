@@ -38,8 +38,8 @@ rm --verbose -rf tmp
 
 echo update SO from SVN
 (cd $SOURCES_DIR/SO-Ontologies-git; git pull)
-echo update GO from SVN
-(cd $SOURCES_DIR/go-svn; svn --ignore-externals update)
+echo update GO from GitHub
+(cd $SOURCES_DIR/go-ontology-github; git pull)
 echo update FYPO from GitHub
 (cd $SOURCES_DIR/pombase_fypo_github/; git pull)
 
@@ -60,7 +60,7 @@ echo update FYPO from GitHub
 (cd $SOURCES_DIR/; wget -N http://purl.obolibrary.org/obo/go/snapshot/go-basic.obo)
 
 curl --compressed -L http://purl.obolibrary.org/obo/go/snapshot/extensions/go-plus.owl > $SOURCES_DIR/go-plus.owl &&
-(cd $SOURCES_DIR/go-svn/ontology/extensions; owltools $SOURCES_DIR/go-plus.owl --reasoner elk --make-species-subset --perform-macro-expansion false -t NCBITaxon:4896 -o -f obo --no-check $SOURCES_DIR/go-plus-pombe-only.obo)
+(cd $SOURCES_DIR/go-ontology-github/src/ontology/extensions; owltools $SOURCES_DIR/go-plus.owl --reasoner elk --make-species-subset --perform-macro-expansion false -t NCBITaxon:4896 -o -f obo --no-check $SOURCES_DIR/go-plus-pombe-only.obo)
 
 PROCESSED_MINI_PRO_OBO=/tmp/processed_mini_pro_$(logname)_$$.obo
 $POMBASE_LEGACY/etc/process_pombe_mini_pr.pl $SOURCES_DIR/pombe-embl/mini-ontologies/pombe_mini_PR.obo > $PROCESSED_MINI_PRO_OBO
@@ -77,7 +77,7 @@ OBO_FILES="\
  pombe-embl/mini-ontologies/iao.obo \
  pombe-embl/mini-ontologies/quiescence.obo \
  pombase_fypo_github/supplemental_files/fypo_extension_relations.obo \
- go-svn/ontology/extensions/gorel.obo \
+ go-ontology-github/src/ontology/extensions/gorel.obo \
  go-svn/scratch/xps/go_annotation_extension_relations.obo \
  pombe-embl/mini-ontologies/fypo_extension.obo \
  pombe-embl/mini-ontologies/chebi.obo \
@@ -123,10 +123,7 @@ mkdir -p $CURRENT_BUILD_DIR/ontologies
 (
   cd $CURRENT_BUILD_DIR/ontologies
 
-  svn info $SOURCES_DIR/go-svn > go-svn-info.txt
   cp $SOURCES_DIR/$GO_OBO .
-  cp $SOURCES_DIR/go-svn/ontology/go.obo .
-  cp $SOURCES_DIR/go-svn/ontology/extensions/go-plus.obo .
 
   (cd $SOURCES_DIR/pombase_fypo_github; git describe) > fypo-git-info.txt
   cp $SOURCES_DIR/pombase_fypo_github/release/fypo-simple.obo .
