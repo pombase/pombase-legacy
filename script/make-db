@@ -208,7 +208,7 @@ psql -q $DB <<'EOF'
 CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
   WITH
   pub_community_curated_flags AS
-  (SELECT pub.pub_id, CASE WHEN value = 'community' THEN true WHEN value IS NOT NULL THEN false ELSE null END AS flag
+  (SELECT DISTINCT pub.pub_id, (value = 'community') AS flag
     FROM pubprop date_prop join pub on pub.pub_id = date_prop.pub_id
     JOIN cvterm prop_type on date_prop.type_id = prop_type.cvterm_id
    WHERE prop_type.name = 'canto_curator_role')
