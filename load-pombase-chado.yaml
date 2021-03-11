@@ -597,6 +597,8 @@ evidence_types:
     name: protein expression level evidence based on western blot used in manual assertion
   'ECO:0000295':
     name: RNA-sequencing evidence
+  'ECO:0001838':
+    name: in situ hybridization evidence used in manual assertion
 
 suppressible_evidence_codes:
 
