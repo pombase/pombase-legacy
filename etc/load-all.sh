@@ -396,6 +396,14 @@ evidence_summary $DB
 pg_dump $DB | gzip -5 > /tmp/pombase-chado-after-canto.dump.gz
 
 
+echo loading extra allele synonyms | tee $log_file.allele-synonyms
+$POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml \
+   generic-synonym --feature-name-column=1 --synonym-column=2 \
+   --publication-uniquename-column=3 \
+  "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/allele_synonyms.txt \
+   2>&1 | tee -a $LOG_DIR/$log_file.allele-synonyms
+
+
 PGPASSWORD=$PASSWORD psql -U $USER -h "$HOST" $DB -c 'analyze'
 refresh_views
 
