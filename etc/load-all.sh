@@ -691,6 +691,7 @@ $POMCUR/bin/pombase-chado-json -c $POMBASE_WEB_CONFIG \
    -d $CURRENT_BUILD_DIR/ --go-eco-mapping=$SOURCES/gaf-eco-mapping.txt \
    -i /var/pomcur/sources/interpro/pombe_domain_results.json \
    -r /var/pomcur/sources/rnacentral_pombe_rfam.json \
+   --pfam-data-file $SOURCES/pombe-embl/supporting_files/pfam_pombe_protein_data.json \
    2>&1 | tee $LOG_DIR/$log_file.web-json-write
 
 gzip -r9 $CURRENT_BUILD_DIR/fasta
