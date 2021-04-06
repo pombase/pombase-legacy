@@ -407,7 +407,7 @@ $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml \
 echo loading extra allele comments | tee $log_file.allele-comments
 $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml \
    generic-property --feature-name-column=1 --property-name="comment" \
-   --property-column=2 --organism-taxonid=4896
+   --property-column=2 --organism-taxonid=4896 \
   "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/allele_comments.txt \
    2>&1 | tee -a $LOG_DIR/$log_file.allele-comments
 
