@@ -404,6 +404,14 @@ $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml \
    2>&1 | tee -a $LOG_DIR/$log_file.allele-synonyms
 
 
+echo loading extra allele comments | tee $log_file.allele-comments
+$POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml \
+   generic-property --feature-name-column=1 --property-name="comment" \
+   --property-column=2 --organism-taxonid=4896
+  "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/allele_comments.txt \
+   2>&1 | tee -a $LOG_DIR/$log_file.allele-comments
+
+
 PGPASSWORD=$PASSWORD psql -U $USER -h "$HOST" $DB -c 'analyze'
 refresh_views
 
@@ -528,6 +536,7 @@ cp $LOG_DIR/$log_file.excluded_fypo_terms $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.go-term-mapping $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.chado_checks $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.allele-synonyms $CURRENT_BUILD_DIR/logs/
+cp $LOG_DIR/$log_file.allele-comments $CURRENT_BUILD_DIR/logs/
 
 refresh_views
 
