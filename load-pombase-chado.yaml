@@ -142,6 +142,7 @@ cvs:
     - name: canto_initial_curator_email
     - name: canto_curator_name
     - name: canto_curator_email
+    - name: previous_curator_name
     - name: canto_curator_role
     - name: canto_triage_status
     - name: canto_added_date
