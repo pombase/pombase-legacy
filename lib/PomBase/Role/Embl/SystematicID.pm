@@ -46,9 +46,9 @@ with 'PomBase::Role::FeatureDumper';
 method get_uniquename($feature, $so_type, $is_transcript) {
   state $type_seen = {};
 
-  if ($feature->{chado_uniquename}) {
+  if ($feature->{"chado_uniquename-$so_type"}) {
     # cached so we don't increment the counter
-    return @{$feature->{chado_uniquename}};
+    return @{$feature->{"chado_uniquename-$so_type"}};
   }
 
   my $embl_type = $feature->primary_tag();
@@ -73,10 +73,10 @@ method get_uniquename($feature, $so_type, $is_transcript) {
     my $seq = $feature->entire_seq();
     my $seq_display_id = $seq->display_id();
 
-    $feature->{chado_uniquename} =
+    $feature->{"chado_uniquename-$so_type"} =
       [$seq_display_id . '_' . $so_type .
        '_' . $loc->start() . '..' . $loc->end(), undef, 0];
-    return @{$feature->{chado_uniquename}};
+    return @{$feature->{"chado_uniquename-$so_type"}};
   }
 
   my @systematic_ids = $feature->get_tag_values("systematic_id");
@@ -111,10 +111,10 @@ method get_uniquename($feature, $so_type, $is_transcript) {
   (my $transcript_systematic_id = $systematic_id) =~ s/^(.*?\.\d+c?\.\d).*/$1/;
   (my $gene_systematic_id = $systematic_id) =~ s/^(.*?\.\d+c?).*/$1/;
 
-  $feature->{chado_uniquename} =
+  $feature->{"chado_uniquename-$so_type"} =
     [$systematic_id, $transcript_systematic_id, $gene_systematic_id, 1];
 
-  return @{$feature->{chado_uniquename}};
+  return @{$feature->{"chado_uniquename-$so_type"}};
 }
 
 1;
