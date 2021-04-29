@@ -89,6 +89,7 @@ method process_file($file) {
     "FP565355" => "mating_type_region",
     "MK618072" => "mitochondrial",
     "AB325691" => "chr_II_telomeric_gap",
+    "KE651166" => "supercont5.1",
   );
 
   my $chr_uniquename = $chr_name_map{$ena_id};
