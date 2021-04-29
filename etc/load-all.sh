@@ -15,6 +15,8 @@ PREV_VERSION="$5"
 CURRENT_VERSION=`echo $PREV_VERSION | perl -ne 'if (/^v?(\d+)$/) { print "v" . ($1+1) . "\n"; } else { print "vUNKNOWN" }'`
 PREV_DATE="$6"
 
+PATH=$PATH:/usr/local/bin
+
 die() {
   echo $1 1>&2
   exit 1
