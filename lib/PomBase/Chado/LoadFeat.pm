@@ -759,7 +759,7 @@ method finalise($chromosome) {
       die "no feature for $uniquename\n";
     }
 
-    warn "processing $so_type $uniquename\n" unless $self->quiet();
+    warn "finalising $so_type $uniquename\n" unless $self->quiet();
 
     my ($transcript_start, $transcript_end, $chado_transcript) =
       $self->store_transcript_parts($transcript_bioperl_feature,
