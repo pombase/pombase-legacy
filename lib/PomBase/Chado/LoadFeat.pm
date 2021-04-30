@@ -475,6 +475,7 @@ my %handled_qualifiers = (
   codon_start => 1,
   partial => 1,
   transl_table => 1,
+  translation => 1,
   shared_id => 1,
   db_xref => 1,
   EC_number => 1,
