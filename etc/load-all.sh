@@ -731,7 +731,7 @@ rm -f $DUMPS_DIR/latest_build
 ln -s $CURRENT_BUILD_DIR $DUMPS_DIR/latest_build
 
 (cd ~/git/pombase-chado &&
- nice -10 ./etc/build_container.sh $DB_DATE_VERSION $DUMPS_DIR/latest_build prod)
+ nice -10 ./etc/build_container.sh $DB_DATE_VERSION $DUMPS_DIR/latest_build prod /var/pomcur/container_build)
 
 IMAGE_NAME=pombase/web:$DB_DATE_VERSION-prod
 
