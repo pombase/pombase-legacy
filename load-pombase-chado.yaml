@@ -191,6 +191,7 @@ extension_restrictions:
       - occurs_at
       - assayed_enzyme
       - assayed_substrate
+      - assayed_region
   biological_process:
     allowed:
       - happens_during
