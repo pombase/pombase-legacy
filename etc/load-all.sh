@@ -701,7 +701,7 @@ $POMCUR/bin/pombase-chado-json -c $POMBASE_WEB_CONFIG \
    --pfam-data-file $SOURCES/pombe-embl/supporting_files/pfam_pombe_protein_data.json \
    2>&1 | tee $LOG_DIR/$log_file.web-json-write
 
-gzip -9 $CURRENT_BUILD_DIR/fasta/*.fa
+gzip -rf9 $CURRENT_BUILD_DIR/fasta/*.fa
 
 cp $LOG_DIR/$log_file.web-json-write $CURRENT_BUILD_DIR/logs/
 
