@@ -5,7 +5,7 @@
 #  - it's added as an "assigned_by" feature_cvtermprop
 #  - source_database prop feature_relationship
 database_name: PomBase
-assayed_using
+
 cvs:
   cvterm_property_type:
     - nested_extension
