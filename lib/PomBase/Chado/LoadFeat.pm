@@ -729,10 +729,9 @@ method store_transcript_parts($bioperl_cds, $chromosome, $transcript_so_type, $u
     $self->store_location($chado_peptide, $chromosome, $strand,
                           $transcript_start, $transcript_end);
 
-    $self->store_product($bioperl_cds, $chado_peptide, $uniquename);
-  } else {
-    $self->store_product($bioperl_cds, $chado_transcript, $uniquename);
   }
+
+  $self->store_product($bioperl_cds, $chado_transcript, $uniquename);
 
   return ($transcript_start, $transcript_end, $chado_transcript);
 }
