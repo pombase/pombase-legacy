@@ -343,8 +343,6 @@ method store_product($bioperl_feature, $chado_feature, $uniquename) {
         $self->qual_load()->process_product($chado_feature, $products[0]);
       }
     }
-  } else {
-    warn "  no product for $uniquename\n" unless $self->quiet();
   }
 }
 
