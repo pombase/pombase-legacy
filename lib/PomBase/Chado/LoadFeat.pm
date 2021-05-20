@@ -710,7 +710,10 @@ method store_transcript_parts($bioperl_cds, $chromosome, $transcript_so_type, $u
     my $chado_peptide = $self->store_feature("$uniquename:pep", undef,
                                              [], 'polypeptide',
                                              $self->organism());
-    my $is_mito = $chromosome->uniquename() eq 'MISPCG';
+    my $is_mito = grep {
+      $_ eq $chromosome->uniquename();
+    } (qw|MK618072 MISPCG AF547983|);
+
     my ($prot_seq, $stats) = $self->translate_sequence($mrna_sequence, $phase, $is_mito);
 
     $chado_peptide->residues($prot_seq);
