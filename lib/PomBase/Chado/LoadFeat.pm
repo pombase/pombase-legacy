@@ -712,7 +712,7 @@ method store_transcript_parts($bioperl_cds, $chromosome, $transcript_so_type, $u
                                              $self->organism());
     my $is_mito = grep {
       $_ eq $chromosome->uniquename();
-    } (qw|MK618072 MISPCG AF547983|);
+    } (qw|MK618072 MISPCG AF547983 mitochondrial|);
 
     my ($prot_seq, $stats) = $self->translate_sequence($mrna_sequence, $phase, $is_mito);
 
