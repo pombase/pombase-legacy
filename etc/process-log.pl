@@ -102,7 +102,7 @@ while (defined (my $line = <>)) {
     print $mapping_problems "$gene: $line";
     next;
   }
-  if ($line =~ /^processing (.*)/) {
+  if ($line =~ /^(processing|finalising) (.*)/) {
     if ($1 eq 'mRNA SPBC460.05.1') {
       $gene = '';
     } else {
