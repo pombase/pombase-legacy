@@ -366,7 +366,7 @@ sub add_term_to_gene {
 
   if ($self->is_go_cv_name($cv_name) || $cv_name eq 'fission_yeast_phenotype') {
     if (defined $sub_qual_map->{with}) {
-      if ($sub_qual_map->{with}->length() == 0) {
+      if (length($sub_qual_map->{with}) == 0) {
         die qq("with=" has no value after the "="\n);
       }
 
