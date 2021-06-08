@@ -35,7 +35,14 @@ under the same terms as Perl itself.
 
 =cut
 
-use perl5i::2;
+use strict;
+use warnings;
+use Carp;
+
+use Text::Trim qw(trim);
+
+use Try::Tiny;
+
 use Carp qw(cluck);
 
 use Moose;
@@ -70,7 +77,8 @@ with 'PomBase::Role::Embl::FeatureRelationshippropStorer';
 with 'PomBase::Role::PhenotypeFeatureFinder';
 with 'PomBase::Role::GOAnnotationProperties';
 
-method _build_gene_ex_qualifiers {
+sub _build_gene_ex_qualifiers {
+  my $self = shift;
   my @gene_ex_qualifiers = @{$self->config()->{gene_ex_qualifiers}};
 
   my %gene_ex_qualifiers = map { ($_, 1) } @gene_ex_qualifiers;
@@ -78,7 +86,10 @@ method _build_gene_ex_qualifiers {
   return \%gene_ex_qualifiers;
 }
 
-method find_cv_by_name($cv_name) {
+sub find_cv_by_name {
+  my $self = shift;
+  my $cv_name = shift;
+
   die 'no $cv_name' unless defined $cv_name;
 
   return ($self->chado()->resultset('Cv::Cv')->find({ name => $cv_name })
@@ -86,7 +97,12 @@ method find_cv_by_name($cv_name) {
 }
 memoize ('find_cv_by_name');
 
-method add_feature_relationshipprop($feature_relationship, $name, $value) {
+sub add_feature_relationshipprop {
+  my $self = shift;
+  my $feature_relationship = shift;
+  my $name = shift;
+  my $value = shift;
+
   if (!defined $name) {
     die "no name for property\n";
   }
@@ -110,7 +126,10 @@ method add_feature_relationshipprop($feature_relationship, $name, $value) {
 
 my $current_year = 1900 + (localtime(time))[5];
 
-method get_and_check_date($sub_qual_map) {
+sub get_and_check_date {
+  my $self = shift;
+  my $sub_qual_map = shift;
+
   my $date = delete $sub_qual_map->{date};
 
   if (defined $date) {
@@ -139,7 +158,14 @@ method get_and_check_date($sub_qual_map) {
 
 # look up cvterm by $embl_term_name first, then by GOid, complain
 # about mismatches
-method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map, $create_cvterm) {
+sub add_term_to_gene {
+  my $self = shift;
+  my $pombe_feature = shift;
+  my $cv_name = shift;
+  my $embl_term_name = shift;
+  my $sub_qual_map = shift;
+  my $create_cvterm = shift;
+
   if ($cv_name eq 'gene_ex') {
     if ($embl_term_name =~ /RNA/) {
       $cv_name = 'PomGeneExRNA';
@@ -177,7 +203,7 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
   }
 
   $embl_term_name =~ s/\s+/ /g;
-  $embl_term_name = $embl_term_name->trim();
+  trim($embl_term_name);
 
   my $mapping_conf = $self->config()->{mappings}->{$cv_name};
 
@@ -605,7 +631,14 @@ method add_term_to_gene($pombe_feature, $cv_name, $embl_term_name, $sub_qual_map
   };
 }
 
-method maybe_move_igi($term, $evidence_code, $qualifiers, $withs, $sub_qual_map) {
+sub maybe_move_igi {
+  my $self = shift;
+  my $term = shift;
+  my $evidence_code = shift;
+  my $qualifiers = shift;
+  my $withs = shift;
+  my $sub_qual_map = shift;
+
   my $dbxref = $term->dbxref();
   my $termid = $dbxref->db()->name() . ':' . $dbxref->accession();
 
@@ -648,7 +681,11 @@ method maybe_move_igi($term, $evidence_code, $qualifiers, $withs, $sub_qual_map)
   return $evidence_code;
 }
 
-method maybe_move_predicted($qualifiers, $sub_qual_map) {
+sub maybe_move_predicted {
+  my $self = shift;
+  my $qualifiers = shift;
+  my $sub_qual_map = shift;
+
   return unless defined $qualifiers;
 
   for (my $i = 0; $i < @$qualifiers; $i++) {
@@ -664,7 +701,11 @@ method maybe_move_predicted($qualifiers, $sub_qual_map) {
   }
 }
 
-method move_condition_qual($feature_cvterm, $sub_qual_map) {
+sub move_condition_qual {
+  my $self = shift;
+  my $feature_cvterm = shift;
+  my $sub_qual_map = shift;
+
   my $ex = $sub_qual_map->{annotation_extension};
   if (defined $ex && $ex =~ /^condition\((.*)\)$/) {
     my $termid = $1;
@@ -691,7 +732,10 @@ method move_condition_qual($feature_cvterm, $sub_qual_map) {
   }
 }
 
-method add_pubmed_20519959_conditions($feature_cvterm) {
+sub add_pubmed_20519959_conditions {
+  my $self = shift;
+  my $feature_cvterm = shift;
+
   my $cvterm_name = $feature_cvterm->cvterm()->name();
   return unless $cvterm_name eq 'inviable' || $cvterm_name eq 'viable';
   my @conditions = qw(PECO:0000012 PECO:0000005 PECO:0000090);
@@ -711,7 +755,11 @@ method add_pubmed_20519959_conditions($feature_cvterm) {
   }
 }
 
-method add_feature_relationship_pub($relationship, $pub) {
+sub add_feature_relationship_pub {
+  my $self = shift;
+  my $relationship = shift;
+  my $pub = shift;
+
   my $rs = $self->chado()->resultset('Sequence::FeatureRelationshipPub');
 
   warn "    adding pub ", $pub->pub_id(), " to feature_relationship ",
@@ -723,7 +771,12 @@ method add_feature_relationship_pub($relationship, $pub) {
 
 }
 
-method process_ortholog($chado_object, $term, $sub_qual_map) {
+sub process_ortholog {
+  my $self = shift;
+  my $chado_object = shift;
+  my $term = shift;
+  my $sub_qual_map = shift;
+
   warn "    process_ortholog()\n" if $self->verbose();
   my $org_name;
   my $gene_bit;
@@ -827,7 +880,12 @@ method process_ortholog($chado_object, $term, $sub_qual_map) {
   return 1;
 }
 
-method process_paralog($chado_object, $term, $sub_qual_map) {
+sub process_paralog {
+  my $self = shift;
+  my $chado_object = shift;
+  my $term = shift;
+  my $sub_qual_map = shift;
+
   warn "    process_paralog()\n" if $self->verbose();
   my $other_gene;
 
@@ -884,14 +942,25 @@ sub process_warning {
   }
 }
 
-method process_family($chado_object, $term, $sub_qual_map) {
+sub process_family {
+  my $self = shift;
+  my $chado_object = shift;
+  my $term = shift;
+  my $sub_qual_map = shift;
+
   warn "    process_family()\n" if $self->verbose();
   $self->add_term_to_gene($chado_object, 'PomBase family or domain', $term,
                           $sub_qual_map, 1);
   return 1;
 }
 
-method process_one_cc($chado_object, $bioperl_feature, $qualifier, $target_curations) {
+sub process_one_cc {
+  my $self = shift;
+  my $chado_object = shift;
+  my $bioperl_feature = shift;
+  my $qualifier = shift;
+  my $target_curations = shift;
+
   my $systematic_id = $chado_object->uniquename();
 
   warn "    process_one_cc($systematic_id, $bioperl_feature, '$qualifier')\n"
@@ -1015,7 +1084,12 @@ method process_one_cc($chado_object, $bioperl_feature, $qualifier, $target_curat
   return %qual_map;
 }
 
-method process_one_go_qual($chado_object, $bioperl_feature, $qualifier) {
+sub process_one_go_qual {
+  my $self = shift;
+  my $chado_object = shift;
+  my $bioperl_feature = shift;
+  my $qualifier = shift;
+
   warn "    go qualifier: $qualifier\n" if $self->verbose();
 
   my %qual_map = ();
@@ -1056,7 +1130,11 @@ method process_one_go_qual($chado_object, $bioperl_feature, $qualifier) {
   return %qual_map;
 }
 
-method process_product($chado_feature, $product) {
+sub process_product {
+  my $self = shift;
+  my $chado_feature = shift;
+  my $product = shift;
+
   if ($product =~ /\([^\)]*$|^[^\(]*\)/) {
     warn "unbalanced parenthesis in product: $product\n" unless $self->quiet();
   }
@@ -1065,7 +1143,8 @@ method process_product($chado_feature, $product) {
                           $product, {}, 1);
 }
 
-method check_unused_quals {
+sub check_unused_quals {
+  my $self = shift;
   my %quals = @_;
 
   if (scalar(keys %quals) > 0) {

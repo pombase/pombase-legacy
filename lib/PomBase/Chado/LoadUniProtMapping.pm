@@ -36,7 +36,10 @@ under the same terms as Perl itself.
 
 =cut
 
-use perl5i::2;
+use strict;
+use warnings;
+use Carp;
+
 use Moose;
 
 use LWP::UserAgent;
@@ -50,7 +53,8 @@ with 'PomBase::Role::GetUrl';
 
 has verbose => (is => 'rw');
 
-method load_uniprot_mapping {
+sub load_uniprot_mapping {
+  my $self = shift;
   my $url = $self->config()->{pombase_to_uniprot_mapping};
 
   if (!defined $url) {
@@ -80,3 +84,5 @@ method load_uniprot_mapping {
     }
   }
 }
+
+1;

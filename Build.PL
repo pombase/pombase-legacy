@@ -9,7 +9,6 @@ my $builder = Module::Build->new(
     dist_version_from   => 'lib/PomBase/Load.pm',
     requires            => {
       perl                    => '5.12.0',
-      'perl5i::2'             => 0,
       'Bio::Chado::Schema'    => 0,
       'Text::CSV'             => 0,
       'Moose'                 => 0,
@@ -27,6 +26,7 @@ my $builder = Module::Build->new(
       'DBIx::DBStag'          => 0,
       'DBIx::DBSchema'        => 0,
       'LWP::UserAgent'        => 0,
+      'Text::Trim'            => 0,
       'Iterator::Simple'      => 0.06,
       'Tie/IxHash'            => 0,
     },

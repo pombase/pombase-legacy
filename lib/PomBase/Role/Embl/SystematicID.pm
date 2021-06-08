@@ -36,14 +36,23 @@ under the same terms as Perl itself.
 
 =cut
 
-use perl5i::2;
+use strict;
+use warnings;
+
+use feature qw(state);
+
 use Carp;
 
 use Moose::Role;
 
 with 'PomBase::Role::FeatureDumper';
 
-method get_uniquename($feature, $so_type, $is_transcript) {
+sub get_uniquename {
+  my $self = shift;
+  my $feature = shift;
+  my $so_type = shift;
+  my $is_transcript = shift;
+
   state $type_seen = {};
 
   if ($feature->{"chado_uniquename-$so_type"}) {

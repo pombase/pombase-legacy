@@ -35,7 +35,12 @@ under the same terms as Perl itself.
 
 =cut
 
-use perl5i::2;
+use strict;
+use warnings;
+use Carp;
+
+use Try::Tiny;
+
 use Moose;
 
 use PomBase::Chado::LoadFeat;
@@ -58,7 +63,10 @@ has organism_taxonid => (is => 'ro',
 has genotype_cache => (is => 'ro', required => 1,
                        isa => 'PomBase::Chado::GenotypeCache');
 
-method process_file($file) {
+sub process_file {
+  my $self = shift;
+  my $file = shift;
+
   my $chado = $self->chado();
   my $verbose = $self->verbose();
   my $config = $self->config();
@@ -160,3 +168,5 @@ method process_file($file) {
 
   $feature_loader->finalise($chromosome);
 }
+
+1;

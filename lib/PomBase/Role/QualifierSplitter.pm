@@ -36,7 +36,12 @@ under the same terms as Perl itself.
 
 =cut
 
-use perl5i::2;
+use strict;
+use warnings;
+use Carp;
+
+use Text::Trim qw(trim);
+
 use Moose::Role;
 
 my %legal_sub_qualifiers = (
@@ -56,13 +61,16 @@ my %legal_sub_qualifiers = (
   with => 1,
 );
 
-method split_sub_qualifiers($cc_qualifier) {
+sub split_sub_qualifiers {
+  my $self = shift;
+  my $cc_qualifier = shift;
+
   my %map = ();
 
   my @bits = split /;/, $cc_qualifier;
 
   for my $bit (@bits) {
-    $bit = $bit->trim();
+    trim($bit);
     if ($bit =~ /^([^=]+?)\s*=\s*(.*?)$/) {
       my $name = $1;
       my $value = $2;

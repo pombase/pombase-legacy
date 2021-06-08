@@ -35,7 +35,10 @@ under the same terms as Perl itself.
 
 =cut
 
-use perl5i::2;
+use strict;
+use warnings;
+use Carp;
+
 use Moose::Role;
 
 requires 'chado';
@@ -48,15 +51,20 @@ my %go_cv_map = (
   C => 'cellular_component',
 );
 
-method get_go_cv_map {
+sub get_go_cv_map {
+  my $self = shift;
   return \%go_cv_map;
 }
 
-method is_go_cv_name($cv_name) {
+sub is_go_cv_name {
+  my $self = shift;
+  my $cv_name = shift;
+
   return grep { $_ eq $cv_name } values %go_cv_map;
 }
 
-method BUILD {
+sub BUILD {
+  my $self = shift;
   my $chado = $self->chado();
 
   my $db_rs = $chado->resultset('General::Db');

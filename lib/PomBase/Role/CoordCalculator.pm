@@ -35,10 +35,16 @@ under the same terms as Perl itself.
 
 =cut
 
-use perl5i::2;
+use strict;
+use warnings;
+use Carp;
+
 use Moose::Role;
 
-method coords_of_feature($feature) {
+sub coords_of_feature {
+  my $self = shift;
+  my $feature = shift;
+
   carp "undefined feature passed to coords_of_feature()" unless $feature;
   my $loc = $feature->location();
 

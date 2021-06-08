@@ -35,7 +35,10 @@ under the same terms as Perl itself.
 
 =cut
 
-use perl5i::2;
+use strict;
+use warnings;
+use Carp;
+
 use Moose;
 
 use Carp::Assert qw(assert);
@@ -50,7 +53,10 @@ with 'PomBase::Role::FeatureFinder';
 
 has verbose => (is => 'ro');
 
-func should($this, $that) {
+sub should {
+  my $this = shift;
+  my $that = shift;
+
   if (!defined $this) {
     carp "first arg not defined in call to should()";
     return;
@@ -65,7 +71,8 @@ func should($this, $that) {
   }
 }
 
-method check {
+sub check {
+  my $self = shift;
   my $chado = $self->chado();
 
   warn "checking results ...\n";
@@ -328,3 +335,5 @@ method check {
 
   assert(Compare(\@expected_props, \@actual_props));
 }
+
+1;

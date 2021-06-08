@@ -35,7 +35,12 @@ under the same terms as Perl itself.
 
 =cut
 
-use perl5i::2;
+use strict;
+use warnings;
+use Carp;
+
+use Try::Tiny;
+
 use Moose;
 
 has chado => (is => 'ro');
@@ -52,7 +57,10 @@ with 'PomBase::Role::OrganismFinder';
 with 'PomBase::Role::ChadoObj';
 with 'PomBase::Role::Embl::FeatureRelationshippropStorer';
 
-method store_all_paralogs($paralog_data) {
+sub store_all_paralogs {
+  my $self = shift;
+  my $paralog_data = shift;
+
   warn "    store_all_paralogs()\n" if $self->verbose();
   my $org_name;
   my $gene_bit;
@@ -103,3 +111,5 @@ method store_all_paralogs($paralog_data) {
     }
   }
 }
+
+1;

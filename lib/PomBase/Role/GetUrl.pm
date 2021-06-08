@@ -35,7 +35,10 @@ under the same terms as Perl itself.
 
 =cut
 
-use perl5i::2;
+use strict;
+use warnings;
+use Carp;
+
 use Moose::Role;
 
 =head2
@@ -45,7 +48,8 @@ use Moose::Role;
 
 =cut
 
-method get_url_contents {
+sub get_url_contents {
+  my $self = shift;
   my $url = shift;
 
   local $ENV{FTP_PASSIVE} = 1;
@@ -66,3 +70,5 @@ method get_url_contents {
     die "Couldn't read from $url: ", $res->status_line, "\n";
   }
 }
+
+1;

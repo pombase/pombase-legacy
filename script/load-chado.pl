@@ -1,6 +1,9 @@
 #!/usr/bin/perl -w
 
-use perl5i::2;
+use strict;
+use warnings;
+use Carp;
+
 
 use Bio::SeqIO;
 use Bio::Chado::Schema;
@@ -66,7 +69,10 @@ my $guard = $chado->txn_scope_guard;
 # load extra CVs, cvterms and dbxrefs
 print "loading genes into $database ...\n" unless $quiet;
 
-func read_mapping($old_name, $file_name) {
+sub read_mapping {
+  my $old_name = shift;
+  my $file_name = shift;
+
   my %ret = ();
 
   open my $file, '<', $file_name or die "$!: $file_name\n";
@@ -88,7 +94,9 @@ func read_mapping($old_name, $file_name) {
   return \%ret;
 }
 
-func process_mappings(@mappings) {
+sub process_mappings {
+  my @mappings = @_;
+
   return map {
     my @parts = split /:/, $_, 4;
     if (@parts >= 3) {
@@ -103,7 +111,9 @@ func process_mappings(@mappings) {
 $config->{test_mode} = $test;
 $config->{mappings} = {process_mappings(@mappings)};
 
-func read_obsolete_term_mapping($file_name) {
+sub read_obsolete_term_mapping {
+  my $file_name = shift;
+
   my %ret = ();
 
   open my $file, '<', $file_name or die "$!: $file_name\n";
@@ -121,7 +131,9 @@ func read_obsolete_term_mapping($file_name) {
   return %ret;
 }
 
-func process_obsolete_term_mapping_files(@obsolete_term_files) {
+sub process_obsolete_term_mapping_files {
+  my @obsolete_term_files = @_;
+
   return (map { read_obsolete_term_mapping($_) } @obsolete_term_files);
 }
 
