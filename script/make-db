@@ -88,6 +88,7 @@ OBO_FILES="\
  pombe-embl/mini-ontologies/SO_feature_relations.obo \
  pombe-embl/mini-ontologies/has_qualifier_range.obo \
  pombe-embl/mini-ontologies/pombase_gene_expression_ontology.obo \
+ pombe-embl/mini-ontologies/kegg_pathways.obo \
  pombase_fypo_github/fypo-simple-pombase.obo \
  mondo.obo \
  $GO_OBO"
