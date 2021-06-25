@@ -194,6 +194,7 @@ extension_restrictions:
       - assayed_region
       - assayed_protein
       - assayed_gene
+      - assayed_transcript
   biological_process:
     allowed:
       - happens_during
