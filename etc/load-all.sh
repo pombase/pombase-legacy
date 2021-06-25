@@ -285,9 +285,10 @@ else
     echo failed to fetch KEGG data, error code: $? 1>&2
 fi
 
-$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml kegg-pathway \
-    --organism-prefix=spo "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe_kegg_latest.tsv \
-    2>&1 | tee $LOG_DIR/$log_file.kegg-pathway
+
+perl -pne 's/^\s*spo:(\S+)\s+path:(\S+)\s*/$1\t\tKEGG_POMBE_PATHWAY:$2\t\t\n/' $SOURCES/pombe_kegg_latest.tsv |
+  $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-annotation \
+    --organism-taxonid=4896 "$HOST" $DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.kegg-pathway
 
 
 echo load RNAcentral pombe identifiers
