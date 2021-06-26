@@ -286,7 +286,7 @@ else
 fi
 
 
-perl -pne 's/^\s*spo:(\S+)\s+path:(\S+)\s*/$1\t\tKEGG_POMBE_PATHWAY:$2\t\tPMID:10592173\t'$DB_DATE_VERSION'\n/' $SOURCES/pombe_kegg_latest.tsv |
+perl -pne 's/^\s*spo:(\S+)\s+path:(\S+)\s*/$1\t\tKEGG_PW:$2\t\tPMID:10592173\t'$DB_DATE_VERSION'\n/' $SOURCES/pombe_kegg_latest.tsv |
   $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-annotation \
     --organism-taxonid=4896 "$HOST" $DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.kegg-pathway
 
