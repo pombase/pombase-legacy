@@ -489,7 +489,9 @@ mkdir $CURRENT_BUILD_DIR/exports
 (
 echo starting gaf export at `date`
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml gaf --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/$DB.gaf.gz
-ln -s $CURRENT_BUILD_DIR/$DB.gaf.gz $CURRENT_BUILD_DIR/pombase-latest.gaf.gz
+
+(cd $CURRENT_BUILD_DIR/; ln -s $DB.gaf.gz pombase-latest.gaf.gz)
+
 echo starting go-physical-interactions export at `date`
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml go-physical-interactions --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/exports/pombase-go-physical-interactions.tsv.gz
 echo starting go-substrates export at `date`
