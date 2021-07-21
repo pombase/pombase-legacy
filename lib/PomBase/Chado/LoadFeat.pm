@@ -869,9 +869,9 @@ sub finalise {
                                                  $chromosome, 'gene',
                                                  $gene_start, $gene_end);
       $self->gene_objects()->{$gene_uniquename} = $chado_gene;
-
-      $self->process_qualifiers($transcript_bioperl_feature, $chado_gene);
     }
+
+    $self->process_qualifiers($transcript_bioperl_feature, $chado_gene);
 
     $self->store_feature_rel($chado_transcript, $chado_gene, 'part_of');
   }
