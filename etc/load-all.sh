@@ -297,7 +297,7 @@ curl -s -o $SOURCES/rnacentral_pombe_identifiers.tsv -z $SOURCES/rnacentral_pomb
 
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-property \
     --property-name="rnacentral_identifier" --organism-taxonid=4896 \
-    --feature-uniquename-column=3 --property-column=1 \
+    --feature-uniquename-column=6 --property-column=1 \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/rnacentral_pombe_identifiers.tsv
 
 
