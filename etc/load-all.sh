@@ -119,7 +119,7 @@ done
 
 echo loading japonicus genes
 
-$JBASE_HOME/pombase-chado/script/pombase-import.pl $LOAD_CONFIG features \
+$POMBASE_CHADO/script/pombase-import.pl $LOAD_CONFIG features \
     --organism-taxonid=4897 --uniquename-column=1 --name-column=3 --feature-type=gene \
     --product-column=5 --ignore-short-lines \
     --transcript-so-name=mRNA --column-filter="7=protein coding gene" \
@@ -127,7 +127,7 @@ $JBASE_HOME/pombase-chado/script/pombase-import.pl $LOAD_CONFIG features \
 
 for so_type in ncRNA tRNA snoRNA rRNA snRNA
 do
-  $JBASE_HOME/pombase-chado/script/pombase-import.pl $LOAD_CONFIG features \
+  $POMBASE_CHADO/script/pombase-import.pl $LOAD_CONFIG features \
       --organism-taxonid=4897 --uniquename-column=1 --name-column=3 \
       --product-column=5 --ignore-short-lines \
       --transcript-so-name=$so_type \
