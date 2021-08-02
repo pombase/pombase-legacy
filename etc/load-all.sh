@@ -123,7 +123,7 @@ $JBASE_HOME/pombase-chado/script/pombase-import.pl $LOAD_CONFIG features \
     --organism-taxonid=4897 --uniquename-column=1 --name-column=3 --feature-type=gene \
     --product-column=5 --ignore-short-lines \
     --transcript-so-name=mRNA --column-filter="7=protein coding gene" \
-    "$HOST" $DB $USER $PASSWORD < /var/www/pombase/japonicus/latest_build/misc/gene_IDs_names_products.tsv
+    "$HOST" $DB $USER $PASSWORD < $JAPONICUS_BUILD_DIR/misc/gene_IDs_names_products.tsv
 
 for so_type in ncRNA tRNA snoRNA rRNA snRNA
 do
@@ -132,7 +132,7 @@ do
       --product-column=5 --ignore-short-lines \
       --transcript-so-name=$so_type \
       --column-filter="7=${so_type} gene" --feature-type=gene \
-     "$HOST" $DB $USER $PASSWORD < /var/www/pombase/japonicus/latest_build/misc/gene_IDs_names_products.tsv
+     "$HOST" $DB $USER $PASSWORD < $JAPONICUS_BUILD_DIR/misc/gene_IDs_names_products.tsv
 done
 
 
