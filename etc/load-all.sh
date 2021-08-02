@@ -47,11 +47,13 @@ DB=pombase-build-$DB_DATE_VERSION
 
 LOG_DIR=`pwd`
 
+WWW_DIR=/var/www/pombase
+
 POMBASE_CHADO=$HOME/git/pombase-chado
 POMBASE_LEGACY=$HOME/git/pombase-legacy
 JAPONICUS_CURATION=$HOME/git/japonicus-curation
 
-JAPONICUS_BUILD_DIR=/var/www/pombase/japonicus_nightly/latest_build
+JAPONICUS_BUILD_DIR=$WWW_DIR/japonicus_nightly/latest_build
 
 
 LOAD_CONFIG=$POMBASE_LEGACY/load-pombase-chado.yaml
@@ -525,7 +527,7 @@ POMBASE_EXCLUDED_FYPO_TERMS_OBO=$SOURCES/pombe-embl/mini-ontologies/FYPO_qc_do_n
 echo report annotations using FYPO terms from $POMBASE_EXCLUDED_FYPO_TERMS_OBO 2>&1 | tee $LOG_DIR/$log_file.excluded_fypo_terms
 ./script/report-subset.pl "$HOST" $DB $USER $PASSWORD <(perl -ne 'print "$1\n" if /^id:\s*(FYPO:\S+)/' $POMBASE_EXCLUDED_FYPO_TERMS_OBO) 2>&1 | tee -a $LOG_DIR/$log_file.excluded_fypo_terms
 
-DUMPS_DIR=/var/www/pombase/dumps
+DUMPS_DIR=$WWW_DIR/dumps
 BUILDS_DIR=$DUMPS_DIR/builds
 CURRENT_BUILD_DIR=$BUILDS_DIR/$DB
 
