@@ -51,7 +51,7 @@ POMBASE_CHADO=$HOME/git/pombase-chado
 POMBASE_LEGACY=$HOME/git/pombase-legacy
 JAPONICUS_CURATION=$HOME/git/japonicus-curation
 
-JAPONICUS_BUILD_DIR=/var/www/pombase/japonicus/latest_build
+JAPONICUS_BUILD_DIR=/var/www/pombase/japonicus_nightly/latest_build
 
 
 LOAD_CONFIG=$POMBASE_LEGACY/load-pombase-chado.yaml
