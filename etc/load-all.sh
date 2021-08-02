@@ -51,6 +51,9 @@ POMBASE_CHADO=$HOME/git/pombase-chado
 POMBASE_LEGACY=$HOME/git/pombase-legacy
 JAPONICUS_CURATION=$HOME/git/japonicus-curation
 
+JAPONICUS_BUILD_DIR=/var/www/pombase/japonicus/latest_build
+
+
 LOAD_CONFIG=$POMBASE_LEGACY/load-pombase-chado.yaml
 
 GOA_GAF_URL=ftp://ftp.ebi.ac.uk/pub/databases/GO/goa/UNIPROT/goa_uniprot_all.gaf.gz
@@ -63,7 +66,7 @@ git pull || exit 1
 
 export PERL5LIB=$HOME/git/pombase-chado/lib:$POMBASE_LEGACY/lib
 
-echo initialising Chado with CVs and cvterms 
+echo initialising Chado with CVs and cvterms
 $POMBASE_CHADO/script/pombase-admin.pl $POMBASE_LEGACY/load-pombase-chado.yaml chado-init \
   "$HOST" $DB $USER $PASSWORD || exit 1
 
@@ -111,6 +114,25 @@ do
       --organism-taxonid=4932 --uniquename-column=5 --name-column=6 \
       --column-filter="1=${so_type} gene" --feature-type=gene \
       "$HOST" $DB $USER $PASSWORD < $SOURCES/sgd_yeastmine_genes.tsv
+done
+
+
+echo loading japonicus genes
+
+$JBASE_HOME/pombase-chado/script/pombase-import.pl $LOAD_CONFIG features \
+    --organism-taxonid=4897 --uniquename-column=1 --name-column=3 --feature-type=gene \
+    --product-column=5 --ignore-short-lines \
+    --transcript-so-name=mRNA --column-filter="7=protein coding gene" \
+    "$HOST" $DB $USER $PASSWORD < /var/www/pombase/japonicus/latest_build/misc/gene_IDs_names_products.tsv
+
+for so_type in ncRNA tRNA snoRNA rRNA snRNA
+do
+  $JBASE_HOME/pombase-chado/script/pombase-import.pl $LOAD_CONFIG features \
+      --organism-taxonid=4897 --uniquename-column=1 --name-column=3 \
+      --product-column=5 --ignore-short-lines \
+      --transcript-so-name=$so_type \
+      --column-filter="7=${so_type} gene" --feature-type=gene \
+     "$HOST" $DB $USER $PASSWORD < /var/www/pombase/japonicus/latest_build/misc/gene_IDs_names_products.tsv
 done
 
 
@@ -364,6 +386,27 @@ echo
 echo load manual pombe to human orthologs: conserved_one_to_one.txt
 
 $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml orthologs --publication=null --organism_1_taxonid=4896 --organism_2_taxonid=9606 --swap-direction --add_org_1_term_name='predominantly single copy (one to one)' --add_org_1_term_cv='species_dist' "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/orthologs/conserved_one_to_one.txt 2>&1 | tee $LOG_DIR/$log_file.manual_1-1_orths
+
+
+echo
+echo load Compara pombe-japonicus orthologs
+
+$POMBASE_CHADO/script/pombase-import.pl $LOAD_CONFIG orthologs \
+  --swap-direction --publication=PMID:26896847 --organism_1_taxonid=4897 --organism_2_taxonid=4896 \
+  "$HOST" $DB $USER $PASSWORD < $JAPONICUS_CURATION/compara_pombe_orthologs.tsv 2>&1 | tee $LOG_DIR/$log_file.compara_pombe_japonicus_orthologs
+
+echo load Rhind pombe-japonicus orthologs
+
+$POMBASE_CHADO/script/pombase-import.pl $LOAD_CONFIG orthologs \
+  --swap-direction --publication=PMID:21511999 --organism_1_taxonid=4897 --organism_2_taxonid=4896 \
+  "$HOST" $DB $USER $PASSWORD < $JAPONICUS_CURATION/rhind_pombe_orthologs.tsv 2>&1 | tee $LOG_DIR/$log_file.rhind_pombe_japonicus_orthologs
+
+echo load manual pombe-japonicus orthologs
+
+$POMBASE_CHADO/script/pombase-import.pl $LOAD_CONFIG orthologs \
+  --swap-direction --publication=null --organism_1_taxonid=4897 --organism_2_taxonid=4896 \
+  "$HOST" $DB $USER $PASSWORD < $JAPONICUS_CURATION/manual_pombe_orthologs.tsv 2>&1 | tee $LOG_DIR/$log_file.manual_pombe_japonicus_orthologs
+
 
 echo
 echo load Malacard data from malacards_data_for_chado_mondo_ids.tsv
