@@ -174,6 +174,9 @@ my %feature_loader_conf = (
   misc_feature => {
     so_type => 'region',
   },
+  mobile_element => {
+    so_type => 'LTR_retrotransposon',
+  },
   gap => {
     so_type => 'gap',
   },
