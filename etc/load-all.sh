@@ -275,11 +275,12 @@ evidence_summary $DB
 pg_dump $DB | gzip -5 > /tmp/pombase-chado-before-goa.dump.gz
 
 
-echo reading $SOURCES/gene_association.goa_uniprot.pombe
 GOA_GAF_FILENAME=gene_association.goa_uniprot.gz
 CURRENT_GOA_GAF="$SOURCES/$GOA_GAF_FILENAME"
 
 curl -o $CURRENT_GOA_GAF -z $CURRENT_GOA_GAF $GOA_GAF_URL
+
+echo reading $CURRENT_GOA_GAF
 
 gzip -d < $CURRENT_GOA_GAF | perl -ne 'print if /\ttaxon:(4896|284812)\t/' | $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --use-only-first-with-id --taxon-filter=4896 --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings --assigned-by-filter=InterPro,UniProtKB,UniProt "$HOST" $DB $USER $PASSWORD
 
