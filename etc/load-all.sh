@@ -267,6 +267,7 @@ else
   echo "Coudn't download new pombase-prediction.gaf - file is empty" 1>&2
 fi
 
+# load GO annotation inferred inter ontology links
 $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings --assigned-by-filter=PomBase,GOC "$HOST" $DB $USER $PASSWORD < $SOURCES/pombase-prediction.gaf
 
 echo counts after loading pombase-prediction.gaf:
@@ -289,7 +290,7 @@ pg_dump $DB | gzip -5 > /tmp/pombase-chado-after-goa.dump.gz
 
 (cd $SOURCES/snapshot.geneontology.org && wget -N http://snapshot.geneontology.org/annotations/pombase.gaf.gz)
 
-# echo loading PANTHER annotation
+# echo loading PANTHER annotation - don't load this from GOA because GOA updates slowly
 gzip -d < $SOURCES/snapshot.geneontology.org/pombase.gaf.gz | $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings --with-prefix-filter="PANTHER:" --taxon-filter=4896 --assigned-by-filter=GO_Central "$HOST" $DB $USER $PASSWORD
 
 } 2>&1 | tee $LOG_DIR/$log_file.gaf-load-output
