@@ -206,7 +206,7 @@ my $time_stamp_cvterm =
 
 $chado->resultset('Cv::Chadoprop')->create({
   type_id => $time_stamp_cvterm->cvterm_id(),
-  value => strftime("%Y-%m-%d %H:%M:%S", localtime(time)),
+  value => strftime("%Y-%m-%d %H:%M", localtime(time)),
 });
 
 my @files = @ARGV;
