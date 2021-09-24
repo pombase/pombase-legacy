@@ -1103,6 +1103,65 @@ check_chado:
            AND a2_prop_type.name = 'description'
            AND allele1_prop.value = allele2_prop.value
            AND allele1_prop.value <> 'unknown';
+    - name: duplicate_pro_ids
+      verbose_fail: true
+      description: "PRO IDs used for more than one gene"
+      github_issue: "https://github.com/geneontology/neo/issues/74"
+      expected: 0
+      query: |
+         WITH duplicated_pro_ids AS (SELECT value AS pro_id
+         FROM feature_cvtermprop p
+         JOIN feature_cvterm fc ON fc.feature_cvterm_id = p.feature_cvterm_id
+         WHERE p.type_id in
+         (SELECT cvterm_id
+         FROM cvterm
+         WHERE name = 'gene_product_form_id')
+         GROUP BY value
+         HAVING count(DISTINCT feature_id) > 1)
+
+         SELECT DISTINCT
+           pro_id,
+           (SELECT value
+            FROM feature_cvtermprop sess_prop
+            WHERE type_id in
+                (SELECT cvterm_id
+                 FROM cvterm
+                 WHERE name = 'canto_session')
+              AND sess_prop.feature_cvterm_id = fc.feature_cvterm_id) AS session,
+                         f.uniquename
+         FROM feature f
+         JOIN feature_cvterm fc ON f.feature_id = fc.feature_id
+         JOIN feature_cvtermprop p ON p.feature_cvterm_id = fc.feature_cvterm_id
+         JOIN duplicated_pro_ids dups ON p.value = dups.pro_id
+
+         WHERE p.type_id in
+             (SELECT cvterm_id
+              FROM cvterm
+              WHERE name = 'gene_product_form_id')
+    - name: badly_foramtted_pro_ids
+      verbose_fail: true
+      description: "Badly formatted PRO IDs"
+      github_issue: "https://github.com/geneontology/neo/issues/74"
+      expected: 0
+      query: |
+         SELECT DISTINCT
+           p.value as pro_id,
+           (SELECT value
+            FROM feature_cvtermprop sess_prop
+            WHERE type_id in
+                (SELECT cvterm_id
+                 FROM cvterm
+                 WHERE name = 'canto_session')
+              AND sess_prop.feature_cvterm_id = fc.feature_cvterm_id) AS session,
+                         f.uniquename
+         FROM feature f
+         JOIN feature_cvterm fc ON f.feature_id = fc.feature_id
+         JOIN feature_cvtermprop p ON p.feature_cvterm_id = fc.feature_cvterm_id
+         WHERE p.value like '%,%' AND
+            p.type_id in
+             (SELECT cvterm_id
+              FROM cvterm
+              WHERE name = 'gene_product_form_id');
 
 external_sources:
   pubmed_efetch_url: 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmode=xml&retmax=99999&id='
