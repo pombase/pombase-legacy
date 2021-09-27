@@ -1038,7 +1038,7 @@ check_chado:
           WHERE t.name = 'with'
             AND substring(value FROM '(.*):.*')
                 NOT IN ('AGI_LocusCode', 'CBS', 'CGD', 'dictyBase', 'EC', 'ECOGENE', 'FB', 'GO',
-                        'HGNC', 'InterPro', 'MGI', 'PANTHER', 'PDB', 'Pfam', 'PomBase', 'RGD',
+                        'HGNC', 'InterPro', 'MGI', 'MGI:MGI', 'PANTHER', 'PDB', 'Pfam', 'PomBase', 'RGD',
                         'SGD', 'SUPERFAMILY', 'TAIR', 'TAIR:locus', 'UniPathway', 'UniProtKB', 'UniProtKB-KW',
                         'UniProtKB-SubCell', 'UniRule', 'WB', 'ZFIN', 'JaponicusDB');
     - name: prop_values_with_missing_terms
