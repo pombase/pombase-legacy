@@ -841,6 +841,8 @@ then
     cp $CURRENT_BUILD_DIR/fasta/feature_sequences/three_prime_utrs.fa.gz   $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/feature_sequences/UTR/3UTR.fa.gz
     cp $CURRENT_BUILD_DIR/fasta/feature_sequences/peptide.fa.gz            $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/feature_sequences/peptide.fa.gz
 
+    cp $CURRENT_BUILD_DIR/fasta/chromosomes/*.gz  $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/genome_sequence/
+
     for f in all_chromosomes chr_II_telomeric_gap chromosome_I chromosome_II \
              chromosome_III mating_type_region mitochondrial_chromosome
     do
