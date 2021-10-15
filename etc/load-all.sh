@@ -58,7 +58,7 @@ JAPONICUS_BUILD_DIR=$WWW_DIR/japonicus_nightly/latest_build
 
 LOAD_CONFIG=$POMBASE_LEGACY/load-pombase-chado.yaml
 
-GOA_GAF_URL=ftp://ftp.ebi.ac.uk/pub/databases/GO/goa/UNIPROT/goa_uniprot_all.gaf.gz
+GOA_GAF_URL=https://ftp.ebi.ac.uk/pub/databases/GO/goa/UNIPROT/goa_uniprot_all.gaf.gz
 
 cd $POMBASE_CHADO
 git pull || exit 1
@@ -74,7 +74,7 @@ $POMBASE_CHADO/script/pombase-admin.pl $POMBASE_LEGACY/load-pombase-chado.yaml c
 
 
 (cd $SOURCES
-wget -q -N ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/tsv/hgnc_complete_set.txt ||
+wget -q -N https://ftp.ebi.ac.uk/pub/databases/genenames/new/tsv/hgnc_complete_set.txt ||
     echo failed to download new HGNC data
 wget -q -N http://downloads.yeastgenome.org/curation/chromosomal_feature/SGD_features.tab ||
     echo failed to download new SGD data
@@ -322,7 +322,7 @@ perl -pne 's/^\s*spo:(\S+)\s+path:(\S+)\s*/$1\t\tKEGG_PW:$2\t\tPMID:10592173\t'$
 
 
 echo load RNAcentral pombe identifiers
-curl -s -o $SOURCES/rnacentral_pombe_identifiers.tsv -z $SOURCES/rnacentral_pombe_identifiers.tsv ftp://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/id_mapping/database_mappings/pombase.tsv ||
+curl -s -o $SOURCES/rnacentral_pombe_identifiers.tsv -z $SOURCES/rnacentral_pombe_identifiers.tsv https://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/id_mapping/database_mappings/pombase.tsv ||
   echo failed to download new RNAcentral identifier file, continuing with previous version
 
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-property \
@@ -332,7 +332,7 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
 
 
 echo update RNAcentral data file
-curl -s -o $SOURCES/rfam_annotations.tsv.gz -z $SOURCES/rfam_annotations.tsv.gz  http://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/rfam/rfam_annotations.tsv.gz ||
+curl -s -o $SOURCES/rfam_annotations.tsv.gz -z $SOURCES/rfam_annotations.tsv.gz  https://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/rfam/rfam_annotations.tsv.gz ||
   echo failed to download new RNAcentral annotations file, continuing with previous version
 
 echo load quantitative gene expression data
