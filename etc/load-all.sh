@@ -27,6 +27,9 @@ SOURCES=$POMCUR/sources
 
 POMBASE_WEB_CONFIG=$HOME/git/pombase-config/website/pombase_v2_config.json
 
+# without a user agent we get "bad gateway" from ftp.ebi.ac.uk
+USER_AGENT_FOR_EBI='Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13'
+
 (cd ~/chobo/; git pull) || die "Failed to update Chobo"
 (cd ~/git/pombase-config; git pull) || die "Failed to update pombase-config"
 (cd ~/git/pombase-chado; git pull) || die "Failed to update pombase-chado"
@@ -279,7 +282,7 @@ pg_dump $DB | gzip -5 > /tmp/pombase-chado-before-goa.dump.gz
 GOA_GAF_FILENAME=gene_association.goa_uniprot.gz
 CURRENT_GOA_GAF="$SOURCES/$GOA_GAF_FILENAME"
 
-curl -o $CURRENT_GOA_GAF -z $CURRENT_GOA_GAF $GOA_GAF_URL
+curl --user-agent $USER_AGENT_FOR_EBI -o $CURRENT_GOA_GAF -z $CURRENT_GOA_GAF $GOA_GAF_URL
 
 echo reading $CURRENT_GOA_GAF
 
@@ -322,7 +325,7 @@ perl -pne 's/^\s*spo:(\S+)\s+path:(\S+)\s*/$1\t\tKEGG_PW:$2\t\tPMID:10592173\t'$
 
 
 echo load RNAcentral pombe identifiers
-curl -s -o $SOURCES/rnacentral_pombe_identifiers.tsv -z $SOURCES/rnacentral_pombe_identifiers.tsv https://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/id_mapping/database_mappings/pombase.tsv ||
+curl --user-agent $USER_AGENT_FOR_EBI -s -o $SOURCES/rnacentral_pombe_identifiers.tsv -z $SOURCES/rnacentral_pombe_identifiers.tsv https://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/id_mapping/database_mappings/pombase.tsv ||
   echo failed to download new RNAcentral identifier file, continuing with previous version
 
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-property \
@@ -332,7 +335,7 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
 
 
 echo update RNAcentral data file
-curl -s -o $SOURCES/rfam_annotations.tsv.gz -z $SOURCES/rfam_annotations.tsv.gz  https://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/rfam/rfam_annotations.tsv.gz ||
+curl --user-agent $USER_AGENT_FOR_EBI -s -o $SOURCES/rfam_annotations.tsv.gz -z $SOURCES/rfam_annotations.tsv.gz https://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/rfam/rfam_annotations.tsv.gz ||
   echo failed to download new RNAcentral annotations file, continuing with previous version
 
 echo load quantitative gene expression data
