@@ -154,6 +154,11 @@ log_file=log.`date +'%Y-%m-%d-%H-%M-%S'`
 
 $POMBASE_LEGACY/etc/process-log.pl $log_file
 
+
+# See: https://github.com/pombase/pombase-chado/issues/861
+$POMBASE_CHADO/script/pombase-export.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD > /tmp/$DB-contig-files-only.gaf
+
+
 echo loading features without coordinates
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml features \
     --organism-taxonid=4896 --uniquename-column=1 --name-column=2 --feature-type=promoter \
