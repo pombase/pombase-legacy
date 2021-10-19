@@ -156,6 +156,7 @@ $POMBASE_LEGACY/etc/process-log.pl $log_file
 
 
 # See: https://github.com/pombase/pombase-chado/issues/861
+pg_dump $DB | gzip -8 > /tmp/$DB-contig-files-only.dump.gz
 $POMBASE_CHADO/script/pombase-export.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD > /tmp/$DB-contig-files-only.gaf
 
 
