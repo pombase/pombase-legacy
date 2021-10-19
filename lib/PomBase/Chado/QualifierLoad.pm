@@ -388,7 +388,7 @@ sub add_term_to_gene {
 
   my $db_xref = delete $sub_qual_map->{db_xref};
 
-  if (!is_valid_dbxref($db_xref)) {
+  if (defined $db_xref && !is_valid_dbxref($db_xref)) {
     die "invalid /db_xref: $db_xref\n";
   }
 
