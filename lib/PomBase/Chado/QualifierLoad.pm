@@ -156,6 +156,12 @@ sub get_and_check_date {
   return undef;
 }
 
+sub is_valid_dbxref {
+  my $dbxref = shift;
+
+  return $dbxref =~ /^(EMBL|GEO|GO_REF|InterPro|Panther|PB_REF|Pfam|PMID|TreeFam|UniProtKB):/;
+}
+
 # look up cvterm by $embl_term_name first, then by GOid, complain
 # about mismatches
 sub add_term_to_gene {
@@ -381,6 +387,10 @@ sub add_term_to_gene {
   }
 
   my $db_xref = delete $sub_qual_map->{db_xref};
+
+  if (!is_valid_dbxref($db_xref)) {
+    die "invalid /db_xref: $db_xref\n";
+  }
 
   if ($self->is_go_cv_name($cv_name) ||
       grep { $_ eq $cv_name } (qw(fission_yeast_phenotype PSI-MOD))) {
