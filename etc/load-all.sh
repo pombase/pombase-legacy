@@ -156,9 +156,8 @@ $POMBASE_LEGACY/etc/process-log.pl $log_file
 
 
 # See: https://github.com/pombase/pombase-chado/issues/861
-pg_dump $DB | gzip -8 > /tmp/$DB-contig-files-only.dump.gz
-$POMBASE_CHADO/script/pombase-export.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD > /tmp/$DB-contig-files-only.gaf
-
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf "$HOST" \
+    $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/legacy_go_annotations_from_contigs.txt
 
 echo loading features without coordinates
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml features \
