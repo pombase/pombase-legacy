@@ -58,6 +58,7 @@ my @qual_patterns = (
   'month .*\d+.* not in range',
   'unknown qualifier:',
   'unknown sub-qualifier:',
+  'invalid .db_xref'
 );
 
 my $qual_pattern = join '|', @qual_patterns;
