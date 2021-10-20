@@ -159,7 +159,7 @@ sub get_and_check_date {
 sub is_valid_dbxref {
   my $dbxref = shift;
 
-  return $dbxref =~ /^(EMBL|GEO|GO_REF|InterPro|Panther|PB_REF|Pfam|PMID|TreeFam|UniProtKB):/;
+  return $dbxref =~ /^(EMBL|GEO|GO_REF|InterPro|Panther|PB_REF|Pfam|PMID|TreeFam|UniProtKB|ArrayExpress):/i;
 }
 
 # look up cvterm by $embl_term_name first, then by GOid, complain
