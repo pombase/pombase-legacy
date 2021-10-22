@@ -156,8 +156,9 @@ $POMBASE_LEGACY/etc/process-log.pl $log_file
 
 
 # See: https://github.com/pombase/pombase-chado/issues/861
-$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf "$HOST" \
-    $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/legacy_go_annotations_from_contigs.txt
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf \
+    --load-qualifiers --load-column-17 \
+    "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/legacy_go_annotations_from_contigs.txt
 
 echo loading features without coordinates
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml features \
