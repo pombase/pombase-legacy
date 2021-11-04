@@ -1166,7 +1166,7 @@ check_chado:
          JOIN feature allele2 ON rel2.subject_id = allele2.feature_id
          JOIN featureprop allele2_prop ON allele2_prop.feature_id = allele2.feature_id
          JOIN cvterm a2_prop_type ON a2_prop_type.cvterm_id = allele2_prop.type_id
-         WHERE allele1.feature_id <> allele2.feature_id
+         WHERE allele1.feature_id < allele2.feature_id
            AND allele1.name <> allele2.name
            AND rel1_type.name = 'instance_of'
            AND rel2_type.name = 'instance_of'
