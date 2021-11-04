@@ -247,6 +247,9 @@ extension_restrictions:
       - removed_by
       - removed_during
       - required_for
+      - increased_in_presence_of
+      - decreased_in_presence_of
+      - multiplicity
   gene_ex:
     allowed:
       - during
