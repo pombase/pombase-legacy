@@ -1139,10 +1139,22 @@ check_chado:
       query: |
          SELECT gene.uniquename,
                 allele1.name as allele1_name,
-                (select value from featureprop fp where fp.feature_id = allele1.feature_id AND fp.type_id in (select cvterm_id from cvterm where name = 'canto_session')  limit 1) as allele1_session,
+                array_to_string(array(SELECT distinct value
+                 FROM featureprop fp
+                 WHERE fp.feature_id = allele1.feature_id
+                   AND fp.type_id in
+                     (SELECT cvterm_id
+                      FROM cvterm
+                      WHERE name = 'canto_session')), ',') AS allele1_sessions,
                 allele1_prop.value AS description,
                 allele2.name as allele2_name,
-                (select value from featureprop fp where fp.feature_id = allele2.feature_id AND fp.type_id in (select cvterm_id from cvterm where name = 'canto_session')  limit 1) as allele2_session
+                array_to_string(array(SELECT value
+                 FROM featureprop fp
+                 WHERE fp.feature_id = allele2.feature_id
+                   AND fp.type_id in
+                     (SELECT cvterm_id
+                      FROM cvterm
+                      WHERE name = 'canto_session')), ',') as allele2_sessions
          FROM feature allele1
          JOIN featureprop allele1_prop ON allele1_prop.feature_id = allele1.feature_id
          JOIN cvterm a1_prop_type ON a1_prop_type.cvterm_id = allele1_prop.type_id
