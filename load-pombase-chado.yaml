@@ -207,6 +207,7 @@ extension_restrictions:
       - regulates_activity_of
       - directly_positively_regulates
       - directly_negatively_regulates
+      - annotated_transcript_id
   molecular_function:
     allowed:
       - happens_during
@@ -224,12 +225,14 @@ extension_restrictions:
       - directly_positively_regulates
       - directly_negatively_regulates
       - regulates_activity_of
+      - annotated_transcript_id
   cellular_component:
     allowed:
       - exists_during
       - part_of
       - coincident_with
       - not_exists_during
+      - annotated_transcript_id
   'PSI-MOD':
     allowed:
       - absent_during
