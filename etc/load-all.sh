@@ -288,6 +288,7 @@ pg_dump $DB | gzip -5 > /tmp/pombase-chado-before-goa.dump.gz
 GOA_GAF_FILENAME=gene_association.goa_uniprot.gz
 CURRENT_GOA_GAF="$SOURCES/$GOA_GAF_FILENAME"
 
+echo checking for new GOA GAF file
 curl --user-agent "$USER_AGENT_FOR_EBI" -o $CURRENT_GOA_GAF -z $CURRENT_GOA_GAF $GOA_GAF_URL
 
 echo reading $CURRENT_GOA_GAF
