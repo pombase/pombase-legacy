@@ -175,7 +175,7 @@ SELECT fc.feature_cvterm_id,
 FROM feature_cvterm fc
 JOIN cvterm t ON t.cvterm_id = fc.cvterm_id
 JOIN cv ON cv.cv_id = t.cv_id
-WHERE cv.name <> 'PomBase annotation extension terms';"
+WHERE not is_not and cv.name <> 'PomBase annotation extension terms';"
 
 psql -q $DB -c "CREATE materialized VIEW pombase_feature_cvterm_ext_resolved_terms AS
  SELECT *
