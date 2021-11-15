@@ -491,6 +491,9 @@ echo
 echo counts of assigned_by before filtering:
 assigned_by_summary $DB
 
+$POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter-duplicate-assigner \
+   --primary-assigner=PomBase --secondary-assigner=UniProt \
+   "$HOST" $DB $USER $PASSWORD > $LOG_DIR/$log_file.go-filter-uniprot-duplicates
 
 pg_dump $DB | gzip -5 > /tmp/pombase-chado-before-go-filter.dump.gz
 
@@ -607,6 +610,7 @@ cp $LOG_DIR/$log_file.excluded_go_terms_softcheck $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.excluded_fypo_terms_softcheck $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.excluded_fypo_terms $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.go-term-mapping $CURRENT_BUILD_DIR/logs/
+cp $LOG_DIR/$log_file.go-filter-uniprot-duplicates $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.chado_checks $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.allele-synonyms $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.allele-comments $CURRENT_BUILD_DIR/logs/
