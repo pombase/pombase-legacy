@@ -474,6 +474,11 @@ $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml \
 PGPASSWORD=$PASSWORD psql -U $USER -h "$HOST" $DB -c 'analyze'
 refresh_views
 
+echo add ECO evidence codes
+$POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml \
+   add-eco-evidence-codes --eco-mapping-file=$SOURCES/pombe-embl/chado_load_mappings/ECO_evidence_mapping.txt \
+   "$HOST" $DB $USER $PASSWORD
+
 echo update out of date allele names
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml update-allele-names "$HOST" $DB $USER $PASSWORD
 

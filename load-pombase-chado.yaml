@@ -116,6 +116,7 @@ cvs:
     - name: interacts_physically
   feature_relationshipprop_type:
     - name: evidence
+    - name: eco_evidence
     - name: source database
     - name: source file
     - name: homology type
