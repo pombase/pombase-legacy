@@ -581,9 +581,12 @@ $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml simple-ortholo
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml simple-orthologs --swap-direction --organism-taxon-id=4896 --other-organism-taxon-id=4932 "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/exports/pombe-cerevisiae-orthologs-with-systematic-ids.txt.gz
 
 echo starting phaf export at `date`
-$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml phaf --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/$DB.phaf.gz
+$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml phaf --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip > $CURRENT_BUILD_DIR/$DB.phaf.gz
+$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml phaf --use-eco-evidence-code --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip > $CURRENT_BUILD_DIR/$DB.eco.phaf.gz
+
 echo starting modifications export at `date`
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml modifications --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/$DB.modifications.gz
+
 echo starting publications with annotations export at `date`
 psql $DB -t --no-align -c "
 SELECT uniquename FROM pub WHERE uniquename LIKE 'PMID:%'
