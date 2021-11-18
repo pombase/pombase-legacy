@@ -562,6 +562,8 @@ $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml gaf --organism
 (
  cd $CURRENT_BUILD_DIR/
  ln -s $DB.gaf.gz pombase-latest.gaf.gz
+ ln -s $DB.phaf.gz pombase-latest.phaf.gz
+ ln -s $DB.eco.phaf.gz pombase-latest.eco.phaf.gz
  ln -s $DB.human-orthologs.txt.gz pombase-latest.human-orthologs.txt.gz
 )
 
