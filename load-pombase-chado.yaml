@@ -837,6 +837,18 @@ check_chado:
           JOIN cvterm pt ON pt.cvterm_id = p.type_id
           WHERE rt.name = 'instance_of' AND pt.name <> 'gene'
             AND pt.name <> 'pseudogene'
+    - name: badly_named_deletion_alleles
+      description: 'the name of deletion alleles should end in "delta"'
+      expected: 0
+      verbose_fail: true
+      query: |
+        SELECT name,
+               array_to_string(array (SELECT value FROM featureprop fp WHERE fp.feature_id = f.feature_id AND fp.type_id in (SELECT cvterm_id FROM cvterm WHERE name = 'canto_session')), ',') AS SESSION
+          FROM feature f
+         WHERE type_id in (SELECT cvterm_id FROM cvterm WHERE name = 'allele')
+           AND feature_id in (SELECT feature_id FROM featureprop WHERE value = 'deletion')
+           AND name not like '%delta'
+         ORDER BY name;
     - name: no_population_terms_with_penetrance
       description: no population term should have a has_penetrance relation
       expected: 0
