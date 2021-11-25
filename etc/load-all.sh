@@ -533,7 +533,7 @@ refresh_views
 
 echo
 echo running consistency checks
-if $POMBASE_CHADO/script/check-chado.pl ./load-pombase-chado.yaml $POMBASE_WEB_CONFIG "$HOST" $DB $USER $PASSWORD > $LOG_DIR/$log_file.chado_checks 2>&1
+if $POMBASE_CHADO/script/check-chado.pl ./load-pombase-chado.yaml $POMBASE_WEB_CONFIG "$HOST" $DB $USER $PASSWORD $LOG_DIR/$log_file.chado_checks > $LOG_DIR/$log_file.chado_checks 2>&1
 then
     CHADO_CHECKS_STATUS=passed
 else
@@ -627,7 +627,7 @@ cp $LOG_DIR/$log_file.excluded_fypo_terms $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.go-term-mapping $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.add-missing-allele-names $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.go-filter-uniprot-duplicates $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.chado_checks $CURRENT_BUILD_DIR/logs/
+cp $LOG_DIR/$log_file.chado_checks* $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.allele-synonyms $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.allele-comments $CURRENT_BUILD_DIR/logs/
 
