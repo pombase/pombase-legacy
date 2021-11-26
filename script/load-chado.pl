@@ -146,52 +146,7 @@ $config->{target_quals} = {};
 $config->{gene_ex_qualifiers} =
   $gene_ex_qualifier_util->read_qualifiers($gene_ex_qualifiers);
 
-for my $allowed_unknown_term_names_file (@{$config->{allowed_unknown_term_names_files}}) {
-  open my $unknown_names, '<', $allowed_unknown_term_names_file or die;
-  while (defined (my $line = <$unknown_names>)) {
-    chomp $line;
-    if ($line =~ /but name doesn't match any cvterm: (\S+)/) {
-      $config->{allowed_unknown_term_names}->{$1} = 1;
-    } else {
-      if ($line =~ /^GO:\d+$/) {
-        $config->{allowed_unknown_term_names}->{$line} = 1;
-      } else {
-        die "can't parse: $line";
-      }
-    }
-  }
-  close $unknown_names;
-}
 
-
-for my $allowed_term_mismatches_file (@{$config->{allowed_term_mismatches_files}}) {
-
-open my $mismatches, '<', $allowed_term_mismatches_file or die;
-while (defined (my $line = <$mismatches>)) {
-  if ($line =~ /\S+ (\S+?)(?:\.\d)?:\s+ID in EMBL file \((\S+)\) doesn't match ID in Chado \(\S+\) for EMBL term name (.*)\s+\(Chado term name: .*\)\t?(.*)/) {
-    my $gene = $1;
-    my $embl_id = $2;
-    my $embl_name = $3;
-    my $winner = $4;
-
-    $embl_id =~ s/\s+$//;
-    $embl_name =~ s/\s+$//;
-
-    next unless $winner =~ /^(ID|name)$/i;
-
-    push @{$config->{allowed_term_mismatches}->{$gene}}, {
-      embl_id => $embl_id,
-      embl_name => $embl_name,
-      winner => $winner,
-    };
-  } else {
-    if ($line !~ /warning line/) {
-      warn "can't parse: $line";
-    }
-  }
-}
-close $mismatches;
-}
 
 my $id_counter = PomBase::Chado::IdCounter->new(chado => $chado,
                                                 config => $config);

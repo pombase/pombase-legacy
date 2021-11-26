@@ -365,11 +365,6 @@ db_dest_tables:
 
 taxonid: 4896
 
-allowed_unknown_term_names_files:
-  - /var/pomcur/sources/pombe-embl/chado_load_mappings/cumulative_unknown_term_name_ok.txt
-allowed_term_mismatches_files:
-  - /var/pomcur/sources/pombe-embl/chado_load_mappings/cumulative_ID_ok_mismatches.txt
-  - /var/pomcur/sources/pombe-embl/chado_load_mappings/cumulative_name_ok_mismatches.txt
 
 # This allows species to merged into a parent taxa when loading.  For
 # example when loading annotation from GOA into PomBase we can merge
