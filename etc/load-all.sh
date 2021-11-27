@@ -158,7 +158,8 @@ $POMBASE_LEGACY/etc/process-log.pl $log_file
 # See: https://github.com/pombase/pombase-chado/issues/861
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf \
     --load-qualifiers --load-column-17 \
-    "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/legacy_go_annotations_from_contigs.txt
+    "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/legacy_go_annotations_from_contigs.txt \
+    > $log_file.legacy_go_from_contigs
 
 echo loading features without coordinates
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml features \
@@ -608,6 +609,7 @@ $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml ontology --con
 (cd $SOURCES/pombase; ln -sf $POMBASE_TERMS pombase_terms-latest.obo)
 
 cp $LOG_DIR/$log_file.gaf-load-output $CURRENT_BUILD_DIR/logs/
+cp $LOG_DIR/$log_file.legacy_go_from_contigs $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.biogrid-load-output $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.compara_orths $CURRENT_BUILD_DIR/logs/$log_file.compara-orth-load-output
 cp $LOG_DIR/$log_file.manual_multi_orths $CURRENT_BUILD_DIR/logs/$log_file.manual-multi-orths-output
