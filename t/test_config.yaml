@@ -729,7 +729,7 @@ data:
             name: condition
             cv:
               name: feature_cvtermprop_type
-          value: PECO:0000005
+          value: FYECO:0000005
         - type:
             name: penetrance
             cv:

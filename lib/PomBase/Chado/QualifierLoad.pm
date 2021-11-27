@@ -720,7 +720,7 @@ sub move_condition_qual {
   if (defined $ex && $ex =~ /^condition\((.*)\)$/) {
     my $termid = $1;
 
-    if ($termid !~ /PECO:/) {
+    if ($termid !~ /FYECO:/) {
       die "condition '$termid' isn't a PECO term ID\n";
     }
 
@@ -748,7 +748,7 @@ sub add_pubmed_20519959_conditions {
 
   my $cvterm_name = $feature_cvterm->cvterm()->name();
   return unless $cvterm_name eq 'inviable' || $cvterm_name eq 'viable';
-  my @conditions = qw(PECO:0000012 PECO:0000005 PECO:0000090);
+  my @conditions = qw(FYECO:0000012 FYECO:0000005 FYECO:0000090);
 
   my @props = $feature_cvterm->feature_cvtermprops();
   my $max_rank = 0;
