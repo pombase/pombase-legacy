@@ -1022,21 +1022,30 @@ check_chado:
       description: "'with' values that have an unsupported DB prefix"
       expected: 0
       query: |
-         SELECT distinct substring(value FROM '(.*):.*') AS with_db_prefix,
-            (SELECT value FROM feature_cvtermprop p2
-             JOIN cvterm p2t ON p2.type_id = p2t.cvterm_id
-             WHERE p2t.name = 'canto_session' AND p.feature_cvterm_id = p2.feature_cvterm_id) AS SESSION,
-                 pub.uniquename AS pubmed_id
-          FROM feature_cvtermprop p
-          JOIN cvterm t ON p.type_id = t.cvterm_id
-          JOIN feature_cvterm fc ON fc.feature_cvterm_id = p.feature_cvterm_id
-          JOIN pub ON pub.pub_id = fc.pub_id
-          WHERE t.name = 'with'
-            AND substring(value FROM '(.*):.*')
-                NOT IN ('AGI_LocusCode', 'CBS', 'CGD', 'dictyBase', 'EC', 'ECOGENE', 'FB', 'GO',
-                        'HGNC', 'InterPro', 'MGI', 'MGI:MGI', 'PANTHER', 'PDB', 'Pfam', 'PomBase', 'RGD',
-                        'SGD', 'SUPERFAMILY', 'TAIR', 'TAIR:locus', 'UniPathway', 'UniProtKB', 'UniProtKB-KW',
-                        'UniProtKB-SubCell', 'UniRule', 'WB', 'ZFIN', 'JaponicusDB');
+         WITH split_dbxrefs AS
+           (SELECT fc.feature_cvterm_id,
+                   unnest(regexp_split_to_array(p.value, ',')) AS value
+            FROM feature_cvtermprop p
+            JOIN cvterm t ON p.type_id = t.cvterm_id
+            JOIN feature_cvterm fc ON fc.feature_cvterm_id = p.feature_cvterm_id
+            WHERE t.name = 'with')
+         SELECT
+           (SELECT value
+            FROM feature_cvtermprop p2
+            JOIN cvterm p2t ON p2.type_id = p2t.cvterm_id
+            WHERE p2t.name = 'canto_session'
+              AND split_dbxrefs.feature_cvterm_id = p2.feature_cvterm_id) AS SESSION,
+                pub.uniquename AS pubmed_id,
+                split_dbxrefs.value
+         FROM feature_cvterm fc
+         JOIN split_dbxrefs ON split_dbxrefs.feature_cvterm_id = fc.feature_cvterm_id
+         JOIN pub ON pub.pub_id = fc.pub_id
+         WHERE substring(split_dbxrefs.value
+            FROM '(.*):.*') NOT IN
+               ('AGI_LocusCode', 'CBS', 'CGD', 'dictyBase', 'EC', 'ECOGENE', 'FB', 'GO',
+                'HGNC', 'InterPro', 'MGI', 'MGI:MGI', 'PANTHER', 'PDB', 'Pfam', 'PomBase',
+                'RGD', 'SGD', 'SUPERFAMILY', 'TAIR', 'TAIR:locus', 'UniPathway', 'UniProtKB',
+                'UniProtKB-KW', 'UniProtKB-SubCell', 'UniRule', 'WB', 'ZFIN', 'JaponicusDB');
     - name: prop_values_with_missing_terms
       verbose_fail: true
       description: "relation ranges / annotation properties where the term is missing from the database, eg. from(...) or column_17(...)"
