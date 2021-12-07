@@ -1154,6 +1154,73 @@ check_chado:
           WHERE (fc.base_cv_name = 'cellular_component' OR fc.base_cv_name = 'biological_process' OR fc.base_cv_name = 'molecular_function')
           GROUP BY f.uniquename, gene.name, cvterm_name, evidence, pub.uniquename, afp.value, with_prop, session
          HAVING count(fc.feature_cvterm_id) > 1;
+    - name: unknown_allele_name_synonym_matches
+      verbose_fail: true
+      description: "cases where unknown alleles have a name or synonym in common, which should be merged"
+      github_issue: https://github.com/pombase/pombase-chado/issues/890
+      expected: 0
+      query: |
+        WITH unknown_allele_features AS
+          (SELECT f.feature_id
+           FROM feature f
+           JOIN cvterm t ON f.type_id = t.cvterm_id
+           JOIN featureprop allele_type_prop ON allele_type_prop.feature_id = f.feature_id
+           JOIN cvterm allele_type_prop_type ON allele_type_prop.type_id = allele_type_prop_type.cvterm_id
+           WHERE t.name = 'allele'
+             AND allele_type_prop_type.name = 'allele_type'
+             AND allele_type_prop.value = 'unknown'),
+             names_and_synonyms AS
+          (SELECT allele.feature_id AS allele_feature_id,
+                  'name' AS name_type,
+                  gene.uniquename AS gene_uniquename,
+                  allele.uniquename AS allele_uniquename,
+                  allele.name AS allele_name,
+                  allele.name AS allele_name_or_synonym,
+                  array_to_string(array (SELECT value
+                                     FROM featureprop p
+                                     WHERE p.feature_id = allele.feature_id AND p.type_id in
+                                         (SELECT cvterm_id FROM cvterm WHERE name = 'canto_session')), ',')
+                               AS canto_session
+           FROM feature allele
+           JOIN feature_relationship rel ON rel.subject_id = allele.feature_id
+           JOIN feature gene ON gene.feature_id = rel.object_id
+           JOIN cvterm rel_type ON rel.type_id = rel_type.cvterm_id
+           WHERE rel_type.name = 'instance_of'
+             AND allele.feature_id in
+               (SELECT feature_id
+                FROM unknown_allele_features)
+           UNION SELECT allele.feature_id AS allele_feature_id,
+                        'synonym' AS name_type,
+                        gene.uniquename AS gene_uniquename,
+                        allele.uniquename AS allele_uniquename,
+                        allele.name AS allele_name,
+                        s.name AS allele_name_or_synonym,
+                        array_to_string(array (SELECT value
+                                           FROM featureprop p
+                                           WHERE p.feature_id = allele.feature_id AND p.type_id in
+                                               (SELECT cvterm_id FROM cvterm WHERE name = 'canto_session')), ',')
+                                   AS canto_session
+           FROM feature allele
+           JOIN feature_relationship rel ON rel.subject_id = allele.feature_id
+           JOIN feature gene ON gene.feature_id = rel.object_id
+           JOIN cvterm rel_type ON rel.type_id = rel_type.cvterm_id
+           JOIN feature_synonym fs ON fs.feature_id = allele.feature_id
+           JOIN SYNONYM s ON s.synonym_id = fs.synonym_id
+           WHERE rel_type.name = 'instance_of'
+             AND allele.feature_id in
+               (SELECT feature_id FROM unknown_allele_features)),
+             duplcate_names AS
+          (SELECT allele_name_or_synonym
+           FROM names_and_synonyms
+           GROUP BY gene_uniquename, allele_name_or_synonym
+           HAVING count(allele_uniquename) > 1)
+        SELECT allele_name,
+               gene_uniquename,
+               dups.allele_name_or_synonym AS duplicate,
+               name_type AS TYPE,
+               canto_session
+        FROM duplcate_names dups
+        JOIN names_and_synonyms ON dups.allele_name_or_synonym = names_and_synonyms.allele_name_or_synonym;
     - name: duplicate_allele_descriptions
       verbose_fail: true
       description: "alleles with the same description that have different names"
