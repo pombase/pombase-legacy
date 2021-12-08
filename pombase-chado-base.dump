@@ -61820,6 +61820,7 @@ COPY public.cvterm (cvterm_id, cv_id, name, definition, dbxref_id, is_obsolete, 
 45	5	is_a	\N	45	0	1
 48	10	cv_version	\N	47	0	0
 49	11	replaced_by	\N	48	0	0
+50	11	consider	\N	49	0	0
 \.
 
 
@@ -61899,6 +61900,7 @@ COPY public.dbxref (dbxref_id, db_id, accession, version, description) FROM stdi
 46	1	NCBI Taxonomy id		\N
 47	3	cv_version		\N
 48	3	replaced_by		\N
+49	3	consider		\N
 \.
 
 
