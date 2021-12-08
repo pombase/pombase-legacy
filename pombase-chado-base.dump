@@ -65048,7 +65048,7 @@ SELECT pg_catalog.setval('public.cvprop_cvprop_id_seq', 1, false);
 -- Name: cvterm_cvterm_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kmr44
 --
 
-SELECT pg_catalog.setval('public.cvterm_cvterm_id_seq', 49, true);
+SELECT pg_catalog.setval('public.cvterm_cvterm_id_seq', 50, true);
 
 
 --
@@ -65097,7 +65097,7 @@ SELECT pg_catalog.setval('public.db_db_id_seq', 3, true);
 -- Name: dbxref_dbxref_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kmr44
 --
 
-SELECT pg_catalog.setval('public.dbxref_dbxref_id_seq', 48, true);
+SELECT pg_catalog.setval('public.dbxref_dbxref_id_seq', 49, true);
 
 
 --
