@@ -1264,6 +1264,18 @@ check_chado:
            AND a2_prop_type.name = 'description'
            AND allele1_prop.value = allele2_prop.value
            AND allele1_prop.value <> 'unknown';
+    - name: species_dist_term_name_typos
+      verbose_fail: true
+      description: "Check that we have the correct number of species distribution terms; too many means there are typos somewhere"
+      github_issue: "https://github.com/pombase/pombase-chado/issues/705"
+      expected: 14
+      query: |
+         SELECT t.name, count(fc.feature_cvterm_id)
+         FROM cvterm t
+         JOIN feature_cvterm fc ON fc.cvterm_id = t.cvterm_id
+         JOIN cv ON t.cv_id = cv.cv_id
+         WHERE cv.name = 'species_dist'
+         GROUP BY t.name order by t.name;
 
 external_sources:
   pubmed_efetch_url: 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmode=xml&retmax=99999&id='
