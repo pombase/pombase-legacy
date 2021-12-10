@@ -61821,6 +61821,7 @@ COPY public.cvterm (cvterm_id, cv_id, name, definition, dbxref_id, is_obsolete, 
 48	10	cv_version	\N	47	0	0
 49	11	replaced_by	\N	48	0	0
 50	11	consider	\N	49	0	0
+51	11	pro_gene_id	\N	50	0	0
 \.
 
 
@@ -61901,6 +61902,7 @@ COPY public.dbxref (dbxref_id, db_id, accession, version, description) FROM stdi
 47	3	cv_version		\N
 48	3	replaced_by		\N
 49	3	consider		\N
+50	3	pro_gene_id		\N
 \.
 
 
@@ -65048,7 +65050,7 @@ SELECT pg_catalog.setval('public.cvprop_cvprop_id_seq', 1, false);
 -- Name: cvterm_cvterm_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kmr44
 --
 
-SELECT pg_catalog.setval('public.cvterm_cvterm_id_seq', 50, true);
+SELECT pg_catalog.setval('public.cvterm_cvterm_id_seq', 51, true);
 
 
 --
@@ -65097,7 +65099,7 @@ SELECT pg_catalog.setval('public.db_db_id_seq', 3, true);
 -- Name: dbxref_dbxref_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kmr44
 --
 
-SELECT pg_catalog.setval('public.dbxref_dbxref_id_seq', 49, true);
+SELECT pg_catalog.setval('public.dbxref_dbxref_id_seq', 50, true);
 
 
 --
