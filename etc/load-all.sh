@@ -485,6 +485,10 @@ $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml \
    add-missing-allele-names \
    "$HOST" $DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.add-missing-allele-names
 
+echo "fix allele names that don't have a gene name prefix"
+$POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml fix-allele-names \
+   "$HOST" $DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.fix-allele-names
+
 echo update out of date allele names
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml update-allele-names "$HOST" $DB $USER $PASSWORD
 
@@ -628,6 +632,7 @@ cp $LOG_DIR/$log_file.excluded_fypo_terms_softcheck $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.excluded_fypo_terms $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.go-term-mapping $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.add-missing-allele-names $CURRENT_BUILD_DIR/logs/
+cp $LOG_DIR/$log_file.fix-allele-names $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.go-filter-uniprot-duplicates $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.chado_checks* $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.allele-synonyms $CURRENT_BUILD_DIR/logs/
