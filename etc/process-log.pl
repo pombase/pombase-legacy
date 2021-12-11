@@ -12,14 +12,13 @@ open my $ortholog_problems, '>', 'ortholog_problems.txt' or die;
 open my $qual_problems, '>', 'qualifier_problems.txt' or die;
 open my $unknown_cv_names, '>', 'unknown_cv_names.txt' or die;
 open my $mapping_problems, '>', 'mapping_problems.txt' or die;
-open my $cv_name_mismatches, '>', 'cv_name_mistaches.txt' or die;
+open my $cv_name_mismatches, '>', 'cv_name_mismatches.txt' or die;
 open my $pseudogene_mismatches, '>', 'pseudogene_mismatches.txt' or die;
 open my $synonym_match_problems, '>', 'synonym_match_problems.txt' or die;
 open my $duplicated_sub_qual_problems, '>', 'duplicated_sub_qual_problems.txt' or die;
 open my $target_problems, '>', 'target_problems.txt' or die;
 open my $evidence_problems, '>', 'evidence_problems.txt' or die;
 open my $db_xref_problems, '>', 'db_xref_problems.txt' or die;
-open my $identifier_problems, '>', 'identifier_problems.txt' or die;
 open my $missing_products, '>', 'missing_products.txt' or die;
 open my $feature_warnings, '>', 'feature_warnings.txt' or die;
 open my $misc_term_warnings, '>', 'misc_term_warnings.txt' or die;
@@ -140,15 +139,6 @@ while (defined (my $line = <>)) {
   if ($line =~ /no evidence for: |no such evidence code: /) {
     print $all_warnings $line;
     print $evidence_problems "$gene: $line";
-    next;
-  }
-  if ($line =~ /(can't find feature .*)/ && $line !~ /skipping|warning in [0-9a-f]+/) {
-    print $all_warnings "$1\n";
-    if (defined $gene && length $gene > 0) {
-      print $identifier_problems "$gene: $1\n";
-    } else {
-      print $identifier_problems "$line";
-    }
     next;
   }
   if ($line =~ m:A CDS/transcript was referenced but|has no uniquename|gene name contains whitespace|no SO type for:) {
