@@ -1112,7 +1112,7 @@ check_chado:
              (SELECT cvterm_id
               FROM cvterm
               WHERE name = 'gene_product_form_id')
-    - name: badly_foramtted_pro_ids
+    - name: badly_formatted_pro_ids
       verbose_fail: true
       description: "Badly formatted PRO IDs"
       github_issue: "https://github.com/geneontology/neo/issues/74"
