@@ -373,7 +373,9 @@ sub store_product {
       if (length $products[0] == 0) {
         warn "  zero length product for $uniquename\n" unless $self->quiet();
       } else {
-        $self->qual_load()->process_product($chado_feature, $products[0]);
+        my $feat_type = $bioperl_feature->primary_tag();
+        $self->qual_load()->process_product($chado_feature, $feat_type,
+                                            $products[0]);
       }
     }
   }

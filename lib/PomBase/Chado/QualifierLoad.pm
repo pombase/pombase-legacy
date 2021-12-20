@@ -1143,10 +1143,16 @@ sub process_one_go_qual {
 sub process_product {
   my $self = shift;
   my $chado_feature = shift;
+  my $feat_type = shift;
   my $product = shift;
 
   if ($product =~ /\([^\)]*$|^[^\(]*\)/) {
     warn "unbalanced parenthesis in product: $product\n" unless $self->quiet();
+  }
+
+  if ($feat_type eq 'CDS') {
+    # see: https://github.com/pombase/curation/issues/3126
+    $product =~ s/\s*\(predicted\)\s*$//;
   }
 
   $self->add_term_to_gene($chado_feature, 'PomBase gene products',
