@@ -2,7 +2,8 @@
 
 # retreive basic gene information from SGD as a tab-delimited file
 
-# The following two lines will be needed in every python script:
+# needs InterMine Python module: pip3 install intermine
+
 from intermine.webservice import Service
 service = Service("https://yeastmine.yeastgenome.org/yeastmine/service")
 
