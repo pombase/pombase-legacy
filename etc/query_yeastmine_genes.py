@@ -9,6 +9,13 @@ service = Service("https://yeastmine.yeastgenome.org/yeastmine/service")
 
 import re
 
+# InterMine XML for query:
+'''
+<query name="" model="genomic" view="Gene.primaryIdentifier Gene.symbol Gene.featureType Gene.name Gene.secondaryIdentifier Gene.description" longDescription="" sortOrder="Gene.secondaryIdentifier asc">
+  <constraint path="Gene.organism.taxonId" op="=" value="4932"/>
+</query>
+'''
+
 # Get a new query on the class (table) you will be querying:
 query = service.new_query("Gene")
 
@@ -18,6 +25,8 @@ query.add_view(
     "description"
 )
 
+query.add_constraint("organism.taxonId", "=", "4932", code="A")
+
 def fix_field(el):
     if el is None:
         return ''
@@ -25,6 +34,10 @@ def fix_field(el):
         return el.replace('\n', ' ')
 
 for row in query.rows():
+    primary_identifier = row["primaryIdentifier"]
+    if primary_identifier is None:
+        continue  # probably a human gene
+
     primary_identifier = re.sub(r"^(S[0-9]{9})$", r"SGD:\1", row["primaryIdentifier"])
 
     row_list = [row["featureType"],
