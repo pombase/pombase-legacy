@@ -1276,6 +1276,29 @@ check_chado:
          JOIN cv ON t.cv_id = cv.cv_id
          WHERE cv.name = 'species_dist'
          GROUP BY t.name order by t.name;
+    - name: exists_during_extensions_not_in_cell_cycle_phase
+      verbose_fail: true
+      description: "Check for exists_during() extensions where the range of the relation isn't in the cell cycle phase part of GO"
+      github_issue: https://github.com/pombase/pombase-chado/issues/905
+      expected: 0
+      query: |
+         SELECT DISTINCT f.uniquename,
+                         t.name
+         FROM feature_cvterm fc
+         JOIN feature f ON f.feature_id = fc.feature_id
+         JOIN cvterm t ON t.cvterm_id = fc.cvterm_id
+         JOIN cvterm_relationship ext_rel ON ext_rel.subject_id = t.cvterm_id
+         JOIN cvterm ext_rel_type ON ext_rel.type_id = ext_rel_type.cvterm_id
+         JOIN cvterm obj ON ext_rel.object_id = obj.cvterm_id
+         WHERE ext_rel_type.name = 'exists_during'
+           AND obj.cvterm_id not in
+             (SELECT subject_id
+              FROM cvtermpath p
+              JOIN cvterm o ON p.object_id = o.cvterm_id
+              JOIN cvterm pt ON p.type_id = pt.cvterm_id
+              WHERE pt.name = 'is_a'
+                AND o.name = 'cell cycle phase')
+         ORDER BY t.name;
 
 external_sources:
   pubmed_efetch_url: 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmode=xml&retmax=99999&id='
