@@ -1298,7 +1298,7 @@ check_chado:
               JOIN cvterm o ON p.object_id = o.cvterm_id
               JOIN cvterm pt ON p.type_id = pt.cvterm_id
               WHERE pt.name = 'is_a'
-                AND o.name = 'cell cycle phase')
+                AND (o.name = 'biological phase' OR o.name = 'response to stimulus'))
          ORDER BY t.name;
     - name: happens_during_extensions_not_in_cell_cycle_phase
       verbose_fail: true
@@ -1321,7 +1321,7 @@ check_chado:
               JOIN cvterm o ON p.object_id = o.cvterm_id
               JOIN cvterm pt ON p.type_id = pt.cvterm_id
               WHERE pt.name = 'is_a'
-                AND o.name = 'cell cycle phase')
+                AND (o.name = 'biological phase' OR o.name = 'response to stimulus'))
          ORDER BY t.name;
 
 external_sources:
