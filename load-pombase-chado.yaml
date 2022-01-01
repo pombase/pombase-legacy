@@ -1152,6 +1152,7 @@ check_chado:
            LEFT OUTER JOIN feature_cvtermprop afp ON afp.feature_cvterm_id = fc.feature_cvterm_id and afp.type_id = (select cvterm_id from cvterm where name = 'gene_product_form_id')
            LEFT OUTER JOIN feature_cvtermprop withp ON withp.feature_cvterm_id = fc.feature_cvterm_id and withp.type_id = (select cvterm_id from cvterm where name = 'with')
           WHERE (fc.base_cv_name = 'cellular_component' OR fc.base_cv_name = 'biological_process' OR fc.base_cv_name = 'molecular_function')
+            AND rel.type_id IN (SELECT cvterm_id FROM cvterm WHERE name = 'part_of')
           GROUP BY f.uniquename, gene.name, cvterm_name, evidence, pub.uniquename, afp.value, with_prop, session
          HAVING count(fc.feature_cvterm_id) > 1;
     - name: unknown_allele_name_synonym_matches
