@@ -291,6 +291,12 @@ sub process {
   my $chromosome = shift;
 
   my $feat_type = $feature->primary_tag();
+
+  if ($feat_type eq 'source') {
+    # ignore
+    return;
+  }
+
   my $so_type = $feature_loader_conf{$feat_type}->{so_type};
 
   if (!defined $so_type) {
