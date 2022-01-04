@@ -24,7 +24,8 @@ open my $misc_term_warnings, '>', 'misc_term_warnings.txt' or die;
 open my $all_warnings, '>', 'all_warnings.txt' or die;
 
 my $prev_line = '';
-my $gene = '';
+my $file = '';
+my $gene_or_file = '';
 
 my @qual_patterns = (
   'no allele qualifier for phenotype',
@@ -64,70 +65,76 @@ my $qual_pattern = join '|', @qual_patterns;
 while (defined (my $line = <>)) {
   if ($line =~ /ID in EMBL file/) {
     print $all_warnings "$line";
-    print $name_mismatches "$gene: $line";
+    print $name_mismatches "$gene_or_file: $line";
     next;
   }
   if ($line =~ /found cvterm by ID/) {
     print $all_warnings "$line";
-    print $unknown_term_names "$gene: $line";
+    print $unknown_term_names "$gene_or_file: $line";
     next;
   }
   if ($line =~ /failed to create ortholog|ortholog.*not found|failed to create paralog/) {
     print $all_warnings "$line";
-    print $ortholog_problems "$gene: $line";
+    print $ortholog_problems "$gene_or_file: $line";
     next;
   }
   if ($line =~ /didn't process: /) {
     print $all_warnings "$line";
     chomp $prev_line;
     chomp $line;
-    print $qual_problems "$gene: $line  - error: $prev_line\n";
+    print $qual_problems "$gene_or_file: $line  - error: $prev_line\n";
     next;
   }
   if ($line =~ /CV name not recognised/) {
     print $all_warnings "$line";
-    print $unknown_cv_names "$gene: $line";
+    print $unknown_cv_names "$gene_or_file: $line";
     next;
   }
   if ($line =~ /^no db_xref for/) {
     print $all_warnings $line;
-    print $db_xref_problems "$gene: $line";
+    print $db_xref_problems "$gene_or_file: $line";
     next;
   }
   if ($line =~ /$qual_pattern/) {
     print $all_warnings "$line";
-    print $qual_problems "$gene: $line";
+    print $qual_problems "$gene_or_file: $line";
     next;
   }
   if ($line =~ /can't find new term for .* in mapping/) {
     print $all_warnings "$line";
-    print $mapping_problems "$gene: $line";
+    print $mapping_problems "$gene_or_file: $line";
     next;
   }
   if ($line =~ /^(processing|finalising) (\S+\s+\S+)/) {
-    $gene = $2;
+    $gene_or_file = $2;
     next;
   }
+  if ($line =~ m|reading from: .*/(.*)|) {
+    $file = $1;
+    $gene_or_file = $1;
+    next;
+  }
+
   if ($line =~ /duplicated sub-qualifier '(.*)'/) {
     $line =~ s/^\s+//;
     $line =~ s/\s*from:\s*//;
     print $all_warnings "$line\n";
-    print $duplicated_sub_qual_problems "$gene: $line\n";
+    print $duplicated_sub_qual_problems "$gene_or_file: $line\n";
     next;
   }
   if ($line =~ /cv_name .* doesn't match start of term .*/) {
     print $all_warnings "$line";
-    print $cv_name_mismatches "$gene: $line";
+    print $cv_name_mismatches "$gene_or_file: $line";
     next;
   }
   if ($line =~ m! has /colour=13 but isn't a pseudogene!) {
     print $all_warnings $line;
-    print $pseudogene_mismatches "$gene: $line";
+    print $pseudogene_mismatches "$gene_or_file: $line";
     next;
   }
   if ($line =~ /more than one cvtermsynonym found for (.*) at .*/) {
     print $all_warnings $line;
-    print $synonym_match_problems qq($gene: "$1" matches more than one term\n);
+    print $synonym_match_problems qq($gene_or_file: "$1" matches more than one term\n);
     next;
   }
   if ($line =~ /problem with .*target|problem (with target annotation of|on gene)|no "target .*" in /) {
@@ -137,18 +144,23 @@ while (defined (my $line = <>)) {
   }
   if ($line =~ /no evidence for: |no such evidence code: /) {
     print $all_warnings $line;
-    print $evidence_problems "$gene: $line";
+    print $evidence_problems "$gene_or_file: $line";
     next;
   }
-  if ($line =~ m:A CDS/transcript was referenced but|has no uniquename|gene name contains whitespace|no SO type for:) {
+  if ($line =~ m:A CDS/transcript was referenced but|has no uniquename|gene name contains whitespace:) {
     print $all_warnings $line;
-    print $feature_warnings "$gene: $line";
+    print $feature_warnings "$gene_or_file: $line";
+    next;
+  }
+  if ($line =~ m:no SO type for:) {
+    print $all_warnings "$file: $line";
+    print $feature_warnings "$file: $line";
     next;
   }
   if ($line =~ /GOid doesn't start with/ ||
      $line =~ /no GOid for/) {
     print $all_warnings $line;
-    print $misc_term_warnings "$gene: $line";
+    print $misc_term_warnings "$gene_or_file: $line";
     next;
   }
 
