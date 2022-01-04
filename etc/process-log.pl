@@ -21,7 +21,7 @@ open my $evidence_problems, '>', 'evidence_problems.txt' or die;
 open my $db_xref_problems, '>', 'db_xref_problems.txt' or die;
 open my $feature_warnings, '>', 'feature_warnings.txt' or die;
 open my $misc_term_warnings, '>', 'misc_term_warnings.txt' or die;
-open my $all_warnings, '>', 'all_warnings.txt' or die;
+open my $all_warnings, '>', 'all_contig_warnings.txt' or die;
 
 my $prev_line = '';
 my $file = '';
