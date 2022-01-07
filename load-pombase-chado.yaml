@@ -1338,7 +1338,7 @@ check_chado:
                         FROM cvterm
                         WHERE name = 'canto_session')), ',') AS canto_session,
                 allele.name AS allele_name,
-                gene.name AS gene_name
+                gene.name AS gene_name, gene.uniquename as gene_uniquename
          FROM feature allele
          JOIN feature_relationship rel ON rel.subject_id = allele.feature_id
          JOIN cvterm rel_type ON rel.type_id = rel_type.cvterm_id
