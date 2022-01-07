@@ -258,7 +258,8 @@ echo starting import of GAF data
 for gaf_file in go_comp.txt go_proc.txt go_func.txt From_curation_tool GO_ORFeome_localizations2.txt GO-0070647_gap_filling.gaf.txt GO-0023052_gap_filling.gaf.txt PMID_*_gaf.tsv
 do
   echo reading $gaf_file
-  $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf --assigned-by-filter=PomBase "$HOST" $DB $USER $PASSWORD < $gaf_file
+
+  $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf "$HOST" $DB $USER $PASSWORD < $gaf_file
 
   echo counts:
   evidence_summary $DB
