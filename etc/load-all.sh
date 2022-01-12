@@ -39,6 +39,8 @@ USER_AGENT_FOR_EBI='Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13)
 
 (cd $SOURCES/pombe-embl/; svn update || exit 1)
 
+(cd $SOURCES/go-site/; git pull || exit 1)
+
 (cd ~/git/pombase-legacy
  export PATH=$HOME/chobo/script/:/usr/local/owltools-v0.3.0-74-gee0f8bbd/OWLTools-Runner/bin/:$PATH
  export CHADO_CLOSURE_TOOL=$HOME/git/pombase-chado/script/relation-graph-chado-closure.pl
