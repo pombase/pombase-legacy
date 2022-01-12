@@ -1045,7 +1045,8 @@ check_chado:
                ('AGI_LocusCode', 'CBS', 'CGD', 'dictyBase', 'EC', 'ECOGENE', 'FB', 'GO',
                 'HGNC', 'InterPro', 'MGI', 'MGI:MGI', 'PANTHER', 'PDB', 'Pfam', 'PomBase',
                 'RGD', 'SGD', 'SUPERFAMILY', 'TAIR', 'TAIR:locus', 'UniPathway', 'UniProtKB',
-                'UniProtKB-KW', 'UniProtKB-SubCell', 'UniRule', 'WB', 'ZFIN', 'JaponicusDB');
+                'UniProtKB-KW', 'UniProtKB-SubCell', 'UniRule', 'WB', 'ZFIN', 'JaponicusDB',
+                'RHEA');
     - name: prop_values_with_missing_terms
       verbose_fail: true
       description: "relation ranges / annotation properties where the term is missing from the database, eg. from(...) or column_17(...)"
