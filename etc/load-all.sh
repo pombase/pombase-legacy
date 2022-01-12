@@ -511,6 +511,10 @@ $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter-dup
    --primary-assigner=PomBase --secondary-assigner=UniProt \
    "$HOST" $DB $USER $PASSWORD > $LOG_DIR/$log_file.go-filter-uniprot-duplicates
 
+$POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter-duplicate-assigner \
+   --primary-assigner=PomBase --secondary-assigner=IntAct \
+   "$HOST" $DB $USER $PASSWORD > $LOG_DIR/$log_file.go-filter-intact-duplicates
+
 pg_dump $DB | gzip -5 > /tmp/pombase-chado-before-go-filter.dump.gz
 
 echo
