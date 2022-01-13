@@ -93,6 +93,10 @@ echo loading PB refs
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml references-file \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/PB_references.txt
 
+echo loading GO refs parsed from go-site/metadata/gorefs/
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml references-file \
+    "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/go_references.txt
+
 
 echo loading human genes
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml features \
