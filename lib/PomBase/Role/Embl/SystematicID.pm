@@ -101,8 +101,10 @@ sub get_uniquename {
 
 #  warn "BEFORE $so_type - systematic_id: $systematic_id\n";
 
-  if ($is_transcript && $systematic_id !~ /\.\d$/) {
-    $systematic_id .= '.1';
+  if ($is_transcript) {
+    if ($systematic_id =~ /^SPNCRNA\.\d+$/ || $systematic_id !~ /\.\d$/) {
+      $systematic_id .= '.1';
+    }
   }
 
 #  warn "AFTER $so_type - systematic_id: $systematic_id\n";

@@ -682,7 +682,8 @@ sub store_transcript_parts {
   my $introns = shift;
 
   my $uniquename = ($bioperl_cds->get_tag_values('systematic_id'))[0];
-  if ($uniquename !~ /\.\d$/) {
+
+  if ($uniquename !~ /\.\d$/ || $uniquename =~ /^SPNCRNA\.\d+$/) {
     $uniquename .= '.1';
   }
 
