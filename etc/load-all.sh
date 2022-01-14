@@ -644,7 +644,7 @@ cp $LOG_DIR/$log_file.excluded_fypo_terms $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.go-term-mapping $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.add-missing-allele-names $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.fix-allele-names $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.go-filter-uniprot-duplicates $CURRENT_BUILD_DIR/logs/
+cp $LOG_DIR/$log_file.go-filter-*-duplicates $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.chado_checks* $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.allele-synonyms-from-supporting-data $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.allele-comments-from-supporting-data $CURRENT_BUILD_DIR/logs/
