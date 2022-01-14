@@ -151,6 +151,8 @@ cvs:
     - name: canto_session_submitted_date
     - name: canto_message_for_curators
     - name: canto_experiment_type
+    - name: authors
+    - name: abstract
     - name: pubmed_publication_date
     - name: pubmed_electronic_publication_date
     - name: pubmed_entrez_date
