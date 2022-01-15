@@ -1354,9 +1354,8 @@ check_chado:
            AND allele_type_prop_type.name = 'allele_type'
            AND (allele_type_prop.value = 'amino_acid_mutation'
                 OR allele_type_prop.value = 'nucleotide_mutation')
-           AND NOT starts_with(allele.name, gene.name);
+           AND allele.name NOT like gene.name || '%';
 
-      
 
 external_sources:
   pubmed_efetch_url: 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmode=xml&retmax=99999&id='
