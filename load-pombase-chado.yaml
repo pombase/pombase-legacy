@@ -36,6 +36,7 @@ cvs:
     - name: ena_id
       definition: The European Nucleotide Archive ID of the feature.
     - genotype_background
+    - genotype_comment
     - genotype_display_name
     - molecular_weight
     - average_residue_weight
