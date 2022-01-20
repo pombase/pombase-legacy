@@ -1287,7 +1287,11 @@ check_chado:
       github_issue: https://github.com/pombase/pombase-chado/issues/905
       expected: 0
       query: |
-         SELECT DISTINCT f.uniquename,
+         SELECT DISTINCT (SELECT value FROM feature_cvtermprop p
+                             WHERE p.feature_cvterm_id = fc.feature_cvterm_id
+                               AND p.type_id IN (SELECT cvterm_id
+                                     FROM cvterm WHERE name = 'canto_session')) AS session,
+                         f.uniquename,
                          t.name
          FROM feature_cvterm fc
          JOIN feature f ON f.feature_id = fc.feature_id
@@ -1310,7 +1314,11 @@ check_chado:
       github_issue: https://github.com/pombase/pombase-chado/issues/905
       expected: 0
       query: |
-         SELECT DISTINCT f.uniquename,
+         SELECT DISTINCT (SELECT value FROM feature_cvtermprop p
+                             WHERE p.feature_cvterm_id = fc.feature_cvterm_id
+                               AND p.type_id IN (SELECT cvterm_id
+                                     FROM cvterm WHERE name = 'canto_session')) AS session,
+                         f.uniquename,
                          t.name
          FROM feature_cvterm fc
          JOIN feature f ON f.feature_id = fc.feature_id
