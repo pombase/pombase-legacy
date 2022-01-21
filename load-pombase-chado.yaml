@@ -1364,6 +1364,23 @@ check_chado:
            AND (allele_type_prop.value = 'amino_acid_mutation'
                 OR allele_type_prop.value = 'nucleotide_mutation')
            AND allele.name NOT like gene.name || '%';
+    - name: unnamed_unrecorded_alleles
+      verbose_fail: true
+      description: "Check for alleles with no name and no recorded description"
+      github_issue: https://github.com/pombase/pombase-chado/issues/921
+      expected: 0
+      query: |
+         SELECT f.uniquename
+         FROM featureprop desc_p
+         JOIN feature f ON desc_p.feature_id = f.feature_id
+         JOIN cvterm t ON t.cvterm_id = f.type_id
+         WHERE t.name = 'allele'
+           AND f.name IS NULL
+           AND desc_p.type_id in
+             (SELECT cvterm_id
+              FROM cvterm
+              WHERE name = 'description')
+           AND desc_p.value = 'unrecorded';
 
 
 external_sources:
