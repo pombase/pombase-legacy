@@ -546,6 +546,7 @@ evidence_types:
   'Substance quantification': ~
   'Substance quantification evidence': ~
   'Plasmid maintenance assay evidence': ~
+  'Proximity Label-MS': ~
   'FPR':
     name: fitness profiling
     definition: "ECO term name is 'competitive growth assay evidence' (ECO:0000336)"
