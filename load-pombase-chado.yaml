@@ -1382,6 +1382,30 @@ check_chado:
               FROM cvterm
               WHERE name = 'description')
            AND desc_p.value = 'unrecorded';
+    - name: unnamed_alleles
+      verbose_fail: true
+      description: "Check for alleles with no name"
+      github_issue:
+      expected: 0
+      query: |
+         SELECT DISTINCT allele.uniquename,
+           (SELECT value FROM featureprop p
+            WHERE p.feature_id = allele.feature_id
+              AND p.type_id in (SELECT cvterm_id
+                                  FROM cvterm
+                                 WHERE name = 'description')) AS description,
+           (SELECT value FROM featureprop p
+            WHERE p.feature_id = allele.feature_id
+              AND p.type_id in (SELECT cvterm_id
+                                  FROM cvterm
+                                 WHERE name = 'allele_type')) AS allele_type,
+           array_to_string(array(SELECT value FROM featureprop p
+                WHERE p.feature_id = allele.feature_id AND p.type_id in
+                        (SELECT cvterm_id FROM cvterm WHERE name = 'canto_session')), ',') AS canto_session
+         FROM feature allele
+         JOIN cvterm t ON t.cvterm_id = allele.type_id
+         WHERE t.name = 'allele'
+           AND allele.name IS NULL;
 
 
 external_sources:
