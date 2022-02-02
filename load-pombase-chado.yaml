@@ -610,6 +610,8 @@ evidence_types:
     name: RNA-sequencing evidence
   'ECO:0001838':
     name: in situ hybridization evidence used in manual assertion
+  'ECO:0000116':
+    name: differential hybridization evidence
 
 suppressible_evidence_codes:
 
