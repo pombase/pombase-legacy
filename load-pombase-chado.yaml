@@ -1408,31 +1408,6 @@ check_chado:
          JOIN cvterm t ON t.cvterm_id = allele.type_id
          WHERE t.name = 'allele'
            AND allele.name IS NULL;
-    - name: allele_names_not_starting_with_gene_name
-      verbose_fail: true
-      description: "Check for allele names that don't start with the gene name"
-      github_issue: https://github.com/pombase/pombase-chado/issues/617
-      expected: 0
-      query: |
-         SELECT allele.name AS allele_name,
-                gene.name AS gene_name,
-                gene.uniquename AS gene_uniquename,
-                array_to_string(array (
-                   SELECT distinct value
-                     FROM featureprop p
-                    WHERE p.feature_id = allele.feature_id
-                      AND p.type_id in
-                        (SELECT cvterm_id FROM cvterm WHERE name = 'canto_session')), ',') AS canto_session
-         FROM feature allele
-         JOIN feature_relationship rel ON rel.subject_id = allele.feature_id
-         JOIN cvterm rel_type ON rel.type_id = rel_type.cvterm_id
-         JOIN feature gene ON rel.object_id = gene.feature_id
-         JOIN cvterm allele_type ON allele_type.cvterm_id = allele.type_id
-         WHERE rel_type.name = 'instance_of'
-           AND allele_type.name = 'allele'
-           AND allele.name IS NOT NULL
-           AND allele.name NOT like gene.name || '%';
-
 
 external_sources:
   pubmed_efetch_url: 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmode=xml&retmax=99999&id='
