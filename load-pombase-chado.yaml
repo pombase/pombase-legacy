@@ -1338,35 +1338,6 @@ check_chado:
               WHERE pt.name = 'is_a'
                 AND (o.name = 'biological phase' OR o.name = 'response to stimulus'))
          ORDER BY t.name;
-    - name: mutation_allele_names_not_starting_with_gene_name
-      verbose_fail: true
-      description: "Check for names of amino_acid_mutation and nucleotide_mutation alleles that don't start with the gene name"
-      github_issue: https://github.com/pombase/pombase-chado/issues/617
-      expected: 0
-      query: |
-         SELECT allele.name AS allele_name,
-                gene.name AS gene_name, gene.uniquename as gene_uniquename,
-                array_to_string(array
-                  (SELECT value
-                   FROM featureprop p
-                   WHERE p.feature_id = allele.feature_id
-                     AND p.type_id in
-                       (SELECT cvterm_id
-                        FROM cvterm
-                        WHERE name = 'canto_session')), ',') AS canto_session
-         FROM feature allele
-         JOIN feature_relationship rel ON rel.subject_id = allele.feature_id
-         JOIN cvterm rel_type ON rel.type_id = rel_type.cvterm_id
-         JOIN feature gene ON rel.object_id = gene.feature_id
-         JOIN cvterm allele_type ON allele_type.cvterm_id = allele.type_id
-         JOIN featureprop allele_type_prop ON allele_type_prop.feature_id = allele.feature_id
-         JOIN cvterm allele_type_prop_type ON allele_type_prop_type.cvterm_id = allele_type_prop.type_id
-         WHERE rel_type.name = 'instance_of'
-           AND allele_type.name = 'allele'
-           AND allele_type_prop_type.name = 'allele_type'
-           AND (allele_type_prop.value = 'amino_acid_mutation'
-                OR allele_type_prop.value = 'nucleotide_mutation')
-           AND allele.name NOT like gene.name || '%';
     - name: unnamed_unrecorded_alleles
       verbose_fail: true
       description: "Check for alleles with no name and no recorded description"
