@@ -798,9 +798,10 @@ auto_evidence_assignment:
   abnormal septum assembly: Microscopy
 
 check_chado:
+  module_namespace: 'PomBase::Check'
   'PomBase::Check::FeatureCount':
     min_count: 10000
-  query_checks:
+  queries:
     - name: pombe_genes
       expected: '>= 6960'
       # if true, show the result set content on failure:
@@ -1379,6 +1380,11 @@ check_chado:
          JOIN cvterm t ON t.cvterm_id = allele.type_id
          WHERE t.name = 'allele'
            AND allele.name IS NULL;
+
+qc_queries:
+  no_fail: 1
+  module_namespace: 'PomBase::QCQueries'
+  queries: []
 
 external_sources:
   pubmed_efetch_url: 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmode=xml&retmax=99999&id='
