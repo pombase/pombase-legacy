@@ -549,12 +549,12 @@ refresh_views
 
 echo
 echo running QC queries from the config file
-$POMBASE_CHADO/script/check-chado.pl ./load-pombase-chado.yaml $POMBASE_WEB_CONFIG qc_queries "$HOST" $DB $USER $PASSWORD $LOG_DIR/$log_file.qc_queries > $LOG_DIR/$log_file.qc_queries 2>&1
+$POMBASE_CHADO/script/check-chado.pl ./load-pombase-chado.yaml qc_queries $POMBASE_WEB_CONFIG "$HOST" $DB $USER $PASSWORD $LOG_DIR/$log_file.qc_queries > $LOG_DIR/$log_file.qc_queries 2>&1
 
 
 echo
 echo running consistency checks
-if $POMBASE_CHADO/script/check-chado.pl ./load-pombase-chado.yaml $POMBASE_WEB_CONFIG check_chado "$HOST" $DB $USER $PASSWORD $LOG_DIR/$log_file.chado_checks > $LOG_DIR/$log_file.chado_checks 2>&1
+if $POMBASE_CHADO/script/check-chado.pl ./load-pombase-chado.yaml check_chado $POMBASE_WEB_CONFIG "$HOST" $DB $USER $PASSWORD $LOG_DIR/$log_file.chado_checks > $LOG_DIR/$log_file.chado_checks 2>&1
 then
     CHADO_CHECKS_STATUS=passed
 else
