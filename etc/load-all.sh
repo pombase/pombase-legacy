@@ -265,7 +265,7 @@ for gaf_file in go_comp.txt go_proc.txt go_func.txt From_curation_tool GO_ORFeom
 do
   echo reading $gaf_file
 
-  $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf "$HOST" $DB $USER $PASSWORD < $gaf_file
+  $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf --ignore-synonyms "$HOST" $DB $USER $PASSWORD < $gaf_file
 
   echo counts:
   evidence_summary $DB
