@@ -835,7 +835,7 @@ mkdir $CURRENT_BUILD_DIR/pombe-embl
 (
   cd $SOURCES/pombe-embl
   cp -r *.contig external_data mini-ontologies \
-    supporting_files orthologs \
+    supporting_files orthologs chado_load_mappings \
     $CURRENT_BUILD_DIR/pombe-embl/
 )
 
