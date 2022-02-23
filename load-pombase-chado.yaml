@@ -247,6 +247,7 @@ extension_restrictions:
       - decreased_during
       - decreased_in_presence_of
       - has_direct_input
+      - in_absence_of
       - in_presence_of
       - increased_during
       - increased_in_presence_of
