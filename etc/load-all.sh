@@ -165,7 +165,7 @@ $POMBASE_LEGACY/etc/process-log.pl $log_file
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf \
     --load-qualifiers --load-column-17 \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/legacy_go_annotations_from_contigs.txt \
-    > $log_file.legacy_go_from_contigs
+    > $log_file.legacy_go_from_contigs 2>&1
 
 echo loading features without coordinates
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml features \
