@@ -160,7 +160,7 @@ log_file=log.`date +'%Y-%m-%d-%H-%M-%S'`
 
 $POMBASE_LEGACY/etc/process-log.pl $log_file
 
-pg_dump $DB | gzip -5 > /tmp/pombase-chado-after-load-chado-pl
+pg_dump $DB | gzip -5 > /tmp/pombase-chado-after-load-chado-pl.dump.gz
 
 
 # See: https://github.com/pombase/pombase-chado/issues/861
