@@ -169,6 +169,13 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/legacy_go_annotations_from_contigs.txt \
     > $log_file.legacy_go_from_contigs 2>&1
 
+# See: https://github.com/pombase/pombase-chado/issues/948
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml phaf \
+    --throughput-type='low throughput' \
+    "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/legacy_phenotype_annotations_from_contigs.phaf.tsv \
+    > $log_file.legacy_phaf_from_contigs 2>&1
+
+
 echo loading features without coordinates
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml features \
     --organism-taxonid=4896 --uniquename-column=1 --name-column=2 --feature-type=promoter \
@@ -632,6 +639,7 @@ $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml ontology --con
 
 cp $LOG_DIR/$log_file.gaf-load-output $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.legacy_go_from_contigs $CURRENT_BUILD_DIR/logs/
+cp $LOG_DIR/$log_file.legacy_phaf_from_contigs $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.biogrid-load-output $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.compara_orths $CURRENT_BUILD_DIR/logs/$log_file.compara-orth-load-output
 cp $LOG_DIR/$log_file.manual_multi_orths $CURRENT_BUILD_DIR/logs/$log_file.manual-multi-orths-output
