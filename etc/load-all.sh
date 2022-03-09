@@ -170,7 +170,7 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     > $log_file.legacy_go_from_contigs 2>&1
 
 # See: https://github.com/pombase/pombase-chado/issues/948
-$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml phaf \
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml phenotype-annotation \
     --throughput-type='low throughput' \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/legacy_phenotype_annotations_from_contigs.phaf.tsv \
     > $log_file.legacy_phaf_from_contigs 2>&1
