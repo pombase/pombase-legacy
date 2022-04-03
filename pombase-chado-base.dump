@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 13.1 (Ubuntu 13.1-1.pgdg20.04+1)
--- Dumped by pg_dump version 13.1 (Ubuntu 13.1-1.pgdg20.04+1)
+-- Dumped from database version 14.2 (Ubuntu 14.2-1.pgdg21.10+1)
+-- Dumped by pg_dump version 14.2 (Ubuntu 14.2-1.pgdg21.10+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -61821,7 +61821,7 @@ COPY public.cvterm (cvterm_id, cv_id, name, definition, dbxref_id, is_obsolete, 
 48	10	cv_version	\N	47	0	0
 49	11	replaced_by	\N	48	0	0
 50	11	consider	\N	49	0	0
-51	11	pro_gene_id	\N	50	0	0
+51	11	pombase_gene_id	\N	50	0	0
 \.
 
 
@@ -61902,7 +61902,7 @@ COPY public.dbxref (dbxref_id, db_id, accession, version, description) FROM stdi
 47	3	cv_version		\N
 48	3	replaced_by		\N
 49	3	consider		\N
-50	3	pro_gene_id		\N
+50	3	pombase_gene_id		\N
 \.
 
 
