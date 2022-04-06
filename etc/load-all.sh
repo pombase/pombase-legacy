@@ -928,4 +928,6 @@ then
     rsync -aHS $SOURCES/pombe-embl/ftp_site/pombe/ pombase-admin@149.155.131.177:/home/ftp/pombase/pombe/
 fi
 
+echo "$DB" > /var/pomcur/sources/current_pombase_database.txt
+
 date
