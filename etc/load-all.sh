@@ -600,6 +600,7 @@ $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml gaf --organism
  ln -s $DB.phaf.gz pombase-latest.phaf.gz
  ln -s $DB.eco.phaf.gz pombase-latest.eco.phaf.gz
  ln -s $DB.human-orthologs.txt.gz pombase-latest.human-orthologs.txt.gz
+ ln -s $DB.cerevisiae-orthologs.txt.gz pombase-latest.cerevisiae-orthologs.txt.gz
 )
 
 echo starting go-physical-interactions export at `date`
@@ -609,8 +610,11 @@ $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml go-substrates 
 echo starting interactions export at `date`
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml interactions --since-date=$PREV_DATE --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/exports/pombase-interactions-since-$PREV_VERSION-$PREV_DATE.gz
 
-echo starting orthologs export at `date`
+echo starting human orthologs export at `date`
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml orthologs --organism-taxon-id=4896 --other-organism-taxon-id=9606 "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/$DB.human-orthologs.txt.gz
+
+echo starting cerevisiae ortholog export at `date`
+$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml orthologs --organism-taxon-id=4896 --other-organism-taxon-id=4932 "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/$DB.cerevisiae--orthologs.txt.gz
 
 # export orthologs, one per line with uniquenames
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml simple-orthologs --swap-direction --organism-taxon-id=4896 --other-organism-taxon-id=9606 "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/exports/pombe-human-orthologs-with-systematic-ids.txt.gz
