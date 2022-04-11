@@ -614,7 +614,7 @@ echo starting human orthologs export at `date`
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml orthologs --organism-taxon-id=4896 --other-organism-taxon-id=9606 "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/$DB.human-orthologs.txt.gz
 
 echo starting cerevisiae ortholog export at `date`
-$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml orthologs --organism-taxon-id=4896 --other-organism-taxon-id=4932 "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/$DB.cerevisiae--orthologs.txt.gz
+$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml orthologs --organism-taxon-id=4896 --other-organism-field-name=uniquename --other-organism-taxon-id=4932 "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/$DB.cerevisiae-orthologs.txt.gz
 
 # export orthologs, one per line with uniquenames
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml simple-orthologs --swap-direction --organism-taxon-id=4896 --other-organism-taxon-id=9606 "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/exports/pombe-human-orthologs-with-systematic-ids.txt.gz
