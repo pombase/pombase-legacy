@@ -867,7 +867,7 @@ sub process_ortholog {
       if (defined $qualifier) {
         map {
           if ($_ ne 'predicted') {
-            $self->add_feature_relationshipprop($rel, 'ortholog qualifier', $_);
+            $self->add_feature_relationshipprop($rel, 'ortholog_qualifier', $_);
           }
         } @$qualifier;
       }

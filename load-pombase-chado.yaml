@@ -122,7 +122,7 @@ cvs:
     - name: source database
     - name: source file
     - name: homology type
-    - name: ortholog qualifier
+    - name: ortholog_qualifier
     - name: first_approved_timestamp
     - name: approved_timestamp
     - name: approver_email
