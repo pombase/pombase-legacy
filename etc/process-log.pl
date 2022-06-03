@@ -147,7 +147,7 @@ while (defined (my $line = <>)) {
     print $evidence_problems "$gene_or_file: $line";
     next;
   }
-  if ($line =~ m:A CDS/transcript was referenced but|has no uniquename|gene name contains whitespace:) {
+  if ($line =~ m:A CDS/transcript was referenced but|has no uniquename|gene name contains whitespace|duplicate transcript/gene:) {
     print $all_warnings $line;
     print $feature_warnings "$gene_or_file: $line";
     next;

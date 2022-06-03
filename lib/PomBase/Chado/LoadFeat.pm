@@ -82,6 +82,8 @@ has quiet => (is => 'ro', isa => 'Bool');
 
 has gene_objects => (is => 'ro', init_arg => undef, isa => 'HashRef',
                      default => sub { {} });
+has seen_genes => (is => 'ro', init_arg => undef, isa => 'HashRef',
+                   default => sub { {} });
 has genotype_cache => (is => 'ro', required => 1,
                        isa => 'PomBase::Chado::GenotypeCache');
 has source_file => (is => 'ro', required => 1);
@@ -248,7 +250,16 @@ sub save_transcript {
       Dumper([$feat_type, $feature, $gene_uniquename, $feature_loader_conf{$feat_type}]);
   }
 
-#  warn "SAVE_TRANSCRIPT: $uniquename\n";
+ #  warn "SAVE_TRANSCRIPT: $uniquename $so_type $gene_uniquename\n";
+
+  my $seen_genes = $self->seen_genes();
+
+  my $key = "$uniquename / $gene_uniquename";
+  if ($seen_genes->{$key}) {
+    warn "duplicate transcript/gene ID: $key\n";
+  } else {
+    $seen_genes->{$key} = 1;
+  }
 
   my $data = $self->prepare_transcript_data($uniquename, $gene_uniquename);
 
