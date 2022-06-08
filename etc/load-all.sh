@@ -892,9 +892,8 @@ then
     cp $CURRENT_BUILD_DIR/misc/sysID2product.tsv           $SOURCES/pombe-embl/ftp_site/pombe/names_and_identifiers/
     cp $CURRENT_BUILD_DIR/misc/sysID2product.rna.tsv       $SOURCES/pombe-embl/ftp_site/pombe/names_and_identifiers/
     cp $CURRENT_BUILD_DIR/misc/Complex_annotation.tsv      $SOURCES/pombe-embl/ftp_site/pombe/annotations/Gene_ontology/GO_complexes/Complex_annotation.tsv
-    cp $CURRENT_BUILD_DIR/misc/gene_product_annotation_data_taxonid_4896.tsv $SOURCES/pombe-embl/ftp_site/pombe/annotations/Gene_ontology/pombase.gpad
-    cp $CURRENT_BUILD_DIR/misc/gene_product_information_taxonid_4896.tsv     $SOURCES/pombe-embl/ftp_site/pombe/annotations/Gene_ontology/pombase.gpi
-
+    gzip -9 < $CURRENT_BUILD_DIR/misc/gene_product_annotation_data_taxonid_4896.tsv > $SOURCES/pombe-embl/ftp_site/pombe/annotations/Gene_ontology/pombase.gpad.gz
+    gzip -9 < $CURRENT_BUILD_DIR/misc/gene_product_information_taxonid_4896.tsv     > $SOURCES/pombe-embl/ftp_site/pombe/annotations/Gene_ontology/pombase.gpi.gz
     gzip -9 < $CURRENT_BUILD_DIR/misc/go_style_gaf.tsv                              > $SOURCES/pombe-embl/ftp_site/pombe/annotations/Gene_ontology/gene_association_2-2.pombase.gz
     gzip -9 < $CURRENT_BUILD_DIR/misc/pombase_style_gaf.tsv                         > $SOURCES/pombe-embl/ftp_site/pombe/annotations/Gene_ontology/gene_association_2-1.pombase.gz
     cp $CURRENT_BUILD_DIR/misc/FYPOviability.tsv           $SOURCES/pombe-embl/ftp_site/pombe/annotations/Phenotype_annotations/FYPOviability.tsv
