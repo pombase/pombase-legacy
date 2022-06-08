@@ -904,6 +904,14 @@ then
     cp $CURRENT_BUILD_DIR/exports/pombase-go-physical-interactions.tsv.gz  $SOURCES/pombe-embl/ftp_site/pombe/high_confidence_physical_interactions/
     cp $CURRENT_BUILD_DIR/exports/pombase-go-substrates.tsv.gz             $SOURCES/pombe-embl/ftp_site/pombe/high_confidence_physical_interactions/
 
+    gzip -d < $CURRENT_BUILD_DIR/exports/pombe-human-orthologs-with-systematic-ids.txt.gz      > $SOURCES/pombe-embl/ftp_site/pombe/orthologs/pombe-human-orthologs.tsv
+    gzip -d < $CURRENT_BUILD_DIR/exports/pombe-cerevisiae-orthologs-with-systematic-ids.txt.gz > $SOURCES/pombe-embl/ftp_site/pombe/orthologs/pombe-cerevisiae-orthologs.tsv
+
+    gzip -d < $CURRENT_BUILD_DIR/pombase-latest.cerevisiae-orthologs.txt.gz      > $SOURCES/pombe-embl/ftp_site/pombe/orthologs/pombe-cerevisiae-orthologs-one-line.tsv
+    gzip -d < $CURRENT_BUILD_DIR/pombase-build-2022-06-06.human-orthologs.txt.gz > $SOURCES/pombe-embl/ftp_site/pombe/orthologs/pombe-human-orthologs-one-line.tsv
+
+    cp $CURRENT_BUILD_DIR/$DB.human-orthologs.txt.gz       $SOURCES/pombe-embl/ftp_site/pombe/orthologs/human-orthologs.txt.gz
+
     cp $CURRENT_BUILD_DIR/fasta/feature_sequences/cds+introns+utrs.fa.gz   $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/feature_sequences/cds+introns+utrs.fa.gz
     cp $CURRENT_BUILD_DIR/fasta/feature_sequences/cds+introns.fa.gz        $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/feature_sequences/cds+introns.fa.gz
     cp $CURRENT_BUILD_DIR/fasta/feature_sequences/cds.fa.gz                $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/feature_sequences/cds.fa.gz
@@ -921,7 +929,6 @@ then
         gzip -9 < $CURRENT_BUILD_DIR/gff/$file_name > $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/gff3/$file_name.gz
     done
 
-    cp $CURRENT_BUILD_DIR/$DB.human-orthologs.txt.gz       $SOURCES/pombe-embl/ftp_site/pombe/orthologs/human-orthologs.txt.gz
     cp $CURRENT_BUILD_DIR/$DB.modifications.gz             $SOURCES/pombe-embl/ftp_site/pombe/annotations/modifications/pombase-chado.modifications.gz
     cp $CURRENT_BUILD_DIR/$DB.phaf.gz                      $SOURCES/pombe-embl/ftp_site/pombe/annotations/Phenotype_annotations/phenotype_annotations.pombase.phaf.gz
 
