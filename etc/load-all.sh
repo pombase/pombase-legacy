@@ -907,8 +907,8 @@ then
     gzip -d < $CURRENT_BUILD_DIR/exports/pombe-human-orthologs-with-systematic-ids.txt.gz      > $SOURCES/pombe-embl/ftp_site/pombe/orthologs/pombe-human-orthologs.tsv
     gzip -d < $CURRENT_BUILD_DIR/exports/pombe-cerevisiae-orthologs-with-systematic-ids.txt.gz > $SOURCES/pombe-embl/ftp_site/pombe/orthologs/pombe-cerevisiae-orthologs.tsv
 
-    gzip -d < $CURRENT_BUILD_DIR/pombase-latest.cerevisiae-orthologs.txt.gz      > $SOURCES/pombe-embl/ftp_site/pombe/orthologs/pombe-cerevisiae-orthologs-one-line.tsv
-    gzip -d < $CURRENT_BUILD_DIR/pombase-build-2022-06-06.human-orthologs.txt.gz > $SOURCES/pombe-embl/ftp_site/pombe/orthologs/pombe-human-orthologs-one-line.tsv
+    gzip -d < $CURRENT_BUILD_DIR/pombase-latest.cerevisiae-orthologs.txt.gz      > $SOURCES/pombe-embl/ftp_site/pombe/orthologs/pombe-cerevisiae-orthologs-one-line-per-gene.tsv
+    gzip -d < $CURRENT_BUILD_DIR/pombase-build-2022-06-06.human-orthologs.txt.gz > $SOURCES/pombe-embl/ftp_site/pombe/orthologs/pombe-human-orthologs-one-line-per-gene.tsv
 
     cp $CURRENT_BUILD_DIR/$DB.human-orthologs.txt.gz       $SOURCES/pombe-embl/ftp_site/pombe/orthologs/human-orthologs.txt.gz
 
