@@ -591,8 +591,6 @@ mkdir $CURRENT_BUILD_DIR/logs
 mkdir $CURRENT_BUILD_DIR/exports
 
 (
-echo starting gaf export at `date`
-$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml gaf --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/$DB.gaf.gz
 
 (
  cd $CURRENT_BUILD_DIR/
@@ -895,6 +893,9 @@ then
     gzip -9 < $CURRENT_BUILD_DIR/misc/gene_product_information_taxonid_4896.tsv     > $SOURCES/pombe-embl/ftp_site/pombe/annotations/Gene_ontology/pombase.gpi.gz
     gzip -9 < $CURRENT_BUILD_DIR/misc/go_style_gaf.tsv                              > $SOURCES/pombe-embl/ftp_site/pombe/annotations/Gene_ontology/gene_association_2-2.pombase.gz
     gzip -9 < $CURRENT_BUILD_DIR/misc/pombase_style_gaf.tsv                         > $SOURCES/pombe-embl/ftp_site/pombe/annotations/Gene_ontology/gene_association_2-1.pombase.gz
+
+    cp $SOURCES/pombe-embl/ftp_site/pombe/annotations/Gene_ontology/gene_association_2-1.pombase.gz $CURRENT_BUILD_DIR/$DB.gaf.gz
+
     cp $CURRENT_BUILD_DIR/misc/FYPOviability.tsv           $SOURCES/pombe-embl/ftp_site/pombe/annotations/Phenotype_annotations/FYPOviability.tsv
     cp $CURRENT_BUILD_DIR/misc/transmembrane_domain_coords_and_seqs.tsv    $SOURCES/pombe-embl/ftp_site/pombe/Protein_data/transmembrane_domain_coords_and_seqs.tsv
     cp $CURRENT_BUILD_DIR/misc/pombe_mondo_slim_ids_and_names.tsv          $SOURCES/pombe-embl/ftp_site/pombe/documents/pombe_mondo_slim_ids_and_names.tsv
