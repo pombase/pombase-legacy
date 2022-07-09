@@ -23,6 +23,9 @@ die() {
 }
 
 POMCUR=/var/pomcur
+WWW_DIR=/var/www/pombase
+DUMPS_DIR=$WWW_DIR/dumps
+POMCUR_LATEST_BUILD=$DUMPS_DIR/latest_build/
 SOURCES=$POMCUR/sources
 
 POMBASE_WEB_CONFIG=$HOME/git/pombase-config/website/pombase_v2_config.json
@@ -51,8 +54,6 @@ DB_DATE_VERSION=$DATE
 DB=pombase-build-$DB_DATE_VERSION
 
 LOG_DIR=`pwd`
-
-WWW_DIR=/var/www/pombase
 
 POMBASE_CHADO=$HOME/git/pombase-chado
 POMBASE_LEGACY=$HOME/git/pombase-legacy
@@ -149,6 +150,9 @@ done
 
 cd $LOG_DIR
 log_file=log.`date +'%Y-%m-%d-%H-%M-%S'`
+echo loading contigs with load-chado.pl, log file: $log_file
+date
+
 `dirname $0`/../script/load-chado.pl --taxonid=4896 \
   --mapping "sequence_feature:sequence:$SOURCES/pombe-embl/chado_load_mappings/features-to-so_mapping_only.txt" \
   --mapping "pt_mod:PSI-MOD:$SOURCES/pombe-embl/chado_load_mappings/modification_map.txt" \
@@ -161,6 +165,12 @@ log_file=log.`date +'%Y-%m-%d-%H-%M-%S'`
 $POMBASE_LEGACY/etc/process-log.pl $log_file
 
 pg_dump $DB | gzip -5 > /tmp/pombase-chado-after-load-chado-pl.dump.gz
+
+
+echo loading alleles from previous load
+date
+$POMCUR/bin/pombase-chado-load -p "postgres://kmr44:kmr44@localhost/$DB" \
+  --taxonid 4896 allele-json $ALLELE_SUMMARIES
 
 
 # See: https://github.com/pombase/pombase-chado/issues/861
@@ -582,7 +592,6 @@ POMBASE_EXCLUDED_FYPO_TERMS_OBO=$SOURCES/pombe-embl/mini-ontologies/FYPO_qc_do_n
 echo report annotations using FYPO terms from $POMBASE_EXCLUDED_FYPO_TERMS_OBO 2>&1 | tee $LOG_DIR/$log_file.excluded_fypo_terms
 ./script/report-subset.pl "$HOST" $DB $USER $PASSWORD <(perl -ne 'print "$1\n" if /^id:\s*(FYPO:\S+)/' $POMBASE_EXCLUDED_FYPO_TERMS_OBO) 2>&1 | tee -a $LOG_DIR/$log_file.excluded_fypo_terms
 
-DUMPS_DIR=$WWW_DIR/dumps
 BUILDS_DIR=$DUMPS_DIR/builds
 CURRENT_BUILD_DIR=$BUILDS_DIR/$DB
 
