@@ -167,11 +167,13 @@ $POMBASE_LEGACY/etc/process-log.pl $log_file
 pg_dump $DB | gzip -5 > /tmp/pombase-chado-after-load-chado-pl.dump.gz
 
 
-echo loading alleles from previous load
-date
-ALLELE_SUMMARIES=$POMCUR_LATEST_BUILD/misc/allele_summaries.json
-$POMCUR/bin/pombase-chado-load -p "postgres://kmr44:kmr44@localhost/$DB" \
-  --taxonid 4896 allele-json $ALLELE_SUMMARIES
+## Disabled temporarily because of: https://github.com/pombase/pombase-chado/issues/992
+#
+#echo loading alleles from previous load
+#date
+#ALLELE_SUMMARIES=$POMCUR_LATEST_BUILD/misc/allele_summaries.json
+#$POMCUR/bin/pombase-chado-load -p "postgres://kmr44:kmr44@localhost/$DB" \
+#  --taxonid 4896 allele-json $ALLELE_SUMMARIES
 
 
 # See: https://github.com/pombase/pombase-chado/issues/861
