@@ -1391,6 +1391,41 @@ check_chado:
          JOIN cvterm t ON t.cvterm_id = allele.type_id
          WHERE t.name = 'allele'
            AND allele.name IS NULL;
+    - name: duplicated_allele_names
+      verbose_fail: true
+      description: "Check for two or more alleles with the same name"
+      github_issue: 'https://github.com/pombase/pombase-chado/issues/994'
+      expected: 0
+      query: |
+           SELECT allele.name, allele.uniquename,
+                  array_to_string(array (SELECT p.value
+                                     FROM featureprop p
+                                     JOIN cvterm pt ON p.type_id = pt.cvterm_id
+                                     WHERE allele.feature_id = p.feature_id AND pt.name = 'description'), ',')
+                       AS description,
+                  array_to_string(array (SELECT p.value
+                                     FROM featureprop p
+                                     JOIN cvterm pt ON p.type_id = pt.cvterm_id
+                                     WHERE allele.feature_id = p.feature_id
+                                       AND pt.name = 'allele_type'), ',')
+                       AS allele_type,
+                  array_to_string(array (SELECT p.value
+                                     FROM featureprop p
+                                     JOIN cvterm pt ON p.type_id = pt.cvterm_id
+                                     WHERE allele.feature_id = p.feature_id
+                                       AND pt.name = 'canto_session'), ',')
+                       AS canto_session
+           FROM feature allele
+           JOIN cvterm t ON allele.type_id = t.cvterm_id
+           WHERE t.name = 'allele'
+             AND allele.name in
+               (SELECT allele.name
+                FROM feature allele
+                JOIN cvterm t ON allele.type_id = t.cvterm_id
+                WHERE organism_id = 1
+                GROUP BY allele.name, t.name
+                HAVING count(allele.feature_id) > 1)
+           ORDER BY allele.name, allele.uniquename;
 
 qc_queries:
   no_fail: 1
