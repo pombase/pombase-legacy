@@ -648,10 +648,19 @@ sub store_feature_parts {
 
   my $exon_phase = undef;
 
+  my $strand = $bioperl_feature->location()->strand();
+
+  if ($strand == -1) {
+    @coords_list = reverse @coords_list;
+  }
+
   for (my $i = 0; $i < @coords_list; $i++) {
     my ($start, $end) = @{$coords_list[$i]};
     my $prefix = "$uniquename:$so_type:";
-    my $part_uniquename = $prefix . ($i + 1);
+
+    my $part_number = $i + 1;
+    my $part_uniquename = $prefix . $part_number;
+
     my $chado_sub_feature =
       $self->store_feature($part_uniquename, undef, [], $so_type,
                            $self->organism());
@@ -662,8 +671,6 @@ sub store_feature_parts {
       }
     }
     push @new_parts, $chado_sub_feature;
-
-    my $strand = $bioperl_feature->location()->strand();
 
     # write the phase for the first exon only
     if ($so_type eq 'exon') {
