@@ -650,10 +650,6 @@ sub store_feature_parts {
 
   my $strand = $bioperl_feature->location()->strand();
 
-  if ($strand == -1) {
-    @coords_list = reverse @coords_list;
-  }
-
   for (my $i = 0; $i < @coords_list; $i++) {
     my ($start, $end) = @{$coords_list[$i]};
     my $prefix = "$uniquename:$so_type:";
