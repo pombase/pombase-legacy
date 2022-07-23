@@ -319,7 +319,8 @@ GOA_GAF_FILENAME=gene_association.goa_uniprot.gz
 CURRENT_GOA_GAF="$SOURCES/$GOA_GAF_FILENAME"
 
 echo checking for new GOA GAF file
-curl --user-agent "$USER_AGENT_FOR_EBI" -o $CURRENT_GOA_GAF -z $CURRENT_GOA_GAF $GOA_GAF_URL
+curl --user-agent "$USER_AGENT_FOR_EBI" -o $CURRENT_GOA_GAF -z $CURRENT_GOA_GAF $GOA_GAF_URL ||
+  echo failed to download new $CURRENT_GOA_GAF, continuing with previous version
 
 echo reading $CURRENT_GOA_GAF
 
