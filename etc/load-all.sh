@@ -883,6 +883,9 @@ then
     rm -f $DUMPS_DIR/nightly_update
     ln -s $CURRENT_BUILD_DIR $DUMPS_DIR/nightly_update
 
+    echo copy JBrowse datasets to the Babraham server
+    rsync --delete-during -avHSP /data/pombase/external_datasets/processed/ babraham-pombase:/home/ftp/pombase/external_datasets/
+
     # reload to make sure that update_alt_image doesn't update the
     # running webapp
     ssh pombase-admin@149.155.131.177 "sudo /bin/systemctl reload apache"
