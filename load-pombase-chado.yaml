@@ -120,8 +120,12 @@ cvs:
         A transposon or insertion sequence. An element that can insert
         in a variety of DNA sequences.
   PomBase interaction types:
+    # used to store gene-gene interactions
     - name: interacts_genetically
     - name: interacts_physically
+  PomBase sequence feature types:
+    # used for genotype-genotype interactions
+    - name: genotype_interaction
   feature_relationshipprop_type:
     - name: evidence
     - name: eco_evidence
