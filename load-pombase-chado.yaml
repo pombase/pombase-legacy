@@ -48,6 +48,8 @@ cvs:
       definition: "An ID like SGD:S000005390"
     - name: interaction_type
       definition: Evidence code for interaction features.
+    - name: interaction_rescued_phenotype_id
+      definition: The phenotype ontology term ID of rescued phenotype in an interaction annotation
     - source_database
     - curator_name
     - community_curated
