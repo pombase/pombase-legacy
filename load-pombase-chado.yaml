@@ -14,6 +14,9 @@ cvs:
     - malacards_displayed_disease_name
     - malacards_disease_slug
     - pombase_gene_id
+  PomBase feature relationship types:
+    - interaction_genotype_a
+    - interaction_genotype_b
   PomBase publication types:
     - paper
     - null
