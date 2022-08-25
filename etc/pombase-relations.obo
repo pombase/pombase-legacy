@@ -10,3 +10,15 @@ id: instance_of
 name: instance_of
 namespace: pombase_relations
 is_transitive: false
+
+[Typedef]
+id: interaction_genotype_a
+name: interaction_genotype_a
+namespace: pombase_relations
+is_transitive: false
+
+[Typedef]
+id: interaction_genotype_b
+name: interaction_genotype_b
+namespace: pombase_relations
+is_transitive: false
