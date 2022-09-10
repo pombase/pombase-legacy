@@ -24,10 +24,12 @@ DB=pombase-chado-base-$DB_NAME_SUFFIX
 
 echo "building database: $DB on $HOST"
 
-createdb --locale 'C' --template template0 --encoding 'UTF8' $DB
+export PGPASSWORD=$PASSWORD
+
+createdb -U $USER --locale 'C' --template template0 --encoding 'UTF8' -h localhost $DB
 
 echo Loading template
-psql -q $DB < $POMBASE_LEGACY/pombase-chado-base.dump |
+psql -U $USER -h $HOST -q $DB < $POMBASE_LEGACY/pombase-chado-base.dump |
   perl -ne 'if (/^\s*setval\s*$/) {
               my $l2 = <>; if ($l2 =~ /-----/) { my $l3 = <>; if ($l3 =~ /^\s*\d+/) { my $l4 = <>; if ($l4 !~ /\(\d+ row/) { print } } }
             } else { print unless /^\s*$/ }'
@@ -139,12 +141,12 @@ export OWLTOOLS_MEMORY=20g
 date; echo finished
 
 # prevent duplicate feature uniquenames
-psql -q $DB -c 'CREATE UNIQUE INDEX pombase_feature_uniquename_unique_idx ON feature(uniquename);'
+psql -U $USER -h $HOST -q $DB -c 'CREATE UNIQUE INDEX pombase_feature_uniquename_unique_idx ON feature(uniquename);'
 
-psql -q $DB -c 'CREATE INDEX pombase_cvtermsynonym_synonym_idx1 on cvtermsynonym(synonym);'
+psql -U $USER -h $HOST -q $DB -c 'CREATE INDEX pombase_cvtermsynonym_synonym_idx1 on cvtermsynonym(synonym);'
 
 # view definitions for extension terms
-psql -q $DB -c "CREATE materialized VIEW pombase_feature_cvterm_with_ext_parents AS
+psql -U $USER -h $HOST -q $DB -c "CREATE materialized VIEW pombase_feature_cvterm_with_ext_parents AS
 SELECT fc.feature_cvterm_id,
        fc.feature_id,
        pub_id,
@@ -163,7 +165,7 @@ JOIN cvterm r_type ON r.type_id = r_type.cvterm_id
 WHERE r_type.name = 'is_a'
   AND child_cv.name = 'PomBase annotation extension terms';"
 
-psql -q $DB -c "CREATE materialized VIEW pombase_feature_cvterm_no_ext_terms AS
+psql -U $USER -h $HOST -q $DB -c "CREATE materialized VIEW pombase_feature_cvterm_no_ext_terms AS
 SELECT fc.feature_cvterm_id,
        fc.feature_id,
        pub_id,
@@ -177,20 +179,20 @@ JOIN cvterm t ON t.cvterm_id = fc.cvterm_id
 JOIN cv ON cv.cv_id = t.cv_id
 WHERE not is_not and cv.name <> 'PomBase annotation extension terms';"
 
-psql -q $DB -c "CREATE materialized VIEW pombase_feature_cvterm_ext_resolved_terms AS
+psql -U $USER -h $HOST -q $DB -c "CREATE materialized VIEW pombase_feature_cvterm_ext_resolved_terms AS
  SELECT *
    FROM pombase_feature_cvterm_no_ext_terms
 UNION
  SELECT *
    FROM pombase_feature_cvterm_with_ext_parents;"
 
-psql -q $DB -c "CREATE INDEX pombase_feature_cvterm_ext_resolved_terms_feature_id_idx ON pombase_feature_cvterm_ext_resolved_terms(feature_id);"
-psql -q $DB -c "CREATE INDEX pombase_feature_cvterm_ext_resolved_terms_cvterm_id_idx ON pombase_feature_cvterm_ext_resolved_terms(cvterm_id);"
-psql -q $DB -c "CREATE INDEX pombase_feature_cvterm_ext_resolved_terms_cvterm_name_idx ON pombase_feature_cvterm_ext_resolved_terms(cvterm_name);"
-psql -q $DB -c "CREATE INDEX pombase_feature_cvterm_ext_resolved_terms_base_cvterm_id_idx ON pombase_feature_cvterm_ext_resolved_terms(base_cvterm_id);"
-psql -q $DB -c "CREATE INDEX pombase_feature_cvterm_ext_resolved_terms_base_cvterm_name_idx ON pombase_feature_cvterm_ext_resolved_terms(base_cvterm_name);"
+psql -U $USER -h $HOST -q $DB -c "CREATE INDEX pombase_feature_cvterm_ext_resolved_terms_feature_id_idx ON pombase_feature_cvterm_ext_resolved_terms(feature_id);"
+psql -U $USER -h $HOST -q $DB -c "CREATE INDEX pombase_feature_cvterm_ext_resolved_terms_cvterm_id_idx ON pombase_feature_cvterm_ext_resolved_terms(cvterm_id);"
+psql -U $USER -h $HOST -q $DB -c "CREATE INDEX pombase_feature_cvterm_ext_resolved_terms_cvterm_name_idx ON pombase_feature_cvterm_ext_resolved_terms(cvterm_name);"
+psql -U $USER -h $HOST -q $DB -c "CREATE INDEX pombase_feature_cvterm_ext_resolved_terms_base_cvterm_id_idx ON pombase_feature_cvterm_ext_resolved_terms(base_cvterm_id);"
+psql -U $USER -h $HOST -q $DB -c "CREATE INDEX pombase_feature_cvterm_ext_resolved_terms_base_cvterm_name_idx ON pombase_feature_cvterm_ext_resolved_terms(base_cvterm_name);"
 
-psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_extension_rels_and_values AS SELECT t.cvterm_id AS cvterm_id,
+psql -U $USER -h $HOST -q $DB -c "CREATE MATERIALIZED VIEW pombase_extension_rels_and_values AS SELECT t.cvterm_id AS cvterm_id,
  substring(pt.name FROM 'annotation_extension_relation-(.*)') AS rel_name, p.value AS value FROM
  cvtermprop p JOIN cvterm pt ON p.type_id = pt.cvterm_id JOIN cvterm t ON
  p.cvterm_id = t.cvterm_id
@@ -205,7 +207,7 @@ psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_extension_rels_and_values AS SE
  cv_id = (select cv_id from cv where name = 'fission_yeast_phenotype'))) and
  rel_type.cv_id = (select cv_id from cv where name = 'fypo_extension_relations');"
 
-psql -q $DB <<'EOF'
+psql -U $USER -h $HOST -q $DB <<'EOF'
 CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
   WITH
   pub_community_curated_flags AS
@@ -592,13 +594,13 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
         OR rel_type.name = 'interacts_physically');
 EOF
 
-psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_annotation_summary AS
+psql -U $USER -h $HOST -q $DB -c "CREATE MATERIALIZED VIEW pombase_annotation_summary AS
 SELECT distinct id, pmid, publication_community_curated, annotation_date,
        annotation_year, session, curator_name, community_curated, annotation_throughput_type,
        evidence_code, annotation_source, source_file, annotation_type
   FROM pombase_genes_annotations_dates;"
 
-psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_annotated_gene_features_per_publication AS
+psql -U $USER -h $HOST -q $DB -c "CREATE MATERIALIZED VIEW pombase_annotated_gene_features_per_publication AS
 SELECT gene.uniquename AS gene_uniquename, pub.uniquename AS pmid,
    (SELECT distinct(value)
     FROM feature_cvtermprop session_prop
@@ -677,7 +679,7 @@ UNION
      AND (rel_type.name = 'interacts_genetically'
           OR rel_type.name = 'interacts_physically');"
 
-psql -q $DB -c "CREATE MATERIALIZED VIEW pombase_genotypes_alleles_genes_mrna AS
+psql -U $USER -h $HOST -q $DB -c "CREATE MATERIALIZED VIEW pombase_genotypes_alleles_genes_mrna AS
 SELECT genotype.uniquename genotype_uniquename, genotype.feature_id as genotype_feature_id,
  allele.uniquename as allele_uniquename, allele.name as allele_name,
  allele.feature_id as allele_feature_id,
@@ -705,7 +707,7 @@ WHERE genotype_allele_rel_type.name = 'part_of'
   AND gene_type.name = 'gene';"
 
 
-psql -q $DB <<'EOF'
+psql -U $USER -h $HOST -q $DB <<'EOF'
 CREATE MATERIALIZED VIEW pombase_publication_curation_summary AS
 WITH all_pubs_raw AS
   (SELECT uniquename AS pmid,
@@ -841,4 +843,4 @@ echo make copies
 
 NEW_DB=pombase-build-$DB_NAME_SUFFIX
 echo $NEW_DB
-createdb -T $DB $NEW_DB
+createdb -U $USER -h localhost -T $DB $NEW_DB
