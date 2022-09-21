@@ -957,4 +957,6 @@ fi
 
 echo "$DB" > /var/pomcur/sources/current_pombase_database.txt
 
+echo finished building: $DB
+
 date
