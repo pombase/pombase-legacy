@@ -22,3 +22,9 @@ id: interaction_genotype_b
 name: interaction_genotype_b
 namespace: pombase_relations
 is_transitive: false
+
+[Typedef]
+id: interaction_double_mutant_genotype
+name: interaction_double_mutant_genotype
+namespace: pombase_relations
+is_transitive: false
