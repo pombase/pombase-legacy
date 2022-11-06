@@ -44,6 +44,8 @@ USER_AGENT_FOR_EBI='Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13)
 
 (cd $SOURCES/go-site/; git pull || exit 1)
 
+docker service update --replicas 0 pombase-dev
+
 (cd ~/git/pombase-legacy
  export PATH=$HOME/chobo/script/:/usr/local/owltools-v0.3.0-74-gee0f8bbd/OWLTools-Runner/bin/:$PATH
  export CHADO_CLOSURE_TOOL=$HOME/git/pombase-chado/script/relation-graph-chado-closure.pl
@@ -877,6 +879,7 @@ ln -s $CURRENT_BUILD_DIR $DUMPS_DIR/latest_build
 IMAGE_NAME=pombase/web:$DB_DATE_VERSION-prod
 
 docker service update --image=$IMAGE_NAME pombase-dev
+docker service update --replicas 1 pombase-dev
 
 if [ $CHADO_CHECKS_STATUS=passed ]
 then
