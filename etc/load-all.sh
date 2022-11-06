@@ -488,7 +488,7 @@ evidence_summary $DB
 pg_dump $DB | gzip -5 > /tmp/pombase-chado-after-canto.dump.gz
 
 
-echo loading extra allele synonyms | tee $log_file.allele-synonyms-from-supporting-data
+echo loading extra allele synonyms | tee $LOG_DIR/$log_file.allele-synonyms-from-supporting-data
 $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml \
    generic-synonym --feature-name-column=1 --synonym-column=2 \
    --publication-uniquename-column=3 \
@@ -496,7 +496,7 @@ $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml \
    2>&1 | tee -a $LOG_DIR/$log_file.allele-synonyms-from-supporting-data
 
 
-echo loading extra allele comments | tee $log_file.allele-comments-from-supporting-data
+echo loading extra allele comments | tee $LOG_DIR/$log_file.allele-comments-from-supporting-data
 $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml \
    generic-property --feature-name-column=1 --property-name="comment" \
    --property-column=2 --organism-taxonid=4896 --reference-column=3 \
