@@ -262,6 +262,8 @@ assigned_by_summary () {
 }
 
 refresh_views () {
+  PGPASSWORD=$PASSWORD psql -U $USER -h "$HOST" $DB -c 'analyze'
+
   for view in \
     pombase_annotated_gene_features_per_publication \
     pombase_feature_cvterm_with_ext_parents \
@@ -504,7 +506,6 @@ $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml \
    2>&1 | tee -a $LOG_DIR/$log_file.allele-comments-from-supporting-data
 
 
-PGPASSWORD=$PASSWORD psql -U $USER -h "$HOST" $DB -c 'analyze'
 refresh_views
 
 echo add ECO evidence codes
@@ -569,7 +570,6 @@ echo query PubMed for publication details, then store
 $POMBASE_CHADO/script/pubmed_util.pl ./load-pombase-chado.yaml \
   "$HOST" $DB $USER $PASSWORD --add-missing-fields 2>&1 | tee $LOG_DIR/$log_file.pubmed_query
 
-PGPASSWORD=$PASSWORD psql -U $USER -h "$HOST" $DB -c 'analyze'
 refresh_views
 
 echo
