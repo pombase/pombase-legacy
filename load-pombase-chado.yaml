@@ -49,7 +49,9 @@ cvs:
     - name: interaction_type
       definition: Evidence code for interaction features.
     - name: interaction_rescued_phenotype_id
-      definition: The phenotype ontology term ID of rescued phenotype in an interaction annotation
+      definition: The term ID of the single allele phenotype in an interaction annotation
+    - name: interaction_rescued_phenotype_extension
+      definition: The extension of the single allele phenotype in an interaction annotation
     - source_database
     - curator_name
     - community_curated
