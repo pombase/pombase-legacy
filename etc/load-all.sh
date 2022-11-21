@@ -614,6 +614,7 @@ mkdir $CURRENT_BUILD_DIR/exports
  ln -s $DB.eco.phaf.gz pombase-latest.eco.phaf.gz
  ln -s $DB.human-orthologs.txt.gz pombase-latest.human-orthologs.txt.gz
  ln -s $DB.cerevisiae-orthologs.txt.gz pombase-latest.cerevisiae-orthologs.txt.gz
+ ln -s $DB.japonicus-orthologs.txt.gz pombase-latest.japonicus-orthologs.txt.gz
 )
 
 echo starting go-physical-interactions export at `date`
@@ -629,10 +630,15 @@ $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml orthologs --or
 echo starting cerevisiae ortholog export at `date`
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml orthologs --organism-taxon-id=4896 --other-organism-field-name=uniquename --other-organism-taxon-id=4932 "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/$DB.cerevisiae-orthologs.txt.gz
 
+echo starting japonicus orthologs export at `date`
+$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml orthologs --organism-taxon-id=4896  --other-organism-taxon-id=4897 --sensible-ortholog-direction --other-organism-field-name=uniquename "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/$DB.japonicus-orthologs.txt.gz
+
 # export orthologs, one per line with uniquenames
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml simple-orthologs --swap-direction --organism-taxon-id=4896 --other-organism-taxon-id=9606 "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/exports/pombe-human-orthologs-with-systematic-ids.txt.gz
 
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml simple-orthologs --swap-direction --organism-taxon-id=4896 --other-organism-taxon-id=4932 "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/exports/pombe-cerevisiae-orthologs-with-systematic-ids.txt.gz
+
+$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml simple-orthologs --swap-direction --organism-taxon-id=4896 --other-organism-taxon-id=4897 "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/exports/pombe-japonicus-orthologs-with-systematic-ids.txt.gz
 
 echo starting modifications export at `date`
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml modifications --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/$DB.modifications.gz
@@ -924,9 +930,11 @@ then
 
     gzip -d < $CURRENT_BUILD_DIR/exports/pombe-human-orthologs-with-systematic-ids.txt.gz      > $SOURCES/pombe-embl/ftp_site/pombe/orthologs/pombe-human-orthologs.tsv
     gzip -d < $CURRENT_BUILD_DIR/exports/pombe-cerevisiae-orthologs-with-systematic-ids.txt.gz > $SOURCES/pombe-embl/ftp_site/pombe/orthologs/pombe-cerevisiae-orthologs.tsv
+    gzip -d < $CURRENT_BUILD_DIR/exports/pombe-japonicus-orthologs-with-systematic-ids.txt.gz > $SOURCES/pombe-embl/ftp_site/pombe/orthologs/pombe-japonicus-orthologs.tsv
 
     gzip -d < $CURRENT_BUILD_DIR/pombase-latest.cerevisiae-orthologs.txt.gz      > $SOURCES/pombe-embl/ftp_site/pombe/orthologs/pombe-cerevisiae-orthologs-one-line-per-gene.tsv
     gzip -d < $CURRENT_BUILD_DIR/pombase-latest.human-orthologs.txt.gz           > $SOURCES/pombe-embl/ftp_site/pombe/orthologs/pombe-human-orthologs-one-line-per-gene.tsv
+    gzip -d < $CURRENT_BUILD_DIR/pombase-latest.japonicus-orthologs.txt.gz       > $SOURCES/pombe-embl/ftp_site/pombe/orthologs/pombe-japonicus-orthologs-one-line-per-gene.tsv
 
     cp $CURRENT_BUILD_DIR/$DB.human-orthologs.txt.gz       $SOURCES/pombe-embl/ftp_site/pombe/orthologs/human-orthologs.txt.gz
 
