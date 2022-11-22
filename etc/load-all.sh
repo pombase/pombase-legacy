@@ -966,7 +966,18 @@ then
     rsync -aHS $SOURCES/pombe-embl/ftp_site/pombe/ pombase-admin@149.155.131.177:/home/ftp/pombase/pombe/
 fi
 
-echo "$DB" > /var/pomcur/sources/current_pombase_database.txt
+echo "$DB" > $SOURCES/current_pombase_database.txt
+
+cat > $POMCUR/apps/pombe/canto_deploy_chado.yaml <<EOF
+
+Model::ChadoModel:
+  connect_info:
+    - dbi:Pg:dbname=$DB;host=localhost
+    - pbuild
+    - pbuild
+  schema_class: Canto::ChadoDB
+
+EOF
 
 echo finished building: $DB
 
