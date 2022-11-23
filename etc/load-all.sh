@@ -968,7 +968,7 @@ fi
 
 echo "$DB" > $SOURCES/current_pombase_database.txt
 
-cat > $POMCUR/apps/pombe/canto_deploy_chado.yaml <<EOF
+cat > $POMCUR/apps/pombe/canto_chado.yaml <<EOF
 
 Model::ChadoModel:
   connect_info:
