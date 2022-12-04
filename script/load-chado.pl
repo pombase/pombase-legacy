@@ -164,6 +164,17 @@ $chado->resultset('Cv::Chadoprop')->create({
   value => strftime("%Y-%m-%d %H:%M", localtime(time)),
 });
 
+my $db_date_version_cvterm =
+  $chado->resultset('Cv::Cvterm')
+  ->find({ name => 'db_date_version',
+           'cv.name' => 'PomBase chadoprop types' },
+         { join => 'cv' });
+
+$chado->resultset('Cv::Chadoprop')->create({
+  type_id => $db_date_version_cvterm->cvterm_id(),
+  value => $database,
+});
+
 my @files = @ARGV;
 
 my $genotype_cache = PomBase::Chado::GenotypeCache->new(chado => $chado);
