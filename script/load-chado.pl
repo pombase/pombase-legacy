@@ -55,6 +55,7 @@ if (!GetOptions("verbose|v" => \$verbose,
 }
 
 my $config_file = shift;
+my $date_version = shift;
 my $host = shift;
 my $database = shift;
 my $user = shift;
@@ -155,27 +156,24 @@ my $id_counter = PomBase::Chado::IdCounter->new(chado => $chado,
 
 $config->{id_counter} = $id_counter;
 
-my $time_stamp_cvterm =
-  $chado->resultset('Cv::Cvterm')
-  ->find({ name => 'db_creation_datetime',
-           'cv.name' => 'PomBase chadoprop types' },
-         { join => 'cv' });
+for my $chadoprop_terms (['db_creation_datetime', strftime("%Y-%m-%d %H:%M", localtime(time))],
+                         ['date_version', $date_version],
+                         ['db_date_version', $database]) {
 
-$chado->resultset('Cv::Chadoprop')->create({
-  type_id => $time_stamp_cvterm->cvterm_id(),
-  value => strftime("%Y-%m-%d %H:%M", localtime(time)),
-});
+  my $prop_term_name = $chadoprop_terms->[0];
+  my $prop_value = $chadoprop_terms->[1];
 
-my $db_date_version_cvterm =
-  $chado->resultset('Cv::Cvterm')
-  ->find({ name => 'db_date_version',
-           'cv.name' => 'PomBase chadoprop types' },
-         { join => 'cv' });
+  my $prop_cvterm =
+    $chado->resultset('Cv::Cvterm')
+    ->find({ name => $prop_term_name,
+             'cv.name' => 'PomBase chadoprop types' },
+           { join => 'cv' });
 
-$chado->resultset('Cv::Chadoprop')->create({
-  type_id => $db_date_version_cvterm->cvterm_id(),
-  value => $database,
-});
+  $chado->resultset('Cv::Chadoprop')->create({
+    type_id => $prop_cvterm->cvterm_id(),
+    value => $prop_value,
+  });
+}
 
 my @files = @ARGV;
 

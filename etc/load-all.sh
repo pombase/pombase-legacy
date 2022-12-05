@@ -17,6 +17,8 @@ PREV_DATE="$6"
 
 PATH=$PATH:/usr/local/bin
 
+DATE_VERSION=$DATE
+
 die() {
   echo $1 1>&2
   exit 1
@@ -52,7 +54,6 @@ docker service update --replicas 0 pombase-dev
  export PERL5LIB=$HOME/git/pombase-chado:$HOME/chobo/lib/
  time nice -19 ./script/make-db $DATE "$HOST" $USER $PASSWORD) || die "make-db failed"
 
-DB_DATE_VERSION=$DATE
 DB=pombase-build-$DB_DATE_VERSION
 
 LOG_DIR=`pwd`
@@ -162,7 +163,7 @@ date
   --mapping "disease_associated:mondo:$SOURCES/pombe-embl/chado_load_mappings/disease_name_to_MONDO_mapping.txt:PB_REF:0000003" \
   --gene-ex-qualifiers $SOURCES/pombe-embl/supporting_files/gene_ex_qualifiers \
   --obsolete-term-map $SOURCES/go-svn/doc/obsoletes-exact $POMBASE_LEGACY/load-pombase-chado.yaml \
-  "$HOST" $DB $USER $PASSWORD $SOURCES/pombe-embl/*.contig 2>&1 | tee $log_file || exit 1
+  $DATE_VERSION "$HOST" $DB $USER $PASSWORD $SOURCES/pombe-embl/*.contig 2>&1 | tee $log_file || exit 1
 
 $POMBASE_LEGACY/etc/process-log.pl $log_file
 
