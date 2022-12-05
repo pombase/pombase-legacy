@@ -54,7 +54,7 @@ docker service update --replicas 0 pombase-dev
  export PERL5LIB=$HOME/git/pombase-chado:$HOME/chobo/lib/
  time nice -19 ./script/make-db $DATE "$HOST" $USER $PASSWORD) || die "make-db failed"
 
-DB=pombase-build-$DB_DATE_VERSION
+DB=pombase-build-$DATE_VERSION
 
 LOG_DIR=`pwd`
 
@@ -362,7 +362,7 @@ else
 fi
 
 
-perl -pne 's/^\s*spo:(\S+)\s+path:(\S+)\s*/$1\t\tKEGG_PW:$2\t\tPMID:10592173\t'$DB_DATE_VERSION'\n/' $SOURCES/pombe_kegg_latest.tsv |
+perl -pne 's/^\s*spo:(\S+)\s+path:(\S+)\s*/$1\t\tKEGG_PW:$2\t\tPMID:10592173\t'$DATE_VERSION'\n/' $SOURCES/pombe_kegg_latest.tsv |
   $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-annotation \
     --organism-taxonid=4896 "$HOST" $DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.kegg-pathway
 
@@ -651,7 +651,6 @@ SELECT uniquename FROM pub WHERE uniquename LIKE 'PMID:%'
  ORDER BY substring(uniquename FROM 'PMID:(\d+)')::integer;" > $CURRENT_BUILD_DIR/publications_with_annotations.txt
 ) > $LOG_DIR/$log_file.export_warnings 2>&1
 
-#POMBASE_TERMS=pombase_terms-$DB_DATE_VERSION.obo
 POMBASE_TERMS=pombase_terms-v62-with-severity-terms.obo
 
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml ontology --constraint-type=db_name --constraint-value=PBO "$HOST" $DB $USER $PASSWORD > $SOURCES/pombase/$POMBASE_TERMS
@@ -881,9 +880,9 @@ rm -f $DUMPS_DIR/latest_build
 ln -s $CURRENT_BUILD_DIR $DUMPS_DIR/latest_build
 
 (cd ~/git/pombase-chado &&
- nice -10 ./etc/build_container.sh $DB_DATE_VERSION $DUMPS_DIR/latest_build prod /var/pomcur/container_build)
+ nice -10 ./etc/build_container.sh $DATE_VERSION $DUMPS_DIR/latest_build prod /var/pomcur/container_build)
 
-IMAGE_NAME=pombase/web:$DB_DATE_VERSION-prod
+IMAGE_NAME=pombase/web:$DATE_VERSION-prod
 
 docker service update --image=$IMAGE_NAME pombase-dev
 docker service update --replicas 1 pombase-dev
