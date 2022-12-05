@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use Carp;
 
+use open ':encoding(utf8)';
+binmode(STDOUT, 'encoding(UTF-8)');
 
 use Bio::SeqIO;
 use Bio::Chado::Schema;
