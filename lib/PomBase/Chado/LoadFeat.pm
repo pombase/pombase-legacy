@@ -234,9 +234,9 @@ sub save_transcript {
   my $feature = shift;
   my $uniquename = shift;
   my $gene_uniquename = shift;
+  my $so_type = shift;
 
   my $feat_type = $feature->primary_tag();
-  my $so_type = $feature_loader_conf{$feat_type}->{so_type};
 
   if (!defined $uniquename) {
     warn "$feat_type feature has no uniquename\n" unless $self->quiet();
@@ -266,8 +266,7 @@ sub save_transcript {
   $data->{bioperl_feature} = $feature;
   $data->{so_type} = $so_type;
   $data->{gene_uniquename} = $gene_uniquename;
-  $data->{transcript_so_type} =
-    $feature_loader_conf{$feat_type}->{so_type};
+  $data->{transcript_so_type} = $so_type;
 }
 
 sub save_utr {
@@ -348,7 +347,7 @@ sub process {
     if ($so_type =~ /UTR/) {
       $self->save_utr($feature, $uniquename, $transcript_uniquename, $gene_uniquename);
     } else {
-      $self->save_transcript($feature, $uniquename, $gene_uniquename);
+      $self->save_transcript($feature, $uniquename, $gene_uniquename, $so_type);
     }
     return;
   }
