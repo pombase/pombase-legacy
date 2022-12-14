@@ -702,6 +702,8 @@ sub store_transcript_parts {
 
   my $chado = $self->chado();
   my $cds_location = $bioperl_cds->location();
+  my $cds_start = $cds_location->start();
+  my $cds_end = $cds_location->end();
   my $transcript_start = $cds_location->start();
   my $transcript_end = $cds_location->end();
 
@@ -824,7 +826,7 @@ sub store_transcript_parts {
     $self->store_feature_rel($chado_peptide, $chado_transcript, 'derives_from');
 
     $self->store_location($chado_peptide, $chromosome, $strand,
-                          $transcript_start, $transcript_end);
+                          $cds_start, $cds_end);
 
   }
 
