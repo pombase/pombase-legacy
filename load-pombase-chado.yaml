@@ -1408,6 +1408,21 @@ check_chado:
          JOIN cvterm t ON t.cvterm_id = allele.type_id
          WHERE t.name = 'allele'
            AND allele.name IS NULL;
+    - name: allele_with_space_in_name
+      verbose_fail: true
+      description: "Check for alleles that have space in the name"
+      github_issue: 
+      expected: 0   # For now we're going to report all of them
+      query: |
+           SELECT f.name allele_name,
+                  array_to_string(array (SELECT p.value
+                                     FROM featureprop p
+                                     JOIN cvterm pt ON p.type_id = pt.cvterm_id
+                                     WHERE f.feature_id = p.feature_id
+                                       AND pt.name = 'canto_session'), ',') AS canto_session
+           FROM feature f
+           WHERE name like '% %'
+             AND f.type_id in (SELECT cvterm_id FROM cvterm WHERE name = 'allele');
     - name: duplicated_allele_names
       verbose_fail: true
       description: "Check for two or more alleles with the same name"
