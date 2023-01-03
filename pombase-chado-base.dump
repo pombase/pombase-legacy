@@ -69746,7 +69746,7 @@ CREATE INDEX featureloc_idx2 ON public.featureloc USING btree (srcfeature_id);
 
 CREATE INDEX featureloc_idx3 ON public.featureloc USING btree (srcfeature_id, fmin, fmax);
 
-CREATE INDEX pombase_featureloc_range_idx ON public.featureloc USING gist(srcfeature_id, strand, int4range(fmin+1, fmax));
+CREATE INDEX pombase_featureloc_range_idx ON public.featureloc USING gist(srcfeature_id, strand, int4range(fmin+1, fmax, '[]'));
 
 --
 -- Name: featureloc_pub_idx1; Type: INDEX; Schema: public; Owner: kmr44
