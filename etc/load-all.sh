@@ -884,7 +884,7 @@ ln -s $CURRENT_BUILD_DIR $DUMPS_DIR/latest_build
 
 IMAGE_NAME=pombase/web:$DATE_VERSION-prod
 
-docker service update --image=$IMAGE_NAME pombase-dev
+docker service update --image=$IMAGE_NAME --replicas 1 pombase-dev
 
 if [ $CHADO_CHECKS_STATUS=passed ]
 then
@@ -964,8 +964,6 @@ then
     #  --delete-after
     rsync -aHS $SOURCES/pombe-embl/ftp_site/pombe/ pombase-admin@149.155.131.177:/home/ftp/pombase/pombe/
 fi
-
-docker service update --replicas 1 pombase-dev
 
 echo "$DB" > $SOURCES/current_pombase_database.txt
 
