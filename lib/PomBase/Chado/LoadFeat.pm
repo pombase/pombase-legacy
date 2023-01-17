@@ -141,6 +141,16 @@ my %feature_loader_conf = (
     transcript => 1,
     so_type => 'snRNA',
   },
+  lncRNA => {
+    save => 1,
+    transcript => 1,
+    so_type => 'lncRNA',
+  },
+  sncRNA => {
+    save => 1,
+    transcript => 1,
+    so_type => 'sncRNA',
+  },
   rRNA => {
     save => 1,
     transcript => 1,
