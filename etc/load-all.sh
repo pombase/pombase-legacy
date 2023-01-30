@@ -40,6 +40,7 @@ USER_AGENT_FOR_EBI='Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13)
 (cd ~/git/pombase-chado; git pull) || die "Failed to update pombase-chado"
 (cd ~/git/pombase-legacy; git pull) || die "Failed to update pombase-legacy"
 (cd ~/git/pombase-website; git pull) || die "Failed to update pombase-website"
+(cd ~/git/genome_changelog; git pull) || die "Failed to update genome_changelog"
 (cd ~/git/japonicus-curation; git pull) || die "Failed to update japonicus-curation"
 
 (cd $SOURCES/pombe-embl/; svn update || exit 1)
