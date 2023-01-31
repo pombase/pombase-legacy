@@ -899,10 +899,11 @@ then
     # running webapp
     ssh pombase-admin@149.155.131.177 "sudo /bin/systemctl reload apache"
 
+    echo copy  $IMAGE_NAME to server:
     nice -19 docker save $IMAGE_NAME | ssh pombase-admin@149.155.131.177 sudo docker load &&
       ssh pombase-admin@149.155.131.177 "sudo /home/pombase-admin/bin/update_alt_image $IMAGE_NAME"
 
-    echo copied $IMAGE_NAME to the server
+    echo copied image to the server
 
     (cd $SOURCES/pombe-embl/ftp_site/pombe/; svn update)
 
