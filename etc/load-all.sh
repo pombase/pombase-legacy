@@ -377,6 +377,19 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     --feature-uniquename-column=6 --property-column=1 \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/rnacentral_pombe_identifiers.tsv
 
+echo load PDBe IDs
+
+perl -ne '
+  ($id, $pdb_id, $taxon_ids) = /^(.*)\t(.*)\t(.*)$/;
+  for $taxon_id (split(",", $taxon_ids)) {
+    print if $taxon_id == 284812 || $taxon_id == 4896
+  }' \
+      < $SOURCES/pombe-embl/external_data/protein_structure/systematic_id_to_pdbe_mapping.tsv |
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-property \
+    --property-name="pdb_identifier" --organism-taxonid=4896 \
+    --feature-uniquename-column=1 --property-column=2 \
+    "$HOST" $DB $USER $PASSWORD
+
 
 echo update RNAcentral data file
 curl --user-agent "$USER_AGENT_FOR_EBI" -s -o $SOURCES/rfam_annotations.tsv.gz -z $SOURCES/rfam_annotations.tsv.gz https://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/rfam/rfam_annotations.tsv.gz ||
