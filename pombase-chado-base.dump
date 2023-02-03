@@ -920,7 +920,7 @@ CREATE TABLE public.feature (
     is_obsolete boolean DEFAULT false NOT NULL,
     timeaccessioned timestamp without time zone DEFAULT now() NOT NULL,
     timelastmodified timestamp without time zone DEFAULT now() NOT NULL
-);
+) WITH (toast_tuple_target=512);
 ALTER TABLE ONLY public.feature ALTER COLUMN residues SET STORAGE EXTERNAL;
 
 
@@ -11195,7 +11195,7 @@ CREATE TABLE public.pubprop (
     type_id integer NOT NULL,
     value text NOT NULL,
     rank integer
-);
+) WITH (toast_tuple_target=512);
 
 
 ALTER TABLE public.pubprop OWNER TO kmr44;
