@@ -380,7 +380,7 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
 echo load PDBe IDs
 
 perl -ne '
-  ($id, $pdb_id, $taxon_ids) = /^(.*)\t(.*)\t(.*)$/;
+  ($id, $pdb_id, $taxon_ids) = split /\t/;
   for $taxon_id (split(",", $taxon_ids)) {
     print "$id\t$pdb_id\n" if $taxon_id == 284812 || $taxon_id == 4896
   }' < $SOURCES/pombe-embl/external_data/protein_structure/systematic_id_to_pdbe_mapping.tsv |
