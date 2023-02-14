@@ -892,9 +892,6 @@ DUMP_FILE=$CURRENT_BUILD_DIR/$DB.chado_dump.gz
 echo dumping to $DUMP_FILE
 pg_dump $DB | gzip -9 > $DUMP_FILE
 
-rm -f $DUMPS_DIR/latest_build
-ln -s $CURRENT_BUILD_DIR $DUMPS_DIR/latest_build
-
 (cd ~/git/pombase-chado &&
  nice -10 ./etc/build_container.sh $DATE_VERSION $DUMPS_DIR/latest_build prod /var/pomcur/container_build)
 
@@ -904,9 +901,6 @@ docker service update --image=$IMAGE_NAME --replicas 1 pombase-dev
 
 if [ $CHADO_CHECKS_STATUS=passed ]
 then
-    rm -f $DUMPS_DIR/nightly_update
-    ln -s $CURRENT_BUILD_DIR $DUMPS_DIR/nightly_update
-
     echo copy JBrowse datasets to the Babraham server
     rsync --delete-during -avHSP /data/pombase/external_datasets/processed/ babraham-pombase:/home/ftp/pombase/external_datasets/
 
@@ -975,6 +969,12 @@ then
     cp $CURRENT_BUILD_DIR/$DB.phaf.gz                      $SOURCES/pombe-embl/ftp_site/pombe/annotations/Phenotype_annotations/phenotype_annotations.pombase.phaf.gz
 
     (cd $SOURCES/pombe-embl/ftp_site/pombe/; svn commit -m "Automatic file update for $DB")
+
+    rm -f $DUMPS_DIR/nightly_update
+    rm -f $DUMPS_DIR/latest_build
+
+    ln -s $CURRENT_BUILD_DIR $DUMPS_DIR/nightly_update
+    ln -s $CURRENT_BUILD_DIR $DUMPS_DIR/latest_build
 
     rsync -aH --delete-after $CURRENT_BUILD_DIR/ pombase-admin@149.155.131.177:/home/ftp/pombase/nightly_update/
 
