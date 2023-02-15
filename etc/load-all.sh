@@ -895,7 +895,7 @@ echo dumping to $DUMP_FILE
 pg_dump $DB | gzip -9 > $DUMP_FILE
 
 (cd ~/git/pombase-chado &&
- nice -10 ./etc/build_container.sh $DATE_VERSION $DUMPS_DIR/latest_build prod /var/pomcur/container_build)
+ nice -10 ./etc/build_container.sh $DATE_VERSION $CURRENT_BUILD_DIR prod /var/pomcur/container_build)
 
 IMAGE_NAME=pombase/web:$DATE_VERSION-prod
 
