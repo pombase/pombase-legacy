@@ -47,6 +47,8 @@ USER_AGENT_FOR_EBI='Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13)
 
 (cd $SOURCES/go-site/; git pull || exit 1)
 
+. $SOURCES/private-config/pombase_load_secrets
+
 docker service update --replicas 0 pombase-dev
 
 (cd ~/git/pombase-legacy
@@ -981,6 +983,13 @@ then
     #  --delete-after
     rsync -aHS $SOURCES/pombe-embl/ftp_site/pombe/ pombase-admin@149.155.131.177:/home/ftp/pombase/pombe/
 fi
+
+perl -pne 's/^PMID://' < $CURRENT_BUILD_DIR/publications_with_annotations.txt > /tmp/holdings.uid
+gzip -9 < /tmp/holdings.uid > /tmp/holdings.uid.gz
+
+curl -T /tmp/holdings.uid ftp://pombase:$PUBMED_PASSWORD@ftp-private.ncbi.nlm.nih.gov/holdings/holdings.uid
+
+curl -T holdings.uid.gz ftp://elinks:$EPMC_PASSWORD@labslink.ebi.ac.uk/$EPMC_DIRECTORY/holdings.uid.gz
 
 echo "$DB" > $SOURCES/current_pombase_database.txt
 
