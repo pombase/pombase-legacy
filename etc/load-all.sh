@@ -666,10 +666,14 @@ SELECT uniquename FROM pub WHERE uniquename LIKE 'PMID:%'
  ORDER BY substring(uniquename FROM 'PMID:(\d+)')::integer;" > $CURRENT_BUILD_DIR/publications_with_annotations.txt
 ) > $LOG_DIR/$log_file.export_warnings 2>&1
 
-POMBASE_TERMS=pombase_terms-v62-with-severity-terms.obo
+POMBASE_TERMS_OBO=pombase_terms-$DATE_VERSION.obo
 
-$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml ontology --constraint-type=db_name --constraint-value=PBO "$HOST" $DB $USER $PASSWORD > $SOURCES/pombase/$POMBASE_TERMS
-(cd $SOURCES/pombase; ln -sf $POMBASE_TERMS pombase_terms-latest.obo)
+$POMBASE_CHADO/script/pombase-export.pl $LOAD_CONFIG ontology \
+   --constraint-type=db_name --constraint-value=PBO \
+   "$HOST" $DB $USER $PASSWORD > $SOURCES/pombase/$POMBASE_TERMS_OBO
+
+
+(cd $SOURCES/pombase; ln -sf $POMBASE_TERMS_OBO pombase_terms-latest.obo)
 
 cp $LOG_DIR/$log_file.gaf-load-output $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.legacy_go_from_contigs $CURRENT_BUILD_DIR/logs/
