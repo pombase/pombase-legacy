@@ -993,7 +993,7 @@ gzip -9 < /tmp/holdings.uid > /tmp/holdings.uid.gz
 
 curl -T /tmp/holdings.uid ftp://pombase:$PUBMED_PASSWORD@ftp-private.ncbi.nlm.nih.gov/holdings/holdings.uid
 
-curl -T holdings.uid.gz ftp://elinks:$EPMC_PASSWORD@labslink.ebi.ac.uk/$EPMC_DIRECTORY/holdings.uid.gz
+curl -T /tmp/holdings.uid.gz ftp://elinks:$EPMC_PASSWORD@labslink.ebi.ac.uk/$EPMC_DIRECTORY/holdings.uid.gz
 
 echo "$DB" > $SOURCES/current_pombase_database.txt
 
