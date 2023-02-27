@@ -932,6 +932,7 @@ then
     cp $CURRENT_BUILD_DIR/misc/Complex_annotation.tsv      $SOURCES/pombe-embl/ftp_site/pombe/annotations/Gene_ontology/GO_complexes/Complex_annotation.tsv
 
     cp $CURRENT_BUILD_DIR/misc/*.exon.coords.tsv      $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/Exon_Coordinates/
+    cp $CURRENT_BUILD_DIR/misc/*.cds.coords.tsv      $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/CDS_Coordinates/
 
     gzip -9 < $CURRENT_BUILD_DIR/misc/gene_product_annotation_data_taxonid_4896.tsv > $SOURCES/pombe-embl/ftp_site/pombe/annotations/Gene_ontology/pombase.gpad.gz
     gzip -9 < $CURRENT_BUILD_DIR/misc/gene_product_information_taxonid_4896.tsv     > $SOURCES/pombe-embl/ftp_site/pombe/annotations/Gene_ontology/pombase.gpi.gz
