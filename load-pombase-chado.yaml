@@ -630,6 +630,12 @@ evidence_types:
     name: in situ hybridization evidence used in manual assertion
   'ECO:0000116':
     name: differential hybridization evidence
+  'ECO:0001563':
+    name: cell growth assay evidence
+  'ECO:0005004':
+    name: cell viability assay evidence
+  'ECO:0001098':
+    name: microscopy evidence
 
 suppressible_evidence_codes:
 
