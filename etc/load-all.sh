@@ -992,12 +992,14 @@ then
     rsync -aHS $SOURCES/pombe-embl/ftp_site/pombe/ pombase-admin@149.155.131.177:/home/ftp/pombase/pombe/
 fi
 
-perl -pne 's/^PMID://' < $CURRENT_BUILD_DIR/publications_with_annotations.txt > /tmp/holdings.uid
-gzip -9 < /tmp/holdings.uid > /tmp/holdings.uid.gz
+if [ `date '+%A'` = 'Sunday' ]
+then
+  perl -pne 's/^PMID://' < $CURRENT_BUILD_DIR/publications_with_annotations.txt > /tmp/holdings.uid
+  gzip -9 < /tmp/holdings.uid > /tmp/holdings.uid.gz
 
-curl -T /tmp/holdings.uid ftp://pombase:$PUBMED_PASSWORD@ftp-private.ncbi.nlm.nih.gov/holdings/holdings.uid
-
-curl -T /tmp/holdings.uid.gz ftp://elinks:$EPMC_PASSWORD@labslink.ebi.ac.uk/$EPMC_DIRECTORY/holdings.uid.gz
+  curl -T /tmp/holdings.uid ftp://pombase:$PUBMED_PASSWORD@ftp-private.ncbi.nlm.nih.gov/holdings/holdings.uid
+  curl -T /tmp/holdings.uid.gz ftp://elinks:$EPMC_PASSWORD@labslink.ebi.ac.uk/$EPMC_DIRECTORY/holdings.uid.gz
+fi
 
 echo "$DB" > $SOURCES/current_pombase_database.txt
 
