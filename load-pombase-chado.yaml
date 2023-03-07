@@ -32,6 +32,7 @@ cvs:
     - symbol
     - description
     - allele_type
+    - allele_variant
     - uniprot_identifier
     - name: biogrid_interactor_id
       definition: the ID of this gene in the BioGRID database
