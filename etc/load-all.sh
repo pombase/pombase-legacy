@@ -916,7 +916,7 @@ then
 
     echo copy  $IMAGE_NAME to server:
     nice -19 docker save $IMAGE_NAME | ssh pombase-admin@149.155.131.177 sudo docker load &&
-      ssh pombase-admin@149.155.131.177 "sudo /home/pombase-admin/bin/update_alt_image $IMAGE_NAME"
+      ssh pombase-admin@149.155.131.177 "sudo docker service update --image $IMAGE_NAME main-1"
 
     echo copied image to the server
 
