@@ -85,6 +85,7 @@ cvs:
     - name: unknown
       description: An allele whose type has not been established.
     - name: other
+    - name: fusion_or_chimera
     - name: unspecified
   PomBase annotation extension terms: []
   PomBase gene products: []
