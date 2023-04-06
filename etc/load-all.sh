@@ -308,8 +308,13 @@ echo Updating $SOURCES/pombase-prediction.gaf
 GET 'http://snapshot.geneontology.org/products/annotations/pombase-prediction.gaf' | perl -ne 'print unless /\tC\t/' > $SOURCES/pombase-prediction.gaf.new || echo failed to download pombase-prediction.gaf
 if [ -s $SOURCES/pombase-prediction.gaf.new ]
 then
-  mv $SOURCES/pombase-prediction.gaf $SOURCES/pombase-prediction.gaf.old
-  mv $SOURCES/pombase-prediction.gaf.new $SOURCES/pombase-prediction.gaf
+  if grep -q 'gaf-version: 2.0'
+  then
+    mv $SOURCES/pombase-prediction.gaf $SOURCES/pombase-prediction.gaf.old
+    mv $SOURCES/pombase-prediction.gaf.new $SOURCES/pombase-prediction.gaf
+  else
+    echo "Failed to download new pombase-prediction.gaf - doesn't look like a GAF file" 1>&2
+  fi
 else
   echo "Coudn't download new pombase-prediction.gaf - file is empty" 1>&2
 fi
