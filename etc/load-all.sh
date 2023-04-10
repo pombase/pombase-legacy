@@ -311,7 +311,7 @@ GET $POMBASE_PREDICTION_URL | perl -ne 'print unless /\tC\t/' > $SOURCES/pombase
 
 if [ -s $SOURCES/pombase-prediction.gaf.new ]
 then
-  if grep -q 'gaf-version: 2.0'
+  if grep -q 'gaf-version: 2.0' $SOURCES/pombase-prediction.gaf.new
   then
     mv $SOURCES/pombase-prediction.gaf $SOURCES/pombase-prediction.gaf.old
     mv $SOURCES/pombase-prediction.gaf.new $SOURCES/pombase-prediction.gaf
