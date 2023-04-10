@@ -305,7 +305,10 @@ done
 
 echo Updating $SOURCES/pombase-prediction.gaf
 
-GET 'http://snapshot.geneontology.org/products/annotations/pombase-prediction.gaf' | perl -ne 'print unless /\tC\t/' > $SOURCES/pombase-prediction.gaf.new || echo failed to download pombase-prediction.gaf
+POMBASE_PREDICTION_URL=http://snapshot.geneontology.org/products/upstream_and_raw_data/pombase-prediction.gaf
+
+GET $POMBASE_PREDICTION_URL | perl -ne 'print unless /\tC\t/' > $SOURCES/pombase-prediction.gaf.new || echo failed to download pombase-prediction.gaf
+
 if [ -s $SOURCES/pombase-prediction.gaf.new ]
 then
   if grep -q 'gaf-version: 2.0'
