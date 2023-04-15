@@ -906,6 +906,8 @@ DUMP_FILE=$CURRENT_BUILD_DIR/$DB.chado_dump.gz
 echo dumping to $DUMP_FILE
 pg_dump $DB | gzip -9 > $DUMP_FILE
 
+psql $DB -c 'VACUUM FULL;'
+
 (cd ~/git/pombase-chado &&
  nice -10 ./etc/build_container.sh $DATE_VERSION $CURRENT_BUILD_DIR prod /var/pomcur/container_build)
 
