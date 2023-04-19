@@ -1020,6 +1020,15 @@ Model::ChadoModel:
 
 EOF
 
+echo build and deploy allele_qc container
+
+(cd $HOME/git/allele_qc
+ git pull
+ docker build -f Dockerfile -t pombase/allele_qc:$DATE_VERSION .
+ docker service update --replicas 2 allele_qc
+ docker service update --image pombase/allele_qc:$DATE_VERSION
+ docker service update --replicas 1 allele_qc)
+
 echo finished building: $DB
 
 date
