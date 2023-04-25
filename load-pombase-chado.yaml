@@ -55,6 +55,8 @@ cvs:
     - name: interaction_rescued_phenotype_extension
       definition: The extension of the single allele phenotype in an interaction annotation
     - source_database
+    - name: source_file
+      definition: Source file for feature, eg. PHAF file name for an allele
     - curator_name
     - community_curated
     - annotation_throughput_type
@@ -497,7 +499,6 @@ evidence_types:
     throughput_type: high throughput
   UNK:
     name: Unknown
-  Microscopy: ~
   'Other': ~
   'Other direct assay': ~
   'Affinity Capture-Luminescence': ~
