@@ -77,8 +77,10 @@ cvs:
     - name: disruption
     - name: nonsense_mutation
     - name: nucleotide_insertion
+    - name: nucleotide_insertion_and_mutation
     - name: nucleotide_mutation
     - name: partial_nucleotide_deletion
+    - name: nucleotide_deletion_and_mutation
     - name: wild_type
     - name: partial_amino_acid_deletion
       description: Deletion of part of a gene.
