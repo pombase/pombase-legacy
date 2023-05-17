@@ -67,7 +67,9 @@ echo update FYPO from GitHub
 PROCESSED_MINI_PRO_OBO=/tmp/processed_mini_pro_$(logname)_$$.obo
 $POMBASE_LEGACY/etc/process_pombe_mini_pr.pl $SOURCES_DIR/pombe-embl/mini-ontologies/pombe_mini_PR.obo > $PROCESSED_MINI_PRO_OBO
 
-(cd $SOURCES_DIR/; wget -N http://purl.obolibrary.org/obo/mondo.obo)
+(cd $SOURCES_DIR/
+   wget -N http://purl.obolibrary.org/obo/mondo.obo
+   wget -N https://github.com/pombase/fypo/releases/latest/download/fypo-simple-pombase.obo )
 
 GO_OBO=go-basic.obo
 
@@ -89,7 +91,7 @@ OBO_FILES="\
  pombe-embl/mini-ontologies/has_qualifier_range.obo \
  pombe-embl/mini-ontologies/pombase_gene_expression_ontology.obo \
  pombe-embl/mini-ontologies/kegg_pathways.obo \
- pombase_fypo_github/fypo-simple-pombase.obo \
+ fypo-simple-pombase.obo \
  mondo.obo \
  $GO_OBO"
 
