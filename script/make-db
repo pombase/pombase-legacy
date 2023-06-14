@@ -45,19 +45,6 @@ echo update GO from GitHub
 echo update FYPO from GitHub
 (cd $SOURCES_DIR/pombase_fypo_github/; git pull)
 
-(
-    cd $SOURCES_DIR/pro
-    PRO_FILE=pro_nonreasoned.obo
-    PRO_URL=ftp://ftp.pir.georgetown.edu/databases/ontology/pro_obo/$PRO_FILE
-
-    if GET -i $PRO_FILE $PRO_URL > $PRO_FILE.new
-    then
-       mv $PRO_FILE.new $PRO_FILE
-    else
-      echo "no new $PRO_FILE to download"
-      rm -f $PRO_FILE.new
-    fi
-)
 
 (cd $SOURCES_DIR/; wget -N http://purl.obolibrary.org/obo/go/snapshot/go-basic.obo)
 
