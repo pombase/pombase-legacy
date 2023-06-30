@@ -640,6 +640,8 @@ evidence_types:
     name: cell viability assay evidence
   'ECO:0001098':
     name: microscopy evidence
+  'ECO:0005518':
+    name: RNA detection assay evidence
 
 suppressible_evidence_codes:
 
