@@ -253,6 +253,7 @@ extension_restrictions:
       - occurs_in
       - part_of
       - regulates_activity_of
+      - modified_residue
   cellular_component:
     allowed:
       - annotated_transcript_id
