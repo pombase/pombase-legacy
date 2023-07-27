@@ -912,10 +912,15 @@ pg_dump $DB | gzip -9 > $DUMP_FILE
 
 psql $DB -c 'VACUUM FULL;'
 
+echo
+echo building Docker container
+
 (cd ~/git/pombase-chado &&
  nice -10 ./etc/build_container.sh $DATE_VERSION $CURRENT_BUILD_DIR prod /var/pomcur/container_build)
 
 IMAGE_NAME=pombase/web:$DATE_VERSION-prod
+
+echo restarting dev site
 
 docker service update --image=$IMAGE_NAME --replicas 1 pombase-dev
 
