@@ -509,6 +509,13 @@ sub store_feature_db_xref {
 
   if ($db_xref =~ /(.+):(.*)/) {
     my $db_name = $1;
+    my $id = $2;
+
+    if ($db_name eq 'PMID' && $id !~ /^\d+$/) {
+      warn qq|not storing /db_xref="$db_xref" - PubMed ID must be a number\n|;
+      return;
+    }
+
     my $db_dest_tables = $self->config()->{db_dest_tables};
     my $db_dest_table = $db_dest_tables->{$db_name};
     if (defined $db_dest_table) {
