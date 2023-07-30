@@ -486,8 +486,8 @@ echo load Malacard data from malacards_data_for_chado_mondo_ids.tsv
 $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml malacards --destination-taxonid=4896 "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/external_data/disease/malacards_data_for_chado_mondo_ids.tsv 2>&1 | tee $LOG_DIR/$log_file.malacards_data
 
 echo
-echo load disease associations from pombase_disease_associations_mondo_ids.txt
-$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml generic-annotation --organism-taxonid=4896 "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/external_data/disease/pombase_disease_associations_mondo_ids.txt 2>&1 | tee $LOG_DIR/$log_file.disease_associations
+echo load disease associations from pombase_disease_associations_mondo_ids.tsv
+$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml generic-annotation --organism-taxonid=4896 "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/external_data/disease/pombase_disease_associations_mondo_ids.tsv 2>&1 | tee $LOG_DIR/$log_file.disease_associations
 
 
 refresh_views
