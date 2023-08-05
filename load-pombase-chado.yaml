@@ -905,7 +905,7 @@ check_chado:
             AND path.type_id in (select cvterm_id from cvterm where name = 'is_a')
     - name: canto_annotations
       description: check for annotations from Canto
-      expected: '>= 8000'
+      expected: '>= 85000'
       verbose_fail: false
       query: |
         SELECT fc.feature_cvterm_id
