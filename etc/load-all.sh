@@ -629,6 +629,11 @@ mkdir $CURRENT_BUILD_DIR
 mkdir $CURRENT_BUILD_DIR/logs
 mkdir $CURRENT_BUILD_DIR/exports
 
+echo
+echo export allele details
+$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml allele-details --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD > $CURRENT_BUILD_DIR/exports/all-allele-details.tsv
+
+
 (
 
 (
