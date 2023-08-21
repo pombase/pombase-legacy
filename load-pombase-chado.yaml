@@ -67,6 +67,7 @@ cvs:
     - name: kegg_pathway
     - name: rnacentral_identifier
     - name: pdb_identifier
+    - name: transvar_coordinates
   PomBase allele types:
     - name: amino_acid_deletion_and_mutation
     - name: amino_acid_insertion
