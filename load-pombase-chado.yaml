@@ -1472,6 +1472,28 @@ check_chado:
                 GROUP BY allele.name, t.name
                 HAVING count(allele.feature_id) > 1)
            ORDER BY allele.name, allele.uniquename;
+    - name: modification_on_wrong_residue
+      verbose_fail: true
+      description: "Check for modications where the residue doesn't make sense for the term"
+      github_issue: 'https://github.com/pombase/pombase-chado/issues/1097'
+      expected: 0
+      query: |
+          SELECT base_cvterm_name as term_name, value as mod_position, f.uniquename as transcript_id,
+            (SELECT pp.value FROM pub
+             JOIN pubprop pp ON pp.pub_id = pub.pub_id
+             JOIN cvterm ppt ON ppt.cvterm_id = pp.type_id
+             WHERE ppt.name = 'canto_session' AND pub.pub_id = fc.pub_id
+             LIMIT 1) as canto_session
+          FROM pombase_feature_cvterm_ext_resolved_terms fc
+          JOIN feature f ON f.feature_id = fc.feature_id
+          JOIN feature_cvtermprop p ON p.feature_cvterm_id = fc.feature_cvterm_id
+          JOIN cvterm pt ON pt.cvterm_id = p.type_id
+          WHERE (base_cvterm_name = 'O-phospho-L-threonine' AND p.value not like 'T%'
+                 OR base_cvterm_name = 'O-phospho-L-serine' AND p.value not like 'S%')
+            AND pt.name = 'residue'
+          ORDER BY base_cvterm_name, p.value;
+
+
 
 qc_queries:
   no_fail: 1
