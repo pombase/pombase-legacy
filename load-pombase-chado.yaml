@@ -1474,7 +1474,7 @@ check_chado:
            ORDER BY allele.name, allele.uniquename;
     - name: modification_on_wrong_residue
       verbose_fail: true
-      description: "Check for modications where the residue doesn't make sense for the term"
+      description: "Check for modifications where the residue doesn't make sense for the term"
       github_issue: 'https://github.com/pombase/pombase-chado/issues/1097'
       expected: 0
       query: |
