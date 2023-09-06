@@ -36,6 +36,7 @@ cvs:
     - name: biogrid_interactor_id
       definition: the ID of this gene in the BioGRID database
     - canto_session
+    - canto_allele_systematic_id
     - name: ena_id
       definition: The European Nucleotide Archive ID of the feature.
     - genotype_background
