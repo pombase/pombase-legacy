@@ -417,8 +417,13 @@ echo load bulk protein modification files
 
 for file in $SOURCES/pombe-embl/external_data/modification_files/PMID*[^~]
 do
-  echo loading: $file
-  $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml modification "$HOST" $DB $USER $PASSWORD < $file 2>&1
+  $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml modification "$HOST" $DB $USER $PASSWORD < $file > /tmp/log.modification.tmp.txt 2>&1
+
+  if [ -s /tmp/log.modification.tmp.txt ]
+  then
+      echo loading: $file
+      cat /tmp/log.modification.tmp.txt
+  fi
 done | tee $LOG_DIR/$log_file.modification
 
 
