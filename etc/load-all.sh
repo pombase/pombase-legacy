@@ -1027,6 +1027,7 @@ then
 fi
 
 echo "$DB" > $SOURCES/current_pombase_database.txt
+echo "$DATE_VERSION" > $SOURCES/current_pombase_database_date.txt
 
 cat > $POMCUR/apps/pombe/canto_chado.yaml <<EOF
 
