@@ -29,6 +29,7 @@ use PomBase::Chado::GeneExQualifiersUtil;
 use PomBase::Chado::LoadUniProtMapping;
 use PomBase::Chado::GenotypeCache;
 use PomBase::Config;
+use PomBase::Role::OrganismFinder;
 
 my $verbose = 0;
 my $quiet = 0;
@@ -179,7 +180,7 @@ my @files = @ARGV;
 
 my $genotype_cache = PomBase::Chado::GenotypeCache->new(chado => $chado);
 
-my $organism = find_organism_by_taxonid($taxonid);
+my $organism = PomBase::Role::OrganismFinder::find_organism_by_taxonid_helper($chado, $taxonid);
 
 while (defined (my $file = shift)) {
   my $load_file = PomBase::Chado::LoadFile->new(chado => $chado,
