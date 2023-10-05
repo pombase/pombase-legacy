@@ -179,12 +179,14 @@ my @files = @ARGV;
 
 my $genotype_cache = PomBase::Chado::GenotypeCache->new(chado => $chado);
 
+my $organism find_organism_by_taxonid($taxonid);
+
 while (defined (my $file = shift)) {
   my $load_file = PomBase::Chado::LoadFile->new(chado => $chado,
                                                 genotype_cache => $genotype_cache,
                                                 verbose => $verbose,
                                                 config => $config,
-                                                organism_taxonid => $taxonid);
+                                                organism => $organism);
 
   $load_file->process_file($file);
 }

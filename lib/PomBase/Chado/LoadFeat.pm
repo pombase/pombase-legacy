@@ -363,7 +363,7 @@ sub process {
   }
 
   my $chado_feature =
-    $self->store_feature_and_loc($feature, $chromosome, $so_type);
+    $self->store_feature_and_loc($feature, $chromosome, $self->organism(), $so_type);
 
   if ($this_feature_type_conf->{collected}) {
     if (!$has_systematic_id) {
@@ -910,7 +910,8 @@ sub finalise {
 
     if (!defined $chado_gene) {
       $chado_gene = $self->store_feature_and_loc($transcript_bioperl_feature,
-                                                 $chromosome, 'gene',
+                                                 $chromosome, $self->organism(),
+                                                 'gene',
                                                  $gene_start, $gene_end);
       $self->gene_objects()->{$gene_uniquename} = $chado_gene;
     }

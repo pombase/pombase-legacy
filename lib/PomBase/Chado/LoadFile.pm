@@ -57,7 +57,7 @@ with 'PomBase::Role::OrganismFinder';
 
 has verbose => (is => 'ro', isa => 'Bool');
 has quiet => (is => 'ro', isa => 'Bool', default => 0);
-has organism_taxonid => (is => 'ro',
+has organism => (is => 'ro',
                          required => 1,
                        );
 has genotype_cache => (is => 'ro', required => 1,
@@ -71,7 +71,7 @@ sub process_file {
   my $verbose = $self->verbose();
   my $config = $self->config();
 
-  my $organism = $self->find_organism_by_taxonid($self->organism_taxonid());
+  my $organism = $self->organism();
 
   my $feature_loader =
     PomBase::Chado::LoadFeat->new(organism => $organism,
@@ -160,7 +160,7 @@ sub process_file {
   for my $bioperl_feature ($seq_obj->get_SeqFeatures) {
     try {
       my $chado_object =
-        $feature_loader->process($bioperl_feature, $chromosome);
+        $feature_loader->process($bioperl_feature, $chromosome, $organism);
     } catch {
       warn "  failed to process feature: $_\n" unless $self->quiet();
     }
