@@ -1049,6 +1049,6 @@ echo build and deploy allele_qc container
  docker service update --image pombase/allele_qc:$DATE_VERSION allele_qc
  docker service update --replicas 1 allele_qc)
 
-echo finished building: $DB
-
+echo
 date
+echo sucessfully finished building: $DB
