@@ -1049,6 +1049,15 @@ echo build and deploy allele_qc container
  docker service update --image pombase/allele_qc:$DATE_VERSION allele_qc
  docker service update --replicas 1 allele_qc)
 
+curl -X 'POST' \
+  'https://dev.apicuron.org/api/reports/bulk' \
+  -H 'accept: */*' \
+  -H 'version: 2' \
+  -H 'authorization: bearer '$APICURON_API_KEY \
+  -H 'Content-Type: multipart/form-data' \
+  -F 'delete_all=pombase' \
+  -F 'reports=@'$CURRENT_BUILD_DIR'/misc/apicuron_data.json;type=application/json'
+
 echo
 date
 echo sucessfully finished building: $DB
