@@ -187,6 +187,7 @@ cvs:
     - name: pubmed_abstract
     - name: pubmed_doi
     - name: annotation_curator
+    - name: annotation_file_curator
   cat_act: []
   genome_org: []
   m_f_g: []
