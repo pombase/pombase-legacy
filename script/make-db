@@ -127,6 +127,8 @@ export OWLTOOLS_MEMORY=20g
 
 date; echo finished
 
+psql -U $USER -h $HOST -q $DB -c 'CREATE INDEX pombase_feature_lower_uniquename ON feature(lower(uniquename));'
+
 # prevent duplicate feature uniquenames
 psql -U $USER -h $HOST -q $DB -c 'CREATE UNIQUE INDEX pombase_feature_uniquename_unique_idx ON feature(uniquename);'
 
