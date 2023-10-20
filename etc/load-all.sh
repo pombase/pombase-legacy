@@ -749,7 +749,7 @@ echo counts of qualifiers grouped by CV name
 psql $DB -c "select count(fc.feature_cvterm_id), value, base_cv_name from feature_cvtermprop p, pombase_feature_cvterm_ext_resolved_terms fc, cvterm t where type_id = (select cvterm_id from cvterm where name = 'qualifier' and cv_id = (select cv_id from cv where name = 'feature_cvtermprop_type')) and p.feature_cvterm_id = fc.feature_cvterm_id and fc.cvterm_id = t.cvterm_id group by value, base_cv_name order by count desc;"
 ) > $CURRENT_BUILD_DIR/logs/$log_file.qualifier_counts_by_cv
 
-psql $DB -c "\COPY (select pub.uniquename as pmid, p.value as comment from feature_cvterm fc join feature_cvtermprop p on fc.feature_cvterm_id = p.feature_cvterm_id join cvterm pt on pt.cvterm_id = p.type_id join pub on fc.pub_id = pub.pub_id where pt.name = 'submitter_comment' order by pub.uniquename) TO STDOUT DELIMITER E'\t' CSV HEADER;" > $CURRENT_BUILD_DIR/logs/$log_file.annotation_comments.tsv
+psql $DB -c "\COPY (select pub.uniquename as pmid, db.name || ':' || x.accession, p.value as comment from feature_cvterm fc join feature_cvtermprop p on fc.feature_cvterm_id = p.feature_cvterm_id join cvterm t on t.cvterm_id = fc.cvterm_id join dbxref x on x.dbxref_id = t.dbxref_id join db on db.db_id = x.db_id join cvterm pt on pt.cvterm_id = p.type_id join pub on fc.pub_id = pub.pub_id where pt.name = 'submitter_comment' order by pub.uniquename) TO STDOUT DELIMITER E'\t' CSV HEADER;" > $CURRENT_BUILD_DIR/logs/$log_file.annotation_comments.tsv
 
 (
 echo all protein family term and annotated genes
