@@ -194,6 +194,11 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/legacy_phenotype_annotations_from_contigs.phaf.tsv \
     > $log_file.legacy_phaf_from_contigs 2>&1
 
+# See: https://github.com/pombase/pombase-chado/issues/1105
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml modification \
+    "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/supporting_files/legacy_modifications_from_contigs.tsv \
+    > $log_file.legacy_modifications_from_contigs 2>&1
+
 
 echo loading features without coordinates
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml features \
@@ -202,6 +207,8 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     --parent-feature-id-column=5 --parent-feature-rel-column=4 \
     --ignore-lines-matching="^Identifier" \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/features_without_coordinates.txt
+
+pg_dump $DB | gzip -5 > /tmp/pombase-chado-before-biogrid.dump.gz
 
 echo starting import of biogrid data | tee $log_file.biogrid-load-output
 
@@ -696,6 +703,7 @@ $POMBASE_CHADO/script/pombase-export.pl $LOAD_CONFIG ontology \
 cp $LOG_DIR/$log_file.gaf-load-output $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.legacy_go_from_contigs $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.legacy_phaf_from_contigs $CURRENT_BUILD_DIR/logs/
+cp $LOG_DIR/$log_file.legacy_modifications_from_contigs $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.biogrid-load-output $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.compara_orths $CURRENT_BUILD_DIR/logs/$log_file.compara-orth-load-output
 cp $LOG_DIR/$log_file.manual_multi_orths $CURRENT_BUILD_DIR/logs/$log_file.manual-multi-orths-output
