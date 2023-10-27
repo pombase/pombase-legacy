@@ -196,7 +196,7 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
 
 # See: https://github.com/pombase/pombase-chado/issues/1105
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml modification \
-    "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/supporting_files/legacy_modifications_from_contigs.tsv \
+    "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/legacy_modifications_from_contigs.tsv \
     > $log_file.legacy_modifications_from_contigs 2>&1
 
 
