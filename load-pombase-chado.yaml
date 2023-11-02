@@ -164,6 +164,7 @@ cvs:
     - name: canto_annotation_status
     - name: canto_first_submitted_timestamp
     - name: canto_needs_approval_timestamp
+    - name: canto_approval_in_progress_timestamp
     - name: canto_approved_date
     - name: canto_approver_name
     - name: canto_approver_email
