@@ -290,9 +290,6 @@ refresh_views () {
   done
 }
 
-echo annotation evidence counts before loading
-evidence_summary $DB
-
 echo starting import of GAF data
 
 {
@@ -303,9 +300,6 @@ do
   echo reading $gaf_file
 
   $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf --ignore-synonyms "$HOST" $DB $USER $PASSWORD < $gaf_file
-
-  echo counts:
-  evidence_summary $DB
 done
 
    )
@@ -332,8 +326,6 @@ fi
 # load GO annotation inferred inter ontology links
 $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings --assigned-by-filter=PomBase,GOC "$HOST" $DB $USER $PASSWORD < $SOURCES/pombase-prediction.gaf
 
-echo counts after loading pombase-prediction.gaf:
-evidence_summary $DB
 
 pg_dump $DB | gzip -5 > /tmp/pombase-chado-before-goa.dump.gz
 
@@ -359,8 +351,6 @@ gzip -d < $SOURCES/snapshot.geneontology.org/pombase.gaf.gz | $POMBASE_CHADO/scr
 
 } 2>&1 | tee $LOG_DIR/$log_file.gaf-load-output
 
-echo annotation count after GAF loading:
-evidence_summary $DB
 
 
 echo load pombe KEGG data
@@ -520,8 +510,6 @@ echo
 echo load Canto data
 $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml canto-json --organism-taxonid=4896 --db-prefix=PomBase "$HOST" $DB $USER $PASSWORD < $CURATION_TOOL_DATA 2>&1 | tee $LOG_DIR/$log_file.curation_tool_data
 
-echo annotation count after loading curation tool data:
-evidence_summary $DB
 
 pg_dump $DB | gzip -5 > /tmp/pombase-chado-after-canto.dump.gz
 
@@ -596,10 +584,6 @@ pg_dump $DB | gzip -5 > /tmp/pombase-chado-after-go-filter.dump.gz
 echo
 echo counts of assigned_by after filtering:
 assigned_by_summary $DB
-
-echo
-echo annotation count after filtering redundant GO annotations
-evidence_summary $DB
 
 echo
 echo query PubMed for publication details, then store
