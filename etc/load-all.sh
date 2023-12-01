@@ -868,7 +868,6 @@ psql $DB -c "select count(distinct fc_id) as total from $sub_query;"
 
  ) > $CURRENT_BUILD_DIR/logs/$log_file.annotation_counts_by_cv
 
-refresh_views
 
 
 (cd $SOURCES; wget -N http://purl.obolibrary.org/obo/eco/gaf-eco-mapping.txt)
