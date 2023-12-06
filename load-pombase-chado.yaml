@@ -192,6 +192,8 @@ cvs:
     - name: pubmed_doi
     - name: annotation_curator
     - name: annotation_file_curator
+  feature_pubprop_type:
+    - name: feature_pub_source
   cat_act: []
   genome_org: []
   m_f_g: []
