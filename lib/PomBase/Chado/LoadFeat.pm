@@ -525,7 +525,9 @@ sub store_feature_db_xref {
         if ($db_dest_table eq 'pub') {
           my $pub = $self->find_or_create_pub($db_xref);
 
-          $self->create_feature_pub($feature, $pub);
+          my $feature_pub = $self->find_or_create_feature_pub($feature, $pub);
+          $self->store_feature_pubprop($feature_pub_id, 'feature_pub_source',
+                                       'contig_file_dbxref');
         } else {
           warn qq|not storing /db_xref="$db_xref" - unknown table "$db_dest_table" | .
             "configured in db_dest_tables\n";
