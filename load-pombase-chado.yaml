@@ -69,6 +69,7 @@ cvs:
     - name: rnacentral_identifier
     - name: pdb_identifier
     - name: transvar_coordinates
+    - name: insdc_protein_id
   PomBase allele types:
     - name: amino_acid_deletion_and_mutation
     - name: amino_acid_insertion

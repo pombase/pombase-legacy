@@ -398,6 +398,14 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     "$HOST" $DB $USER $PASSWORD
 
 
+echo load protein IDs
+# See: https://github.com/pombase/pombase-chado/issues/1090
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-property \
+    --property-name="insdc_protein_id" --organism-taxonid=4896 \
+    --feature-uniquename-column=1 --property-column=2 \
+    "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/pombe_protein_id_mapping.tsv
+
+
 echo update RNAcentral data file
 curl --user-agent "$USER_AGENT_FOR_EBI" -s -o $SOURCES/rfam_annotations.tsv.gz -z $SOURCES/rfam_annotations.tsv.gz https://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/rfam/rfam_annotations.tsv.gz ||
   echo failed to download new RNAcentral annotations file, continuing with previous version
