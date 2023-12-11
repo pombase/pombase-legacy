@@ -526,7 +526,7 @@ sub store_feature_db_xref {
           my $pub = $self->find_or_create_pub($db_xref);
 
           my $feature_pub = $self->find_or_create_feature_pub($feature, $pub);
-          $self->store_feature_pubprop($feature_pub_id, 'feature_pub_source',
+          $self->store_feature_pubprop($feature_pub, 'feature_pub_source',
                                        'contig_file_dbxref');
         } else {
           warn qq|not storing /db_xref="$db_xref" - unknown table "$db_dest_table" | .
