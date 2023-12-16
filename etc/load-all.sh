@@ -597,7 +597,8 @@ assigned_by_summary $DB
 echo
 echo query PubMed for publication details, then store
 $POMBASE_CHADO/script/pubmed_util.pl ./load-pombase-chado.yaml \
-  "$HOST" $DB $USER $PASSWORD --add-missing-fields 2>&1 | tee $LOG_DIR/$log_file.pubmed_query
+  "$HOST" $DB $USER $PASSWORD --add-missing-fields \
+  --organism-taxonid=4896 2>&1 | tee $LOG_DIR/$log_file.pubmed_query
 
 refresh_views
 
