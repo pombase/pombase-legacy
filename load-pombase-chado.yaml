@@ -412,7 +412,7 @@ organism_taxon_map:
   284812: 4896
   559292: 4932
 
-pombase_to_uniprot_mapping: 'ftp://ftp.pombase.org/pombe/names_and_identifiers/PomBase2UniProt.tsv'
+pombase_to_uniprot_mapping: 'https://www.pombase.org/data/names_and_identifiers/PomBase2UniProt.tsv'
 
 # a Perl regular expression that matches the systematic ID / uniquenames
 # in this database
