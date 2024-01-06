@@ -1500,6 +1500,7 @@ check_chado:
           JOIN cvterm pt ON pt.cvterm_id = p.type_id
           WHERE (base_cvterm_name = 'O-phospho-L-threonine' AND p.value not like 'T%'
                  OR base_cvterm_name = 'O-phospho-L-serine' AND p.value not like 'S%')
+            AND p.value NOT LIKE 'CTD_%'
             AND pt.name = 'residue'
           ORDER BY base_cvterm_name, p.value;
 
