@@ -351,7 +351,7 @@ then
   perl -e '$line = <>; die "no UniProt GOA version\n" unless $line =~ /^\d+/' < $GOA_POMBE_AND_JAPONICUS.uniprot_version
 fi
 
-GOA_VERSION=`cat $GOA_POMBE_AND_JAPONICUS.uniprot`
+GOA_VERSION=`cat $GOA_POMBE_AND_JAPONICUS.uniprot_version`
 $POMBASE_CHADO/script/pombase-admin.pl $POMBASE_LEGACY/load-pombase-chado.yaml add-chado-prop \
   "$HOST" $DB $USER $PASSWORD "UniProt GOA version" $GOA_VERSION
 
