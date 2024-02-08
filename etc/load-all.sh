@@ -234,7 +234,7 @@ cd $POMBASE_LEGACY
 BIOGRID_VERSION=`echo biogrid/BIOGRID-ORGANISM-Schizosaccharomyces_pombe*.tab2.txt | perl -pne 's/.*Schizosaccharomyces_pombe.*-(\d+\.\d+\.\d+).tab2.txt/$1/'`
 
 $POMBASE_CHADO/script/pombase-admin.pl $POMBASE_LEGACY/load-pombase-chado.yaml add-chado-prop \
-  "$HOST" $DB $USER $PASSWORD "BioGRID version" $BIOGRID_VERSION
+  "$HOST" $DB $USER $PASSWORD "BioGRID_version" $BIOGRID_VERSION
 
 # see https://sourceforge.net/p/pombase/chado/61/
 cat $SOURCES/biogrid/BIOGRID-ORGANISM-Schizosaccharomyces_pombe*.tab2.txt |
@@ -358,7 +358,7 @@ fi
 
 GOA_VERSION=`cat $GOA_POMBE_AND_JAPONICUS.uniprot_version`
 $POMBASE_CHADO/script/pombase-admin.pl $POMBASE_LEGACY/load-pombase-chado.yaml add-chado-prop \
-  "$HOST" $DB $USER $PASSWORD "UniProt GOA version" $GOA_VERSION
+  "$HOST" $DB $USER $PASSWORD "UniProt-GOA_version" $GOA_VERSION
 
 echo reading $GOA_POMBE_AND_JAPONICUS
 
