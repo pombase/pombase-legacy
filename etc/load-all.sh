@@ -333,14 +333,6 @@ $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --term-id-
 pg_dump $DB | gzip -5 > /tmp/pombase-chado-before-goa.dump.gz
 
 
-GOA_VERSION=`curl $GOA_VERSIONS_URL | perl -ne 'print "$1 $2" if /uniprot\s+(\S+)\s+(\S+)/'`
-
-echo $GOA_VERSION | perl -e '$line = <>; die "no UniProt GOA version\n" unless $line =~ /^\d+/'
-
-$POMBASE_CHADO/script/pombase-admin.pl $POMBASE_LEGACY/load-pombase-chado.yaml add-chado-prop \
-  "$HOST" $DB $USER $PASSWORD "UniProt GOA version" $GOA_VERSION
-
-
 GOA_GAF_FILENAME=gene_association.goa_uniprot.gz
 CURRENT_GOA_GAF="$SOURCES/$GOA_GAF_FILENAME"
 GOA_POMBE_AND_JAPONICUS="$SOURCES/gene_association.goa_uniprot.pombe+japonicus.gz"
@@ -353,7 +345,15 @@ if [ $CURRENT_GOA_GAF -nt $GOA_POMBE_AND_JAPONICUS ]
 then
   echo processing new GOA file: $GOA_GAF_FILENAME
   gzip -d < $CURRENT_GOA_GAF | perl -ne 'print if /\ttaxon:(4896|284812|4897|402676)\t/' | gzip -9v > $GOA_POMBE_AND_JAPONICUS
+
+  curl $GOA_VERSIONS_URL | perl -ne 'print "$1 $2" if /uniprot\s+(\S+)\s+(\S+)/' > $GOA_POMBE_AND_JAPONICUS.uniprot_version
+
+  perl -e '$line = <>; die "no UniProt GOA version\n" unless $line =~ /^\d+/' < $GOA_POMBE_AND_JAPONICUS.uniprot_version
 fi
+
+GOA_VERSION=`cat $GOA_POMBE_AND_JAPONICUS`
+$POMBASE_CHADO/script/pombase-admin.pl $POMBASE_LEGACY/load-pombase-chado.yaml add-chado-prop \
+  "$HOST" $DB $USER $PASSWORD "UniProt GOA version" $GOA_VERSION
 
 echo reading $GOA_POMBE_AND_JAPONICUS
 
