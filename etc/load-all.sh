@@ -333,14 +333,21 @@ pg_dump $DB | gzip -5 > /tmp/pombase-chado-before-goa.dump.gz
 
 GOA_GAF_FILENAME=gene_association.goa_uniprot.gz
 CURRENT_GOA_GAF="$SOURCES/$GOA_GAF_FILENAME"
+GOA_POMBE_AND_JAPONICUS="$SOURCES/gene_association.goa_uniprot.pombe+japonicus.gz"
 
 echo checking for new GOA GAF file
 curl --user-agent "$USER_AGENT_FOR_EBI" -o $CURRENT_GOA_GAF -z $CURRENT_GOA_GAF $GOA_GAF_URL ||
   echo failed to download new $CURRENT_GOA_GAF, continuing with previous version
 
-echo reading $CURRENT_GOA_GAF
+if [ $CURRENT_GOA_GAF -nt $GOA_POMBE_AND_JAPONICUS ]
+then
+  echo processing new GOA file: $GOA_GAF_FILENAME
+  gzip -d < $CURRENT_GOA_GAF | perl -ne 'print if /\ttaxon:(4896|284812|4897|402676)\t/' | gzip -9v > $GOA_POMBE_AND_JAPONICUS
+fi
 
-gzip -d < $CURRENT_GOA_GAF | perl -ne 'print if /\ttaxon:(4896|284812)\t/' | $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --use-only-first-with-id --taxon-filter=4896 --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings --assigned-by-filter=InterPro,UniProtKB,UniProt,RHEA,IntAct,RNAcentral,ComplexPortal,CAFA "$HOST" $DB $USER $PASSWORD
+echo reading $GOA_POMBE_AND_JAPONICUS
+
+gzip -d < $GOA_POMBE_AND_JAPONICUS | perl -ne 'print if /\ttaxon:(4896|284812)\t/' | $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --use-only-first-with-id --taxon-filter=4896 --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings --assigned-by-filter=InterPro,UniProtKB,UniProt,RHEA,IntAct,RNAcentral,ComplexPortal,CAFA "$HOST" $DB $USER $PASSWORD
 
 pg_dump $DB | gzip -5 > /tmp/pombase-chado-after-goa.dump.gz
 
