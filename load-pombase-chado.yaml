@@ -21,7 +21,7 @@ cvs:
     - db_creation_datetime
     - date_version
     - db_date_version
-    - UniProt GOA version
+    - UniProt-GOA version
     - InterPro version
     - BioGRID version
   synonym_type:
