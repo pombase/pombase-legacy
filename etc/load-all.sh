@@ -72,6 +72,8 @@ LOAD_CONFIG=$POMBASE_LEGACY/load-pombase-chado.yaml
 
 GOA_GAF_URL=https://ftp.ebi.ac.uk/pub/databases/GO/goa/UNIPROT/goa_uniprot_all.gaf.gz
 
+GOA_VERSIONS_URL=https://ftp.ebi.ac.uk/pub/databases/GO/goa/current_release_numbers.txt
+
 cd $POMBASE_CHADO
 git pull || exit 1
 
@@ -329,6 +331,14 @@ $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --term-id-
 
 
 pg_dump $DB | gzip -5 > /tmp/pombase-chado-before-goa.dump.gz
+
+
+GOA_VERSION=`curl $GOA_VERSIONS_URL | perl -ne 'print "$1 $2" if /uniprot\s+(\S+)\s+(\S+)/'`
+
+echo $GOA_VERSION | perl -e '$line = <>; die "no UniProt GOA version\n" unless $line =~ /^\d+/'
+
+$POMBASE_CHADO/script/pombase-admin.pl $POMBASE_LEGACY/load-pombase-chado.yaml add-chado-prop \
+  "$HOST" $DB $USER $PASSWORD goa_version $GOA_VERSION
 
 
 GOA_GAF_FILENAME=gene_association.goa_uniprot.gz
