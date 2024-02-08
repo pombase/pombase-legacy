@@ -338,7 +338,7 @@ GOA_VERSION=`curl $GOA_VERSIONS_URL | perl -ne 'print "$1 $2" if /uniprot\s+(\S+
 echo $GOA_VERSION | perl -e '$line = <>; die "no UniProt GOA version\n" unless $line =~ /^\d+/'
 
 $POMBASE_CHADO/script/pombase-admin.pl $POMBASE_LEGACY/load-pombase-chado.yaml add-chado-prop \
-  "$HOST" $DB $USER $PASSWORD goa_version $GOA_VERSION
+  "$HOST" $DB $USER $PASSWORD "UniProt GOA version" $GOA_VERSION
 
 
 GOA_GAF_FILENAME=gene_association.goa_uniprot.gz
