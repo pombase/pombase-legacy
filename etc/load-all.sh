@@ -231,7 +231,7 @@ fi
 
 cd $POMBASE_LEGACY
 
-BIOGRID_VERSION=`echo biogrid/BIOGRID-ORGANISM-Schizosaccharomyces_pombe*.tab2.txt | perl -pne 's/.*Schizosaccharomyces_pombe.*-(\d+\.\d+\.\d+).tab2.txt/$1/'`
+BIOGRID_VERSION=`echo $SOURCES/biogrid/BIOGRID-ORGANISM-Schizosaccharomyces_pombe*.tab2.txt | perl -pne 's/.*Schizosaccharomyces_pombe.*-(\d+\.\d+\.\d+).tab2.txt/$1/'`
 
 $POMBASE_CHADO/script/pombase-admin.pl $POMBASE_LEGACY/load-pombase-chado.yaml add-chado-prop \
   "$HOST" $DB $USER $PASSWORD "BioGRID_version" $BIOGRID_VERSION
