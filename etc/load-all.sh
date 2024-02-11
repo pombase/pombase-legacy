@@ -343,8 +343,13 @@ CURRENT_GOA_GAF="$SOURCES/$GOA_GAF_FILENAME"
 GOA_POMBE_AND_JAPONICUS="$SOURCES/gene_association.goa_uniprot.pombe+japonicus.gz"
 
 echo checking for new GOA GAF file
-curl --user-agent "$USER_AGENT_FOR_EBI" -o $CURRENT_GOA_GAF -z $CURRENT_GOA_GAF $GOA_GAF_URL ||
+curl --user-agent "$USER_AGENT_FOR_EBI" -o $CURRENT_GOA_GAF.downloaded -z $CURRENT_GOA_GAF $GOA_GAF_URL ||
   echo failed to download new $CURRENT_GOA_GAF, continuing with previous version
+
+if [ -f $CURRENT_GOA_GAF.downloaded ]
+then
+  mv $CURRENT_GOA_GAF.downloaded $CURRENT_GOA_GAF
+fi
 
 if [ $CURRENT_GOA_GAF -nt $GOA_POMBE_AND_JAPONICUS ]
 then
