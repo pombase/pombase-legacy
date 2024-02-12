@@ -363,7 +363,7 @@ fi
 
 GOA_VERSION=`cat $GOA_POMBE_AND_JAPONICUS.uniprot_version`
 $POMBASE_CHADO/script/pombase-admin.pl $POMBASE_LEGACY/load-pombase-chado.yaml add-chado-prop \
-  "$HOST" $DB $USER $PASSWORD "UniProt-GOA_version" $GOA_VERSION
+  "$HOST" $DB $USER $PASSWORD "UniProt-GOA_version" "$GOA_VERSION"
 
 echo reading $GOA_POMBE_AND_JAPONICUS
 
