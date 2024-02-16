@@ -367,7 +367,14 @@ $POMBASE_CHADO/script/pombase-admin.pl $POMBASE_LEGACY/load-pombase-chado.yaml a
 
 echo reading $GOA_POMBE_AND_JAPONICUS
 
-gzip -d < $GOA_POMBE_AND_JAPONICUS | perl -ne 'print if /\ttaxon:(4896|284812)\t/' | $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --use-only-first-with-id --taxon-filter=4896 --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings --assigned-by-filter=InterPro,UniProtKB,UniProt,RHEA,IntAct,RNAcentral,ComplexPortal,CAFA "$HOST" $DB $USER $PASSWORD
+gzip -d < $GOA_POMBE_AND_JAPONICUS |
+    perl -ne 'print if /\ttaxon:(4896|284812)\t/' |
+    $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --use-only-first-with-id \
+       --taxon-filter=4896 \
+       --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs \
+       --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings \
+       --assigned-by-filter=InterPro,UniProtKB,UniProt,RHEA,IntAct,RNAcentral,ComplexPortal,CAFA,TreeGrafter \
+       "$HOST" $DB $USER $PASSWORD
 
 pg_dump $DB | gzip -5 > /tmp/pombase-chado-after-goa.dump.gz
 
