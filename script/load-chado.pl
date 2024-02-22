@@ -182,9 +182,12 @@ my $genotype_cache = PomBase::Chado::GenotypeCache->new(chado => $chado);
 
 my $organism = PomBase::Role::OrganismFinder::find_organism_by_taxonid_helper($chado, $taxonid);
 
+my %genes_by_name = ();
+
 while (defined (my $file = shift)) {
   my $load_file = PomBase::Chado::LoadFile->new(chado => $chado,
                                                 genotype_cache => $genotype_cache,
+                                                genes_by_name => \%genes_by_name,
                                                 verbose => $verbose,
                                                 config => $config,
                                                 organism => $organism);

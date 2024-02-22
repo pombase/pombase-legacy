@@ -859,6 +859,8 @@ sub finalise {
   my $self = shift;
   my $chromosome = shift;
 
+  my $genes_by_name = $self->genes_by_name();
+
   while (my ($uniquename, $feature_data) = each %{$self->transcript_data()}) {
     my $gene_start = 9999999999;
     my $gene_end = -1;
@@ -916,6 +918,15 @@ sub finalise {
                                                  'gene',
                                                  $gene_start, $gene_end);
       $self->gene_objects()->{$gene_uniquename} = $chado_gene;
+
+      my $gene_name = $chado_gene->name();
+      if ($gene_name) {
+        if (exists $genes_by_name->{$gene_name}) {
+          die qq|error: duplicate gene name "$gene_name" for $gene_uniquename\n|;
+        } else {
+          $genes_by_name->{$gene_name} = 1;
+        }
+      }
     }
 
     $self->process_qualifiers($transcript_bioperl_feature, $chado_gene);
