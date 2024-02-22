@@ -86,6 +86,7 @@ has seen_genes => (is => 'ro', init_arg => undef, isa => 'HashRef',
                    default => sub { {} });
 has genotype_cache => (is => 'ro', required => 1,
                        isa => 'PomBase::Chado::GenotypeCache');
+has genes_by_name => (is => 'ro', required => 1);
 has source_file => (is => 'ro', required => 1);
 
 sub _build_qual_load {
