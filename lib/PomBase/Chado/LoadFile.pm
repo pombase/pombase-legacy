@@ -62,7 +62,7 @@ has organism => (is => 'ro',
                        );
 has genotype_cache => (is => 'ro', required => 1,
                        isa => 'PomBase::Chado::GenotypeCache');
-has genes_by_name => (is => 'ro', required => 1)
+has genes_by_name => (is => 'ro', required => 1);
 
 sub process_file {
   my $self = shift;
