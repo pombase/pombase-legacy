@@ -178,10 +178,12 @@ pg_dump $DB | gzip -5 > /tmp/pombase-chado-after-load-chado-pl.dump.gz
 ## Disabled temporarily because of: https://github.com/pombase/pombase-chado/issues/992
 #
 #echo loading alleles from previous load
-#date
+#(date
 #ALLELE_SUMMARIES=$POMCUR_LATEST_BUILD/misc/allele_summaries.json
 #$POMCUR/bin/pombase-chado-load -p "postgres://kmr44:kmr44@localhost/$DB" \
-#  --taxonid 4896 allele-json $ALLELE_SUMMARIES
+#    --taxonid 4896 allele-json --mark-as-obsolete $ALLELE_SUMMARIES) \
+#    > $log_file.allele_summaries_load 2>&1
+
 
 
 # See: https://github.com/pombase/pombase-chado/issues/861
@@ -785,7 +787,7 @@ echo counts of qualifiers grouped by CV name
 psql $DB -c "select count(fc.feature_cvterm_id), value, base_cv_name from feature_cvtermprop p, pombase_feature_cvterm_ext_resolved_terms fc, cvterm t where type_id = (select cvterm_id from cvterm where name = 'qualifier' and cv_id = (select cv_id from cv where name = 'feature_cvtermprop_type')) and p.feature_cvterm_id = fc.feature_cvterm_id and fc.cvterm_id = t.cvterm_id group by value, base_cv_name order by count desc;"
 ) > $CURRENT_BUILD_DIR/logs/$log_file.qualifier_counts_by_cv
 
-psql $DB -c "\COPY (select pub.uniquename as pmid, db.name || ':' || x.accession, p.value as comment from feature_cvterm fc join feature_cvtermprop p on fc.feature_cvterm_id = p.feature_cvterm_id join cvterm t on t.cvterm_id = fc.cvterm_id join dbxref x on x.dbxref_id = t.dbxref_id join db on db.db_id = x.db_id join cvterm pt on pt.cvterm_id = p.type_id join pub on fc.pub_id = pub.pub_id where pt.name = 'submitter_comment' order by pub.uniquename) TO STDOUT DELIMITER E'\t' CSV HEADER;" > $CURRENT_BUILD_DIR/logs/$log_file.annotation_comments.tsv
+psql $DB -c "\COPY (select pub.uniquename as pmid, db.name || ':' || x.accession as termid, p.value as comment from feature_cvterm fc join feature_cvtermprop p on fc.feature_cvterm_id = p.feature_cvterm_id join cvterm t on t.cvterm_id = fc.cvterm_id join dbxref x on x.dbxref_id = t.dbxref_id join db on db.db_id = x.db_id join cvterm pt on pt.cvterm_id = p.type_id join pub on fc.pub_id = pub.pub_id where pt.name = 'submitter_comment' order by pub.uniquename) TO STDOUT DELIMITER E'\t' CSV HEADER;" > $CURRENT_BUILD_DIR/logs/$log_file.annotation_comments.tsv
 
 (
 echo all protein family term and annotated genes
@@ -801,7 +803,7 @@ p.feature_id = f.feature_id and p.type_id in (select cvterm_id from cvterm
 where name = 'canto_session')) as session from feature f where type_id in (select
 cvterm_id from cvterm where name = 'allele') and feature_id in (select
 feature_id from featureprop p where p.type_id in (select cvterm_id from cvterm
-where name = 'allele_type') and p.value = 'other');"
+where name = 'allele_type') and p.value = 'other') order by session, f.name;"
 ) > $CURRENT_BUILD_DIR/logs/$log_file.alleles_of_type_other
 
 (
