@@ -30,6 +30,8 @@ DUMPS_DIR=$WWW_DIR/dumps
 POMCUR_LATEST_BUILD=$DUMPS_DIR/latest_build/
 SOURCES=$POMCUR/sources
 
+POMBE_EMBL=$SOURCES/pombe-embl
+
 POMBASE_WEB_CONFIG=$HOME/git/pombase-config/website/pombase_v2_config.json
 
 # without a user agent we get "bad gateway" from ftp.ebi.ac.uk
@@ -426,12 +428,18 @@ echo load PDBe IDs
 perl -ne '
     ($id, $pdb_id, $taxon_id) = split /\t/;
     print "$id\t$pdb_id\n" if $taxon_id == 4896;
-  ' < $SOURCES/pombe-embl/external_data/protein_structure/systematic_id_to_pdbe_mapping.tsv |
+  ' < $POMBE_EMBL/external_data/protein_structure/systematic_id_to_pdbe_mapping.tsv |
     sort | uniq |
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-property \
     --property-name="pdb_identifier" --organism-taxonid=4896 \
     --feature-uniquename-column=1 --property-column=2 \
     "$HOST" $DB $USER $PASSWORD
+
+echo PDB PMIDs
+
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-feature-pub \
+    --organism-taxonid=4896 --feature-uniquename-column=1 --reference-column=8 \
+    "$HOST" $DB $USER $PASSWORD < $POMBE_EMBL/external_data/protein_structure/systematic_id_to_pdbe_mapping.tsv
 
 
 echo load protein IDs
