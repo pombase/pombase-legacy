@@ -439,6 +439,7 @@ echo PDB PMIDs
 
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-feature-pub \
     --organism-taxonid=4896 --feature-uniquename-column=1 --reference-column=8 \
+    --feature-pub-source="pdb" \
     "$HOST" $DB $USER $PASSWORD < $POMBE_EMBL/external_data/protein_structure/systematic_id_to_pdbe_mapping.tsv
 
 
