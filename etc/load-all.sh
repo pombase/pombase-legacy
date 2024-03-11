@@ -377,7 +377,7 @@ gzip -d < $GOA_POMBE_AND_JAPONICUS |
        --taxon-filter=4896 \
        --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs \
        --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings \
-       --assigned-by-filter=InterPro,UniProtKB,UniProt,RHEA,IntAct,RNAcentral,ComplexPortal,CAFA \
+       --assigned-by-filter=InterPro,UniProtKB,UniProt,RHEA,IntAct,RNAcentral,ComplexPortal,CAFA,TreeGrafter \
        "$HOST" $DB $USER $PASSWORD
 
 pg_dump $DB | gzip -5 > /tmp/pombase-chado-after-goa.dump.gz
