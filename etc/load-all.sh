@@ -174,7 +174,7 @@ date
 
 $POMBASE_LEGACY/etc/process-log.pl $log_file
 
-pg_dump $DB | gzip -5 > /tmp/pombase-chado-after-load-chado-pl.dump.gz
+pg_dump $DB | gzip -2 > /tmp/pombase-chado-after-load-chado-pl.dump.gz
 
 
 ## Disabled temporarily because of: https://github.com/pombase/pombase-chado/issues/992
@@ -215,7 +215,7 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     --ignore-lines-matching="^Identifier" \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/features_without_coordinates.txt
 
-pg_dump $DB | gzip -5 > /tmp/pombase-chado-before-biogrid.dump.gz
+pg_dump $DB | gzip -2 > /tmp/pombase-chado-before-biogrid.dump.gz
 
 echo starting import of biogrid data | tee $log_file.biogrid-load-output
 
@@ -339,7 +339,7 @@ fi
 $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings --assigned-by-filter=PomBase,GOC "$HOST" $DB $USER $PASSWORD < $SOURCES/pombase-prediction.gaf
 
 
-pg_dump $DB | gzip -5 > /tmp/pombase-chado-before-goa.dump.gz
+pg_dump $DB | gzip -2 > /tmp/pombase-chado-before-goa.dump.gz
 
 
 GOA_GAF_FILENAME=gene_association.goa_uniprot.gz
@@ -379,7 +379,7 @@ gzip -d < $GOA_POMBE_AND_JAPONICUS |
        --assigned-by-filter=InterPro,UniProtKB,UniProt,RHEA,IntAct,RNAcentral,ComplexPortal,CAFA,TreeGrafter \
        "$HOST" $DB $USER $PASSWORD
 
-pg_dump $DB | gzip -5 > /tmp/pombase-chado-after-goa.dump.gz
+pg_dump $DB | gzip -2 > /tmp/pombase-chado-after-goa.dump.gz
 
 
 (cd $SOURCES/snapshot.geneontology.org && wget -N http://snapshot.geneontology.org/annotations/pombase.gaf.gz)
@@ -554,7 +554,7 @@ refresh_views
 $POMBASE_CHADO/script/pombase-process.pl load-pombase-chado.yaml add-reciprocal-ipi-annotations  --organism-taxonid=4896 "$HOST" $DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.add_reciprocal_ipi_annotations
 
 
-pg_dump $DB | gzip -5 > /tmp/pombase-chado-before-canto.dump.gz
+pg_dump $DB | gzip -2 > /tmp/pombase-chado-before-canto.dump.gz
 
 
 CURATION_TOOL_DATA=/var/pomcur/backups/current-prod-dump.json
@@ -564,7 +564,7 @@ echo load Canto data
 $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml canto-json --organism-taxonid=4896 --db-prefix=PomBase "$HOST" $DB $USER $PASSWORD < $CURATION_TOOL_DATA 2>&1 | tee $LOG_DIR/$log_file.curation_tool_data
 
 
-pg_dump $DB | gzip -5 > /tmp/pombase-chado-after-canto.dump.gz
+pg_dump $DB | gzip -2 > /tmp/pombase-chado-after-canto.dump.gz
 
 
 echo loading extra allele synonyms
@@ -624,14 +624,14 @@ $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter-dup
    --primary-assigner=PomBase --secondary-assigner=IntAct \
    "$HOST" $DB $USER $PASSWORD > $LOG_DIR/$log_file.go-filter-intact-duplicates
 
-pg_dump $DB | gzip -5 > /tmp/pombase-chado-before-go-filter.dump.gz
+pg_dump $DB | gzip -2 > /tmp/pombase-chado-before-go-filter.dump.gz
 
 echo
 echo filtering redundant annotations - `date`
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter "$HOST" $DB $USER $PASSWORD
 echo done filtering - `date`
 
-pg_dump $DB | gzip -5 > /tmp/pombase-chado-after-go-filter.dump.gz
+pg_dump $DB | gzip -2 > /tmp/pombase-chado-after-go-filter.dump.gz
 
 
 echo
