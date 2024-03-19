@@ -99,7 +99,7 @@ cvs:
     - name: unspecified
   PomBase annotation extension terms: []
   PomBase gene products: []
-  PomBase family or domain: []
+  pombase_family_or_domain: []
   PomBase gene characterisation status:
     - name: published
       definition: >
@@ -367,7 +367,7 @@ cv_definitions:
   misc: Annotation which does not fit any other ontology
   name_description: Derivation of the "three letter" gene name
   PomBase annotation extension terms: Post-composed terms used for annotation cross products
-  PomBase family or domain: Manual annotation of Pfam false negatives and uncaptured subfamilies
+  pombase_family_or_domain: Manual annotation of Pfam false negatives and uncaptured subfamilies
   PomBase gene products: Concise gene product names
   species_dist: Broad classifiers of taxon distribution (domain/kingdom level)
   subunit_composition: Stoichiometry of homogeneous complexes

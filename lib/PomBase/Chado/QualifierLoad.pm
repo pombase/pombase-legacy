@@ -959,7 +959,7 @@ sub process_family {
   my $sub_qual_map = shift;
 
   warn "    process_family()\n" if $self->verbose();
-  $self->add_term_to_gene($chado_object, 'PomBase family or domain', $term,
+  $self->add_term_to_gene($chado_object, 'pombase_family_or_domain', $term,
                           $sub_qual_map, 1);
   return 1;
 }
