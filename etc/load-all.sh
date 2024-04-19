@@ -344,7 +344,8 @@ pg_dump $DB | gzip -2 > /tmp/pombase-chado-before-goa.dump.gz
 
 GOA_GAF_FILENAME=gene_association.goa_uniprot.gz
 CURRENT_GOA_GAF="$SOURCES/$GOA_GAF_FILENAME"
-GOA_POMBE_AND_JAPONICUS="$SOURCES/gene_association.goa_uniprot.pombe+japonicus.gz"
+GOA_POMBE_AND_JAPONICUS_FILENAME="gene_association.goa_uniprot.pombe+japonicus.gz"
+GOA_POMBE_AND_JAPONICUS="$SOURCES/$GOA_POMBE_AND_JAPONICUS_FILENAME"
 
 echo checking for new GOA GAF file
 curl --user-agent "$USER_AGENT_FOR_EBI" -o $CURRENT_GOA_GAF.downloaded -z $CURRENT_GOA_GAF $GOA_GAF_URL ||
@@ -373,7 +374,7 @@ echo reading $GOA_POMBE_AND_JAPONICUS
 
 gzip -d < $GOA_POMBE_AND_JAPONICUS |
     $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --use-only-first-with-id \
-       --taxon-filter=4896 \
+       --taxon-filter=4896 --source-file-name=$GOA_POMBE_AND_JAPONICUS_FILENAME \
        --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs \
        --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings \
        --assigned-by-filter=InterPro,UniProtKB,UniProt,RHEA,IntAct,RNAcentral,ComplexPortal,CAFA \
