@@ -74,6 +74,7 @@ cvs:
     - name: transvar_coordinates
     - name: insdc_protein_id
     - name: assigned_by
+    - name: gocam_id
   PomBase allele types:
     - name: amino_acid_deletion_and_mutation
     - name: amino_acid_insertion

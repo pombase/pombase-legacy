@@ -589,6 +589,13 @@ $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml \
   "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/allele_comments.txt \
    2>&1 | tee -a $LOG_DIR/$log_file.allele-comments-from-supporting-data
 
+echo loading GO-CAM ID mapping featureprops
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-property \
+    --property-name="gocam_id" --organism-taxonid=4896 \
+    --feature-uniquename-column=1 --property-column=2 \
+    "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/production_gocam_id_mapping.tsv \
+    2>&1 | tee -a $LOG_DIR/$log_file.production-gocam-id-mapping-file
+
 
 refresh_views
 
