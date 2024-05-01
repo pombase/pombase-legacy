@@ -448,6 +448,14 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     --feature-pub-source="pdb" \
     "$HOST" $DB $USER $PASSWORD < $POMBE_EMBL/external_data/protein_structure/systematic_id_to_pdbe_mapping.tsv
 
+echo load Complex Portal ID mapping
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-feature-pub \
+     --organism-taxonid=4896 --create-feature-with-type="protein-containing complex" \
+     --subject-feature-column=1 --feature-uniquename-column=2 --reference-column=3 \
+     --feature-pub-source="complex_portal" --relationship-type="part_of" \
+     "$HOST" $DB $USER $PASSWORD < $POMBE_EMBL/supporting_files/protein_complex_id_mapping.tsv \
+     2>&1 | tee $LOG_DIR/$log_file.protein_complex_id_mapping
+
 
 echo load protein IDs
 # See: https://github.com/pombase/pombase-chado/issues/1090
