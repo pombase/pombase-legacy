@@ -448,14 +448,34 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     --feature-pub-source="pdb" \
     "$HOST" $DB $USER $PASSWORD < $POMBE_EMBL/external_data/protein_structure/systematic_id_to_pdbe_mapping.tsv
 
+COMPLEX_PORTAL_DATA_FILE=$SOURCES/complex_portal_pombe_data.tsv
+
+echo update Complex Portal data file
+curl -o $COMPLEX_PORTAL_DATA_FILE -z $COMPLEX_PORTAL_DATA_FILE \
+   http://ftp.ebi.ac.uk/pub/databases/intact/complex/current/complextab/284812.tsv
+
+
+POMBE_ID_TO_COMPLEX_PORTAL_ID_MAPPING=$SOURCES/pombe_to_complex_id_mapping.tsv
+COMPLEX_PORTAL_IDS_AND_NAMES=$SOURCES/complex_ids_and_names.tsv
+
+echo process Complex Portal data file
+$POMBASE_CHADO/etc/process_complex_portal_data.pl \
+  $SOURCES/pombe-embl/ftp_site/pombe/names_and_identifiers/PomBase2UniProt.tsv \
+  $COMPLEX_PORTAL_DATA_FILE "PMID:30357405" \
+  $POMBE_ID_TO_COMPLEX_PORTAL_ID_MAPPING $COMPLEX_PORTAL_IDS_AND_NAMES
+
 echo load Complex Portal ID mapping
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-feature-pub \
      --organism-taxonid=4896 --create-feature-with-type="protein-containing complex" \
      --subject-feature-column=1 --feature-uniquename-column=2 --reference-column=3 \
      --feature-pub-source="complex_portal" --relationship-type="part_of" \
-     "$HOST" $DB $USER $PASSWORD < $POMBE_EMBL/supporting_files/protein_complex_id_mapping.tsv \
+     "$HOST" $DB $USER $PASSWORD < $POMBE_ID_TO_COMPLEX_PORTAL_ID_MAPPING \
      2>&1 | tee $LOG_DIR/$log_file.protein_complex_id_mapping
 
+
+echo load Complex names
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-feature-name \
+     "$HOST" $DB $USER $PASSWORD < $COMPLEX_PORTAL_IDS_AND_NAMES
 
 echo load protein IDs
 # See: https://github.com/pombase/pombase-chado/issues/1090
