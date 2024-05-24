@@ -14,6 +14,7 @@ cvs:
     - malacards_displayed_disease_name
     - malacards_disease_slug
     - pombase_gene_id
+    - gocam_id
   PomBase publication types:
     - paper
     - null
