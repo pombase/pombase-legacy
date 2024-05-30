@@ -190,7 +190,7 @@ pg_dump $DB | gzip -2 > /tmp/pombase-chado-after-load-chado-pl.dump.gz
 
 # See: https://github.com/pombase/pombase-chado/issues/861
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf \
-    --load-qualifiers --load-column-17 \
+    --load-qualifiers=all --load-column-17 \
     --assigned-by-filter=PomBase --verbose-assigned-by-filter \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/legacy_go_annotations_from_contigs.gaf.tsv \
     > $log_file.legacy_go_from_contigs 2>&1
@@ -388,6 +388,7 @@ pg_dump $DB | gzip -2 > /tmp/pombase-chado-after-goa.dump.gz
 # echo loading PANTHER annotation - don't load this from GOA because GOA updates slowly
 gzip -d < $SOURCES/snapshot.geneontology.org/pombase.gaf.gz |
     $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf \
+      --load-qualifiers=contributes_to \
       --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs \
       --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings \
       --with-prefix-filter="PANTHER:" --taxon-filter=4896 \
