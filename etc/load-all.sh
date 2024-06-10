@@ -455,6 +455,12 @@ echo update Complex Portal data file
 curl -o $COMPLEX_PORTAL_DATA_FILE -z $COMPLEX_PORTAL_DATA_FILE \
    http://ftp.ebi.ac.uk/pub/databases/intact/complex/current/complextab/284812.tsv
 
+echo load pombephosphoproteomics.unige.ch data
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-property \
+    --property-name="pombephosphoproteomics_unige_ch_gene" --organism-taxonid=4896 \
+    --feature-uniquename-column=1 --property-column=2 \
+    "$HOST" $DB $USER $PASSWORD < $POMBE_EMBL/external_data/pombephosphoproteomics.unige.ch.genes.tsv
+
 
 POMBE_ID_TO_COMPLEX_PORTAL_ID_MAPPING=$SOURCES/pombe_to_complex_id_mapping.tsv
 COMPLEX_PORTAL_IDS_AND_NAMES=$SOURCES/complex_ids_and_names.tsv
