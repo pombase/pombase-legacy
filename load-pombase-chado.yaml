@@ -72,7 +72,8 @@ cvs:
     - name: kegg_pathway
     - name: rnacentral_identifier
     - name: pdb_identifier
-    - name: pombephosphoproteomics_unige_ch_gene
+    - name: pombephosphoproteomics_unige_ch_starvation_mating_gene
+    - name: pombephosphoproteomics_unige_ch_fusion_gene
     - name: transvar_coordinates
     - name: insdc_protein_id
     - name: assigned_by

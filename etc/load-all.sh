@@ -457,9 +457,14 @@ curl -o $COMPLEX_PORTAL_DATA_FILE -z $COMPLEX_PORTAL_DATA_FILE \
 
 echo load pombephosphoproteomics.unige.ch data
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-property \
-    --property-name="pombephosphoproteomics_unige_ch_gene" --organism-taxonid=4896 \
+    --property-name="pombephosphoproteomics_unige_ch_starvation_mating_gene" --organism-taxonid=4896 \
     --feature-uniquename-column=1 --property-column=2 \
-    "$HOST" $DB $USER $PASSWORD < $POMBE_EMBL/external_data/pombephosphoproteomics.unige.ch.genes.tsv
+    "$HOST" $DB $USER $PASSWORD < $POMBE_EMBL/external_data/pombephosphoproteomics.unige.ch.starvation_mating_genes.tsv
+
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-property \
+    --property-name="pombephosphoproteomics_unige_ch_fusion_gene" --organism-taxonid=4896 \
+    --feature-uniquename-column=1 --property-column=2 \
+    "$HOST" $DB $USER $PASSWORD < $POMBE_EMBL/external_data/pombephosphoproteomics.unige.ch.fusion_genes.tsv
 
 
 POMBE_ID_TO_COMPLEX_PORTAL_ID_MAPPING=$SOURCES/pombe_to_complex_id_mapping.tsv
