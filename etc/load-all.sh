@@ -631,14 +631,14 @@ $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml \
 
 echo loading GO-CAM ID mapping featureprops
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-property \
-    --property-name="gocam_id" --organism-taxonid=4896 \
+    --property-name="gocam" --organism-taxonid=4896 \
     --feature-uniquename-column=1 --property-column=2 \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/production_gocam_id_mapping.tsv \
     2>&1 | tee -a $LOG_DIR/$log_file.production-gocam-gene-id-mapping-file
 
 echo loading GO-CAM ID to term ID mapping
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-cvtermprop \
-    --property-name="gocam_id" --termid-column=1 --property-value-column=2 \
+    --property-name="gocam" --termid-column=1 --property-value-column=2 \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/production_gocam_term_id_mapping.tsv \
     2>&1 | tee -a $LOG_DIR/$log_file.production-gocam-term-id-mapping-file
 
