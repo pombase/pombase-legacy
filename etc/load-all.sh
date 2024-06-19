@@ -88,6 +88,8 @@ echo initialising Chado with CVs and cvterms
 $POMBASE_CHADO/script/pombase-admin.pl $POMBASE_LEGACY/load-pombase-chado.yaml chado-init \
   "$HOST" $DB $USER $PASSWORD || exit 1
 
+(cd $SOURCES
+ wget -q -N https://data.monarchinitiative.org/monarch-kg/latest/tsv/gene_associations/gene_disease.9606.tsv.gz)
 
 (cd $SOURCES
 wget -q -N https://ftp.ebi.ac.uk/pub/databases/genenames/new/tsv/hgnc_complete_set.txt ||
@@ -584,8 +586,12 @@ $POMBASE_CHADO/script/pombase-import.pl $LOAD_CONFIG orthologs \
 
 
 echo
-echo load Malacard data from malacards_data_for_chado_mondo_ids.tsv
-$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml malacards --destination-taxonid=4896 "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/external_data/disease/malacards_data_for_chado_mondo_ids.tsv 2>&1 | tee $LOG_DIR/$log_file.malacards_data
+echo load Monarch data from gene_disease.9606.tsv.gz
+gzip -d < $SOURCES/gene_disease.9606.tsv.gz |
+    $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml monarch-disease \
+         --destination-taxonid=4896 --monarch-reference=PB_REF:0000006 \
+         "$HOST" $DB $USER $PASSWORD 2>&1 |
+    tee $LOG_DIR/$log_file.monarch_data
 
 echo
 echo load disease associations from pombase_disease_associations_mondo_ids.tsv
@@ -806,7 +812,7 @@ cp $LOG_DIR/$log_file.biogrid-load-output $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.compara_orths $CURRENT_BUILD_DIR/logs/$log_file.compara-orth-load-output
 cp $LOG_DIR/$log_file.manual_multi_orths $CURRENT_BUILD_DIR/logs/$log_file.manual-multi-orths-output
 cp $LOG_DIR/$log_file.manual_1-1_orths $CURRENT_BUILD_DIR/logs/$log_file.manual-1-1-orths-output
-cp $LOG_DIR/$log_file.malacards_data $CURRENT_BUILD_DIR/logs/$log_file.malacards_data
+cp $LOG_DIR/$log_file.monarch_data $CURRENT_BUILD_DIR/logs/$log_file.monarch_data
 cp $LOG_DIR/$log_file.disease_associations $CURRENT_BUILD_DIR/logs/$log_file.disease_associations
 cp $LOG_DIR/$log_file.curation_tool_data $CURRENT_BUILD_DIR/logs/$log_file.curation-tool-data-load-output
 cp $LOG_DIR/$log_file.quantitative $CURRENT_BUILD_DIR/logs/$log_file.quantitative
