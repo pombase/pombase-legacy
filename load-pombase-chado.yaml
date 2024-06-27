@@ -78,6 +78,7 @@ cvs:
     - name: insdc_protein_id
     - name: assigned_by
     - name: gocam
+    - name: rnacentral_2d_structure_id
   PomBase allele types:
     - name: amino_acid_deletion_and_mutation
     - name: amino_acid_insertion
