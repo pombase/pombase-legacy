@@ -469,6 +469,12 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     --feature-uniquename-column=1 --property-column=2 \
     "$HOST" $DB $USER $PASSWORD < $POMBE_EMBL/external_data/pombephosphoproteomics.unige.ch.fusion_genes.tsv
 
+echo load IDs of RNA genes with RNAcentral 2D structures
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-property \
+    --property-name="rnacentral_2d_structure_id" --organism-taxonid=4896 \
+    --feature-uniquename-column=1 --property-column=2 \
+    "$HOST" $DB $USER $PASSWORD < $POMBE_EMBL/supporting_files/rna_genes_with_2d_structure.tsv
+
 
 POMBE_ID_TO_COMPLEX_PORTAL_ID_MAPPING=$SOURCES/pombe_to_complex_id_mapping.tsv
 COMPLEX_PORTAL_IDS_AND_NAMES=$SOURCES/complex_ids_and_names.tsv
