@@ -1322,7 +1322,8 @@ check_chado:
            AND a1_prop_type.name = 'description'
            AND a2_prop_type.name = 'description'
            AND allele1_prop.value = allele2_prop.value
-           AND allele1_prop.value <> 'unknown';
+           AND allele1_prop.value <> 'unknown'
+           AND allele1_prop.value <> 'disruption';
     - name: species_dist_term_name_typos
       verbose_fail: true
       description: "Check that we have the correct number of species distribution terms; too many means there are typos somewhere"
