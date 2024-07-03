@@ -218,6 +218,12 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     --ignore-lines-matching="^Identifier" \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/features_without_coordinates.txt
 
+echo "loading SO annotations (including TMHMM predicted transmembrane helices)"
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-annotation \
+    --organism-taxonid=4896 \
+    "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/manual_so_term_annotations.tsv
+
+
 pg_dump $DB | gzip -2 > /tmp/pombase-chado-before-biogrid.dump.gz
 
 echo starting import of biogrid data | tee $log_file.biogrid-load-output
