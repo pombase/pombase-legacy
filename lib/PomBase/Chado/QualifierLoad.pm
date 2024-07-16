@@ -872,7 +872,7 @@ sub process_ortholog {
         } @$qualifier;
       }
 
-      my $db_xref = delete $sub_qual_map->{db_xref};
+      my $db_xref = $sub_qual_map->{db_xref};
       my $pub = $self->get_pub_from_db_xref($term, $db_xref);
       $self->add_feature_relationship_pub($rel, $pub);
       if (defined $ortholog_term) {
