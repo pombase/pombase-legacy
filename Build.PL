@@ -29,6 +29,10 @@ my $builder = Module::Build->new(
       'Text::Trim'            => 0,
       'Iterator::Simple'      => 0.06,
       'Tie/IxHash'            => 0,
+      'Data::Compate'         => 0,
+      'Text::CSV::Encoded'    => 0,
+      'DBD::Pg'               => 0,
+      'Module::Install'       => 0,
     },
     build_requires => {
         'Test::More' => 0,
