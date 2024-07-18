@@ -595,6 +595,9 @@ evidence_types:
   'ECO:0000000':
     name: evidence
     definition: A type of information that is used to support an assertion.
+  'ECO:0008024':
+    name: neural network method evidence used in manual assertion
+    definition: A type of neural network method evidence that is used in a manual assertion.
   'ECO:0007668':
     name: computational evidence used in manual assertion
   'ECO:0000202':
