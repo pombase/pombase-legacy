@@ -564,38 +564,56 @@ done
 
 echo load Compara orthologs
 
-$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml orthologs --publication=PMID:19029536 --organism_1_taxonid=4896 --organism_2_taxonid=9606 --swap-direction "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/orthologs/compara_orths.tsv 2>&1 | tee $LOG_DIR/$log_file.compara_orths
+$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml orthologs \
+   --publication=PMID:19029536 --source-database="Compara" --organism_1_taxonid=4896 \
+   --organism_2_taxonid=9606 --swap-direction \
+   "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/orthologs/compara_orths.tsv 2>&1 |
+    tee $LOG_DIR/$log_file.compara_orths
 
 
 echo
 echo load manual pombe to human orthologs: conserved_multi.txt
 
-$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml orthologs --publication=null --organism_1_taxonid=4896 --organism_2_taxonid=9606 --swap-direction "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/orthologs/conserved_multi.txt 2>&1 | tee $LOG_DIR/$log_file.manual_multi_orths
+$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml orthologs \
+   --publication=null --source-database="PomBase" --organism_1_taxonid=4896 \
+   --organism_2_taxonid=9606 --swap-direction \
+   "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/orthologs/conserved_multi.txt 2>&1 |
+    tee $LOG_DIR/$log_file.manual_multi_orths
 
 echo
 echo load manual pombe to human orthologs: conserved_one_to_one.txt
 
-$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml orthologs --publication=null --organism_1_taxonid=4896 --organism_2_taxonid=9606 --swap-direction --add_org_1_term_name='predominantly single copy (one to one)' --add_org_1_term_cv='species_dist' "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/orthologs/conserved_one_to_one.txt 2>&1 | tee $LOG_DIR/$log_file.manual_1-1_orths
-
+$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml orthologs \
+   --publication=null --source-database="PomBase" --organism_1_taxonid=4896 \
+   --organism_2_taxonid=9606 --swap-direction \
+   --add_org_1_term_name='predominantly single copy (one to one)' \
+   --add_org_1_term_cv='species_dist' \
+   "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/orthologs/conserved_one_to_one.txt 2>&1 |
+    tee $LOG_DIR/$log_file.manual_1-1_orths
 
 echo
 echo load Compara pombe-japonicus orthologs
 
 $POMBASE_CHADO/script/pombase-import.pl $LOAD_CONFIG orthologs \
-  --swap-direction --publication=PMID:26896847 --organism_1_taxonid=4897 --organism_2_taxonid=4896 \
-  "$HOST" $DB $USER $PASSWORD < $JAPONICUS_CURATION/compara_pombe_orthologs.tsv 2>&1 | tee $LOG_DIR/$log_file.compara_pombe_japonicus_orthologs
+   --swap-direction --publication=PMID:26896847 --source-database="Compara" \
+   --organism_1_taxonid=4897 --organism_2_taxonid=4896 \
+   "$HOST" $DB $USER $PASSWORD < $JAPONICUS_CURATION/compara_pombe_orthologs.tsv 2>&1 |
+    tee $LOG_DIR/$log_file.compara_pombe_japonicus_orthologs
 
 echo load Rhind pombe-japonicus orthologs
 
 $POMBASE_CHADO/script/pombase-import.pl $LOAD_CONFIG orthologs \
   --swap-direction --publication=PMID:21511999 --organism_1_taxonid=4897 --organism_2_taxonid=4896 \
-  "$HOST" $DB $USER $PASSWORD < $JAPONICUS_CURATION/rhind_pombe_orthologs.tsv 2>&1 | tee $LOG_DIR/$log_file.rhind_pombe_japonicus_orthologs
+  "$HOST" $DB $USER $PASSWORD < $JAPONICUS_CURATION/rhind_pombe_orthologs.tsv 2>&1 |
+  tee $LOG_DIR/$log_file.rhind_pombe_japonicus_orthologs
 
 echo load manual pombe-japonicus orthologs
 
 $POMBASE_CHADO/script/pombase-import.pl $LOAD_CONFIG orthologs \
-  --swap-direction --publication=null --organism_1_taxonid=4897 --organism_2_taxonid=4896 \
-  "$HOST" $DB $USER $PASSWORD < $JAPONICUS_CURATION/manual_pombe_orthologs.tsv 2>&1 | tee $LOG_DIR/$log_file.manual_pombe_japonicus_orthologs
+  --swap-direction --publication=null --source-database="PomBase" \
+  --organism_1_taxonid=4897 --organism_2_taxonid=4896 \
+  "$HOST" $DB $USER $PASSWORD < $JAPONICUS_CURATION/manual_pombe_orthologs.tsv 2>&1 |
+  tee $LOG_DIR/$log_file.manual_pombe_japonicus_orthologs
 
 
 echo
