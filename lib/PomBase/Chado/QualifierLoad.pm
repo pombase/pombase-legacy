@@ -920,6 +920,7 @@ sub process_paralog {
       {
         s/^\s+//;
         s/\s+$//;
+        $_;
       }
       split / and /, $id_string;
 
