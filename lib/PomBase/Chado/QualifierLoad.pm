@@ -935,7 +935,7 @@ sub process_paralog {
 
     return 1;
   } else {
-    warn "  didn't find paralog in: $term\n";
+    warn "  didn't find paralog in: $term\n" if $self->verbose();
     return 0;
   }
 }
