@@ -909,13 +909,19 @@ sub process_paralog {
 
   my $related;
 
-  if ($term =~ /^(paralogous|similar|related) to S\. pombe (\S+)(?: \(paralogs?\))?/i) {
+  if ($term =~ /^(paralogous|similar|related) to S\. pombe\s+(.*?)(?: \(paralogs?\))?\s*$/i) {
     if ($1 eq 'related') {
       $related = 1;
     } else {
       $related = 0;
     }
-    my @other_gene_bits = split / and /, $2;
+    my $id_string = $2;
+    my @other_gene_bits = map
+      {
+        s/^\s+//;
+        s/\s+$//;
+      }
+      split / and /, $id_string;
 
     my $date = $self->get_and_check_date($sub_qual_map);
 
