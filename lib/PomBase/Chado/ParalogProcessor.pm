@@ -84,6 +84,10 @@ sub store_all_paralogs {
           my $subject_id = $other_gene_feature->feature_id();
           my $object_id = $feature->feature_id();
 
+          if ($subject_id > $object_id) {
+            ($subject_id, $object_id) = ($object_id, $subject_id);
+          }
+
           warn "    creating paralog from ", $gene,
           " to $other_gene_name\n" if $self->verbose();
 
@@ -101,19 +105,6 @@ sub store_all_paralogs {
 
           if ($related) {
             $self->store_feature_relationshipprop($rel, 'homology_type' => 'distant');
-          }
-
-          my $reverse_rel = $rel_rs->find_or_create({ subject_id => $object_id,
-                                                      object_id => $subject_id,
-                                                      type_id => $self->objs()->{paralogous_to_cvterm}->cvterm_id()
-                                                    });
-
-          if (defined $date) {
-            $self->store_feature_relationshipprop($reverse_rel, date => $date);
-          }
-
-          if ($related) {
-            $self->store_feature_relationshipprop($reverse_rel, 'homology_type' => 'distant');
           }
 
           $orth_guard->commit();
