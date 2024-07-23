@@ -513,7 +513,7 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
  WHERE ft.name = 'gene'
    AND (rel_type.name = 'interacts_genetically'
         OR rel_type.name = 'interacts_physically'
-        OR rel_type.name = 'orthologous_to)
+        OR rel_type.name = 'orthologous_to')
  UNION
  SELECT obj.uniquename AS gene_uniquename,
         'FR:' || r.feature_relationship_id AS id, pub.uniquename AS pmid,
@@ -585,7 +585,7 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
  WHERE ft.name = 'gene'
    AND (rel_type.name = 'interacts_genetically'
         OR rel_type.name = 'interacts_physically'
-        OR rel_type.name = 'orthologous_to)
+        OR rel_type.name = 'orthologous_to')
 UNION
   SELECT gene.uniquename AS gene_uniquename,
    'FT:' || genotype_interaction.feature_id AS id, pub.uniquename AS pmid,
@@ -742,7 +742,7 @@ UNION
    WHERE ft.name = 'gene'
      AND (rel_type.name = 'interacts_genetically'
           OR rel_type.name = 'interacts_physically'
-          OR rel_type.name = 'orthologous_to)
+          OR rel_type.name = 'orthologous_to')
 UNION
  SELECT obj.uniquename AS gene_uniquename, pub.uniquename AS pmid,
    (SELECT distinct(value)
@@ -761,7 +761,7 @@ UNION
    WHERE ft.name = 'gene'
      AND (rel_type.name = 'interacts_genetically'
           OR rel_type.name = 'interacts_physically'
-          OR rel_type.name = 'orthologous_to);"
+          OR rel_type.name = 'orthologous_to');"
 
 psql -U $USER -h $HOST -q $DB -c "CREATE MATERIALIZED VIEW pombase_genotypes_alleles_genes_mrna AS
 SELECT genotype.uniquename genotype_uniquename, genotype.feature_id as genotype_feature_id,
