@@ -1521,6 +1521,58 @@ check_chado:
             AND pt.name = 'residue'
           ORDER BY base_cvterm_name, p.value;
 
+    - name: single_wt_allele_with_wild_type_expression
+      verbose_fail: true
+      description: |
+        Check for allele in single allele genotypes with the expression "Not assayed or wild type"
+      github_issue: 'https://github.com/pombase/pombase-chado/issues/603'
+      expected: 0
+      query: |
+         WITH allele_and_expression AS
+           (SELECT allele.name, allele.uniquename,
+              (SELECT expression_prop.value
+               FROM feature_relationshipprop expression_prop
+               JOIN cvterm expression_prop_type ON expression_prop.type_id = expression_prop_type.cvterm_id
+               WHERE expression_prop_type.name = 'expression'
+                 AND expression_prop.feature_relationship_id = rel.feature_relationship_id) AS expression
+            FROM feature allele
+            JOIN featureprop allele_type_prop ON allele_type_prop.feature_id = allele.feature_id
+            JOIN cvterm allele_type_cvterm ON allele_type_cvterm.cvterm_id = allele_type_prop.type_id
+            JOIN feature_relationship rel ON rel.subject_id = allele.feature_id
+            JOIN feature genotype ON genotype.feature_id = rel.object_id
+            JOIN feature_cvterm fc ON genotype.feature_id = fc.feature_id
+            JOIN cvterm genotype_cvterm ON genotype_cvterm.cvterm_id = genotype.type_id
+            WHERE allele.type_id IN (SELECT cvterm_id FROM cvterm WHERE name = 'allele')
+              AND allele_type_cvterm.name = 'allele_type'
+              AND allele_type_prop.value = 'wild_type'
+              AND genotype_cvterm.name = 'genotype'
+              AND rel.feature_relationship_id NOT IN
+                (SELECT feature_relationship_id
+                 FROM feature_relationshipprop
+                 WHERE value IN
+                     (SELECT p.value
+                      FROM feature_relationshipprop p
+                      JOIN feature_relationship rel ON rel.feature_relationship_id = p.feature_relationship_id
+                      WHERE p.type_id = (SELECT cvterm_id FROM cvterm WHERE name = 'genotype_locus')
+                      GROUP BY p.value
+                      HAVING count(rel.feature_relationship_id) > 1))
+              AND genotype.feature_id NOT IN
+                (SELECT object_id
+                 FROM feature_relationship
+                 WHERE object_id IN
+                     (SELECT feature_id
+                      FROM feature
+                      WHERE type_id IN
+                          (SELECT cvterm_id
+                           FROM cvterm
+                           WHERE name = 'genotype'))
+                 GROUP BY object_id
+                 HAVING count(feature_relationship_id) > 1) )
+         SELECT DISTINCT name, uniquename
+         FROM allele_and_expression
+         WHERE expression <> 'Overexpression'
+           AND expression <> 'Knockdown'
+           AND expression <> 'Ectopic';
 
 
 qc_queries:
