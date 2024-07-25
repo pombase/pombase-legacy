@@ -93,6 +93,9 @@ sub process_file {
   my $ena_id = $seq_obj->display_id();
 
   my %chr_name_map = (
+    "japonicus_chr1" => "chromosome_1",
+    "japonicus_chr2" => "chromosome_2",
+    "japonicus_chr3" => "chromosome_3",
     "CU329670" => "chromosome_1",
     "CU329671" => "chromosome_2",
     "CU329672" => "chromosome_3",
