@@ -56,8 +56,8 @@ $POMBASE_LEGACY/etc/process_pombe_mini_pr.pl $SOURCES_DIR/pombe-embl/mini-ontolo
 
 (cd $SOURCES_DIR/
    wget -N http://purl.obolibrary.org/obo/mondo.obo
-   wget -N https://github.com/monarch-initiative/mondo/releases/latest/download/mondo-simple.obo
-   wget -N https://github.com/pombase/fypo/releases/latest/download/fypo-simple-pombase.obo )
+   wget -N https://github.com/monarch-initiative/mondo/releases/latest/download/mondo-simple.obo)
+#   wget -N https://github.com/pombase/fypo/releases/latest/download/fypo-simple-pombase.obo
 
 GO_OBO=go-basic.obo
 
