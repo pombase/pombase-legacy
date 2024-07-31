@@ -1116,6 +1116,8 @@ then
     gzip -9 < $CURRENT_BUILD_DIR/misc/gene_product_information_taxonid_4896.tsv     > $SOURCES/pombe-embl/ftp_site/pombe/annotations/Gene_ontology/pombase.gpi.gz
     gzip -9 < $CURRENT_BUILD_DIR/misc/go_style_gaf.tsv                              > $SOURCES/pombe-embl/ftp_site/pombe/annotations/Gene_ontology/gene_association_2-2.pombase.gz
     gzip -9 < $CURRENT_BUILD_DIR/misc/pombase_style_gaf.tsv                         > $SOURCES/pombe-embl/ftp_site/pombe/annotations/Gene_ontology/gene_association_2-1.pombase.gz
+    gzip -9 < $CURRENT_BUILD_DIR/misc/disease_association.tsv                       > $SOURCES/pombe-embl/ftp_site/pombe/annotations/human_disease_annotation/human_disease_association.tsv.gz
+    gzip -9 < $CURRENT_BUILD_DIR/misc/pombe_mondo_slim_ids_and_names.tsv            > $SOURCES/pombe-embl/ftp_site/pombe/annotations/human_disease_annotation/pombe_mondo_disease_slim_terms.tsv.gz
 
     cp $SOURCES/pombe-embl/ftp_site/pombe/annotations/Gene_ontology/gene_association_2-1.pombase.gz $CURRENT_BUILD_DIR/$DB.gaf.gz
 
