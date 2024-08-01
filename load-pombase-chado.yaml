@@ -669,6 +669,14 @@ evidence_types:
     name: microscopy evidence
   'ECO:0005518':
     name: RNA detection assay evidence
+  'ECO:0000250':
+    name: sequence similarity evidence used in manual assertion
+  'ECO:0000255':
+    name: match to sequence model evidence used in manual assertion
+  'ECO:0000305':
+    name: curator inference used in manual assertion
+  'ECO:0000269':
+    name: experimental evidence used in manual assertion
 
 suppressible_evidence_codes:
 
