@@ -731,6 +731,10 @@ $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter-dup
    --primary-assigner=PomBase --secondary-assigner=IntAct \
    "$HOST" $DB $USER $PASSWORD > $LOG_DIR/$log_file.go-filter-intact-duplicates
 
+$POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter-duplicate-assigner \
+   --primary-assigner=PomBase --secondary-assigner=CACAO \
+   "$HOST" $DB $USER $PASSWORD > $LOG_DIR/$log_file.go-filter-cacao-duplicates
+
 pg_dump $DB | gzip -2 > /tmp/pombase-chado-before-go-filter.dump.gz
 
 echo
