@@ -2087,7 +2087,7 @@ ALTER FUNCTION public.get_graph_below(integer) OWNER TO kmr44;
 CREATE TABLE public.cvterm (
     cvterm_id integer NOT NULL,
     cv_id integer NOT NULL,
-    name character varying(1024) NOT NULL,
+    name text NOT NULL,
     definition text,
     dbxref_id integer NOT NULL,
     is_obsolete integer DEFAULT 0 NOT NULL,
@@ -6065,7 +6065,7 @@ ALTER SEQUENCE public.cvtermprop_cvtermprop_id_seq OWNED BY public.cvtermprop.cv
 CREATE TABLE public.cvtermsynonym (
     cvtermsynonym_id integer NOT NULL,
     cvterm_id integer NOT NULL,
-    synonym character varying(1024) NOT NULL,
+    synonym text NOT NULL,
     type_id integer
 );
 
