@@ -718,6 +718,11 @@ $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml change-terms 
   --mapping-file=$SOURCES/pombe-embl/chado_load_mappings/GO_mapping_to_specific_terms.txt \
   "$HOST" $DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.go-term-mapping
 
+echo do re-mapping for non-GO terms
+$POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml change-terms \
+  --mapping-file=$SOURCES/pombe-embl/chado_load_mappings/generic_term_id_mappings.txt \
+  "$HOST" $DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.generic-term-mapping
+
 
 echo
 echo counts of assigned_by before filtering:
@@ -871,6 +876,7 @@ cp $LOG_DIR/$log_file.excluded_go_terms_softcheck $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.excluded_fypo_terms_softcheck $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.excluded_fypo_terms $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.go-term-mapping $CURRENT_BUILD_DIR/logs/
+cp $LOG_DIR/$log_file.generic-term-mapping $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.add-missing-allele-names $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.fix-allele-names $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.go-filter-*-duplicates $CURRENT_BUILD_DIR/logs/
