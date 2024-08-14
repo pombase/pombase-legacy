@@ -723,6 +723,10 @@ $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml change-terms 
   --mapping-file=$SOURCES/pombe-embl/chado_load_mappings/generic_term_id_mappings.txt \
   "$HOST" $DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.generic-term-mapping
 
+echo infer paralogs from orthologs then store as feature_relationships
+$POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml infer-paralogs \
+  --this-taxonid=4896 --ortholog-taxonid=4932 \
+  "$HOST" $DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.generic-term-mapping
 
 echo
 echo counts of assigned_by before filtering:
