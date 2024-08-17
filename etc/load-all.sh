@@ -19,16 +19,15 @@ PATH=$PATH:/usr/local/bin
 
 DATE_VERSION=$DATE
 
-die() {
-  echo $1 1>&2
-  exit 1
-}
-
 POMCUR=/var/pomcur
 WWW_DIR=/var/www/pombase
 DUMPS_DIR=$WWW_DIR/dumps
 POMCUR_LATEST_BUILD=$DUMPS_DIR/latest_build/
 SOURCES=$POMCUR/sources
+
+DB=pombase-build-$DATE_VERSION
+BUILDS_DIR=$DUMPS_DIR/builds
+CURRENT_BUILD_DIR=$BUILDS_DIR/$DB
 
 POMBE_EMBL=$SOURCES/pombe-embl
 
@@ -36,6 +35,16 @@ POMBASE_WEB_CONFIG=$HOME/git/pombase-config/website/pombase_v2_config.json
 
 # without a user agent we get "bad gateway" from ftp.ebi.ac.uk
 USER_AGENT_FOR_EBI='Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13'
+
+mkdir $CURRENT_BUILD_DIR
+mkdir $CURRENT_BUILD_DIR/logs
+mkdir $CURRENT_BUILD_DIR/exports
+mkdir $CURRENT_BUILD_DIR/pombe-embl
+
+die() {
+  echo $1 1>&2
+  exit 1
+}
 
 (cd ~/chobo/; git pull) || die "Failed to update Chobo"
 (cd ~/git/pombase-config; git pull) || die "Failed to update pombase-config"
@@ -58,8 +67,6 @@ docker service update --replicas 0 pombase-dev
  export CHADO_CLOSURE_TOOL=$HOME/git/pombase-chado/script/relation-graph-chado-closure.pl
  export PERL5LIB=$HOME/git/pombase-chado:$HOME/chobo/lib/
  time nice -19 ./script/make-db $DATE "$HOST" $USER $PASSWORD) || die "make-db failed"
-
-DB=pombase-build-$DATE_VERSION
 
 LOG_DIR=`pwd`
 
@@ -792,13 +799,6 @@ POMBASE_EXCLUDED_FYPO_TERMS_OBO=$SOURCES/pombe-embl/mini-ontologies/FYPO_qc_do_n
 echo report annotations using FYPO terms from $POMBASE_EXCLUDED_FYPO_TERMS_OBO 2>&1 | tee $LOG_DIR/$log_file.excluded_fypo_terms
 ./script/report-subset.pl "$HOST" $DB $USER $PASSWORD <(perl -ne 'print "$1\n" if /^id:\s*(FYPO:\S+)/' $POMBASE_EXCLUDED_FYPO_TERMS_OBO) 2>&1 | tee -a $LOG_DIR/$log_file.excluded_fypo_terms
 
-BUILDS_DIR=$DUMPS_DIR/builds
-CURRENT_BUILD_DIR=$BUILDS_DIR/$DB
-
-mkdir $CURRENT_BUILD_DIR
-mkdir $CURRENT_BUILD_DIR/logs
-mkdir $CURRENT_BUILD_DIR/exports
-
 echo
 echo export allele details
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml allele-details --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD > $CURRENT_BUILD_DIR/exports/all-allele-details.tsv
@@ -1073,7 +1073,6 @@ cp -r $SOURCES/current_build_files/$DB_BASE_NAME/* $CURRENT_BUILD_DIR/
 
 cp $LOG_DIR/*.txt $CURRENT_BUILD_DIR/logs/
 
-mkdir $CURRENT_BUILD_DIR/pombe-embl
 (
   cd $SOURCES/pombe-embl
   cp -r *.contig external_data mini-ontologies \
