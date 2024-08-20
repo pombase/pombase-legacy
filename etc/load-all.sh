@@ -569,6 +569,25 @@ do
   ($POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml phenotype-annotation --throughput-type='low throughput' "$HOST" $DB $USER $PASSWORD < $i) 2>&1 | tee -a $LOG_DIR/$log_file.phenotypes_from_$f
 done
 
+echo
+echo load pombe to cerevisiae orthologs from contig files
+
+$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml orthologs \
+   --publication=null --source-database="PomBase" --organism_1_taxonid=4896 \
+   --organism_2_taxonid=4932 --swap-direction \
+   "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/orthologs/cerevisiae_orthologs_from_contigs.tsv 2>&1 |
+    tee $LOG_DIR/$log_file.cerevisiae_orthologs_from_contigs
+
+echo
+echo load pombe to human orthologs from contig files
+
+$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml orthologs \
+   --publication=null --source-database="PomBase" --organism_1_taxonid=4896 \
+   --organism_2_taxonid=9606 --swap-direction \
+   "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/orthologs/human_orthologs_from_contigs.tsv 2>&1 |
+    tee $LOG_DIR/$log_file.human_orthologs_from_contigs
+
+
 echo load Compara orthologs
 
 $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml orthologs \
@@ -863,6 +882,8 @@ cp $LOG_DIR/$log_file.legacy_go_from_contigs $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.legacy_phaf_from_contigs $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.legacy_modifications_from_contigs $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.biogrid-load-output $CURRENT_BUILD_DIR/logs/
+cp $LOG_DIR/$log_file.cerevisiae_orthologs_from_contigs $CURRENT_BUILD_DIR/logs/$log_file.cerevisiae_orthologs_from_contigs
+cp $LOG_DIR/$log_file.human_orthologs_from_contigs $CURRENT_BUILD_DIR/logs/$log_file.human_orthologs_from_contigs
 cp $LOG_DIR/$log_file.compara_orths $CURRENT_BUILD_DIR/logs/$log_file.compara-orth-load-output
 cp $LOG_DIR/$log_file.manual_multi_orths $CURRENT_BUILD_DIR/logs/$log_file.manual-multi-orths-output
 cp $LOG_DIR/$log_file.manual_1-1_orths $CURRENT_BUILD_DIR/logs/$log_file.manual-1-1-orths-output
