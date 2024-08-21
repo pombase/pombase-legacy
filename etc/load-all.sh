@@ -758,14 +758,17 @@ echo
 echo counts of assigned_by before filtering:
 assigned_by_summary $DB
 
+echo delete UniProt duplicates
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter-duplicate-assigner \
    --primary-assigner=PomBase --secondary-assigner=UniProt \
    "$HOST" $DB $USER $PASSWORD > $LOG_DIR/$log_file.go-filter-uniprot-duplicates
 
+echo delete IntAct duplicates
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter-duplicate-assigner \
    --primary-assigner=PomBase --secondary-assigner=IntAct \
    "$HOST" $DB $USER $PASSWORD > $LOG_DIR/$log_file.go-filter-intact-duplicates
 
+echo delete CACAO duplicates
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter-duplicate-assigner \
    --primary-assigner=PomBase --secondary-assigner=CACAO \
    "$HOST" $DB $USER $PASSWORD > $LOG_DIR/$log_file.go-filter-cacao-duplicates
