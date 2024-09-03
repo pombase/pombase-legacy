@@ -150,6 +150,7 @@ cvs:
   PomBase sequence feature types:
     # used for genotype-genotype interactions
     - name: genotype_interaction
+    - name: go_cam_pathway
   feature_relationshipprop_type:
     - name: evidence
     - name: eco_evidence
