@@ -1125,6 +1125,10 @@ then
     cp $CURRENT_BUILD_DIR/misc/sysID2product.rna.tsv       $SOURCES/pombe-embl/ftp_site/pombe/names_and_identifiers/
     cp $CURRENT_BUILD_DIR/misc/Complex_annotation.tsv      $SOURCES/pombe-embl/ftp_site/pombe/annotations/Gene_ontology/GO_complexes/Complex_annotation.tsv
 
+    cp $CURRENT_BUILD_DIR/misc/aa_composition.tsv        $SOURCES/pombe-embl/ftp_site/pombe/Protein_data/
+    cp $CURRENT_BUILD_DIR/misc/PeptideStats.tsv          $SOURCES/pombe-embl/ftp_site/pombe/Protein_data/
+    cp $CURRENT_BUILD_DIR/misc/ProteinFeatures.tsv       $SOURCES/pombe-embl/ftp_site/pombe/Protein_data/Protein_Features.tsv
+
     cp $CURRENT_BUILD_DIR/misc/*.exon.coords.tsv      $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/Exon_Coordinates/
     cp $CURRENT_BUILD_DIR/misc/*.cds.coords.tsv      $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/CDS_Coordinates/
 
