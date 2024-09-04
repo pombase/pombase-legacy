@@ -842,9 +842,6 @@ $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml simple-ortholo
 
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml simple-orthologs --organism-taxon-id=4896 --other-organism-taxon-id=4897 "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/exports/pombe-japonicus-orthologs-with-systematic-ids.txt.gz
 
-echo starting modifications export at `date`
-$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml modifications --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/$DB.modifications.gz
-
 echo starting publications with annotations export at `date`
 psql $DB -t --no-align -c "
 SELECT uniquename FROM pub WHERE uniquename LIKE 'PMID:%'
@@ -1118,6 +1115,8 @@ then
 
     gzip -9 < $CURRENT_BUILD_DIR/misc/single_locus_phenotype_annotations_taxon_4896.phaf > $CURRENT_BUILD_DIR/$DB.phaf.gz
     gzip -9 < $CURRENT_BUILD_DIR/misc/single_locus_phenotype_annotations_taxon_4896_eco_evidence.phaf > $CURRENT_BUILD_DIR/$DB.eco.phaf.gz
+
+    gzip -9 < $CURRENT_BUILD_DIR/misc/modifications.tsv > $CURRENT_BUILD_DIR/$DB.modifications.gz
 
     cp $CURRENT_BUILD_DIR/misc/gene_IDs_names.tsv          $SOURCES/pombe-embl/ftp_site/pombe/names_and_identifiers/
     cp $CURRENT_BUILD_DIR/misc/gene_IDs_names_products.tsv $SOURCES/pombe-embl/ftp_site/pombe/names_and_identifiers/
