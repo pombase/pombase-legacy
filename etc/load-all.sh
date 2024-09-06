@@ -730,7 +730,14 @@ $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml change-terms 
   --mapping-file=$SOURCES/pombe-embl/chado_load_mappings/generic_term_id_mappings.txt \
   "$HOST" $DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.generic-term-mapping
 
-echo infer paralogs from orthologs then store as feature_relationships
+echo store manual paralogs
+$POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml \
+   paralogs --organism-taxonid=4896
+   "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/manual_paralogs.tsv 2>&1 |
+    tee $LOG_DIR/$log_file.manual_paralogs
+
+
+echo infer paralogs from orthologs  # then store as feature_relationships
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml infer-paralogs \
   --this-taxonid=4896 --ortholog-taxonid=4932 \
   "$HOST" $DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.generic-term-mapping
@@ -865,6 +872,7 @@ cp $LOG_DIR/$log_file.legacy_modifications_from_contigs $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.biogrid-load-output $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.cerevisiae_orthologs $CURRENT_BUILD_DIR/logs/$log_file.cerevisiae_orthologs
 cp $LOG_DIR/$log_file.human_orthologs $CURRENT_BUILD_DIR/logs/$log_file.human_orthologs
+cp $LOG_DIR/$log_file.manual_paralogs $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.monarch_causal $CURRENT_BUILD_DIR/logs/$log_file.monarch_causal
 cp $LOG_DIR/$log_file.monarch_noncausal $CURRENT_BUILD_DIR/logs/$log_file.monarch_noncausal
 cp $LOG_DIR/$log_file.disease_associations $CURRENT_BUILD_DIR/logs/$log_file.disease_associations
