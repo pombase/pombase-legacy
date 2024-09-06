@@ -732,7 +732,7 @@ $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml change-terms 
 
 echo store manual paralogs
 $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml \
-   paralogs --organism-taxonid=4896
+   paralogs --organism-taxonid=4896 \
    "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/manual_paralogs.tsv 2>&1 |
     tee $LOG_DIR/$log_file.manual_paralogs
 
