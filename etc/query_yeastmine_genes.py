@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
 
-# retreive basic gene information from SGD as a tab-delimited file
+# retreive basic cerevisiae gene information from the Alliance as a
+# tab-delimited file
 
 # needs InterMine Python module: pip3 install intermine
 
 from intermine.webservice import Service
-service = Service("https://yeastmine.yeastgenome.org/yeastmine/service")
+service = Service("https://www.alliancegenome.org/alliancemine/service")
 
 import re
 
 # InterMine XML for query:
 '''
-<query name="" model="genomic" view="Gene.primaryIdentifier Gene.symbol Gene.featureType Gene.name Gene.secondaryIdentifier Gene.description" longDescription="" sortOrder="Gene.secondaryIdentifier asc">
-  <constraint path="Gene.organism.taxonId" op="=" value="4932"/>
+<query model="genomic" view="Gene.primaryIdentifier Gene.symbol Gene.featureType Gene.name Gene.secondaryIdentifier Gene.modDescription" sortOrder="Gene.primaryIdentifier ASC" >
+  <constraint path="Gene.organism.name" op="=" value="Saccharomyces cerevisiae" code="A" />
 </query>
 '''
 
@@ -22,10 +23,11 @@ query = service.new_query("Gene")
 # The view specifies the output columns
 query.add_view(
     "primaryIdentifier", "symbol", "featureType", "name", "secondaryIdentifier",
-    "description"
+    "modDescription"
 )
 
-query.add_constraint("organism.taxonId", "=", "4932", code="A")
+#query.add_constraint("organism.taxonId", "=", "4932", code="A")
+query.add_constraint("organism.name", "=", "Saccharomyces cerevisiae", code="A")
 
 def fix_field(el):
     if el is None:
@@ -43,7 +45,7 @@ for row in query.rows():
     row_list = [row["featureType"],
                 row["name"],
                 primary_identifier,
-                row["description"],
+                row["modDescription"],
                 row["secondaryIdentifier"],
                 row["symbol"]]
     print("\t".join(map(fix_field, row_list)))
