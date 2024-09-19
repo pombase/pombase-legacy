@@ -1056,7 +1056,7 @@ psql $DB -c "select count(distinct fc_id) as total from $sub_query;"
 (cd $SOURCES; wget -N http://purl.obolibrary.org/obo/eco/gaf-eco-mapping.txt)
 
 echo creating files for the website:
-$POMCUR/bin/pombase-chado-json -c $POMBASE_WEB_CONFIG \
+RUST_BACKTRACE=full $POMCUR/bin/pombase-chado-json -c $POMBASE_WEB_CONFIG \
    --doc-config-file ~/git/pombase-website/src/app/config/doc-config.json \
    -p "postgres://kmr44:kmr44@localhost/$DB" \
    -d $CURRENT_BUILD_DIR/ --go-eco-mapping=$SOURCES/gaf-eco-mapping.txt \
