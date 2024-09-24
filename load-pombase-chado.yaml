@@ -684,8 +684,12 @@ evidence_types:
     name: mutant phenotype evidence used in manual assertion
   'ECO:0000314':
     name: direct assay evidence used in manual assertion
+  'ECO:0000303':
+    name: author statement without traceable support used in manual assertion
   'ECO:0000304':
     name: author statement supported by traceable reference used in manual assertion
+  'ECO:0007744':
+    name: combinatorial computational and experimental evidence used in manual assertion
 
 suppressible_evidence_codes:
 
