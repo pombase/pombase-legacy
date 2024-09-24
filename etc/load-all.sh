@@ -235,7 +235,7 @@ echo "loading features created from UniProt data file"
 
 $POMCUR/bin/pombase-create-annotations uniprot-data-tsv \
     --assigned-by=UniProt \
-    --reference=PMID:36408920 --glycosylation-site-termid=MOD:00693 \
+    --glycosylation-site-termid=MOD:00693 \
     --disulphide-bond-termid=MOD:00689 \
     --peptide-fasta=<(gzip -d < $POMCUR_LATEST_BUILD/fasta/feature_sequences/peptide.fa.gz) \
     $SOURCES/pombe-embl/external_data/uniprot_data_from_api.tsv |
