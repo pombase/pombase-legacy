@@ -48,7 +48,8 @@ echo update FYPO from GitHub
 
 #(cd $SOURCES_DIR/; wget -N http://purl.obolibrary.org/obo/go/snapshot/go-basic.obo)
 
-(cd $SOURCES_DIR/; wget -N https://ontology-build.geneontology.org/go-basic.obo)
+## temporarily disable downloads: see: https://github.com/pombase/pombase-chado/issues/1225#issuecomment-2376610870
+#(cd $SOURCES_DIR/; wget -N https://ontology-build.geneontology.org/go-basic.obo)
 
 #curl --compressed -L http://purl.obolibrary.org/obo/go/snapshot/extensions/go-plus.owl > $SOURCES_DIR/go-plus.owl &&
 #(cd $SOURCES_DIR/go-ontology-github/src/ontology/extensions; owltools $SOURCES_DIR/go-plus.owl --reasoner elk --make-species-subset --perform-macro-expansion false -t NCBITaxon:4896 -o -f obo --no-check $SOURCES_DIR/go-plus-pombe-only.obo)
