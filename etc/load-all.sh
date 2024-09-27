@@ -213,7 +213,6 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
 
 # See: https://github.com/pombase/pombase-chado/issues/1105
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml modification \
-    --assigned-by="PomBase" \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/legacy_modifications_from_contigs.tsv \
     > $log_file.legacy_modifications_from_contigs 2>&1
 
@@ -550,7 +549,7 @@ echo load bulk protein modification files
 for file in $SOURCES/pombe-embl/external_data/modification_files/*.tsv
 do
   $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml modification \
-    --assigned-by="PomBase" "$HOST" $DB $USER $PASSWORD < $file > /tmp/log.modification.tmp.txt 2>&1
+    "$HOST" $DB $USER $PASSWORD < $file > /tmp/log.modification.tmp.txt 2>&1
 
   if [ -s /tmp/log.modification.tmp.txt ]
   then
