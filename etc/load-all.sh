@@ -769,9 +769,17 @@ $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter-dup
 pg_dump $DB | gzip -2 > /tmp/pombase-chado-before-go-filter.dump.gz
 
 echo
-echo filtering redundant annotations - `date`
+echo filtering GO redundant annotations - `date`
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter "$HOST" $DB $USER $PASSWORD
 echo done filtering - `date`
+
+
+echo delete duplicate modifications assigned by UniProt
+$POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml modification-filter \
+   --primary-assigner=PomBase --secondary-assigner=UniProt \
+   --secondary-assigner-pmid=PMID:36408920
+   "$HOST" $DB $USER $PASSWORD > $LOG_DIR/$log_file.go-filter-cacao-duplicates
+
 
 pg_dump $DB | gzip -2 > /tmp/pombase-chado-after-go-filter.dump.gz
 
