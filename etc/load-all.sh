@@ -778,7 +778,7 @@ echo delete duplicate modifications assigned by UniProt
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml modification-filter \
    --primary-assigner=PomBase --secondary-assigner=UniProt \
    --secondary-assigner-pmid=PMID:36408920
-   "$HOST" $DB $USER $PASSWORD > $LOG_DIR/$log_file.go-filter-cacao-duplicates
+   "$HOST" $DB $USER $PASSWORD > $LOG_DIR/$log_file.modification-filter-duplicates
 
 
 pg_dump $DB | gzip -2 > /tmp/pombase-chado-after-go-filter.dump.gz
@@ -904,6 +904,7 @@ cp $LOG_DIR/$log_file.generic-term-mapping $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.add-missing-allele-names $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.fix-allele-names $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.go-filter-*-duplicates $CURRENT_BUILD_DIR/logs/
+cp $LOG_DIR/$log_file.modification-filter-duplicates $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.chado_checks* $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.qc_queries* $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.allele-synonyms-from-supporting-data $CURRENT_BUILD_DIR/logs/
