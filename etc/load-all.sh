@@ -777,7 +777,7 @@ echo done filtering - `date`
 echo delete duplicate modifications assigned by UniProt
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml modification-filter \
    --primary-assigner=PomBase --secondary-assigner=UniProt \
-   --secondary-assigner-pmid=PMID:36408920
+   --secondary-assigner-pmid=PMID:36408920 \
    "$HOST" $DB $USER $PASSWORD > $LOG_DIR/$log_file.modification-filter-duplicates
 
 
