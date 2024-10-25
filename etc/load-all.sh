@@ -1127,7 +1127,7 @@ then
     rsync --delete-during -avHSP /data/pombase/external_datasets/processed/ babraham-pombase:/home/ftp/pombase/external_datasets/
 
     echo copy  $IMAGE_NAME to server:
-    nice -19 docker save $IMAGE_NAME | nice -19 gzip -4v | ssh pombase-admin@149.155.131.177 "gzip -d | sudo docker load" &&
+    nice -19 docker save $IMAGE_NAME | nice -19 gzip -3v | ssh pombase-admin@149.155.131.177 "gzip -d | sudo docker load" &&
       ssh pombase-admin@149.155.131.177 "sudo docker service update --image $IMAGE_NAME main-1"
 
     echo copied image to the server
