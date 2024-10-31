@@ -1078,6 +1078,7 @@ RUST_BACKTRACE=full $POMCUR/bin/pombase-chado-json -c $POMBASE_WEB_CONFIG \
    -r /var/pomcur/sources/rnacentral_pombe_rfam.json \
    --gene-history-file $HOME/git/genome_changelog/results/all_previous_coords.tsv \
    --uniprot-data-file $SOURCES/pombe-embl/external_data/uniprot_data_from_api.tsv \
+   --filter-uniprot-references=PMID:18257517 \
    --pdb-data-file $SOURCES/pombe-embl/external_data/protein_structure/systematic_id_to_pdbe_mapping.tsv \
    2>&1 | tee $LOG_DIR/$log_file.web-json-write
 
