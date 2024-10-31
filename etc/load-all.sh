@@ -238,6 +238,7 @@ $POMCUR/bin/pombase-create-annotations uniprot-data-tsv \
     --uniprot-reference=PMID:36408920 \
     --glycosylation-site-termid=MOD:00693 \
     --disulphide-bond-termid=MOD:00689 \
+    --filter-references=PMID:18257517 \
     --peptide-fasta=<(gzip -d < $POMCUR_LATEST_BUILD/fasta/feature_sequences/peptide.fa.gz) \
     $SOURCES/pombe-embl/external_data/uniprot_data_from_api.tsv |
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-annotation \
