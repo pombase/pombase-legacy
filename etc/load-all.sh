@@ -429,28 +429,6 @@ gzip -d < $SOURCES/snapshot.geneontology.org/pombase.gaf.gz |
 
 
 
-echo load pombe KEGG data
-
-TEMP_KEGG=/tmp/temp_egg.$$.tsv
-
-if GET http://rest.kegg.jp/link/pathway/spo > $TEMP_KEGG
-then
-    if [ -s $TEMP_KEGG ]
-    then
-        cp $TEMP_KEGG $SOURCES/pombe_kegg_latest.tsv
-    else
-        echo failed to fetch KEGG data, empty result 1>&2
-    fi
-else
-    echo failed to fetch KEGG data, error code: $? 1>&2
-fi
-
-
-perl -pne 's/^\s*spo:(\S+)\s+path:(\S+)\s*/$1\t\tKEGG_PW:$2\t\tPMID:10592173\t'$DATE_VERSION'\n/' $SOURCES/pombe_kegg_latest.tsv |
-  $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-annotation \
-    --organism-taxonid=4896 "$HOST" $DB $USER $PASSWORD 2>&1 | tee $LOG_DIR/$log_file.kegg-pathway
-
-
 echo load RNAcentral pombe identifiers
 curl --user-agent "$USER_AGENT_FOR_EBI" -s -o $SOURCES/rnacentral_pombe_identifiers.tsv -z $SOURCES/rnacentral_pombe_identifiers.tsv https://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/id_mapping/database_mappings/pombase.tsv ||
   echo failed to download new RNAcentral identifier file, continuing with previous version
