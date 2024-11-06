@@ -1127,7 +1127,7 @@ then
 
     cp $CURRENT_BUILD_DIR/misc/aa_composition.tsv        $SOURCES/pombe-embl/ftp_site/pombe/Protein_data/
     cp $CURRENT_BUILD_DIR/misc/PeptideStats.tsv          $SOURCES/pombe-embl/ftp_site/pombe/Protein_data/
-    cp $CURRENT_BUILD_DIR/misc/ProteinFeatures.tsv       $SOURCES/pombe-embl/ftp_site/pombe/Protein_data/Protein_Features.tsv
+    cp $CURRENT_BUILD_DIR/misc/ProteinFeatures.tsv       $SOURCES/pombe-embl/ftp_site/pombe/Protein_data/protein_domains_and_features.tsv
 
     cp $CURRENT_BUILD_DIR/misc/*.exon.coords.tsv      $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/Exon_Coordinates/
     cp $CURRENT_BUILD_DIR/misc/*.cds.coords.tsv      $SOURCES/pombe-embl/ftp_site/pombe/genome_sequence_and_features/CDS_Coordinates/
