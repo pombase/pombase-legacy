@@ -102,7 +102,7 @@ $POMBASE_CHADO/script/pombase-admin.pl $POMBASE_LEGACY/load-pombase-chado.yaml c
 (cd $SOURCES
 wget -q -N https://ftp.ebi.ac.uk/pub/databases/genenames/new/tsv/hgnc_complete_set.txt ||
     echo failed to download new HGNC data
-wget -q -N http://downloads.yeastgenome.org/curation/chromosomal_feature/SGD_features.tab ||
+wget -q -N https://downloads.yeastgenome.org/curation/chromosomal_feature/SGD_features.tab ||
     echo failed to download new SGD data
 )
 
@@ -348,7 +348,7 @@ done
 
 echo Updating $SOURCES/pombase-prediction.gaf
 
-POMBASE_PREDICTION_URL=http://snapshot.geneontology.org/products/upstream_and_raw_data/pombase-prediction.gaf
+POMBASE_PREDICTION_URL=https://snapshot.geneontology.org/products/upstream_and_raw_data/pombase-prediction.gaf
 
 GET $POMBASE_PREDICTION_URL | perl -ne 'print unless /\tC\t/' > $SOURCES/pombase-prediction.gaf.new || echo failed to download pombase-prediction.gaf
 
@@ -413,7 +413,7 @@ gzip -d < $GOA_POMBE_AND_JAPONICUS |
 pg_dump $DB | gzip -2 > /tmp/pombase-chado-after-goa.dump.gz
 
 
-(cd $SOURCES/snapshot.geneontology.org && wget -N http://snapshot.geneontology.org/annotations/pombase.gaf.gz)
+(cd $SOURCES/snapshot.geneontology.org && wget -N https://snapshot.geneontology.org/annotations/pombase.gaf.gz)
 
 # echo loading PANTHER annotation - don't load this from GOA because GOA updates slowly
 gzip -d < $SOURCES/snapshot.geneontology.org/pombase.gaf.gz |
@@ -461,7 +461,7 @@ COMPLEX_PORTAL_DATA_FILE=$SOURCES/complex_portal_pombe_data.tsv
 
 echo update Complex Portal data file
 curl -o $COMPLEX_PORTAL_DATA_FILE -z $COMPLEX_PORTAL_DATA_FILE \
-   http://ftp.ebi.ac.uk/pub/databases/intact/complex/current/complextab/284812.tsv
+   https://ftp.ebi.ac.uk/pub/databases/intact/complex/current/complextab/284812.tsv
 
 echo load pombephosphoproteomics.unige.ch data
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-property \
@@ -1044,7 +1044,7 @@ psql $DB -c "select count(distinct fc_id) as total from $sub_query;"
 
 
 
-(cd $SOURCES; wget -N http://purl.obolibrary.org/obo/eco/gaf-eco-mapping.txt)
+(cd $SOURCES; wget -N https://purl.obolibrary.org/obo/eco/gaf-eco-mapping.txt)
 
 echo creating files for the website:
 RUST_BACKTRACE=full $POMCUR/bin/pombase-chado-json -c $POMBASE_WEB_CONFIG \
