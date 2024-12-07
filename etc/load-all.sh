@@ -31,6 +31,8 @@ CURRENT_BUILD_DIR=$BUILDS_DIR/$DB
 
 POMBE_EMBL=$SOURCES/pombe-embl
 
+POMBASE_WEBSITE=$HOME/git/pombase-website
+
 POMBASE_WEB_CONFIG=$HOME/git/pombase-config/website/pombase_v2_config.json
 
 # without a user agent we get "bad gateway" from ftp.ebi.ac.uk
@@ -50,7 +52,7 @@ die() {
 (cd ~/git/pombase-config; git pull) || die "Failed to update pombase-config"
 (cd ~/git/pombase-chado; git pull) || die "Failed to update pombase-chado"
 (cd ~/git/pombase-legacy; git pull) || die "Failed to update pombase-legacy"
-(cd ~/git/pombase-website; git pull) || die "Failed to update pombase-website"
+(cd $POMBASE_WEBSITE; git pull) || die "Failed to update pombase-website"
 (cd ~/git/genome_changelog; git pull) || die "Failed to update genome_changelog"
 (cd ~/git/japonicus-curation; git pull) || die "Failed to update japonicus-curation"
 
@@ -777,12 +779,18 @@ refresh_views
 
 echo
 echo running QC queries from the config file
-$POMBASE_CHADO/script/check-chado.pl ./load-pombase-chado.yaml qc_queries $POMBASE_WEB_CONFIG "$HOST" $DB $USER $PASSWORD $LOG_DIR/$log_file.qc_queries > $LOG_DIR/$log_file.qc_queries 2>&1
+$POMBASE_CHADO/script/check-chado.pl ./load-pombase-chado.yaml qc_queries \
+   $POMBASE_WEB_CONFIG \
+   $POMBASE_WEBSITE/src/app/config/go-xrf-abbr-external-links.json \
+   "$HOST" $DB $USER $PASSWORD $LOG_DIR/$log_file.qc_queries > $LOG_DIR/$log_file.qc_queries 2>&1
 
 
 echo
 echo running consistency checks
-if $POMBASE_CHADO/script/check-chado.pl ./load-pombase-chado.yaml check_chado $POMBASE_WEB_CONFIG "$HOST" $DB $USER $PASSWORD $LOG_DIR/$log_file.chado_checks > $LOG_DIR/$log_file.chado_checks 2>&1
+if $POMBASE_CHADO/script/check-chado.pl ./load-pombase-chado.yaml check_chado \
+    $POMBASE_WEB_CONFIG \
+    $POMBASE_WEBSITE/src/app/config/go-xrf-abbr-external-links.json \
+    "$HOST" $DB $USER $PASSWORD $LOG_DIR/$log_file.chado_checks > $LOG_DIR/$log_file.chado_checks 2>&1
 then
     CHADO_CHECKS_STATUS=passed
 else
