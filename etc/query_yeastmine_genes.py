@@ -4,6 +4,8 @@
 # tab-delimited file
 
 # needs InterMine Python module: pip3 install intermine
+# or:
+# uv run --python 3.9 --with pandas --with intermine --with requests ./etc/query_yeastmine_genes.py > sgd_yeastmine_genes.tsv
 
 from intermine.webservice import Service
 service = Service("https://www.alliancegenome.org/alliancemine/service")
