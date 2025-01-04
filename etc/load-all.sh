@@ -56,7 +56,7 @@ die() {
 (cd ~/git/genome_changelog; git pull) || die "Failed to update genome_changelog"
 (cd ~/git/japonicus-curation; git pull) || die "Failed to update japonicus-curation"
 
-(cd $SOURCES/pombe-embl/; svn update || exit 1)
+(cd $POMBE_EMBL; svn update || exit 1)
 
 (cd $SOURCES/go-site/; git pull || exit 1)
 
