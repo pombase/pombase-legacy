@@ -48,6 +48,8 @@ die() {
   exit 1
 }
 
+docker service update --replicas 0 pombase-dev
+
 (cd ~/chobo/; git pull) || die "Failed to update Chobo"
 (cd ~/git/pombase-config; git pull) || die "Failed to update pombase-config"
 (cd ~/git/pombase-chado; git pull) || die "Failed to update pombase-chado"
@@ -58,16 +60,21 @@ die() {
 
 (cd $POMBE_EMBL; svn update || exit 1)
 
+(cd ~/git/pombase-chado
+ ./etc/generate_gocam_data_files.pl \
+     $POMBE_EMBL/supporting_files/production_gocam_id_mapping.tsv \
+     $POMBE_EMBL/supporting_files/production_gocam_term_id_mapping.tsv) &&
+(cd $POMBE_EMBL
+ svn commit -m "Automatic file of GO-CAM files for $DB")
+
 (cd $SOURCES/go-site/; git pull || exit 1)
 
 . $SOURCES/private-config/pombase_load_secrets
 
-docker service update --replicas 0 pombase-dev
-
 (cd ~/git/pombase-legacy
  export PATH=$HOME/chobo/script/:/usr/local/owltools-v0.3.0-74-gee0f8bbd/OWLTools-Runner/bin/:$PATH
  export CHADO_CLOSURE_TOOL=$HOME/git/pombase-chado/script/relation-graph-chado-closure.pl
- export PERL5LIB=$HOME/git/pombase-chado:$HOME/chobo/lib/
+ export PERL5LIB=$PERL5LIB:$HOME/git/pombase-chado:$HOME/chobo/lib/
  time nice -19 ./script/make-db $DATE "$HOST" $USER $PASSWORD) || die "make-db failed"
 
 LOG_DIR=`pwd`
@@ -91,7 +98,7 @@ git pull || exit 1
 cd $POMBASE_LEGACY
 git pull || exit 1
 
-export PERL5LIB=$HOME/git/pombase-chado/lib:$POMBASE_LEGACY/lib
+export PERL5LIB=$PERL5LIB:$HOME/git/pombase-chado/lib:$POMBASE_LEGACY/lib
 
 echo initialising Chado with CVs and cvterms
 $POMBASE_CHADO/script/pombase-admin.pl $POMBASE_LEGACY/load-pombase-chado.yaml chado-init \
