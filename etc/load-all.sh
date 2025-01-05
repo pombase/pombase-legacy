@@ -35,8 +35,18 @@ POMBASE_WEBSITE=$HOME/git/pombase-website
 
 POMBASE_WEB_CONFIG=$HOME/git/pombase-config/website/pombase_v2_config.json
 
+POMBASE_CHADO=$HOME/git/pombase-chado
+POMBASE_LEGACY=$HOME/git/pombase-legacy
+JAPONICUS_CURATION=$HOME/git/japonicus-curation
+
 # without a user agent we get "bad gateway" from ftp.ebi.ac.uk
 USER_AGENT_FOR_EBI='Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13'
+
+if ! [[ -v PERL5LIB ]]
+then
+    # prevent "PERL5LIB: unbound variable" error
+    PERL5LIB=.
+fi
 
 mkdir $CURRENT_BUILD_DIR
 mkdir $CURRENT_BUILD_DIR/logs
@@ -74,14 +84,10 @@ docker service update --replicas 0 pombase-dev
 (cd ~/git/pombase-legacy
  export PATH=$HOME/chobo/script/:/usr/local/owltools-v0.3.0-74-gee0f8bbd/OWLTools-Runner/bin/:$PATH
  export CHADO_CLOSURE_TOOL=$HOME/git/pombase-chado/script/relation-graph-chado-closure.pl
- export PERL5LIB=$PERL5LIB:$HOME/git/pombase-chado:$HOME/chobo/lib/
+ export PERL5LIB=$PERL5LIB:$HOME/chobo/lib/
  time nice -19 ./script/make-db $DATE "$HOST" $USER $PASSWORD) || die "make-db failed"
 
 LOG_DIR=`pwd`
-
-POMBASE_CHADO=$HOME/git/pombase-chado
-POMBASE_LEGACY=$HOME/git/pombase-legacy
-JAPONICUS_CURATION=$HOME/git/japonicus-curation
 
 JAPONICUS_BUILD_DIR=$WWW_DIR/japonicus_nightly/latest_build
 
@@ -98,7 +104,7 @@ git pull || exit 1
 cd $POMBASE_LEGACY
 git pull || exit 1
 
-export PERL5LIB=$PERL5LIB:$HOME/git/pombase-chado/lib:$POMBASE_LEGACY/lib
+export PERL5LIB=$PERL5LIB:$POMBASE_CHADO/lib:$POMBASE_LEGACY/lib
 
 echo initialising Chado with CVs and cvterms
 $POMBASE_CHADO/script/pombase-admin.pl $POMBASE_LEGACY/load-pombase-chado.yaml chado-init \
