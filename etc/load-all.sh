@@ -73,7 +73,8 @@ docker service update --replicas 0 pombase-dev
 (cd ~/git/pombase-chado
  ./etc/generate_gocam_data_files.pl \
      $POMBE_EMBL/supporting_files/production_gocam_id_mapping.tsv \
-     $POMBE_EMBL/supporting_files/production_gocam_term_id_mapping.tsv) &&
+     $POMBE_EMBL/supporting_files/production_gocam_term_id_mapping.tsv \
+     $POMBE_EMBL/supporting_files/noctua-go-cam-models) &&
 (cd $POMBE_EMBL
  svn commit -m "Automatic file of GO-CAM files for $DB")
 
