@@ -1087,6 +1087,8 @@ find $CURRENT_BUILD_DIR/fasta/ -name '*.fa' | xargs gzip -9
 
 cp $LOG_DIR/$log_file.web-json-write $CURRENT_BUILD_DIR/logs/
 
+cp -r $POMBE_EMBL/supporting_files/noctua-go-cam-models $CURRENT_BUILD_DIR/web-json/go-cam
+
 DB_BASE_NAME=`echo $DB | sed 's/-v[0-9]$//'`
 
 cp -r $SOURCES/current_build_files/$DB_BASE_NAME/* $CURRENT_BUILD_DIR/
