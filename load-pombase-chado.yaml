@@ -79,6 +79,8 @@ cvs:
     - name: assigned_by
     - name: gocam
     - name: rnacentral_2d_structure_id
+    - name: gocam_date
+    - name: gocam_contributor
   PomBase allele types:
     - name: amino_acid_deletion_and_mutation
     - name: amino_acid_insertion
@@ -150,7 +152,7 @@ cvs:
   PomBase sequence feature types:
     # used for genotype-genotype interactions
     - name: genotype_interaction
-    - name: go_cam_pathway
+    - name: gocam_model
   feature_relationshipprop_type:
     - name: evidence
     - name: eco_evidence
