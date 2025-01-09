@@ -699,6 +699,12 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/production_gocam_term_id_mapping.tsv \
     2>&1 | tee -a $LOG_DIR/$log_file.production-gocam-term-id-mapping-file
 
+echo loading GO-CAM JSON file
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml go-cam-json \
+    --organism-taxonid=4896 \
+    "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/pombase_gocam_data_for_chado.json \
+    2>&1 | tee -a $LOG_DIR/$log_file.gocam-json-data-file
+
 
 refresh_views
 
