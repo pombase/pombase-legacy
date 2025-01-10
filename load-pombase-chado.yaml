@@ -14,7 +14,6 @@ cvs:
     - malacards_displayed_disease_name
     - malacards_disease_slug
     - pombase_gene_id
-    - gocam
   PomBase publication types:
     - paper
     - null
@@ -77,7 +76,6 @@ cvs:
     - name: transvar_coordinates
     - name: insdc_protein_id
     - name: assigned_by
-    - name: gocam
     - name: rnacentral_2d_structure_id
     - name: gocam_date
     - name: gocam_contributor
