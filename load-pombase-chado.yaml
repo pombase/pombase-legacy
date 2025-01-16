@@ -1597,6 +1597,42 @@ check_chado:
            AND expression <> 'Knockdown'
            AND expression <> 'Ectopic';
 
+    - name: inconsistent_temperature_conditions
+      verbose_fail: true
+      description: |
+        Check for annotations that have more than one of low, high or
+        standard temperature as a condition
+      github_issue: 'https://github.com/pombase/canto/issues/460'
+      expected: 0
+      query: |
+         WITH
+          condition_names AS
+           (SELECT 'FYECO:' || accession AS fyecoid, t.name AS name
+            FROM cvterm t
+            JOIN dbxref x ON x.dbxref_id = t.dbxref_id
+            JOIN db ON db.db_id = x.db_id
+            WHERE db.name = 'FYECO' AND t.name = 'low temperature' OR t.name = 'high temperature' OR t.name = 'standard temperature'),
+          conditions AS
+           (SELECT fc.feature_cvterm_id, condition_names.name
+            FROM feature_cvterm fc
+            JOIN feature_cvtermprop fcp ON fcp.feature_cvterm_id = fc.feature_cvterm_id
+            JOIN cvterm pt ON pt.cvterm_id = fcp.type_id
+            JOIN condition_names ON condition_names.fyecoid = fcp.value
+            WHERE pt.name = 'condition')
+         SELECT base_cvterm_name AS term_name,
+           (SELECT value FROM feature_cvtermprop p
+            WHERE p.type_id IN
+                (SELECT cvterm_id FROM cvterm WHERE name = 'canto_session')
+              AND fc.feature_cvterm_id = p.feature_cvterm_id
+            LIMIT 1) AS canto_session,
+            f.uniquename AS genotype_uniquename
+         FROM pombase_feature_cvterm_ext_resolved_terms fc
+         JOIN feature f ON f.feature_id = fc.feature_id
+         WHERE feature_cvterm_id IN
+             (SELECT feature_cvterm_id FROM conditions
+              WHERE name = 'low temperature' OR name = 'high temperature' OR name = 'standard temperature'
+              GROUP BY feature_cvterm_id
+              HAVING count(name) > 1);
 
 qc_queries:
   no_fail: 1
