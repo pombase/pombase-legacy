@@ -1061,6 +1061,25 @@ psql $DB -c "select count(distinct fc_id) as total from $sub_query;"
  ) > $CURRENT_BUILD_DIR/logs/$log_file.annotation_counts_by_cv
 
 
+psql $DB -c "SELECT gene.uniquename
+FROM cvterm t
+JOIN feature_cvterm fc ON fc.cvterm_id = t.cvterm_id
+JOIN feature transcript ON transcript.feature_id = fc.feature_id
+JOIN feature_relationship rel ON rel.subject_id = transcript.feature_id
+JOIN feature gene ON gene.feature_id = rel.object_id
+JOIN cvterm gene_type ON gene_type.cvterm_id = gene.type_id
+JOIN cvterm rel_type ON rel.type_id = rel_type.cvterm_id
+JOIN dbxref x ON x.dbxref_id = t.dbxref_id
+JOIN db ON db.db_id = x.db_id
+WHERE db.name = 'GO'
+  AND 'GO:' || x.accession IN
+    (SELECT DISTINCT p.value FROM feature f
+     JOIN featureprop p ON p.feature_id = f.feature_id
+     WHERE f.type_id IN (SELECT cvterm_id FROM cvterm WHERE name = 'gocam_model')
+       AND p.type_id IN (SELECT cvterm_id FROM cvterm WHERE name = 'gocam_title_termid'))
+  AND gene_type.name = 'gene' AND rel_type.name = 'part_of';" \
+ > $CURRENT_BUILD_DIR/logs/$log_file.genes_of_gocam_title_terms
+
 
 (cd $SOURCES; wget -N https://purl.obolibrary.org/obo/eco/gaf-eco-mapping.txt)
 
