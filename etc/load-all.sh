@@ -1061,7 +1061,7 @@ psql $DB -c "select count(distinct fc_id) as total from $sub_query;"
  ) > $CURRENT_BUILD_DIR/logs/$log_file.annotation_counts_by_cv
 
 
-psql $DB -c "SELECT gene.uniquename
+psql $DB -c "SELECT DISTINCT gene.uniquename
 FROM cvterm t
 JOIN feature_cvterm fc ON fc.cvterm_id = t.cvterm_id
 JOIN feature transcript ON transcript.feature_id = fc.feature_id
