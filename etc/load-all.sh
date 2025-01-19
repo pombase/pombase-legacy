@@ -1061,23 +1061,35 @@ psql $DB -c "select count(distinct fc_id) as total from $sub_query;"
  ) > $CURRENT_BUILD_DIR/logs/$log_file.annotation_counts_by_cv
 
 
-psql $DB -c "SELECT DISTINCT gene.uniquename
-FROM cvterm t
-JOIN feature_cvterm fc ON fc.cvterm_id = t.cvterm_id
-JOIN feature transcript ON transcript.feature_id = fc.feature_id
-JOIN feature_relationship rel ON rel.subject_id = transcript.feature_id
-JOIN feature gene ON gene.feature_id = rel.object_id
-JOIN cvterm gene_type ON gene_type.cvterm_id = gene.type_id
-JOIN cvterm rel_type ON rel.type_id = rel_type.cvterm_id
-JOIN dbxref x ON x.dbxref_id = t.dbxref_id
-JOIN db ON db.db_id = x.db_id
-WHERE db.name = 'GO'
-  AND 'GO:' || x.accession IN
-    (SELECT DISTINCT p.value FROM feature f
-     JOIN featureprop p ON p.feature_id = f.feature_id
-     WHERE f.type_id IN (SELECT cvterm_id FROM cvterm WHERE name = 'gocam_model')
-       AND p.type_id IN (SELECT cvterm_id FROM cvterm WHERE name = 'gocam_title_termid'))
-  AND gene_type.name = 'gene' AND rel_type.name = 'part_of';" \
+psql $DB -c "WITH direct_title_termids AS
+(SELECT distinct cvterm_id
+   FROM cvterm t
+   JOIN dbxref x ON x.dbxref_id = t.dbxref_id
+   JOIN db ON db.db_id = x.db_id
+  WHERE db.name = 'GO'
+    AND 'GO:' || x.accession IN
+      (SELECT DISTINCT p.value
+         FROM feature f
+         JOIN featureprop p ON p.feature_id = f.feature_id
+         JOIN cvterm ft on ft.cvterm_id = f.type_id
+         JOIN cvterm pt on pt.cvterm_id = p.type_id
+        WHERE pt.name = 'gocam_title_termid'
+          AND ft.name = 'gocam_model')),
+all_title_termids AS
+ (SELECT subject_id AS cvterm_id FROM cvtermpath
+    JOIN cvterm pt on pt.cvterm_id = cvtermpath.type_id
+   WHERE object_id IN (SELECT cvterm_id FROM direct_title_termids)
+     AND pt.name = 'is_a' AND pathdistance >= 0)
+select DISTINCT gene.uniquename
+  FROM feature gene
+  JOIN cvterm gene_type ON gene_type.cvterm_id = gene.type_id
+  JOIN feature_relationship rel ON gene.feature_id = rel.object_id
+  JOIN feature transcript ON rel.subject_id = transcript.feature_id
+  JOIN feature_cvterm fc ON transcript.feature_id = fc.feature_id
+  JOIN cvterm rel_type ON rel.type_id = rel_type.cvterm_id
+  WHERE gene_type.name = 'gene'
+    AND rel_type.name = 'part_of'
+    AND fc.cvterm_id in (select cvterm_id FROM all_title_termids);" \
  > $CURRENT_BUILD_DIR/logs/$log_file.genes_of_gocam_title_terms
 
 
