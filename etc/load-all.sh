@@ -118,10 +118,10 @@ $POMBASE_CHADO/script/pombase-admin.pl $POMBASE_LEGACY/load-pombase-chado.yaml c
  wget -q -N https://data.monarchinitiative.org/monarch-kg/latest/tsv/gene_associations/gene_disease.noncausal.tsv.gz)
 
 (cd $SOURCES
-wget -q -N https://ftp.ebi.ac.uk/pub/databases/genenames/new/tsv/hgnc_complete_set.txt ||
-    echo failed to download new HGNC data
+wget -q -N https://storage.googleapis.com/public-download-files/hgnc/tsv/tsv/hgnc_complete_set.txt ||
+    (echo failed to download new HGNC data; exit 1)
 wget -q -N https://downloads.yeastgenome.org/curation/chromosomal_feature/SGD_features.tab ||
-    echo failed to download new SGD data
+    (echo failed to download new SGD data; exit 1)
 )
 
 echo loading organisms
