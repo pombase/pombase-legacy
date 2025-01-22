@@ -1079,17 +1079,18 @@ all_title_termids AS
  (SELECT subject_id AS cvterm_id FROM cvtermpath
     JOIN cvterm pt on pt.cvterm_id = cvtermpath.type_id
    WHERE object_id IN (SELECT cvterm_id FROM direct_title_termids)
-     AND pt.name = 'is_a' AND pathdistance >= 0)
+     AND (pt.name = 'is_a' OR  pt.name = 'part_of') AND pathdistance >= 0)
 select DISTINCT gene.uniquename
   FROM feature gene
   JOIN cvterm gene_type ON gene_type.cvterm_id = gene.type_id
   JOIN feature_relationship rel ON gene.feature_id = rel.object_id
   JOIN feature transcript ON rel.subject_id = transcript.feature_id
-  JOIN feature_cvterm fc ON transcript.feature_id = fc.feature_id
+  JOIN pombase_feature_cvterm_ext_resolved_terms fc ON transcript.feature_id = fc.feature_id
   JOIN cvterm rel_type ON rel.type_id = rel_type.cvterm_id
+  JOIN cvterm t on t.cvterm_id = fc.base_cvterm_id
   WHERE gene_type.name = 'gene'
     AND rel_type.name = 'part_of'
-    AND fc.cvterm_id in (select cvterm_id FROM all_title_termids);" \
+    AND t.cvterm_id in (select cvterm_id FROM all_title_termids);" \
  > $CURRENT_BUILD_DIR/logs/$log_file.genes_of_gocam_title_terms
 
 
