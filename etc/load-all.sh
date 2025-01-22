@@ -78,7 +78,7 @@ docker service update --replicas 0 pombase-dev
      $POMBE_EMBL/supporting_files/noctua-go-cam-models) &&
 (cd $POMBE_EMBL
  svn add --force supporting_files/noctua-go-cam-models/*.json
- svn commit -m "Automatic file of GO-CAM files for $DB" supporting_files)
+ svn commit -m "Automatic update of GO-CAM files for $DB" supporting_files)
 
 (cd $SOURCES/go-site/; git pull || exit 1)
 
