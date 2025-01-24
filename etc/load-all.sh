@@ -215,6 +215,15 @@ pg_dump $DB | gzip -2 > /tmp/pombase-chado-after-load-chado-pl.dump.gz
 #    > $log_file.allele_summaries_load 2>&1
 
 
+echo load RNAcentral pombe identifiers
+curl --user-agent "$USER_AGENT_FOR_EBI" -s -o $SOURCES/rnacentral_pombe_identifiers.tsv -z $SOURCES/rnacentral_pombe_identifiers.tsv https://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/id_mapping/database_mappings/pombase.tsv ||
+  echo failed to download new RNAcentral identifier file, continuing with previous version
+
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-property \
+    --property-name="rnacentral_identifier" --organism-taxonid=4896 \
+    --feature-uniquename-column=6 --property-column=1 \
+    "$HOST" $DB $USER $PASSWORD < $SOURCES/rnacentral_pombe_identifiers.tsv
+
 
 # See: https://github.com/pombase/pombase-chado/issues/861
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf \
@@ -448,14 +457,6 @@ gzip -d < $SOURCES/snapshot.geneontology.org/pombase.gaf.gz |
 
 
 
-echo load RNAcentral pombe identifiers
-curl --user-agent "$USER_AGENT_FOR_EBI" -s -o $SOURCES/rnacentral_pombe_identifiers.tsv -z $SOURCES/rnacentral_pombe_identifiers.tsv https://ftp.ebi.ac.uk/pub/databases/RNAcentral/current_release/id_mapping/database_mappings/pombase.tsv ||
-  echo failed to download new RNAcentral identifier file, continuing with previous version
-
-$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-property \
-    --property-name="rnacentral_identifier" --organism-taxonid=4896 \
-    --feature-uniquename-column=6 --property-column=1 \
-    "$HOST" $DB $USER $PASSWORD < $SOURCES/rnacentral_pombe_identifiers.tsv
 
 echo load PDBe IDs
 
