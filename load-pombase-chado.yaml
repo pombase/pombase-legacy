@@ -110,6 +110,9 @@ cvs:
   PomBase gene characterisation status:
     - name: published
       definition: >
+        Obsolete - use "biological role published" instead
+    - name: biological role published
+      definition: >
         A gene product characterised, or partially characterised, in a small
         scale experiment to provide published information about the biological
         process. The biological process annotation must be equivalent to, or

@@ -426,7 +426,7 @@ sub store_ec_number {
 }
 
 my %colour_map = (
-  2 => 'published',
+  2 => 'biological role published',
   4 => 'transposon',
   6 => 'dubious',
   7 => 'biological role inferred',
