@@ -1080,7 +1080,8 @@ all_title_termids AS
  (SELECT subject_id AS cvterm_id FROM cvtermpath
     JOIN cvterm pt on pt.cvterm_id = cvtermpath.type_id
    WHERE object_id IN (SELECT cvterm_id FROM direct_title_termids)
-     AND (pt.name = 'is_a' OR  pt.name = 'part_of') AND pathdistance >= 0)
+     AND pt.name in ('is_a', 'part_of', 'positively_regulates', 'negatively_regulates')
+     AND pathdistance >= 0)
 select DISTINCT gene.uniquename
   FROM feature gene
   JOIN cvterm gene_type ON gene_type.cvterm_id = gene.type_id
