@@ -1293,8 +1293,6 @@ curl -X 'POST' \
   -F 'delete_all=pombase' \
   -F 'reports=@'$CURRENT_BUILD_DIR'/misc/apicuron_data.json;type=application/json'
 
-dropdb pombase-chado-base-$DATE
-
 echo
 date
 echo sucessfully finished building: $DB

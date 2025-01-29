@@ -20,7 +20,7 @@ HOST=$2
 USER=$3
 PASSWORD=$4
 
-DB=pombase-chado-base-$DB_NAME_SUFFIX
+DB=pombase-build-$DB_NAME_SUFFIX
 
 echo "building database: $DB on $HOST"
 
@@ -924,9 +924,3 @@ SELECT all_pubs_raw.*,
        EXTRACT (YEAR FROM canto_approved_date)::integer AS canto_approved_year
 FROM all_pubs_raw;
 EOF
-
-echo make copies
-
-NEW_DB=pombase-build-$DB_NAME_SUFFIX
-echo $NEW_DB
-createdb -U $USER -h localhost -T $DB $NEW_DB
