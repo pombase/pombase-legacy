@@ -90,6 +90,8 @@ docker service update --replicas 0 pombase-dev
  export PERL5LIB=$PERL5LIB:$HOME/chobo/lib/
  time nice -19 ./script/make-db $DATE "$HOST" $USER $PASSWORD) || die "make-db failed"
 
+pg_dump $DB | gzip -2 > /tmp/pombase-chado-after-make-db.dump.gz
+
 LOG_DIR=`pwd`
 
 JAPONICUS_BUILD_DIR=$WWW_DIR/japonicus_nightly/latest_build
