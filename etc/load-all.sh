@@ -1116,8 +1116,8 @@ zstd -9q --rm $CURRENT_BUILD_DIR/api_maps.sqlite3
 
 mkdir $CURRENT_BUILD_DIR/fasta/bgzip_chromosomes
 cp -r $CURRENT_BUILD_DIR/fasta/chromosomes/Schizosaccharomyces_pombe_all_chromosomes.fa $CURRENT_BUILD_DIR/fasta/bgzip_chromosomes
-bgzip -l 9 $CURRENT_BUILD_DIR/fasta/chromosomes/Schizosaccharomyces_pombe_all_chromosomes.fa
-samtools faidx $CURRENT_BUILD_DIR/fasta/chromosomes/Schizosaccharomyces_pombe_all_chromosomes.fa
+bgzip -l 9 $CURRENT_BUILD_DIR/fasta/bgzip_chromosomes/Schizosaccharomyces_pombe_all_chromosomes.fa
+samtools faidx $CURRENT_BUILD_DIR/fasta/bgzip_chromosomes/Schizosaccharomyces_pombe_all_chromosomes.fa.gz
 
 find $CURRENT_BUILD_DIR/fasta/ -name '*.fa' | xargs gzip -9
 
