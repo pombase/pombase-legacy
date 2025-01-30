@@ -1167,6 +1167,9 @@ then
     echo copy JBrowse datasets to the Babraham server
     rsync --delete-during -avHSP /data/pombase/external_datasets/processed/ babraham-pombase:/home/ftp/pombase/external_datasets/
 
+    echo copy JBrowse V2 chromosome files
+    rsync --delete-during -avHSP $CURRENT_BUILD_DIR/fasta/bgzip_chromosomes/ babraham-pombase:/home/ftp/pombase/internal_datasets/bgzip_chromosomes/
+
     echo copy  $IMAGE_NAME to server:
     nice -19 docker save $IMAGE_NAME | nice -19 gzip -7v | ssh pombase-admin@149.155.131.177 "gzip -d | sudo docker load" &&
       ssh pombase-admin@149.155.131.177 "sudo docker service update --image $IMAGE_NAME main-1"
