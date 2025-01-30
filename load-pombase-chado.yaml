@@ -1103,6 +1103,7 @@ check_chado:
           LEFT OUTER JOIN feature_relationship feat_rel ON fc.feature_id = feat_rel.object_id
           LEFT OUTER JOIN feature allele ON feat_rel.subject_id = allele.feature_id
           WHERE cv.name IN ('molecular_function', 'cellular_component', 'biological_process', 'fission_yeast_phenotype')
+            AND f.type_id in (select cvterm_id from cvterm where name <> 'gocam_model')
             AND fc.feature_cvterm_id NOT IN
               (SELECT feature_cvterm_id FROM feature_cvtermprop p
                WHERE p.type_id IN (SELECT cvterm_id FROM cvterm WHERE name = 'evidence'))
