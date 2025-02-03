@@ -1171,7 +1171,7 @@ then
     rsync --delete-during -avHSP $CURRENT_BUILD_DIR/fasta/bgzip_chromosomes/ babraham-pombase:/home/ftp/pombase/internal_datasets/bgzip_chromosomes/
 
     echo copy  $IMAGE_NAME to server:
-    nice -19 docker save $IMAGE_NAME | nice -19 gzip -7v | ssh pombase-admin@149.155.131.177 "gzip -d | sudo docker load" &&
+    nice -19 docker save $IMAGE_NAME | nice -19 pigz -1 | ssh pombase-admin@149.155.131.177 "pigz -d | sudo docker load" &&
       ssh pombase-admin@149.155.131.177 "sudo docker service update --image $IMAGE_NAME main-1"
 
     echo copied image to the server
