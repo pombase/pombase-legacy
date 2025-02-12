@@ -908,6 +908,7 @@ cp $LOG_DIR/$log_file.chado_checks* $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.qc_queries* $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.allele-synonyms-from-supporting-data $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.allele-comments-from-supporting-data $CURRENT_BUILD_DIR/logs/
+cp $LOG_DIR/$log_file.gocam-json-data-file $CURRENT_BUILD_DIR/logs/
 
 refresh_views
 
