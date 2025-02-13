@@ -128,7 +128,7 @@ echo populate cvtermpath using owltools
 export OWLTOOLS_MEMORY=20g
 (cd /var/pomcur/sources/; $CHADO_CLOSURE_TOOL $HOST $DB $USER $PASSWORD $OBO_FILES)
 
-date; echo finished owltools_memory
+date; echo finished owltools
 
 psql -U $USER -h $HOST -q $DB -c "UPDATE cv SET name = 'mondo' WHERE name LIKE 'mondo/%';"
 
