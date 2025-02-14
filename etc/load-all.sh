@@ -48,11 +48,6 @@ then
     PERL5LIB=.
 fi
 
-mkdir $CURRENT_BUILD_DIR
-mkdir $CURRENT_BUILD_DIR/logs
-mkdir $CURRENT_BUILD_DIR/exports
-mkdir $CURRENT_BUILD_DIR/pombe-embl
-
 die() {
   echo $1 1>&2
   exit 1
@@ -825,6 +820,12 @@ echo report annotations using FYPO terms from $POMBASE_EXCLUDED_FYPO_TERMS_SOFTC
 POMBASE_EXCLUDED_FYPO_TERMS_OBO=$SOURCES/pombe-embl/mini-ontologies/FYPO_qc_do_not_annotate_subsets.obo
 echo report annotations using FYPO terms from $POMBASE_EXCLUDED_FYPO_TERMS_OBO 2>&1 | tee $LOG_DIR/$log_file.excluded_fypo_terms
 ./script/report-subset.pl "$HOST" $DB $USER $PASSWORD <(perl -ne 'print "$1\n" if /^id:\s*(FYPO:\S+)/' $POMBASE_EXCLUDED_FYPO_TERMS_OBO) 2>&1 | tee -a $LOG_DIR/$log_file.excluded_fypo_terms
+
+
+mkdir $CURRENT_BUILD_DIR
+mkdir $CURRENT_BUILD_DIR/logs
+mkdir $CURRENT_BUILD_DIR/exports
+mkdir $CURRENT_BUILD_DIR/pombe-embl
 
 echo
 echo export allele details
