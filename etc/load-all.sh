@@ -537,8 +537,8 @@ curl --user-agent "$USER_AGENT_FOR_EBI" -s -o $SOURCES/rfam_annotations.tsv.gz -
   echo failed to download new RNAcentral annotations file, continuing with previous version
 
 echo re-create RNAcentral JSON import file
-/var/pomcur/bin/pombase-rnacentral-process -i rnacentral_pombe_identifiers.tsv \
-   -r  <(gzip -d < rfam_annotations.tsv.gz) -o /tmp/rnacentral_pombe_rfam.json
+/var/pomcur/bin/pombase-rnacentral-process -i $SOURCES/rnacentral_pombe_identifiers.tsv \
+   -r  <(gzip -d < $SOURCES/rfam_annotations.tsv.gz) -o $SOURCES/rnacentral_pombe_rfam.json
 
 
 echo load quantitative gene expression data
