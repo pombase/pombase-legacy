@@ -77,11 +77,11 @@ docker service update --replicas 0 pombase-dev
      $POMBE_EMBL/supporting_files/go-cam-date-vs-gene-count.csv \
      $POMBE_EMBL/supporting_files/go-cam-date-vs-model-count.csv &&
  uv run ~/git/pombase-chado/etc/pandas-plot-date-counts.py \
-       gene ~/pombe/pombe-embl/supporting_files/go-cam-date-vs-gene-count.csv \
-       ~/pombe/pombe-embl/supporting_files/go-cam-date-vs-gene-count.svg &&
+       gene $POMBE_EMBL/supporting_files/go-cam-date-vs-gene-count.csv \
+            $POMBE_EMBL/supporting_files/go-cam-date-vs-gene-count.svg &&
  uv run ~/git/pombase-chado/etc/pandas-plot-date-counts.py \
-       model ~/pombe/pombe-embl/supporting_files/go-cam-date-vs-model-count.csv \
-       ~/pombe/pombe-embl/supporting_files/go-cam-date-vs-model-count.svg &&
+       model $POMBE_EMBL/supporting_files/go-cam-date-vs-model-count.csv \
+             $POMBE_EMBL/supporting_files/go-cam-date-vs-model-count.svg &&
 (cd $POMBE_EMBL
  svn add --force supporting_files/noctua-go-cam-models/*.json
  svn commit -m "Automatic update of GO-CAM files for $DB" supporting_files)
