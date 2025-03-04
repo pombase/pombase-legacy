@@ -101,7 +101,7 @@ if $HOME/chobo/script/chobo_load $CONNECT_STRING $USER $PASSWORD $POMBASE_LEGACY
    pombase_fypo_github/fyeco.obo pombase/pombase_terms-latest.obo > $CHOBO_LOAD_LOG 2>&1
 then
   echo 'Finished OBO loading at:' `date`
-else 
+else
   echo chobo_load failed:
   cat $CHOBO_LOAD_LOG
   exit 1
@@ -233,13 +233,13 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
         (SELECT cvterm_id
          FROM cvterm
          WHERE name = 'canto_session')) AS session,
-   (SELECT distinct(value)
-    FROM feature_cvtermprop session_prop
-    WHERE fc.feature_cvterm_id = session_prop.feature_cvterm_id
-      AND session_prop.type_id IN
+   array_to_string(array (SELECT distinct(value)
+    FROM feature_cvtermprop curator_name_prop
+    WHERE fc.feature_cvterm_id = curator_name_prop.feature_cvterm_id
+      AND curator_name_prop.type_id IN
         (SELECT cvterm_id
          FROM cvterm
-         WHERE name = 'curator_name')) AS curator_name,
+         WHERE name = 'curator_name')), ',') AS curator_name,
    (SELECT distinct(value)
     FROM feature_cvtermprop session_prop
     WHERE fc.feature_cvterm_id = session_prop.feature_cvterm_id
@@ -309,13 +309,13 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
         (SELECT cvterm_id
          FROM cvterm
          WHERE name = 'canto_session')) AS session,
-   (SELECT distinct(value)
+   array_to_string(array (SELECT distinct(value)
     FROM feature_cvtermprop session_prop
     WHERE fc.feature_cvterm_id = session_prop.feature_cvterm_id
       AND session_prop.type_id IN
         (SELECT cvterm_id
          FROM cvterm
-         WHERE name = 'curator_name')) AS curator_name,
+         WHERE name = 'curator_name')), ',') AS curator_name,
    (SELECT distinct(value)
     FROM feature_cvtermprop session_prop
     WHERE fc.feature_cvterm_id = session_prop.feature_cvterm_id
@@ -388,24 +388,24 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
         (SELECT cvterm_id
          FROM cvterm
          WHERE name = 'canto_session')) AS session,
-   (SELECT distinct(value)
-    FROM feature_cvtermprop session_prop
-    WHERE fc.feature_cvterm_id = session_prop.feature_cvterm_id
-      AND session_prop.type_id IN
+   array_to_string(array (SELECT distinct(value)
+     FROM feature_cvtermprop curator_name_prop
+    WHERE fc.feature_cvterm_id = curator_name_prop.feature_cvterm_id
+      AND curator_name_prop.type_id IN
         (SELECT cvterm_id
          FROM cvterm
-         WHERE name = 'curator_name')) AS curator_name,
+         WHERE name = 'curator_name')), ',') AS curator_name,
    (SELECT distinct(value)
-    FROM feature_cvtermprop session_prop
-    WHERE fc.feature_cvterm_id = session_prop.feature_cvterm_id
-      AND session_prop.type_id IN
+    FROM feature_cvtermprop community_curated_prop
+    WHERE fc.feature_cvterm_id = community_curated_prop.feature_cvterm_id
+      AND community_curated_prop.type_id IN
         (SELECT cvterm_id
          FROM cvterm
          WHERE name = 'community_curated'))::boolean AS community_curated,
    (SELECT distinct(value)
-    FROM feature_cvtermprop session_prop
-    WHERE fc.feature_cvterm_id = session_prop.feature_cvterm_id
-      AND session_prop.type_id IN
+    FROM feature_cvtermprop annotation_throughput_type_prop
+    WHERE fc.feature_cvterm_id = annotation_throughput_type_prop.feature_cvterm_id
+      AND annotation_throughput_type_prop.type_id IN
         (SELECT cvterm_id
          FROM cvterm
          WHERE name = 'annotation_throughput_type') limit 1) AS annotation_throughput_type,
@@ -469,13 +469,13 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
         (SELECT cvterm_id
          FROM cvterm
          WHERE name = 'canto_session')) AS session,
-   (SELECT distinct(value)
+   array_to_string(array (SELECT distinct(value)
     FROM feature_relationshipprop session_prop
     WHERE r.feature_relationship_id = session_prop.feature_relationship_id
       AND session_prop.type_id IN
         (SELECT cvterm_id
          FROM cvterm
-         WHERE name = 'curator_name')) AS curator_name,
+         WHERE name = 'curator_name')), ',') AS curator_name,
    (SELECT distinct(value)
     FROM feature_relationshipprop session_prop
     WHERE r.feature_relationship_id = session_prop.feature_relationship_id
@@ -541,13 +541,13 @@ CREATE MATERIALIZED VIEW pombase_genes_annotations_dates AS
         (SELECT cvterm_id
          FROM cvterm
          WHERE name = 'canto_session')) AS session,
-   (SELECT distinct(value)
+   array_to_string(array (SELECT distinct(value)
     FROM feature_relationshipprop session_prop
     WHERE r.feature_relationship_id = session_prop.feature_relationship_id
       AND session_prop.type_id IN
         (SELECT cvterm_id
          FROM cvterm
-         WHERE name = 'curator_name')) AS curator_name,
+         WHERE name = 'curator_name')), ',') AS curator_name,
    (SELECT distinct(value)
     FROM feature_relationshipprop session_prop
     WHERE r.feature_relationship_id = session_prop.feature_relationship_id
@@ -613,13 +613,13 @@ UNION
         (SELECT cvterm_id
          FROM cvterm
          WHERE name = 'canto_session')) AS session,
-   (SELECT distinct(value)
+   array_to_string(array (SELECT distinct(value)
     FROM feature_cvtermprop session_prop
     WHERE fc.feature_cvterm_id = session_prop.feature_cvterm_id
       AND session_prop.type_id IN
         (SELECT cvterm_id
          FROM cvterm
-         WHERE name = 'curator_name')) AS curator_name,
+         WHERE name = 'curator_name')), ',') AS curator_name,
    (SELECT distinct(value)
     FROM feature_cvtermprop session_prop
     WHERE fc.feature_cvterm_id = session_prop.feature_cvterm_id
