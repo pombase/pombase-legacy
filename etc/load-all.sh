@@ -72,14 +72,15 @@ docker service update --replicas 0 pombase-dev
      $POMBE_EMBL/supporting_files/production_gocam_id_mapping.tsv \
      $POMBE_EMBL/supporting_files/production_gocam_term_id_mapping.tsv \
      $POMBE_EMBL/supporting_files/pombase_gocam_data_for_chado.json \
-     $POMBE_EMBL/supporting_files/noctua-go-cam-models) &&
- ~/git/pombase-legacy/etc/make-go-cam-counts.pl \
+     $POMBE_EMBL/supporting_files/noctua-go-cam-models)
+
+$POMBASE_LEGACY/etc/make-go-cam-counts.pl \
      $POMBE_EMBL/supporting_files/go-cam-date-vs-gene-count.csv \
      $POMBE_EMBL/supporting_files/go-cam-date-vs-model-count.csv &&
- uv run ~/git/pombase-chado/etc/pandas-plot-date-counts.py \
+ uv run $POMBASE_CHADO/etc/pandas-plot-date-counts.py \
        gene $POMBE_EMBL/supporting_files/go-cam-date-vs-gene-count.csv \
             $POMBE_EMBL/supporting_files/go-cam-date-vs-gene-count.svg &&
- uv run ~/git/pombase-chado/etc/pandas-plot-date-counts.py \
+ uv run $POMBASE_CHADO/etc/pandas-plot-date-counts.py \
        model $POMBE_EMBL/supporting_files/go-cam-date-vs-model-count.csv \
              $POMBE_EMBL/supporting_files/go-cam-date-vs-model-count.svg &&
 (cd $POMBE_EMBL
