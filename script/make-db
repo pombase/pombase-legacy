@@ -50,7 +50,7 @@ echo update FYPO from GitHub
 
 (cd $SOURCES_DIR/; wget -N https://ontology-build.geneontology.org/go-basic.obo)
 
-(cd $SOURCES_DIR/; perl -e 'local $/ = ""; while (<>) { if (/^namespace: molecular_function$/m) { s/^relationship: (positively_regulates|negatively_regulates|regulates) GO:0+\d+.*$//m } print; }' go-basic.obo > new-go-basic.obo &&
+(cd $SOURCES_DIR/; perl -e 'local $/ = ""; while (<>) { if (/^namespace: molecular_function$/m) { s/^relationship: (positively_regulates|negatively_regulates|regulates) GO:0+\d+.*$//mg } print; }' go-basic.obo > new-go-basic.obo &&
  mv new-go-basic.obo go-basic.obo)
 
 #curl --compressed -L http://purl.obolibrary.org/obo/go/snapshot/extensions/go-plus.owl > $SOURCES_DIR/go-plus.owl &&
