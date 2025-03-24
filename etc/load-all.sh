@@ -515,13 +515,13 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     --feature-uniquename-column=1 --property-column=2 \
     "$HOST" $DB $USER $PASSWORD < $POMBE_EMBL/supporting_files/rna_genes_with_2d_structure.tsv
 
-echo URLs for PMID:40015273 TFexplorer
+echo IDs for PMID:40015273 TFexplorer
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-property \
-    --property-name="tfexplorer_chipseq_url" --organism-taxonid=4896 \
+    --property-name="tfexplorer_chipseq_identifier" --organism-taxonid=4896 \
     --feature-uniquename-column=1 --property-column=2 \
     "$HOST" $DB $USER $PASSWORD < $POMBE_EMBL/external_data/PMID_40015273_TFexplorerURLs_ChIPseq.tsv
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-property \
-    --property-name="tfexplorer_ipms_url" --organism-taxonid=4896 \
+    --property-name="tfexplorer_ipms_identifier" --organism-taxonid=4896 \
     --feature-uniquename-column=1 --property-column=2 \
     "$HOST" $DB $USER $PASSWORD < $POMBE_EMBL/external_data/PMID_40015273_TFexplorerURLs_ipms.tsv
 
