@@ -73,8 +73,8 @@ cvs:
     - name: pdb_identifier
     - name: pombephosphoproteomics_unige_ch_starvation_mating_gene
     - name: pombephosphoproteomics_unige_ch_fusion_gene
-    - name: tfexplorer_chipseq_url
-    - name: tfexplorer_ipms_url
+    - name: tfexplorer_chipseq_identifier
+    - name: tfexplorer_ipms_identifier
     - name: transvar_coordinates
     - name: insdc_protein_id
     - name: assigned_by
