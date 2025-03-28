@@ -242,6 +242,7 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
 
 # See: https://github.com/pombase/pombase-chado/issues/861
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf \
+    --ignore-synonyms \
     --load-qualifiers=all --load-column-17 \
     --assigned-by-filter=PomBase --verbose-assigned-by-filter \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/legacy_go_annotations_from_contigs.gaf.tsv \
