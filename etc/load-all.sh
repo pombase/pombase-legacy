@@ -218,6 +218,22 @@ date
 
 $POMBASE_LEGACY/etc/process-log.pl $log_file
 
+echo add names to transcripts
+psql $DB -c "UPDATE feature trans
+SET name = regexp_replace(trans.uniquename, '(?:.*)\.(\d)', gene.name || '.\1')
+FROM feature_relationship rel
+JOIN cvterm rel_type ON rel.type_id = rel_type.cvterm_id
+JOIN feature gene ON gene.feature_id = rel.object_id
+JOIN cvterm gene_type ON gene_type.cvterm_id = gene.type_id
+JOIN organism ON gene.organism_id = organism.organism_id
+WHERE rel.subject_id = trans.feature_id
+  AND trans.uniquename ~ (gene.uniquename || '.\d')
+  AND gene_type.name = 'gene'
+  AND rel_type.name = 'part_of'
+  AND organism.abbreviation = 'Spombe'
+  AND gene.name IS NOT NULL;"
+
+
 pg_dump $DB | gzip -2 > /scratch/tmp/pombase-chado-after-load-chado-pl.dump.gz
 
 
