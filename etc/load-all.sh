@@ -872,11 +872,15 @@ mkdir $CURRENT_BUILD_DIR
 mkdir $CURRENT_BUILD_DIR/logs
 mkdir $CURRENT_BUILD_DIR/exports
 mkdir $CURRENT_BUILD_DIR/pombe-embl
+mkdir $CURRENT_BUILD_DIR/misc
 
 echo
 echo export allele details
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml allele-details --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD > $CURRENT_BUILD_DIR/exports/all-allele-details.tsv
 
+echo
+echo write overlaps table
+(cd $POMBE_EMBL/supporting_files/noctua-go-cam-models/; $POMCUR/bin/pombase-gocam-tool overlapping-nodes *.json > $CURRENT_BUILD_DIR/misc/overlapping-nodes.tsv)
 
 (
 
