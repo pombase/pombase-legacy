@@ -790,6 +790,11 @@ echo
 echo counts of assigned_by before filtering:
 assigned_by_summary $DB
 
+echo add missing reciprocal modifcation annotations
+$POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml reciprocal-modifications \
+   --mapping-file=$POMBE_EMBL/supporting_files/MOD_to_GO_mappings_for_reciprocal_check.txt \
+   "$HOST" $DB $USER $PASSWORD > $LOG_DIR/$log_file.add-missing-reciprocal-modification
+
 echo delete UniProt duplicates
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter-duplicate-assigner \
    --primary-assigner=PomBase --secondary-assigner=UniProt \
