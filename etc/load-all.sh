@@ -963,6 +963,7 @@ cp $LOG_DIR/$log_file.generic-term-mapping $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.add-missing-allele-names $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.fix-allele-names $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.go-filter-*-duplicates $CURRENT_BUILD_DIR/logs/
+cp $LOG_DIR/$log_file.add-missing-reciprocal-modification $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.modification-filter-duplicates $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.chado_checks* $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.qc_queries* $CURRENT_BUILD_DIR/logs/
