@@ -492,6 +492,11 @@ gzip -d < $SOURCES/snapshot.geneontology.org/pombase.gaf.gz |
 } 2>&1 | tee $LOG_DIR/$log_file.gaf-load-output
 
 
+echo load file of feature/gene to reference mappings
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-feature-pub \
+    --organism-taxonid=4896 --feature-uniquename-column=1 --reference-column=2 \
+    --feature-pub-source="extra-gene-references.tsv" \
+    "$HOST" $DB $USER $PASSWORD < $POMBE_EMBL/supporting_files/extra-gene-references.tsv
 
 
 echo load PDBe IDs
