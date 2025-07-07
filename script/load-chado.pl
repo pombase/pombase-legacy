@@ -159,7 +159,7 @@ $config->{id_counter} = $id_counter;
 
 for my $chadoprop_terms (['db_creation_datetime', strftime("%Y-%m-%d %H:%M", localtime(time))],
                          ['date_version', $date_version],
-                         ['db_date_version', $database]) {
+                         ['db_date_version', $database =~ s/^pombase-build-/pombase-/r]) {
 
   my $prop_term_name = $chadoprop_terms->[0];
   my $prop_value = $chadoprop_terms->[1];
