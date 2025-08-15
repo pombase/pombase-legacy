@@ -698,6 +698,8 @@ evidence_types:
     name: combinatorial computational and experimental evidence used in manual assertion
   'ECO:0006056':
     name: high throughput evidence used in manual assertion
+  'ECO:0006068':
+    name: RNA-sequencing evidence used in manual assertion
 
 suppressible_evidence_codes:
 
