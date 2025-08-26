@@ -28,3 +28,15 @@ id: interaction_double_mutant_genotype
 name: interaction_double_mutant_genotype
 namespace: pombase_relations
 is_transitive: false
+
+[Typedef]
+id: enables_gocam_activity
+name: enables_gocam_activity
+namespace: pombase_relations
+is_transitive: false
+
+[Typedef]
+id: gocam_target_gene
+name: gocam_target_gene
+namespace: pombase_relations
+is_transitive: false
