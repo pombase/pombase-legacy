@@ -144,7 +144,7 @@ cvs:
         and where nothing is published about, or can be inferred from homology
         about, the biological role
     - name: meiotic driver
-      definition: Meiotic driver
+      definition: Selfish elements
     - name: dubious
       definition: Unlikely to be coding
     - name: transposon
