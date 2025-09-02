@@ -143,6 +143,8 @@ cvs:
         A gene product which is not conserved outside the Schizosacchaomyces clade
         and where nothing is published about, or can be inferred from homology
         about, the biological role
+    - name: meiotic driver
+      definition: Meiotic driver
     - name: dubious
       definition: Unlikely to be coding
     - name: transposon

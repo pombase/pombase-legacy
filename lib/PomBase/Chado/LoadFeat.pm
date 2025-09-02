@@ -428,6 +428,7 @@ sub store_ec_number {
 my %colour_map = (
   2 => 'biological role published',
   4 => 'transposon',
+  5 => 'meiotic driver',
   6 => 'dubious',
   7 => 'biological role inferred',
   8 => 'Schizosaccharomyces pombe specific protein, uncharacterized',
