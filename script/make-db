@@ -118,9 +118,9 @@ mkdir -p $CURRENT_BUILD_DIR/ontologies
   cd $CURRENT_BUILD_DIR/ontologies
 
   cp $SOURCES_DIR/$GO_OBO .
+  cp $SOURCES_DIR/fypo-simple-pombase.obo .
 
   (cd $SOURCES_DIR/pombase_fypo_github; git describe) > fypo-git-info.txt
-  cp $SOURCES_DIR/pombase_fypo_github/release/fypo-simple.obo .
 )
 
 date
