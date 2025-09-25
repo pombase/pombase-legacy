@@ -39,6 +39,8 @@ POMBASE_CHADO=$HOME/git/pombase-chado
 POMBASE_LEGACY=$HOME/git/pombase-legacy
 JAPONICUS_CURATION=$HOME/git/japonicus-curation
 
+IMAGE_NAME=pombase/web:$DATE_VERSION-prod
+
 # without a user agent we get "bad gateway" from ftp.ebi.ac.uk
 USER_AGENT_FOR_EBI='Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13'
 
@@ -1230,8 +1232,6 @@ echo building Docker container
 
 (cd ~/git/pombase-chado &&
  nice -10 ./etc/build_container.sh $DATE_VERSION $CURRENT_BUILD_DIR prod /var/pomcur/container_build)
-
-IMAGE_NAME=pombase/web:$DATE_VERSION-prod
 
 echo restarting dev site
 
