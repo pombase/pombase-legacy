@@ -83,10 +83,12 @@ day_of_month=`date '+%d'`
 if [ $day_of_month = '01' -o $day_of_month = '02' -o $day_of_month = '03' ]
 then
  uv run $POMBASE_CHADO/etc/pandas-plot-date-counts.py \
-       gene $POMBE_EMBL/supporting_files/go-cam-date-vs-gene-count.csv \
+       gene "Total number of genes in GO-CAM pathways" \
+            $POMBE_EMBL/supporting_files/go-cam-date-vs-gene-count.csv \
             $POMBE_EMBL/supporting_files/go-cam-date-vs-gene-count.svg &&
  uv run $POMBASE_CHADO/etc/pandas-plot-date-counts.py \
-       model $POMBE_EMBL/supporting_files/go-cam-date-vs-model-count.csv \
+       model "Total number of GO-CAM pathways" \
+             $POMBE_EMBL/supporting_files/go-cam-date-vs-model-count.csv \
              $POMBE_EMBL/supporting_files/go-cam-date-vs-model-count.svg
 fi
 
