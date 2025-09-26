@@ -723,7 +723,9 @@ $POMBASE_CHADO/script/pombase-process.pl load-pombase-chado.yaml add-reciprocal-
 pg_dump $DB | gzip -2 > /scratch/tmp/pombase-chado-before-canto.dump.gz
 
 
-CURATION_TOOL_DATA=/var/pomcur/backups/current-prod-dump.json
+CURATION_TOOL_DATA_DIR=/var/pomcur/backups
+CURATION_TOOL_DATA=$CURATION_TOOL_DATA_DIR/current-prod-dump.json
+CURATION_TOOL_PUBS_TABLE=$CURATION_TOOL_DATA_DIR/canto-pubs-table.tsv
 
 echo
 echo load Canto data
@@ -1315,6 +1317,8 @@ then
 
     cp $CURRENT_BUILD_DIR/$DB.modifications.gz             $SOURCES/pombe-embl/ftp_site/pombe/annotations/modifications/pombase-chado.modifications.gz
     cp $CURRENT_BUILD_DIR/$DB.phaf.gz                      $SOURCES/pombe-embl/ftp_site/pombe/annotations/Phenotype_annotations/phenotype_annotations.pombase.phaf.gz
+
+    cp $CURATION_TOOL_PUBS_TABLE $SOURCES/pombe-embl/ftp_site/pombe/training_data_for_ML_and_AI/canto-pubs-table.tsv
 
     (cd $SOURCES/pombe-embl/ftp_site/pombe/; svn commit -m "Automatic file update for $DB")
 
