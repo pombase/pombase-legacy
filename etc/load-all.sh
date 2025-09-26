@@ -725,7 +725,7 @@ pg_dump $DB | gzip -2 > /scratch/tmp/pombase-chado-before-canto.dump.gz
 
 CURATION_TOOL_DATA_DIR=/var/pomcur/backups
 CURATION_TOOL_DATA=$CURATION_TOOL_DATA_DIR/current-prod-dump.json
-CURATION_TOOL_PUBS_TABLE=$CURATION_TOOL_DATA_DIR/canto-pubs-table.tsv
+CURATION_TOOL_PUBS_TABLE=$CURATION_TOOL_DATA_DIR/canto_pub_classification.tsv
 
 echo
 echo load Canto data
