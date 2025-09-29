@@ -915,6 +915,8 @@ echo write overlaps table
  ln -s $DB.japonicus-orthologs.txt.gz pombase-latest.japonicus-orthologs.txt.gz
 )
 
+cp $CURATION_TOOL_PUBS_TABLE $CURRENT_BUILD_DIR/exports
+
 echo starting go-physical-interactions export at `date`
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml go-physical-interactions --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/exports/pombase-go-physical-interactions.tsv.gz
 echo starting go-substrates export at `date`
