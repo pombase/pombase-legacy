@@ -95,7 +95,7 @@ then
 fi
 
 (cd $POMBE_EMBL
- $POMCUR/bin/pombase-gocam-tool overlapping-nodes supporting_files/noctua-go-cam-models/*.json | sort > supporting_files/nightly_load_results/overlapping_nodes.tsv
+ $POMCUR/bin/pombase-gocam-tool overlapping-nodes supporting_files/noctua-go-cam-models/*.json | (sed -u 1q; sort) > supporting_files/nightly_load_results/overlapping_nodes.tsv
  svn add --force supporting_files/noctua-go-cam-models/*.json
  svn commit -m "Automatic update of GO-CAM files for $DB" supporting_files)
 
