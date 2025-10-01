@@ -416,7 +416,7 @@ echo Updating $SOURCES/pombase-prediction.gaf
 POMBASE_PREDICTION_URL=https://snapshot.geneontology.org/products/upstream_and_raw_data/pombase-prediction.gaf
 
 
-GET $POMBASE_PREDICTION_URL | perl -ne 'print unless /\tC\t/' > $SOURCES/pombase-prediction.gaf.new || echo failed to download pombase-prediction.gaf
+curl -s $POMBASE_PREDICTION_URL | perl -ne 'print unless /\tC\t/' > $SOURCES/pombase-prediction.gaf.new || echo failed to download pombase-prediction.gaf
 
 if [ -s $SOURCES/pombase-prediction.gaf.new ]
 then
