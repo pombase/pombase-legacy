@@ -1256,8 +1256,8 @@ then
 
     (cd $SOURCES/pombe-embl/ftp_site/pombe/; svn update)
 
-    gzip -9 < $CURRENT_BUILD_DIR/misc/single_locus_phenotype_annotations_taxon_4896.phaf > $CURRENT_BUILD_DIR/$DB.phaf.gz
-    gzip -9 < $CURRENT_BUILD_DIR/misc/single_locus_phenotype_annotations_taxon_4896_eco_evidence.phaf > $CURRENT_BUILD_DIR/$DB.eco.phaf.gz
+    gzip -9 < $CURRENT_BUILD_DIR/misc/single_locus_haploid_phenotype_annotations_taxon_4896.phaf > $CURRENT_BUILD_DIR/$DB.phaf.gz
+    gzip -9 < $CURRENT_BUILD_DIR/misc/single_locus_haploid_phenotype_annotations_taxon_4896_eco_evidence.phaf > $CURRENT_BUILD_DIR/$DB.eco.phaf.gz
 
     gzip -9 < $CURRENT_BUILD_DIR/misc/modifications.tsv > $CURRENT_BUILD_DIR/$DB.modifications.gz
 
