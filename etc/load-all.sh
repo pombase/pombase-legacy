@@ -44,6 +44,10 @@ IMAGE_NAME=pombase/web:$DATE_VERSION-prod
 # without a user agent we get "bad gateway" from ftp.ebi.ac.uk
 USER_AGENT_FOR_EBI='Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13'
 
+CURATION_TOOL_DATA_DIR=/var/pomcur/backups
+CURATION_TOOL_DATA=$CURATION_TOOL_DATA_DIR/current-prod-dump.json
+CURATION_TOOL_PUBS_TABLE=$CURATION_TOOL_DATA_DIR/canto_pub_classification.tsv
+
 if ! [[ -v PERL5LIB ]]
 then
     # prevent "PERL5LIB: unbound variable" error
@@ -721,10 +725,6 @@ $POMBASE_CHADO/script/pombase-process.pl load-pombase-chado.yaml add-reciprocal-
 
 pg_dump $DB | gzip -2 > /scratch/tmp/pombase-chado-before-canto.dump.gz
 
-
-CURATION_TOOL_DATA_DIR=/var/pomcur/backups
-CURATION_TOOL_DATA=$CURATION_TOOL_DATA_DIR/current-prod-dump.json
-CURATION_TOOL_PUBS_TABLE=$CURATION_TOOL_DATA_DIR/canto_pub_classification.tsv
 
 echo
 echo load Canto data
