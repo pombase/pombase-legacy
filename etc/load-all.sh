@@ -483,8 +483,7 @@ gzip -d < $GOA_POMBE_AND_JAPONICUS |
 pg_dump $DB | gzip -2 > /scratch/tmp/pombase-chado-after-goa.dump.gz
 
 
-#(cd $SOURCES/snapshot.geneontology.org && wget -N https://snapshot.geneontology.org/annotations/pombase.gaf.gz)
-(cd $SOURCES/snapshot.geneontology.org && curl https://release.geneontology.org/2025-06-01/annotations/pombase.gaf.gz > pombase.gaf.gz)
+(cd $SOURCES/snapshot.geneontology.org && wget -N https://snapshot.geneontology.org/annotations/pombase.gaf.gz)
 
 
 # echo loading PANTHER annotation - don't load this from GOA because GOA updates slowly
