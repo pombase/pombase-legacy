@@ -1245,7 +1245,7 @@ then
     rsync --delete-during -avHSP /data/pombase/external_datasets/processed/ babraham-pombase:/home/ftp/pombase/external_datasets/
 
     echo copy JBrowse V2 chromosome files
-    rsync --delete-during -avHSP $CURRENT_BUILD_DIR/fasta/bgzip_chromosomes/ babraham-pombase:/home/ftp/pombase/internal_datasets/bgzip_chromosomes/
+    rsync -c --delete-during -avHSP $CURRENT_BUILD_DIR/fasta/bgzip_chromosomes/ babraham-pombase:/home/ftp/pombase/internal_datasets/bgzip_chromosomes/
 
     echo copy  $IMAGE_NAME to server:
     nice -19 docker save $IMAGE_NAME | nice -19 pigz -1 | ssh pombase-admin@149.155.131.177 "pigz -d | sudo docker load" &&
