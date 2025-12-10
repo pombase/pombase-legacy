@@ -52,6 +52,8 @@ cvs:
     - codon_adaptation_index
     - name: sgd_identifier
       definition: "An ID like SGD:S000005390"
+    - name: agr_identifier
+      definition: "An ID like SGD:S000005390 or HGNC:3942"
     - name: interaction_type
       definition: Evidence code for interaction features.
     - name: interaction_rescued_phenotype_id
