@@ -166,6 +166,7 @@ echo loading human genes
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml features \
     --organism-taxonid=9606 --uniquename-column=1 --name-column=2 --feature-type=gene \
     --product-column=3 --transcript-so-name=transcript \
+    --feature-prop-from-column=agr_identifier:1 \
     --ignore-lines-matching="^hgnc_id.symbol" --ignore-short-lines \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/hgnc_complete_set.txt
 
@@ -180,6 +181,7 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     --column-filter="1=ORF,blocked_reading_frame,blocked reading frame,not in systematic sequence of S288C" --feature-type=gene \
     --transcript-so-name=transcript \
     --feature-prop-from-column=sgd_identifier:3 \
+    --feature-prop-from-column=agr_identifier:3 \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/sgd_yeastmine_genes.tsv
 
 for so_type in ncRNA snoRNA
