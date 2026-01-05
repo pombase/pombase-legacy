@@ -989,6 +989,19 @@ cp $LOG_DIR/$log_file.allele-synonyms-from-supporting-data $CURRENT_BUILD_DIR/lo
 cp $LOG_DIR/$log_file.allele-comments-from-supporting-data $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.gocam-json-data-file $CURRENT_BUILD_DIR/logs/
 
+(cd $POMBE_EMBL
+ svn log supporting_files/nightly_load_results/overlapping_nodes.tsv |
+     perl -ne 'print "$1 $2\n" if /^r(\d+) \| [^\n\|]+ \| (\d\d\d\d-\d\d-\d\d).*/' |
+     while read -r rev date
+     do
+         echo change on $date
+         echo 'model_titles\tmodel_ids\tid\tlabel\tdescription\tpart_of_process\toccurs_in\tlocated_in'
+         svn diff -x -U0 -c $rev supporting_files/nightly_load_results/overlapping_nodes.tsv |
+             perl -ne 'print if (/^\@\@/ .. 1) && !/^\@\@/'
+         echo
+     done > $CURRENT_BUILD_DIR/logs/overlapping_activity_changes.tsv
+)
+
 refresh_views
 
 (
