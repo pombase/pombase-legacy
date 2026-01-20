@@ -78,7 +78,8 @@ docker service update --replicas 0 pombase-dev
      $POMBE_EMBL/supporting_files/production_gocam_id_mapping.tsv \
      $POMBE_EMBL/supporting_files/production_gocam_term_id_mapping.tsv \
      $POMBE_EMBL/supporting_files/pombase_gocam_data_for_chado.json \
-     $POMBE_EMBL/supporting_files/noctua-go-cam-models)
+     $POMBE_EMBL/supporting_files/noctua-go-cam-models \
+     $POMBE_EMBL/supporting_files/gocam-py-noctua-models)
 
 $POMBASE_LEGACY/etc/make-go-cam-counts.pl \
      $POMBE_EMBL/supporting_files/go-cam-date-vs-gene-count.csv \
@@ -100,7 +101,7 @@ fi
 
 (cd $POMBE_EMBL
  $POMCUR/bin/pombase-gocam-tool overlapping-nodes supporting_files/noctua-go-cam-models/*.json | (sed -u 1q; sort) > supporting_files/nightly_load_results/overlapping_nodes.tsv
- svn add --force supporting_files/noctua-go-cam-models/*.json
+ svn add --force supporting_files/noctua-go-cam-models/*.json supporting_files/gocam-py-noctua-models/*.yaml
  svn commit -m "Automatic update of GO-CAM files for $DB" supporting_files)
 
 (cd $SOURCES/go-site/; git pull || exit 1)
