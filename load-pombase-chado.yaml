@@ -1092,12 +1092,22 @@ check_chado:
       expected: 0
       verbose_fail: true
       query: |
-        SELECT value FROM cvtermprop
-          WHERE type_id IN
-            (SELECT cvterm_id FROM cvterm
-              WHERE name LIKE 'annotation_extension_relation-%')
-                AND value LIKE 'SP%'
-                AND value NOT IN (SELECT uniquename FROM feature WHERE uniquename LIKE 'SP%')
+        SELECT value AS extension_gene_id, pub.uniquename AS pmid,
+          (SELECT value FROM feature_cvtermprop sess_p
+           WHERE sess_p.type_id IN (SELECT cvterm_id FROM cvterm WHERE name = 'source_file')
+             AND sess_p.feature_cvterm_id = fc.feature_cvterm_id LIMIT 1) AS source_file,
+          (SELECT value FROM feature_cvtermprop sess_p
+           WHERE sess_p.type_id IN (SELECT cvterm_id FROM cvterm WHERE name = 'canto_session')
+             AND sess_p.feature_cvterm_id = fc.feature_cvterm_id LIMIT 1) AS session,
+          f.uniquename AS gene_systematic_id, f.name AS gene_name, t.name AS term_name
+        FROM cvtermprop p
+        JOIN cvterm t ON t.cvterm_id = p.cvterm_id
+        JOIN feature_cvterm fc ON fc.cvterm_id = t.cvterm_id
+        JOIN feature f ON f.feature_id = fc.feature_id
+        JOIN pub ON pub.pub_id = fc.pub_id
+        WHERE p.type_id IN (SELECT cvterm_id FROM cvterm WHERE name LIKE 'annotation_extension_relation-%')
+          AND value LIKE 'SP%'
+          AND value NOT IN (SELECT uniquename FROM feature WHERE uniquename LIKE 'SP%')
     - name: annotation_with_no_evidence
       verbose_fail: true
       expected: 0
