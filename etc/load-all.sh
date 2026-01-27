@@ -268,12 +268,14 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     --feature-uniquename-column=6 --property-column=1 \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/rnacentral_pombe_identifiers.tsv
 
+echo Load SOG identifiers
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-property \
     --property-name="schizosaccharomyces_orthogroup" --organism-taxonid=4896 \
     --feature-uniquename-column=1 --property-column=2 \
     "$HOST" $DB $USER $PASSWORD < $POMBE_EMBL/external_data/li-lin_du_sog_ids.txt
 
 # See: https://github.com/pombase/pombase-chado/issues/861
+echo Load legacy GO annotations
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf \
     --ignore-synonyms \
     --load-qualifiers=all --load-column-17 \
@@ -282,12 +284,14 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     > $log_file.legacy_go_from_contigs 2>&1
 
 # See: https://github.com/pombase/pombase-chado/issues/948
+echo Load legacy phenotype annotations
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml phenotype-annotation \
     --throughput-type='low throughput' \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/legacy_phenotype_annotations_from_contigs.phaf.tsv \
     > $log_file.legacy_phaf_from_contigs 2>&1
 
 # See: https://github.com/pombase/pombase-chado/issues/1105
+echo Load legacy modification annotations
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml modification \
     --assigned-by=PomBase \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/legacy_modifications_from_contigs.tsv \
