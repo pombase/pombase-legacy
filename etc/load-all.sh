@@ -268,6 +268,11 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     --feature-uniquename-column=6 --property-column=1 \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/rnacentral_pombe_identifiers.tsv
 
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-property \
+    --property-name="schizosaccharomyces_orthogroup" --organism-taxonid=4896 \
+    --feature-uniquename-column=1 --property-column=2 \
+    "$HOST" $DB $USER $PASSWORD < $POMBE_EMBL/external_data/li-lin_du_sog_ids.txt
+
 # See: https://github.com/pombase/pombase-chado/issues/861
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf \
     --ignore-synonyms \

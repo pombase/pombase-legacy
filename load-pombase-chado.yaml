@@ -84,6 +84,8 @@ cvs:
     - name: gocam_date
     - name: gocam_contributor
     - name: gocam_title_termid
+    - name: schizosaccharomyces_orthogroup
+      definition: SOG IDs from www.sogweb.org
   PomBase allele types:
     - name: amino_acid_deletion_and_mutation
     - name: amino_acid_insertion
