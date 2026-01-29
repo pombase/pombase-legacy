@@ -110,6 +110,10 @@ fi
  svn add --force supporting_files/noctua-go-cam-models/*.json supporting_files/gocam-py-noctua-models/*.yaml
  svn commit -m "Automatic update of GO-CAM files for $DB" supporting_files)
 
+(cd $POMBE_EMBL
+ $POMCUR/bin/pombase-gocam-tool print-nodes --with-location=false --with-types enabled_by_chemical,enabled_by_gene,enabled_by_complex,enabled_by_modified_protein supporting_files/noctua-go-cam-models/*.json > $LOG_DIR/$log_file.gocam-activities-with-no-location
+ $POMCUR/bin/pombase-gocam-tool print-nodes --with-location=false --with-types chemical supporting_files/noctua-go-cam-models/*.json > $LOG_DIR/$log_file.gocam-chemical-with-no-location)
+
 (cd $SOURCES/go-site/; git pull || exit 1)
 
 . $SOURCES/private-config/pombase_load_secrets
