@@ -49,6 +49,7 @@ CURATION_TOOL_DATA=$CURATION_TOOL_DATA_DIR/current-prod-dump.json
 CURATION_TOOL_PUBS_TABLE=$CURATION_TOOL_DATA_DIR/canto_pub_classification.tsv
 
 LOG_DIR=`pwd`
+log_file=log.`date +'%Y-%m-%d-%H-%M-%S'`
 JAPONICUS_BUILD_DIR=$WWW_DIR/japonicus_nightly/latest_build
 LOAD_CONFIG=$POMBASE_LEGACY/load-pombase-chado.yaml
 GOA_GAF_URL=https://ftp.ebi.ac.uk/pub/databases/GO/goa/UNIPROT/goa_uniprot_all.gaf.gz
@@ -215,7 +216,6 @@ done
 
 
 cd $LOG_DIR
-log_file=log.`date +'%Y-%m-%d-%H-%M-%S'`
 echo loading contigs with load-chado.pl, log file: $log_file
 date
 
