@@ -48,6 +48,12 @@ CURATION_TOOL_DATA_DIR=/var/pomcur/backups
 CURATION_TOOL_DATA=$CURATION_TOOL_DATA_DIR/current-prod-dump.json
 CURATION_TOOL_PUBS_TABLE=$CURATION_TOOL_DATA_DIR/canto_pub_classification.tsv
 
+LOG_DIR=`pwd`
+JAPONICUS_BUILD_DIR=$WWW_DIR/japonicus_nightly/latest_build
+LOAD_CONFIG=$POMBASE_LEGACY/load-pombase-chado.yaml
+GOA_GAF_URL=https://ftp.ebi.ac.uk/pub/databases/GO/goa/UNIPROT/goa_uniprot_all.gaf.gz
+GOA_VERSIONS_URL=https://ftp.ebi.ac.uk/pub/databases/GO/goa/current_release_numbers.txt
+
 if ! [[ -v PERL5LIB ]]
 then
     # prevent "PERL5LIB: unbound variable" error
@@ -116,16 +122,6 @@ fi
 
 pg_dump $DB | gzip -2 > /scratch/tmp/pombase-chado-after-make-db.dump.gz
 
-LOG_DIR=`pwd`
-
-JAPONICUS_BUILD_DIR=$WWW_DIR/japonicus_nightly/latest_build
-
-
-LOAD_CONFIG=$POMBASE_LEGACY/load-pombase-chado.yaml
-
-GOA_GAF_URL=https://ftp.ebi.ac.uk/pub/databases/GO/goa/UNIPROT/goa_uniprot_all.gaf.gz
-
-GOA_VERSIONS_URL=https://ftp.ebi.ac.uk/pub/databases/GO/goa/current_release_numbers.txt
 
 cd $POMBASE_CHADO
 git pull || exit 1
