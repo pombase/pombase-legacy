@@ -113,7 +113,8 @@ fi
 
 (cd $POMBE_EMBL
  $POMCUR/bin/pombase-gocam-tool print-nodes --with-location=false --with-types enabled_by_chemical,enabled_by_gene,enabled_by_complex,enabled_by_modified_protein supporting_files/noctua-go-cam-models/*.json > $LOG_DIR/$log_file.gocam-activities-without-location
- $POMCUR/bin/pombase-gocam-tool print-nodes --with-location=false --with-types chemical supporting_files/noctua-go-cam-models/*.json > $LOG_DIR/$log_file.gocam-chemicals-without-location)
+ $POMCUR/bin/pombase-gocam-tool print-nodes --with-location=false --with-types chemical supporting_files/noctua-go-cam-models/*.json > $LOG_DIR/$log_file.gocam-chemicals-without-location
+ $POMCUR/bin/pombase-gocam-tool detached-chemicals supporting_files/noctua-go-cam-models/*.json > $LOG_DIR/$log_file.gocam-detached-chemicals)
 
 (cd $SOURCES/go-site/; git pull || exit 1)
 
@@ -1000,6 +1001,7 @@ cp $LOG_DIR/$log_file.allele-comments-from-supporting-data $CURRENT_BUILD_DIR/lo
 cp $LOG_DIR/$log_file.gocam-json-data-file $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.gocam-chemicals-without-location $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.gocam-activities-without-location $CURRENT_BUILD_DIR/logs/
+cp $LOG_DIR/$log_file.gocam-detached-chemicals $CURRENT_BUILD_DIR/logs/
 
 (cd $POMBE_EMBL
  svn log supporting_files/nightly_load_results/overlapping_nodes.tsv |
