@@ -87,7 +87,8 @@ sub process_file {
 
   warn "reading from: $file\n" unless $self->quiet();
 
-  my $io = Bio::SeqIO->new(-file => $file, -format => "embl" );
+  open my $embl_fh, '<:encoding(UTF-8)', $file or die;
+  my $io = Bio::SeqIO->new(-fh => $embl_fh, -format => "embl" );
   my $seq_obj = $io->next_seq;
 
   my $ena_id = $seq_obj->display_id();
