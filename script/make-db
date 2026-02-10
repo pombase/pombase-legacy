@@ -180,6 +180,7 @@ UNION
    FROM pombase_feature_cvterm_with_ext_parents;"
 
 psql -U $USER -h $HOST -q $DB -c "CREATE INDEX pombase_feature_cvterm_ext_resolved_terms_feature_id_idx ON pombase_feature_cvterm_ext_resolved_terms(feature_id);"
+psql -U $USER -h $HOST -q $DB -c "CREATE INDEX pombase_feature_cvterm_ext_resolved_terms_feature_cvterm_id_idx ON pombase_feature_cvterm_ext_resolved_terms(feature_cvterm_id);"
 psql -U $USER -h $HOST -q $DB -c "CREATE INDEX pombase_feature_cvterm_ext_resolved_terms_cvterm_id_idx ON pombase_feature_cvterm_ext_resolved_terms(cvterm_id);"
 psql -U $USER -h $HOST -q $DB -c "CREATE INDEX pombase_feature_cvterm_ext_resolved_terms_cvterm_name_idx ON pombase_feature_cvterm_ext_resolved_terms(cvterm_name);"
 psql -U $USER -h $HOST -q $DB -c "CREATE INDEX pombase_feature_cvterm_ext_resolved_terms_base_cvterm_id_idx ON pombase_feature_cvterm_ext_resolved_terms(base_cvterm_id);"
