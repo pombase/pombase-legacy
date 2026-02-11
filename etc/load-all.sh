@@ -1219,8 +1219,7 @@ RUST_BACKTRACE=full $POMCUR/bin/pombase-chado-json -c $POMBASE_WEB_CONFIG \
    --filter-uniprot-references=PMID:18257517 \
    --pdb-data-file $SOURCES/pombe-embl/external_data/protein_structure/systematic_id_to_pdbe_mapping.tsv \
    --orcid-name-map $POMBE_EMBL/supporting_files/pombase_orcid_mapping.tsv \
-   --gocam-model-directory $POMBE_EMBL/supporting_files/noctua-go-cam-models/
-   2>&1 | tee $LOG_DIR/$log_file.web-json-write
+   --gocam-model-directory $POMBE_EMBL/supporting_files/noctua-go-cam-models/ 2>&1 | tee $LOG_DIR/$log_file.web-json-write
 
 zstd -9q --rm $CURRENT_BUILD_DIR/api_maps.sqlite3
 
