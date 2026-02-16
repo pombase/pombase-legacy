@@ -298,6 +298,15 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/legacy_modifications_from_contigs.tsv \
     > $log_file.legacy_modifications_from_contigs 2>&1
 
+# See: https://github.com/pombase/website/issues/2379
+echo Load complementation annotations
+for comp_file in $POMBE_EMBL/supporting_files/complementation/*.tsv
+do
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml complementation \
+    --organism-taxonid=4897 \
+    "$HOST" $DB $USER $PASSWORD < $comp_file \
+    >> $log_file.complementation_annotation 2>&1
+done
 
 echo loading features without coordinates
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml features \
