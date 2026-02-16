@@ -303,7 +303,7 @@ echo Load complementation annotations
 for comp_file in $POMBE_EMBL/supporting_files/complementation/*.tsv
 do
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml complementation \
-    --organism-taxonid=4897 \
+    --organism-taxonid=4896 \
     "$HOST" $DB $USER $PASSWORD < $comp_file \
     >> $log_file.complementation_annotation 2>&1
 done
