@@ -1018,7 +1018,7 @@ cp $LOG_DIR/$log_file.gocam-detached-chemicals $CURRENT_BUILD_DIR/logs/
      while read -r rev date
      do
          echo change on $date
-         echo 'model_titles\tmodel_ids\tid\tlabel\tdescription\tpart_of_process\toccurs_in\tlocated_in'
+         echo "model_titles\tmodel_ids\tid\tlabel\tdescription\tpart_of_process\toccurs_in\tlocated_in"
          svn diff -x -U0 -c $rev supporting_files/nightly_load_results/overlapping_nodes.tsv |
              perl -ne 'print if (/^\@\@/ .. 1) && !/^\@\@/'
          echo
