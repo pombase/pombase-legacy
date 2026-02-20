@@ -1017,12 +1017,11 @@ cp $LOG_DIR/$log_file.gocam-detached-chemicals $CURRENT_BUILD_DIR/logs/
      perl -ne 'print "$1 $2\n" if /^r(\d+) \| [^\n\|]+ \| (\d\d\d\d-\d\d-\d\d).*/' |
      while read -r rev date
      do
-         echo change on $date
-         printf "model_titles\tmodel_ids\tid\tlabel\tdescription\tpart_of_process\toccurs_in\tlocated_in\n"
-         svn diff -x -U0 -c $rev supporting_files/nightly_load_results/overlapping_nodes.tsv |
-             perl -ne 'print if (/^\@\@/ .. 1) && !/^\@\@/'
-         echo
-     done > $CURRENT_BUILD_DIR/logs/overlapping_activity_changes.tsv
+         (printf "model_titles\tmodel_ids\tid\tlabel\tdescription\tpart_of_process\toccurs_in\tlocated_in\n"
+          svn diff -x -U0 -c $rev supporting_files/nightly_load_results/overlapping_nodes.tsv |
+              perl -ne 'print if (/^\@\@/ .. 1) && !/^\@\@/') |
+          $POMBASE_CHADO/etc/format_overlap_change.pl $date
+     done > $CURRENT_BUILD_DIR/logs/overlapping_activity_changes.txt
 )
 
 refresh_views
