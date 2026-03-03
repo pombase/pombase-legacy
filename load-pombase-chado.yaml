@@ -706,6 +706,8 @@ evidence_types:
     name: high throughput evidence used in manual assertion
   'ECO:0006068':
     name: RNA-sequencing evidence used in manual assertion
+  'ECO:0006346':
+    name: sexual sporulation assay evidence
 
 suppressible_evidence_codes:
 
