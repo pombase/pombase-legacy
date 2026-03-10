@@ -708,6 +708,8 @@ evidence_types:
     name: RNA-sequencing evidence used in manual assertion
   'ECO:0006346':
     name: sexual sporulation assay evidence
+  'ECO:0000015':
+    name: mutant phenotype evidence
 
 suppressible_evidence_codes:
 
