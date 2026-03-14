@@ -301,7 +301,7 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
 # See: https://github.com/pombase/pombase-chado/issues/1330
 echo Load legacy controlled curation annotations
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml \
-    legacy-controlled-curation --organism-taxonid=4896Base \
+    legacy-controlled-curation --organism-taxonid=4896 \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/legacy_controlled_curation.tsv \
     > $log_file.legacy_controlled_curation_from_contigs 2>&1
 
