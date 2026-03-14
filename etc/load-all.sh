@@ -298,6 +298,13 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/legacy_modifications_from_contigs.tsv \
     > $log_file.legacy_modifications_from_contigs 2>&1
 
+# See: https://github.com/pombase/pombase-chado/issues/1330
+echo Load legacy controlled curation annotations
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml \
+    legacy-controlled-curation --organism-taxonid=4896Base \
+    "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/legacy_controlled_curation.tsv \
+    > $log_file.legacy_controlled_curation_from_contigs 2>&1
+
 # See: https://github.com/pombase/website/issues/2379
 echo Load complementation annotations
 for comp_file in $POMBE_EMBL/supporting_files/complementation/*.tsv
@@ -980,6 +987,7 @@ cp $LOG_DIR/$log_file.gaf-load-output $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.legacy_go_from_contigs $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.legacy_phaf_from_contigs $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.legacy_modifications_from_contigs $CURRENT_BUILD_DIR/logs/
+cp $LOG_DIR/$log_file.legacy_controlled_curation_from_contigs $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.biogrid-load-output $CURRENT_BUILD_DIR/logs/
 cp $LOG_DIR/$log_file.cerevisiae_orthologs $CURRENT_BUILD_DIR/logs/$log_file.cerevisiae_orthologs
 cp $LOG_DIR/$log_file.human_orthologs $CURRENT_BUILD_DIR/logs/$log_file.human_orthologs
