@@ -1031,7 +1031,7 @@ cp $LOG_DIR/$log_file.gocam-detached-chemicals $CURRENT_BUILD_DIR/logs/
           svn diff -x -U0 -c $rev supporting_files/nightly_load_results/overlapping_nodes.tsv |
               perl -ne 'print if (/^\@\@/ .. 1) && !/^\@\@/') |
           $POMBASE_CHADO/etc/format_overlap_change.pl $date
-     done > $CURRENT_BUILD_DIR/logs/overlapping_activity_changes.txt
+     done > $CURRENT_BUILD_DIR/logs/gocam_overlapping_activity_changes.txt
 )
 
 refresh_views
