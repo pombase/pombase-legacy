@@ -56,7 +56,7 @@ GOA_GAF_URL=https://ftp.ebi.ac.uk/pub/databases/GO/goa/UNIPROT/goa_uniprot_all.g
 GOA_VERSIONS_URL=https://ftp.ebi.ac.uk/pub/databases/GO/goa/current_release_numbers.txt
 
 export RELATION_GRAPH=$POMCUR/external/relation-graph-cli-2.3.4/bin/relation-graph
-GO_TRANSITIVE_CLOSURE_FILE=$CURRENT_BUILD_DIR/misc/go_transitive_relations.txt
+GO_TRANSITIVE_CLOSURE_FILE=$CURRENT_BUILD_DIR/misc/go_transitive_closure.txt
 
 if ! [[ -v PERL5LIB ]]
 then
