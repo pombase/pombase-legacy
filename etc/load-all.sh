@@ -1023,42 +1023,7 @@ $POMBASE_CHADO/script/pombase-export.pl $LOAD_CONFIG ontology \
 
 (cd $SOURCES/pombase; ln -sf $POMBASE_TERMS_OBO pombase_terms-latest.obo)
 
-cp $LOG_DIR/$log_file.gaf-load-output $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.legacy_go_from_contigs $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.legacy_phaf_from_contigs $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.legacy_modifications_from_contigs $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.legacy_controlled_curation_from_contigs $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.biogrid-load-output $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.cerevisiae_orthologs $CURRENT_BUILD_DIR/logs/$log_file.cerevisiae_orthologs
-cp $LOG_DIR/$log_file.human_orthologs $CURRENT_BUILD_DIR/logs/$log_file.human_orthologs
-cp $LOG_DIR/$log_file.manual_paralogs $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.monarch_causal $CURRENT_BUILD_DIR/logs/$log_file.monarch_causal
-cp $LOG_DIR/$log_file.monarch_noncausal $CURRENT_BUILD_DIR/logs/$log_file.monarch_noncausal
-cp $LOG_DIR/$log_file.disease_associations $CURRENT_BUILD_DIR/logs/$log_file.disease_associations
-cp $LOG_DIR/$log_file.curation_tool_data $CURRENT_BUILD_DIR/logs/$log_file.curation-tool-data-load-output
-cp $LOG_DIR/$log_file.quantitative $CURRENT_BUILD_DIR/logs/$log_file.quantitative
-cp $LOG_DIR/$log_file.qualitative $CURRENT_BUILD_DIR/logs/$log_file.qualitative
-cp $LOG_DIR/$log_file.modification $CURRENT_BUILD_DIR/logs/$log_file.modification
-cp $LOG_DIR/$log_file.*phenotypes_from_* $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.export_warnings $CURRENT_BUILD_DIR/logs/$log_file.export_warnings
-cp $LOG_DIR/$log_file.excluded_go_terms_softcheck $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.excluded_fypo_terms_softcheck $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.excluded_fypo_terms $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.go-term-mapping $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.generic-term-mapping $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.add-missing-allele-names $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.fix-allele-names $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.go-filter-*-duplicates $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.add-missing-reciprocal-modification $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.modification-filter-duplicates $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.chado_checks* $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.qc_queries* $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.allele-synonyms-from-supporting-data $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.allele-comments-from-supporting-data $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.gocam-json-data-file $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.gocam-chemicals-without-location $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.gocam-activities-without-location $CURRENT_BUILD_DIR/logs/
-cp $LOG_DIR/$log_file.gocam-detached-chemicals $CURRENT_BUILD_DIR/logs/
+cp $LOG_DIR/$log_file.* $CURRENT_BUILD_DIR/logs/
 
 (cd $POMBE_EMBL
  svn log supporting_files/nightly_load_results/overlapping_nodes.tsv |
