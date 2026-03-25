@@ -933,12 +933,22 @@ $RELATION_GRAPH --ontology-file $SOURCES/go-basic.obo \
                 --output-file $GO_TRANSITIVE_CLOSURE_FILE \
                 --mode tsv --output-subclasses true --reflexive-subclasses false --equivalence-as-subclass false
 
+echo
 echo make a log file of disallowed relations in GO-CAM files
 $POMCUR/bin/pombase-gocam-tool check-allowed-relations \
     --closure-file $GO_TRANSITIVE_CLOSURE_FILE \
     --allowed-relations-config-file $SOURCES/pombe-embl/supporting_files/gocam-allowed-relations-config.tsv \
     --orcid-map-file $SOURCES/pombe-embl/supporting_files/pombase_orcid_mapping.tsv \
     $POMBE_EMBL/supporting_files/gocam-py-noctua-models/*.yaml > $LOG_DIR/$log_file.gocam-disallowed-relations
+
+echo
+echo make log files of GO-CAMs activities that have missing evidence
+for ev in mf bp cc
+do
+   $POMCUR/bin/pombase-gocam-tool find-missing-evidence --missing-type $ev \
+       $POMBE_EMBL/supporting_files/gocam-py-noctua-models/*.yaml |
+          (sed -u '1q'; sort) > $LOG_DIR/$log_file.gocam-missing-$i-evidence.tsv
+done
 
 echo
 echo export allele details
