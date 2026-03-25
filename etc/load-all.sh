@@ -933,6 +933,13 @@ $RELATION_GRAPH --ontology-file $SOURCES/go-basic.obo \
                 --output-file $GO_TRANSITIVE_CLOSURE_FILE \
                 --mode tsv --output-subclasses true --reflexive-subclasses false --equivalence-as-subclass false
 
+echo make a log file of disallowed relations in GO-CAM files
+$POMCUR/bin/pombase-gocam-tool check-allowed-relations \
+    --closure-file $GO_TRANSITIVE_CLOSURE_FILE \
+    --allowed-relations-config-file $SOURCES/pombe-embl/supporting_files/gocam-allowed-relations-config.tsv \
+    --orcid-map-file $SOURCES/pombe-embl/supporting_files/pombase_orcid_mapping.tsv \
+    $POMBE_EMBL/supporting_files/gocam-py-noctua-models/*.yaml > $LOG_DIR/$log_file.gocam-disallowed-relations
+
 echo
 echo export allele details
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml allele-details --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD > $CURRENT_BUILD_DIR/exports/all-allele-details.tsv
