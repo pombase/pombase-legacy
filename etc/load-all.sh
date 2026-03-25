@@ -55,6 +55,9 @@ LOAD_CONFIG=$POMBASE_LEGACY/load-pombase-chado.yaml
 GOA_GAF_URL=https://ftp.ebi.ac.uk/pub/databases/GO/goa/UNIPROT/goa_uniprot_all.gaf.gz
 GOA_VERSIONS_URL=https://ftp.ebi.ac.uk/pub/databases/GO/goa/current_release_numbers.txt
 
+export RELATION_GRAPH=$POMCUR/external/relation-graph-1.1/bin/relation-graph
+GO_TRANSITIVE_CLOSURE_FILE=$CURRENT_BUILD_DIR/misc/go_transitive_relations.txt
+
 if ! [[ -v PERL5LIB ]]
 then
     # prevent "PERL5LIB: unbound variable" error
@@ -924,6 +927,12 @@ mkdir $CURRENT_BUILD_DIR/logs
 mkdir $CURRENT_BUILD_DIR/exports
 mkdir $CURRENT_BUILD_DIR/pombe-embl
 mkdir $CURRENT_BUILD_DIR/misc
+
+echo export GO transitive closure file: $GO_TRANSITIVE_CLOSURE_FILE
+$RELATION_GRAPH --ontology-file $SOURCES/go-basic.obo \
+                --non-redundant-output-file /dev/null \
+                --redundant-output-file $GO_TRANSITIVE_CLOSURE_FILE \
+                --mode rdf --output-subclasses true --reflexive-subclasses false --equivalence-as-subclass false
 
 echo
 echo export allele details
