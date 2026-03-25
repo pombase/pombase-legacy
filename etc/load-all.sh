@@ -56,7 +56,7 @@ GOA_GAF_URL=https://ftp.ebi.ac.uk/pub/databases/GO/goa/UNIPROT/goa_uniprot_all.g
 GOA_VERSIONS_URL=https://ftp.ebi.ac.uk/pub/databases/GO/goa/current_release_numbers.txt
 
 export RELATION_GRAPH=$POMCUR/external/relation-graph-cli-2.3.4/bin/relation-graph
-GO_TRANSITIVE_CLOSURE_FILE=$CURRENT_BUILD_DIR/misc/go_transitive_closure.txt
+GO_TRANSITIVE_CLOSURE_FILE=$CURRENT_BUILD_DIR/misc/go_transitive_closure.tsv
 
 if ! [[ -v PERL5LIB ]]
 then
@@ -931,7 +931,7 @@ mkdir $CURRENT_BUILD_DIR/misc
 echo export GO transitive closure file: $GO_TRANSITIVE_CLOSURE_FILE
 $RELATION_GRAPH --ontology-file $SOURCES/go-basic.obo \
                 --output-file $GO_TRANSITIVE_CLOSURE_FILE \
-                --mode rdf --output-subclasses true --reflexive-subclasses false --equivalence-as-subclass false
+                --mode tsv --output-subclasses true --reflexive-subclasses false --equivalence-as-subclass false
 
 echo
 echo export allele details
