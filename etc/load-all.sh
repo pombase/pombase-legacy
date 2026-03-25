@@ -951,6 +951,20 @@ do
 done
 
 echo
+echo make log file of GO-CAM activities that have missing BP
+$POMCUR/bin/pombase-gocam-tool find-missing --missing-type bp \
+    $POMBE_EMBL/supporting_files/gocam-py-noctua-models/*.yaml |
+       (sed -u '1q'; sort) > $LOG_DIR/$log_file.gocam-missing-activity-bp.tsv
+done
+
+echo
+echo make log file of GO-CAM activities that have missing CC
+$POMCUR/bin/pombase-gocam-tool find-missing --missing-type cc \
+    $POMBE_EMBL/supporting_files/gocam-py-noctua-models/*.yaml |
+       (sed -u '1q'; sort) > $LOG_DIR/$log_file.gocam-missing-activity-cc.tsv
+done
+
+echo
 echo export allele details
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml allele-details --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD > $CURRENT_BUILD_DIR/exports/all-allele-details.tsv
 
