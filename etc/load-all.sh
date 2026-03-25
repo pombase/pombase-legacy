@@ -947,7 +947,7 @@ for ev in mf bp cc
 do
    $POMCUR/bin/pombase-gocam-tool find-missing-evidence --missing-type $ev \
        $POMBE_EMBL/supporting_files/gocam-py-noctua-models/*.yaml |
-          (sed -u '1q'; sort) > $LOG_DIR/$log_file.gocam-missing-$i-evidence.tsv
+          (sed -u '1q'; sort) > $LOG_DIR/$log_file.gocam-missing-$ev-evidence.tsv
 done
 
 echo
