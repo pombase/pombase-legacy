@@ -942,6 +942,13 @@ $POMCUR/bin/pombase-gocam-tool check-allowed-relations \
     $POMBE_EMBL/supporting_files/gocam-py-noctua-models/*.yaml > $LOG_DIR/$log_file.gocam-disallowed-relations
 
 echo
+echo make a log file of obsolete GO terms in GO-CAM files
+$POMCUR/bin/pombase-gocam-tool find-obsolete-terms \
+    --closure-file $GO_TRANSITIVE_CLOSURE_FILE \
+    --orcid-map-file $SOURCES/pombe-embl/supporting_files/pombase_orcid_mapping.tsv \
+    $POMBE_EMBL/supporting_files/gocam-py-noctua-models/*.yaml > $LOG_DIR/$log_file.gocam-obsolete-terms
+
+echo
 echo make log files of GO-CAMs activities that have missing evidence
 for ev in mf bp cc
 do
