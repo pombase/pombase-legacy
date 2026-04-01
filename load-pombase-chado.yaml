@@ -710,6 +710,7 @@ evidence_types:
     name: sequence similarity evidence
   'ECO:0000315':
     name: mutant phenotype evidence used in manual assertion
+    go_name: Inferred from Mutant Phenotype
   'ECO:0000314':
     name: direct assay evidence used in manual assertion
     go_name: Inferred from Direct Assay
