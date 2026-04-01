@@ -712,6 +712,7 @@ evidence_types:
     name: mutant phenotype evidence used in manual assertion
   'ECO:0000314':
     name: direct assay evidence used in manual assertion
+    go_name: Inferred from Direct Assay
   'ECO:0000303':
     name: author statement without traceable support used in manual assertion
     go_name: Non-traceable Author Statement
