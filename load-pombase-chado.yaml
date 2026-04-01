@@ -728,6 +728,9 @@ evidence_types:
     name: sexual sporulation assay evidence
   'ECO:0000015':
     name: mutant phenotype evidence
+  'ECO:0007005':
+    name: high throughput direct assay evidence used in manual assertion
+    go_name: inferred from high throughput direct assay
 
 suppressible_evidence_codes:
 
