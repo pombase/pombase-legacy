@@ -684,12 +684,28 @@ evidence_types:
     name: RNA detection assay evidence
   'ECO:0000250':
     name: sequence similarity evidence used in manual assertion
+    go_name: Inferred from Sequence or Structural Similarity
   'ECO:0000255':
     name: match to sequence model evidence used in manual assertion
+    go_name: Inferred from Sequence Model
   'ECO:0000305':
     name: curator inference used in manual assertion
+    go_name: Inferred by Curator
   'ECO:0000269':
     name: experimental evidence used in manual assertion
+    go_name: Experimental
+  'ECO:0000318':
+    name: biological aspect of ancestor evidence used in manual assertion
+    go_name: Inferred from Biological aspect of Ancestor
+  'ECO:0000266':
+    name: sequence orthology evidence used in manual assertion
+    go_name: Inferred from Sequence Orthology
+  'ECO:0000501':
+    name: evidence used in automatic assertion
+    go_name: Inferred from Electronic Annotation
+  'ECO:0000307':
+    name: no evidence data found used in manual assertion
+    go_name: No biological Data available
   'ECO:0000044':
     name: sequence similarity evidence
   'ECO:0000315':
@@ -698,8 +714,10 @@ evidence_types:
     name: direct assay evidence used in manual assertion
   'ECO:0000303':
     name: author statement without traceable support used in manual assertion
+    go_name: Non-traceable Author Statement
   'ECO:0000304':
     name: author statement supported by traceable reference used in manual assertion
+    go_name: Traceable Author Statement
   'ECO:0007744':
     name: combinatorial computational and experimental evidence used in manual assertion
   'ECO:0006056':
