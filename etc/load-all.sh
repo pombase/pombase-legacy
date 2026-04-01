@@ -314,6 +314,12 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/legacy_controlled_curation.tsv \
     > $log_file.legacy_controlled_curation_from_contigs 2>&1
 
+# See: https://github.com/pombase/pombase-chado/issues/1340
+echo Load annotations from GO-CAMs
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf \
+    "$HOST" $DB $USER $PASSWORD < $POMBE_EMBL/supporting_files/annotations-from-gocams.gaf.tsv \
+    > $log_file.annotations-from-gocams 2>&1
+
 # See: https://github.com/pombase/website/issues/2379
 echo Load complementation annotations
 for comp_file in $POMBE_EMBL/supporting_files/complementation/*.tsv
