@@ -1174,6 +1174,11 @@ check_chado:
             JOIN cvterm p2t ON p2.type_id = p2t.cvterm_id
             WHERE p2t.name = 'canto_session'
               AND split_dbxrefs.feature_cvterm_id = p2.feature_cvterm_id) AS SESSION,
+           (SELECT value
+            FROM feature_cvtermprop p2
+            JOIN cvterm p2t ON p2.type_id = p2t.cvterm_id
+            WHERE p2t.name = 'source_file'
+              AND split_dbxrefs.feature_cvterm_id = p2.feature_cvterm_id) AS source_file,
                 pub.uniquename AS pubmed_id,
                 split_dbxrefs.value
          FROM feature_cvterm fc
