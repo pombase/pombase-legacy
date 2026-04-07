@@ -1169,6 +1169,7 @@ check_chado:
             JOIN feature_cvterm fc ON fc.feature_cvterm_id = p.feature_cvterm_id
             WHERE t.name = 'with')
          SELECT
+           f.uniquename, f.name AS gene_name, t.name AS term_name,
            (SELECT value
             FROM feature_cvtermprop p2
             JOIN cvterm p2t ON p2.type_id = p2t.cvterm_id
@@ -1179,9 +1180,11 @@ check_chado:
             JOIN cvterm p2t ON p2.type_id = p2t.cvterm_id
             WHERE p2t.name = 'source_file'
               AND split_dbxrefs.feature_cvterm_id = p2.feature_cvterm_id) AS source_file,
-                pub.uniquename AS pubmed_id,
-                split_dbxrefs.value
+           pub.uniquename AS pubmed_id,
+           split_dbxrefs.value AS illegal_with_from
          FROM feature_cvterm fc
+         JOIN cvterm t on t.cvterm_id = fc.cvterm_id
+         JOIN feature f on fc.feature_id = f.feature_id
          JOIN split_dbxrefs ON split_dbxrefs.feature_cvterm_id = fc.feature_cvterm_id
          JOIN pub ON pub.pub_id = fc.pub_id
          WHERE substring(split_dbxrefs.value
