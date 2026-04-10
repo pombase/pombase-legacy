@@ -1045,7 +1045,6 @@ cp $LOG_DIR/$log_file.* $CURRENT_BUILD_DIR/logs/
  svn log supporting_files/nightly_load_results/overlapping_nodes.tsv |
      perl -ne 'print "$1 $2\n" if /^r(\d+) \| [^\n\|]+ \| (\d\d\d\d-\d\d-\d\d).*/' |
      tac |
-     tail -20 |
      while read -r rev date
      do
          (printf "model_titles\tmodel_ids\tid\tlabel\tdescription\tpart_of_process\toccurs_in\tlocated_in\n"
