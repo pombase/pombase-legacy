@@ -258,12 +258,12 @@ WHERE rel.subject_id = trans.feature_id
 
 pg_dump $DB | gzip -2 > /scratch/tmp/pombase-chado-after-load-chado-pl.dump.gz
 
+ALLELE_SUMMARIES=$POMBE_EMBL/supporting_files/nightly_load_results/allele_summaries.json
 
 ## Disabled temporarily because of: https://github.com/pombase/pombase-chado/issues/992
 #
-#echo loading alleles from previous load
+#echo loading alleles from allele_summaries.json in SVN
 #(date
-#ALLELE_SUMMARIES=$POMCUR_LATEST_BUILD/misc/allele_summaries.json
 #$POMCUR/bin/pombase-chado-load -p "postgres://kmr44:kmr44@localhost/$DB" \
 #    --taxonid 4896 allele-json --mark-as-obsolete $ALLELE_SUMMARIES) \
 #    > $log_file.allele_summaries_load 2>&1
@@ -1352,7 +1352,7 @@ then
     cp $CURRENT_BUILD_DIR/misc/FYPOviability.tsv           $SOURCES/pombe-embl/ftp_site/pombe/annotations/Phenotype_annotations/FYPOviability.tsv
     cp $CURRENT_BUILD_DIR/misc/transmembrane_domain_coords_and_seqs.tsv    $SOURCES/pombe-embl/ftp_site/pombe/Protein_data/transmembrane_domain_coords_and_seqs.tsv
 
-    cp $CURRENT_BUILD_DIR/misc/allele_summaries.json $SOURCES/pombe-embl/supporting_files/nightly_load_results/allele_summaries.json
+    cp $CURRENT_BUILD_DIR/misc/allele_summaries.json $ALLELE_SUMMARIES
 
     cp $CURRENT_BUILD_DIR/exports/pombase-go-physical-interactions.tsv.gz  $SOURCES/pombe-embl/ftp_site/pombe/high_confidence_physical_interactions/
     cp $CURRENT_BUILD_DIR/exports/pombase-go-substrates.tsv.gz             $SOURCES/pombe-embl/ftp_site/pombe/high_confidence_physical_interactions/
