@@ -1320,7 +1320,9 @@ then
 
     echo copied image to the server
 
-    (cd $SOURCES/pombe-embl/ftp_site/pombe/; svn update)
+    (cd $SOURCES/pombe-embl/; svn update)
+
+    cp $CURRENT_BUILD_DIR/misc/allele_summaries.json $ALLELE_SUMMARIES
 
     gzip -9 < $CURRENT_BUILD_DIR/misc/single_locus_haploid_phenotype_annotations_taxon_4896.phaf > $CURRENT_BUILD_DIR/$DB.phaf.gz
     gzip -9 < $CURRENT_BUILD_DIR/misc/single_locus_haploid_phenotype_annotations_taxon_4896_eco_evidence.phaf > $CURRENT_BUILD_DIR/$DB.eco.phaf.gz
@@ -1351,8 +1353,6 @@ then
 
     cp $CURRENT_BUILD_DIR/misc/FYPOviability.tsv           $SOURCES/pombe-embl/ftp_site/pombe/annotations/Phenotype_annotations/FYPOviability.tsv
     cp $CURRENT_BUILD_DIR/misc/transmembrane_domain_coords_and_seqs.tsv    $SOURCES/pombe-embl/ftp_site/pombe/Protein_data/transmembrane_domain_coords_and_seqs.tsv
-
-    cp $CURRENT_BUILD_DIR/misc/allele_summaries.json $ALLELE_SUMMARIES
 
     cp $CURRENT_BUILD_DIR/exports/pombase-go-physical-interactions.tsv.gz  $SOURCES/pombe-embl/ftp_site/pombe/high_confidence_physical_interactions/
     cp $CURRENT_BUILD_DIR/exports/pombase-go-substrates.tsv.gz             $SOURCES/pombe-embl/ftp_site/pombe/high_confidence_physical_interactions/
@@ -1389,7 +1389,7 @@ then
 
     cp $CURATION_TOOL_PUBS_TABLE $SOURCES/pombe-embl/ftp_site/pombe/training_data_for_ML_and_AI/canto-pubs-table.tsv
 
-    (cd $SOURCES/pombe-embl/ftp_site/pombe/; svn commit -m "Automatic file update for $DB")
+    (cd $SOURCES/pombe-embl; svn commit -m "Automatic file update for $DB")
 
     rm -f $DUMPS_DIR/nightly_update
     rm -f $DUMPS_DIR/latest_build
