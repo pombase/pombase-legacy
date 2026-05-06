@@ -998,6 +998,21 @@ echo write overlaps table
  ln -s $DB.japonicus-orthologs.txt.gz pombase-latest.japonicus-orthologs.txt.gz
 )
 
+echo export the cvtermpath table
+psql $DB -c "\\copy (select sdb.name || ':' || sx.accession as subject_id,
+       s.name as subject_name, pt.name as relation,
+       odb.name || ':' || ox.accession as object_id,
+       o.name as object_name
+from cvtermpath p
+join cvterm pt on pt.cvterm_id = p.type_id
+join cvterm s on p.subject_id = s.cvterm_id
+join dbxref sx on sx.dbxref_id = s.dbxref_id
+join db sdb on sx.db_id = sdb.db_id
+join cvterm o on p.object_id = o.cvterm_id
+join dbxref ox on ox.dbxref_id = o.dbxref_id
+join db odb on ox.db_id = odb.db_id
+where pathdistance >= 0) TO STDOUT CSV HEADER" > $CURRENT_BUILD_DIR/exports/cvtermpath_table.csv
+
 cp $CURATION_TOOL_PUBS_TABLE $CURRENT_BUILD_DIR/exports
 
 echo starting go-physical-interactions export at `date`
