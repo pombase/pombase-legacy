@@ -984,6 +984,7 @@ $POMCUR/bin/pombase-gocam-tool find-missing --missing-type bp \
 echo
 echo make log file of GO-CAM activities that have missing CC
 $POMCUR/bin/pombase-gocam-tool find-missing --missing-type cc \
+    --orcid-map-file $POMBE_EMBL/supporting_files/pombase_orcid_mapping.tsv \
     $POMBE_EMBL/supporting_files/gocam-py-noctua-models/*.yaml |
        (sed -u '1q'; sort) > $LOG_DIR/$log_file.gocam-missing-activity-cc.tsv
 
