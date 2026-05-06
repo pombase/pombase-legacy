@@ -121,9 +121,16 @@ fi
  svn commit -m "Automatic update of GO-CAM files for $DB" supporting_files)
 
 (cd $POMBE_EMBL
- $POMCUR/bin/pombase-gocam-tool print-nodes --with-location=false --with-types enabled_by_chemical,enabled_by_gene,enabled_by_complex,enabled_by_modified_protein supporting_files/noctua-go-cam-models/*.json > $LOG_DIR/$log_file.gocam-activities-without-location
- $POMCUR/bin/pombase-gocam-tool print-nodes --with-location=false --with-types chemical supporting_files/noctua-go-cam-models/*.json > $LOG_DIR/$log_file.gocam-chemicals-without-location
- $POMCUR/bin/pombase-gocam-tool detached-chemicals supporting_files/noctua-go-cam-models/*.json > $LOG_DIR/$log_file.gocam-detached-chemicals)
+ $POMCUR/bin/pombase-gocam-tool print-nodes --with-location=false \
+    --orcid-map-file $POMBE_EMBL/supporting_files/pombase_orcid_mapping.tsv \
+    --with-types enabled_by_chemical,enabled_by_gene,enabled_by_complex,enabled_by_modified_protein \
+    supporting_files/noctua-go-cam-models/*.json > $LOG_DIR/$log_file.gocam-activities-without-location
+ $POMCUR/bin/pombase-gocam-tool print-nodes --with-location=false \
+    --orcid-map-file $POMBE_EMBL/supporting_files/pombase_orcid_mapping.tsv \
+    --with-types chemical supporting_files/noctua-go-cam-models/*.json > $LOG_DIR/$log_file.gocam-chemicals-without-location
+ $POMCUR/bin/pombase-gocam-tool detached-chemicals \
+    --orcid-map-file $POMBE_EMBL/supporting_files/pombase_orcid_mapping.tsv \
+    supporting_files/noctua-go-cam-models/*.json > $LOG_DIR/$log_file.gocam-detached-chemicals)
 
 (cd $SOURCES/go-site/; git pull || exit 1)
 
@@ -947,14 +954,14 @@ echo make a log file of disallowed relations in GO-CAM files
 $POMCUR/bin/pombase-gocam-tool check-allowed-relations \
     --closure-file $GO_TRANSITIVE_CLOSURE_FILE \
     --allowed-relations-config-file $SOURCES/pombe-embl/supporting_files/gocam-allowed-relations-config.tsv \
-    --orcid-map-file $SOURCES/pombe-embl/supporting_files/pombase_orcid_mapping.tsv \
+    --orcid-map-file $POMBE_EMBL/supporting_files/pombase_orcid_mapping.tsv \
     $POMBE_EMBL/supporting_files/gocam-py-noctua-models/*.yaml > $LOG_DIR/$log_file.gocam-disallowed-relations
 
 echo
 echo make a log file of obsolete GO terms in GO-CAM files
 $POMCUR/bin/pombase-gocam-tool find-obsolete-terms \
     --closure-file $GO_TRANSITIVE_CLOSURE_FILE \
-    --orcid-map-file $SOURCES/pombe-embl/supporting_files/pombase_orcid_mapping.tsv \
+    --orcid-map-file $POMBE_EMBL/supporting_files/pombase_orcid_mapping.tsv \
     $POMBE_EMBL/supporting_files/gocam-py-noctua-models/*.yaml > $LOG_DIR/$log_file.gocam-obsolete-terms
 
 echo
@@ -962,6 +969,7 @@ echo make log files of GO-CAMs activities that have missing evidence
 for ev in mf bp cc
 do
    $POMCUR/bin/pombase-gocam-tool find-missing-evidence --missing-type $ev \
+       --orcid-map-file $POMBE_EMBL/supporting_files/pombase_orcid_mapping.tsv \
        $POMBE_EMBL/supporting_files/gocam-py-noctua-models/*.yaml |
           (sed -u '1q'; sort) > $LOG_DIR/$log_file.gocam-missing-$ev-evidence.tsv
 done
@@ -969,6 +977,7 @@ done
 echo
 echo make log file of GO-CAM activities that have missing BP
 $POMCUR/bin/pombase-gocam-tool find-missing --missing-type bp \
+    --orcid-map-file $POMBE_EMBL/supporting_files/pombase_orcid_mapping.tsv \
     $POMBE_EMBL/supporting_files/gocam-py-noctua-models/*.yaml |
        (sed -u '1q'; sort) > $LOG_DIR/$log_file.gocam-missing-activity-bp.tsv
 
