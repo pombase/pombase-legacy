@@ -1021,7 +1021,8 @@ join db sdb on sx.db_id = sdb.db_id
 join cvterm o on p.object_id = o.cvterm_id
 join dbxref ox on ox.dbxref_id = o.dbxref_id
 join db odb on ox.db_id = odb.db_id
-where pathdistance >= 0) TO STDOUT CSV HEADER" > $CURRENT_BUILD_DIR/exports/cvtermpath_table.csv
+where pathdistance >= 0
+order by object_id, relation, subject_name) TO STDOUT CSV HEADER" > $CURRENT_BUILD_DIR/exports/cvtermpath_table.csv
 
 cp $CURATION_TOOL_PUBS_TABLE $CURRENT_BUILD_DIR/exports
 
