@@ -1050,8 +1050,6 @@ $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml simple-ortholo
 
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml simple-orthologs --organism-taxon-id=4896 --other-organism-taxon-id=4897 "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/exports/pombe-japonicus-orthologs-with-systematic-ids.txt.gz
 
-duckdb -c "copy (select * from read_json('$CURRENT_BUILD_DIR/misc/public_api_genes.json') order by systematic_id) to '$CURRENT_BUILD_DIR/exports/gene_details.parquet' (FORMAT parquet, COMPRESSION zstd, COMPRESSION_LEVEL 9, PARQUET_VERSION V2);"
-
 echo starting publications with annotations export at `date`
 psql $DB -t --no-align -c "
 SELECT uniquename FROM pub WHERE uniquename LIKE 'PMID:%'
@@ -1352,6 +1350,8 @@ then
     (cd $SOURCES/pombe-embl/; svn update)
 
     jq . $CURRENT_BUILD_DIR/misc/allele_summaries.json > $ALLELE_SUMMARIES
+
+    duckdb -c "copy (select * from read_json('$CURRENT_BUILD_DIR/misc/public_api_genes.json') order by systematic_id) to '$CURRENT_BUILD_DIR/exports/gene_details.parquet' (FORMAT parquet, COMPRESSION zstd, COMPRESSION_LEVEL 9, PARQUET_VERSION V2);"
 
     gzip -9 < $CURRENT_BUILD_DIR/misc/single_locus_haploid_phenotype_annotations_taxon_4896.phaf > $CURRENT_BUILD_DIR/$DB.phaf.gz
     gzip -9 < $CURRENT_BUILD_DIR/misc/single_locus_haploid_phenotype_annotations_taxon_4896_eco_evidence.phaf > $CURRENT_BUILD_DIR/$DB.eco.phaf.gz
