@@ -922,6 +922,7 @@ if $POMBASE_CHADO/script/check-chado.pl ./load-pombase-chado.yaml check_chado \
 then
     CHADO_CHECKS_STATUS=passed
 else
+    echo "Chado checks failed - not updating server"
     CHADO_CHECKS_STATUS=failed
 fi
 
