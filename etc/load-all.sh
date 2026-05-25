@@ -195,7 +195,7 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
 echo loading protein coding genes from SGD data file
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml features \
     --organism-taxonid=4932 --uniquename-column=5 --name-column=6 \
-    --column-filter="1=ORF,blocked_reading_frame,blocked reading frame"
+    --column-filter="1=ORF,blocked_reading_frame,blocked reading frame" \
     --product-column=4 --feature-type=gene --transcript-so-name=transcript \
     --feature-prop-from-column=sgd_identifier:3 \
     --feature-prop-from-column=agr_identifier:3 \
