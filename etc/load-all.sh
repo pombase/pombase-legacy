@@ -166,6 +166,8 @@ wget -q -N https://storage.googleapis.com/public-download-files/hgnc/tsv/tsv/hgn
     (echo failed to download new HGNC data; exit 1)
 wget -q -N http://sgd-archive.yeastgenome.org/curation/chromosomal_feature/SGD_features.tab ||
     (echo failed to download new SGD data; exit 1)
+
+perl -ne 'chomp; @a = split /\t/, $_; if ($a[0] && $a[1] =~ /^(ORF|blocked.reading.frame|.*gene)$/) { @a = ($a[1], "", "SGD:" . $a[0], $a[15], $a[3], $a[4]); $_ = join "\t", @a; print "$_\n"}' $SOURCES/SGD_features.tab > $SOURCES/filtered_SGD_features.tab
 )
 
 echo loading organisms
@@ -190,17 +192,14 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     "$HOST" $DB $USER $PASSWORD < $SOURCES/hgnc_complete_set.txt
 
 
-# create the input file with:
-# (cd git/pombase-legacy/; ./etc/query_yeastmine_genes.py > /var/pomcur/sources/sgd_yeastmine_genes.tsv)
-
 echo loading protein coding genes from SGD data file
-perl -ne 'chomp; @a = split /\t/, $_; if ($a[0] && $a[1] =~ /^(ORF|blocked.reading.frame)$/) { @a = ($a[1], "", "SGD:" . $a[0], $a[15], $a[3], $a[4]); $_ = join "\t", @a; print "$_\n"}' $SOURCES/SGD_features.tab |
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml features \
     --organism-taxonid=4932 --uniquename-column=5 --name-column=6 \
+    --column-filter="1=ORF,blocked_reading_frame,blocked reading frame"
     --product-column=4 --feature-type=gene --transcript-so-name=transcript \
     --feature-prop-from-column=sgd_identifier:3 \
     --feature-prop-from-column=agr_identifier:3 \
-    "$HOST" $DB $USER $PASSWORD
+    "$HOST" $DB $USER $PASSWORD < $SOURCES/filtered_SGD_features.tab
 
 for so_type in ncRNA snoRNA
 do
@@ -208,9 +207,8 @@ do
   $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml features \
       --organism-taxonid=4932 --uniquename-column=5 --name-column=6 \
       --column-filter="1=${so_type} gene" --feature-type=gene \
-      "$HOST" $DB $USER $PASSWORD < $SOURCES/sgd_yeastmine_genes.tsv
+      "$HOST" $DB $USER $PASSWORD < $SOURCES/filtered_SGD_features.tab
 done
-
 
 echo loading japonicus genes
 
