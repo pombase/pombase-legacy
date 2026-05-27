@@ -206,7 +206,8 @@ do
   echo loading $so_type genes from SGD data file
   $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml features \
       --organism-taxonid=4932 --uniquename-column=5 --name-column=6 \
-      --column-filter="1=${so_type} gene" --feature-type=gene \
+      --transcript-so-name=$so_type \
+      --column-filter="1=${so_type}_gene" --feature-type=gene \
       "$HOST" $DB $USER $PASSWORD < $SOURCES/filtered_SGD_features.tab
 done
 
