@@ -362,6 +362,11 @@ $POMCUR/bin/pombase-create-annotations uniprot-data-tsv \
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-annotation \
     --organism-taxonid=4896 "$HOST" $DB $USER $PASSWORD
 
+echo loading ChEBI to Rhea ID mapping
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-cvtermprop \
+    --property-name="rhea_reaction_id" --termid-column=2 --property-value-column=1 \
+    "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/external_data/rhea_chebi_id_mapping.csv \
+    2>&1 | tee -a $LOG_DIR/$log_file.chebi-to-rhea-id-mapping-file
 
 pg_dump $DB | gzip -2 > /scratch/tmp/pombase-chado-before-biogrid.dump.gz
 
