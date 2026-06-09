@@ -745,6 +745,9 @@ evidence_types:
     go_name: inferred from genetic interaction
   'ECO:0000312':
     name: imported information used in manual assertion
+  'ECO:0007001':
+    name: expression pattern evidence used in manual assertion
+    go_name: inferred from expression pattern
 
 suppressible_evidence_codes:
 
