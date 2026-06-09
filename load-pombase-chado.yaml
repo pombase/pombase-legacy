@@ -743,7 +743,8 @@ evidence_types:
   'ECO:0000316':
     name: genetic interaction evidence used in manual assertion
     go_name: inferred from genetic interaction
-
+  'ECO:0000312':
+    name: imported information used in manual assertion
 
 suppressible_evidence_codes:
 
