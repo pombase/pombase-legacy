@@ -737,6 +737,9 @@ evidence_types:
     go_name: inferred from high throughput direct assay
   'ECO:0000275':
     name: expression microarray evidence used in manual assertion
+  'ECO:0000353':
+    name: physical interaction evidence used in manual assertion
+    go_name: inferred from physical interaction
 
 suppressible_evidence_codes:
 
