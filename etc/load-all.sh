@@ -110,10 +110,18 @@ then
 fi
 
 (cd $POMBE_EMBL
- $POMCUR/bin/pombase-gocam-tool overlapping-nodes supporting_files/noctua-go-cam-models/*.json | (sed -u 1q; sort) > supporting_files/nightly_load_results/overlapping_nodes.tsv
+ $POMCUR/bin/pombase-gocam-tool overlapping-nodes supporting_files/noctua-go-cam-models/*.json |
+     (sed -u 1q; sort) > supporting_files/nightly_load_results/overlapping_nodes.tsv) \
+  > $LOG_DIR/$log_file.gocam-write-overlapping-nodes 2>&1
+
+(cd $POMBE_EMBL
  $POMCUR/bin/pombase-gocam-tool write-annotation --db-name PomBase \
      --config-file-name $LOAD_CONFIG \
-     supporting_files/gocam-py-noctua-models/*.yaml | sort > supporting_files/annotations-from-gocams.gaf.tsv
+     supporting_files/gocam-py-noctua-models/*.yaml |
+     sort > supporting_files/annotations-from-gocams.gaf.tsv) \
+  > $LOG_DIR/$log_file.gocam-write-gaf-file 2>&1
+
+(cd $POMBE_EMBL
  svn status |
      perl -ne 'print "$1\n" if m:^!\s+(supporting_files/noctua-go-cam-models/.*\.json$|supporting_files/gocam-py-noctua-models/.*\.yaml$):' |
      xargs --no-run-if-empty svn rm
