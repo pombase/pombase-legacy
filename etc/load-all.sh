@@ -1365,7 +1365,7 @@ then
 
     for api_file_type in genes genotypes_phenotypes go_annotations references terms
     do
-      duckdb -c "copy (select * from read_json('$CURRENT_BUILD_DIR/misc/public_api_${api_file_type}.json', sample_size=1000000) order by all) to '$CURRENT_BUILD_DIR/exports/public_api_${api_file_type}.parquet' (FORMAT parquet, COMPRESSION zstd, COMPRESSION_LEVEL 12, PARQUET_VERSION V2);"
+      duckdb -c "copy (select * from read_json('$CURRENT_BUILD_DIR/misc/public_api_${api_file_type}.json', sample_size=-1) order by all) to '$CURRENT_BUILD_DIR/exports/public_api_${api_file_type}.parquet' (FORMAT parquet, COMPRESSION zstd, COMPRESSION_LEVEL 12, PARQUET_VERSION V2);"
     done
 
     gzip -9 < $CURRENT_BUILD_DIR/misc/single_locus_haploid_phenotype_annotations_taxon_4896.phaf > $CURRENT_BUILD_DIR/$DB.phaf.gz
