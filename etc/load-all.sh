@@ -1045,7 +1045,7 @@ echo starting go-substrates export at `date`
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml go-substrates --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/exports/pombase-go-substrates.tsv.gz
 
 echo starting interactions export at `date`
-$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml interactions --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/$DB.interactions.gz
+$POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml interactions --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/$DB.interactions.tsv.gz
 
 echo starting human orthologs export at `date`
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml orthologs --organism-taxon-id=4896 --other-organism-taxon-id=9606 "$HOST" $DB $USER $PASSWORD | gzip -9 > $CURRENT_BUILD_DIR/$DB.human-orthologs.txt.gz
