@@ -370,7 +370,7 @@ $POMCUR/bin/pombase-create-annotations uniprot-data-tsv \
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-annotation \
     --organism-taxonid=4896 "$HOST" $DB $USER $PASSWORD
 
-$POMCUR/bin/pombase-create-annotations interpro-domains-json \
+$POMCUR/bin/pombase-create-annotations interpro-domain-json \
     --tm-assigned-by=DeepTMHMM $POMCUR/sources/interpro/pombe_domain_results.json |
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml generic-annotation \
     --organism-taxonid=4896 "$HOST" $DB $USER $PASSWORD
