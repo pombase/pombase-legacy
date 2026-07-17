@@ -875,6 +875,8 @@ assigned_by_summary $DB
 echo add missing reciprocal modifcation annotations
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml reciprocal-modifications \
    --mapping-file=$POMBE_EMBL/supporting_files/MOD_to_GO_mappings_for_reciprocal_check.txt \
+   --missing-activites-file=/tmp/missing-activites-file.gaf.tsv \
+   --missing-modifications-file=/tmp/missing-modifications-file.tsv \
    "$HOST" $DB $USER $PASSWORD > $LOG_DIR/$log_file.add-missing-reciprocal-modification
 
 echo delete UniProt duplicates
