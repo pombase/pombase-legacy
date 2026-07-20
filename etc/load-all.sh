@@ -1441,8 +1441,10 @@ then
 
     cp $CURATION_TOOL_PUBS_TABLE $SOURCES/pombe-embl/ftp_site/pombe/training_data_for_ML_and_AI/canto-pubs-table.tsv
 
-    mv /tmp/missing-activites-file-$$.gaf.tsv $POMBE_EMBL/supporting_files/nightly_load_results/activites-inferred-from-modifications.gaf.tsv
-    mv /tmp/missing-modifications-file-$$.tsv $POMBE_EMBL/supporting_files/nightly_load_results/modifications-inferred-from-activities.tsv
+    sort /tmp/missing-activites-file-$$.gaf.tsv > $POMBE_EMBL/supporting_files/nightly_load_results/activites-inferred-from-modifications.gaf.tsv
+    rm /tmp/missing-activites-file-$$.gaf.tsv
+    sort /tmp/missing-modifications-file-$$.tsv > $POMBE_EMBL/supporting_files/nightly_load_results/modifications-inferred-from-activities.tsv
+    rm /tmp/missing-modifications-file-$$.tsv
 
     (cd $SOURCES/pombe-embl; svn commit -m "Automatic file update for $DB")
 
