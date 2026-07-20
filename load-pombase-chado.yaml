@@ -613,6 +613,7 @@ evidence_types:
   'ECO:0008024':
     name: neural network method evidence used in manual assertion
     definition: A type of neural network method evidence that is used in a manual assertion.
+    go_name: Inferred from Experiment
   'ECO:0007668':
     name: computational evidence used in manual assertion
   'ECO:0000202':
@@ -642,6 +643,7 @@ evidence_types:
     definition: "ECO term name is 'quantitative polymerase chain reaction evidence'"
   'ECO:0000006':
     name: experimental evidence
+    go_name: Inferred from Experiment
   'ECO:0000337':
     name: gel electrophoresis evidence
   'ECO:0000221':
@@ -652,6 +654,7 @@ evidence_types:
     name: in situ hybridization assay evidence
   'ECO:0001096':
     name: mass spectrometry evidence
+    go_name: Inferred from Experiment
   'ECO:0000059':
     name: experimental phenotypic evidence
   'ECO:0000333':
@@ -668,6 +671,7 @@ evidence_types:
     name: ribosome profiling evidence
   'ECO:0007464':
     name: tryptic phosphopeptide mapping assay evidence used in automatic assertion
+    go_name: Inferred from Experiment
   'ECO:0007183':
     name: protein expression level evidence based on western blot used in manual assertion
   'ECO:0000295':
@@ -676,6 +680,7 @@ evidence_types:
     name: in situ hybridization evidence used in manual assertion
   'ECO:0000116':
     name: differential hybridization evidence
+    go_name: Inferred from Experiment
   'ECO:0001563':
     name: cell growth assay evidence
   'ECO:0005004':
@@ -726,6 +731,7 @@ evidence_types:
     name: combinatorial computational and experimental evidence used in manual assertion
   'ECO:0006056':
     name: high throughput evidence used in manual assertion
+    go_name: Inferred from high throughput experiment
   'ECO:0006068':
     name: RNA-sequencing evidence used in manual assertion
   'ECO:0006346':
