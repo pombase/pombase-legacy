@@ -872,13 +872,6 @@ echo
 echo counts of assigned_by before filtering:
 assigned_by_summary $DB
 
-echo add missing reciprocal modifcation annotations
-$POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml reciprocal-modifications \
-   --mapping-file=$POMBE_EMBL/supporting_files/MOD_to_GO_mappings_for_reciprocal_check.txt \
-   --missing-activites-file=/tmp/missing-activites-file.gaf.tsv \
-   --missing-modifications-file=/tmp/missing-modifications-file.tsv \
-   "$HOST" $DB $USER $PASSWORD > $LOG_DIR/$log_file.add-missing-reciprocal-modification
-
 echo delete UniProt duplicates
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter-duplicate-assigner \
    --primary-assigner=PomBase --secondary-assigner=UniProt \
@@ -893,6 +886,13 @@ echo delete CACAO duplicates
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter-duplicate-assigner \
    --primary-assigner=PomBase --secondary-assigner=CACAO \
    "$HOST" $DB $USER $PASSWORD > $LOG_DIR/$log_file.go-filter-cacao-duplicates
+
+echo add missing reciprocal modifcation annotations
+$POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml reciprocal-modifications \
+   --mapping-file=$POMBE_EMBL/supporting_files/MOD_to_GO_mappings_for_reciprocal_check.txt \
+   --missing-activites-file=/tmp/missing-activites-file-$$.gaf.tsv \
+   --missing-modifications-file=/tmp/missing-modifications-file-$$.tsv \
+   "$HOST" $DB $USER $PASSWORD > $LOG_DIR/$log_file.add-missing-reciprocal-modification
 
 pg_dump $DB | gzip -2 > /scratch/tmp/pombase-chado-before-go-filter.dump.gz
 
@@ -1440,6 +1440,9 @@ then
     cp $CURRENT_BUILD_DIR/$DB.phaf.gz                      $SOURCES/pombe-embl/ftp_site/pombe/annotations/Phenotype_annotations/phenotype_annotations.pombase.phaf.gz
 
     cp $CURATION_TOOL_PUBS_TABLE $SOURCES/pombe-embl/ftp_site/pombe/training_data_for_ML_and_AI/canto-pubs-table.tsv
+
+    mv /tmp/missing-activites-file-$$.gaf.tsv $POMBE_EMBL/supporting_files/nightly_load_results/activites-inferred-from-modifications.gaf.tsv
+    mv /tmp/missing-modifications-file-$$.tsv $POMBE_EMBL/supporting_files/nightly_load_results/modifications-inferred-from-activities.tsv
 
     (cd $SOURCES/pombe-embl; svn commit -m "Automatic file update for $DB")
 
