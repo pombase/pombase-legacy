@@ -1324,8 +1324,18 @@ DB_BASE_NAME=`echo $DB | sed 's/-v[0-9]$//'`
 
 cp -r $SOURCES/current_build_files/$DB_BASE_NAME/* $CURRENT_BUILD_DIR/
 
-
 cp $LOG_DIR/*.txt $CURRENT_BUILD_DIR/logs/
+
+(cd $CURRENT_BUILD_DIR/logs/
+ EMPTY_FILE_DIR=empty_log_files
+ mkdir $EMPTY_FILE_DIR
+ for file in *
+ do
+   if [ -f $file -a ! -s $file ]
+   then
+     mv $file $EMPTY_FILE_DIR
+   fi
+ done)
 
 (
   cd $SOURCES/pombe-embl
