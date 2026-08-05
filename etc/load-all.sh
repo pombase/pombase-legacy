@@ -110,7 +110,7 @@ then
 fi
 
 (cd $POMBE_EMBL
- $POMCUR/bin/pombase-gocam-tool overlapping-nodes supporting_files/noctua-go-cam-models/*.json |
+ $POMCUR/bin/pombase-gocam-tool overlapping-nodes supporting_files/gocam-py-noctua-models/*.yaml |
      (sed -u 1q; sort) > supporting_files/nightly_load_results/overlapping_nodes.tsv) \
   > $LOG_DIR/$log_file.gocam-write-overlapping-nodes 2>&1
 
@@ -132,13 +132,13 @@ fi
  $POMCUR/bin/pombase-gocam-tool print-nodes --with-location=false \
     --orcid-map-file $POMBE_EMBL/supporting_files/pombase_orcid_mapping.tsv \
     --with-types enabled_by_chemical,enabled_by_gene,enabled_by_complex,enabled_by_modified_protein \
-    supporting_files/noctua-go-cam-models/*.json > $LOG_DIR/$log_file.gocam-activities-without-location
+    supporting_files/gocam-py-noctua-models/*.yaml > $LOG_DIR/$log_file.gocam-activities-without-location
  $POMCUR/bin/pombase-gocam-tool print-nodes --with-location=false \
     --orcid-map-file $POMBE_EMBL/supporting_files/pombase_orcid_mapping.tsv \
-    --with-types chemical supporting_files/noctua-go-cam-models/*.json > $LOG_DIR/$log_file.gocam-chemicals-without-location
+    --with-types chemical supporting_files/gocam-py-noctua-models/*.yaml > $LOG_DIR/$log_file.gocam-chemicals-without-location
  $POMCUR/bin/pombase-gocam-tool detached-chemicals \
     --orcid-map-file $POMBE_EMBL/supporting_files/pombase_orcid_mapping.tsv \
-    supporting_files/noctua-go-cam-models/*.json > $LOG_DIR/$log_file.gocam-detached-chemicals)
+    supporting_files/gocam-py-noctua-models/*.yaml > $LOG_DIR/$log_file.gocam-detached-chemicals)
 
 (cd $SOURCES/go-site/; git pull || exit 1)
 
@@ -1014,7 +1014,7 @@ $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml allele-details
 
 echo
 echo write overlaps table
-(cd $POMBE_EMBL/supporting_files/noctua-go-cam-models/; $POMCUR/bin/pombase-gocam-tool overlapping-nodes *.json > $CURRENT_BUILD_DIR/misc/overlapping-nodes.tsv)
+(cd $POMBE_EMBL/supporting_files/gocam-py-noctua-models/; $POMCUR/bin/pombase-gocam-tool overlapping-nodes *.yaml > $CURRENT_BUILD_DIR/misc/overlapping-nodes.tsv)
 
 (
 
@@ -1318,7 +1318,7 @@ find $CURRENT_BUILD_DIR/fasta/ -name '*.fa' | xargs gzip -9
 
 cp $LOG_DIR/$log_file.web-json-write $CURRENT_BUILD_DIR/logs/
 
-cp -r $POMBE_EMBL/supporting_files/noctua-go-cam-models $CURRENT_BUILD_DIR/web-json/go-cam
+cp -r $POMBE_EMBL/supporting_files/gocam-py-noctua-models $CURRENT_BUILD_DIR/web-json/go-cam
 
 DB_BASE_NAME=`echo $DB | sed 's/-v[0-9]$//'`
 
