@@ -1075,7 +1075,7 @@ psql $DB -t --no-align -c "
 SELECT uniquename FROM pub WHERE uniquename LIKE 'PMID:%'
    AND pub_id IN (SELECT pub_id FROM feature_cvterm UNION SELECT pub_id FROM feature_relationship_pub)
  ORDER BY substring(uniquename FROM 'PMID:(\d+)')::integer;" > $CURRENT_BUILD_DIR/publications_with_annotations.txt
-) > $LOG_DIR/$log_file.export_warnings 2>&1
+) 2> $LOG_DIR/$log_file.export_warnings
 
 POMBASE_TERMS_OBO=pombase_terms-$DATE_VERSION.obo
 
