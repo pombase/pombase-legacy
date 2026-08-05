@@ -527,7 +527,7 @@ fi
 if [ $CURRENT_GOA_GAF -nt $GOA_POMBE_AND_JAPONICUS ]
 then
   echo processing new GOA file: $GOA_GAF_FILENAME
-  gzip -d < $CURRENT_GOA_GAF | perl -ne 'print if /\ttaxon:(4896|284812|4897|402676)\t/' | gzip -9v > $GOA_POMBE_AND_JAPONICUS
+  gzip -d < $CURRENT_GOA_GAF | perl -ne 'print if /\ttaxon:(4896|284812|4897|402676|7227)\t/' | gzip -9v > $GOA_POMBE_AND_JAPONICUS
 
   curl $GOA_VERSIONS_URL | perl -ne 'print "$1 $2" if /uniprot\s+(\S+)\s+(\S+)/' > $GOA_POMBE_AND_JAPONICUS.uniprot_version
 
