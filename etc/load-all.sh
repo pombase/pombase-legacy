@@ -209,6 +209,14 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     --feature-prop-from-column=agr_identifier:3 \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/filtered_SGD_features.tab
 
+echo loading cerevisiae non-reference genes
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml features \
+    --organism-taxonid=4932 --uniquename-column=5 --name-column=6 \
+    --product-column=4 --feature-type=gene --transcript-so-name=transcript \
+    --feature-prop-from-column=sgd_identifier:3 \
+    --feature-prop-from-column=agr_identifier:3 \
+    "$HOST" $DB $USER $PASSWORD < $POMBE_EMBL/supporting_files/SGD_non_reference_genes.tsv
+
 for so_type in ncRNA snoRNA
 do
   echo loading $so_type genes from SGD data file
