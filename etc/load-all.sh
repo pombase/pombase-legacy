@@ -28,6 +28,7 @@ SOURCES=$POMCUR/sources
 DB=pombase-build-$DATE_VERSION
 BUILDS_DIR=$DUMPS_DIR/builds
 CURRENT_BUILD_DIR=$BUILDS_DIR/$DB
+INFORMATION_ONLY_LOG_DIR=$CURRENT_BUILD_DIR/logs/information_only
 
 POMBE_EMBL=$SOURCES/pombe-embl
 
@@ -972,6 +973,8 @@ mkdir $CURRENT_BUILD_DIR/exports
 mkdir $CURRENT_BUILD_DIR/pombe-embl
 mkdir $CURRENT_BUILD_DIR/misc
 
+mkdir -p $INFORMATION_ONLY_LOG_DIR
+
 echo export GO transitive closure file: $GO_TRANSITIVE_CLOSURE_FILE
 $RELATION_GRAPH --ontology-file $SOURCES/go-basic.obo \
                 --output-file $GO_TRANSITIVE_CLOSURE_FILE \
@@ -1095,6 +1098,23 @@ $POMBASE_CHADO/script/pombase-export.pl $LOAD_CONFIG ontology \
 (cd $SOURCES/pombase; ln -sf $POMBASE_TERMS_OBO pombase_terms-latest.obo)
 
 cp $LOG_DIR/$log_file.* $CURRENT_BUILD_DIR/logs/
+
+(cd $CURRENT_BUILD_DIR/logs/
+ for suffix in \
+     annotation_counts_by_cv \
+     biogrid-load-output \
+     extension_relation_counts \
+     gaf-load-output \
+     genes_of_gocam_title_terms \
+     go-filter-cacao-duplicates \
+     go-filter-intact-duplicates \
+     go-filter-uniprot-duplicates \
+     modification-filter-duplicates \
+     pubmed_query \
+     qualifier_counts_by_cv
+do
+    mv *.$suffix $INFORMATION_ONLY_LOG_DIR/
+done)
 
 (cd $POMBE_EMBL
  svn log supporting_files/nightly_load_results/overlapping_nodes.tsv |
