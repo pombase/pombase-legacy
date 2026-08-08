@@ -1099,23 +1099,6 @@ $POMBASE_CHADO/script/pombase-export.pl $LOAD_CONFIG ontology \
 
 cp $LOG_DIR/$log_file.* $CURRENT_BUILD_DIR/logs/
 
-(cd $CURRENT_BUILD_DIR/logs/
- for suffix in \
-     annotation_counts_by_cv \
-     biogrid-load-output \
-     extension_relation_counts \
-     gaf-load-output \
-     genes_of_gocam_title_terms \
-     go-filter-cacao-duplicates \
-     go-filter-intact-duplicates \
-     go-filter-uniprot-duplicates \
-     modification-filter-duplicates \
-     pubmed_query \
-     qualifier_counts_by_cv
-do
-    mv *.$suffix $INFORMATION_ONLY_LOG_DIR/
-done)
-
 (cd $POMBE_EMBL
  svn log supporting_files/nightly_load_results/overlapping_nodes.tsv |
      perl -ne 'print "$1 $2\n" if /^r(\d+) \| [^\n\|]+ \| (\d\d\d\d-\d\d-\d\d).*/' |
@@ -1317,6 +1300,22 @@ select DISTINCT gene.uniquename
     AND t.cvterm_id in (select cvterm_id FROM all_title_termids);" \
  > $CURRENT_BUILD_DIR/logs/$log_file.genes_of_gocam_title_terms
 
+(cd $CURRENT_BUILD_DIR/logs/
+ for suffix in \
+     annotation_counts_by_cv \
+     biogrid-load-output \
+     extension_relation_counts \
+     gaf-load-output \
+     genes_of_gocam_title_terms \
+     go-filter-cacao-duplicates \
+     go-filter-intact-duplicates \
+     go-filter-uniprot-duplicates \
+     modification-filter-duplicates \
+     pubmed_query \
+     qualifier_counts_by_cv
+do
+    mv *.$suffix $INFORMATION_ONLY_LOG_DIR/
+done)
 
 (cd $SOURCES; wget -N https://purl.obolibrary.org/obo/eco/gaf-eco-mapping.txt)
 
