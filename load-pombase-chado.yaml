@@ -754,6 +754,8 @@ evidence_types:
   'ECO:0007001':
     name: expression pattern evidence used in manual assertion
     go_name: inferred from expression pattern
+  'ECO:0000201':
+    name: sequence orthology evidence
 
 suppressible_evidence_codes:
 
