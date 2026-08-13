@@ -751,9 +751,12 @@ evidence_types:
     go_name: inferred from genetic interaction
   'ECO:0000312':
     name: imported information used in manual assertion
-  'ECO:0007001':
+  'ECO:0000270':
     name: expression pattern evidence used in manual assertion
     go_name: inferred from expression pattern
+  'ECO:0007001':
+    name: high throughput mutant phenotypic evidence used in manual assertion
+    go_name: inferred from high throughput mutant phenotype
   'ECO:0000201':
     name: sequence orthology evidence
 
