@@ -136,6 +136,14 @@ sub process_file {
     "KE651195" => "supercont5.30",
     "KE651196" => "supercont5.31",
     "KE651197" => "supercont5.32",
+    "AE014298" => "X",
+    "AE014134" => "2L",
+    "AE013599" => "2R",
+    "AE014296" => "3L",
+    "AE014297" => "3R",
+    "AE014135" => "4",
+    "CP007106" => "Y",
+    "KJ947872" => "MT",
   );
 
   my $chr_uniquename = $chr_name_map{$ena_id};
