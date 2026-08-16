@@ -208,6 +208,9 @@ my %feature_loader_conf = (
   rep_origin => {
     so_type => 'origin_of_replication',
   },
+  prim_transcript => {
+    so_type => 'primary_transcript',
+  },
 );
 
 my %so_transcript_types = (pseudogenic_transcript => 1);
