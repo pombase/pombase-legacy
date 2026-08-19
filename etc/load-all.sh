@@ -353,6 +353,7 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
 # See: https://github.com/pombase/pombase-chado/issues/1340
 echo Load annotations from GO-CAMs
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf \
+    --organism-taxonid=4896 \
     "$HOST" $DB $USER $PASSWORD < $POMBE_EMBL/supporting_files/annotations-from-gocams.gaf.tsv \
     > $log_file.annotations-from-gocams 2>&1
 
