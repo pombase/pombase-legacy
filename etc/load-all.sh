@@ -315,13 +315,6 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/legacy_go_annotations_from_contigs.gaf.tsv \
     > $log_file.legacy_go_from_contigs 2>&1
 
-# See: https://github.com/pombase/pombase-chado/issues/1197
-echo Load inferred MF annotations
-$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf \
-    --load-qualifiers=all --load-column-17 --assigned-by-filter=PomBase \
-    "$HOST" $DB $USER $PASSWORD < $POMBE_EMBL/supporting_files/nightly_load_results/activites-inferred-from-modifications.gaf.tsv \
-    > $log_file.mf_annotations_inferred_from_modifications 2>&1
-
 # See: https://github.com/pombase/pombase-chado/issues/948
 echo Load legacy phenotype annotations
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml phenotype-annotation \
@@ -335,13 +328,6 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     --assigned-by=PomBase \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/legacy_modifications_from_contigs.tsv \
     > $log_file.legacy_modifications_from_contigs 2>&1
-
-# See: https://github.com/pombase/pombase-chado/issues/1197
-echo Load inferred modification annotations
-$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml modification \
-    --assigned-by=PomBase \
-    "$HOST" $DB $USER $PASSWORD < $POMBE_EMBL/supporting_files/nightly_load_results/modifications-inferred-from-activities.tsv \
-    > $log_file.modifications_inferred_from_mf_annotations 2>&1
 
 # See: https://github.com/pombase/pombase-chado/issues/1330
 echo Load legacy controlled curation annotations
@@ -911,13 +897,6 @@ $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter-dup
    --primary-assigner=PomBase --secondary-assigner=CACAO \
    "$HOST" $DB $USER $PASSWORD > $LOG_DIR/$log_file.go-filter-cacao-duplicates
 
-echo add missing reciprocal modifcation annotations
-$POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml reciprocal-modifications \
-   --mapping-file=$POMBE_EMBL/supporting_files/MOD_to_GO_mappings_for_reciprocal_check.txt \
-   --missing-activites-file=/tmp/missing-activites-file-$$.gaf.tsv \
-   --missing-modifications-file=/tmp/missing-modifications-file-$$.tsv \
-   "$HOST" $DB $USER $PASSWORD > $LOG_DIR/$log_file.add-missing-reciprocal-modification
-
 pg_dump $DB | gzip -2 > /scratch/tmp/pombase-chado-before-go-filter.dump.gz
 
 echo
@@ -935,6 +914,26 @@ $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml modification-
 
 pg_dump $DB | gzip -2 > /scratch/tmp/pombase-chado-after-go-filter.dump.gz
 
+echo add missing reciprocal modifcation annotations
+$POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml reciprocal-modifications \
+   --mapping-file=$POMBE_EMBL/supporting_files/MOD_to_GO_mappings_for_reciprocal_check.txt \
+   --missing-activites-file=/tmp/missing-activites-file-$$.gaf.tsv \
+   --missing-modifications-file=/tmp/missing-modifications-file-$$.tsv \
+   "$HOST" $DB $USER $PASSWORD > $LOG_DIR/$log_file.add-missing-reciprocal-modification
+
+# See: https://github.com/pombase/pombase-chado/issues/1197
+echo Load inferred MF annotations
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf \
+    --load-qualifiers=all --load-column-17 --assigned-by-filter=PomBase \
+    "$HOST" $DB $USER $PASSWORD < /tmp/missing-activites-file-$$.gaf.tsv \
+    > $log_file.mf_annotations_inferred_from_modifications 2>&1
+
+# See: https://github.com/pombase/pombase-chado/issues/1197
+echo Load inferred modification annotations
+$POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml modification \
+    --assigned-by=PomBase \
+    "$HOST" $DB $USER $PASSWORD < /tmp/missing-modifications-file-$$.tsv \
+    > $log_file.modifications_inferred_from_mf_annotations 2>&1
 
 echo
 echo counts of assigned_by after filtering:
