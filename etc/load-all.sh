@@ -309,7 +309,7 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
 # See: https://github.com/pombase/pombase-chado/issues/861
 echo Load legacy GO annotations
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf \
-    --ignore-synonyms \
+    --taxon-filter=4896 --ignore-synonyms \
     --load-qualifiers=all --load-column-17 \
     --assigned-by-filter=PomBase --verbose-assigned-by-filter \
     "$HOST" $DB $USER $PASSWORD < $SOURCES/pombe-embl/supporting_files/legacy_go_annotations_from_contigs.gaf.tsv \
@@ -339,7 +339,7 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
 # See: https://github.com/pombase/pombase-chado/issues/1340
 echo Load annotations from GO-CAMs
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf \
-    --organism-taxonid=4896 \
+    --taxon-filter=4896 \
     "$HOST" $DB $USER $PASSWORD < $POMBE_EMBL/supporting_files/annotations-from-gocams.gaf.tsv \
     > $log_file.annotations-from-gocams 2>&1
 
@@ -488,7 +488,8 @@ for gaf_file in From_curation_tool GO_ORFeome_localizations2.txt PMID_*_gaf.tsv
 do
   echo reading $gaf_file
 
-  $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf --ignore-synonyms "$HOST" $DB $USER $PASSWORD < $gaf_file
+  $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf \
+     --taxon-filter=4896 --ignore-synonyms "$HOST" $DB $USER $PASSWORD < $gaf_file
 done
 
    )
@@ -514,7 +515,11 @@ else
 fi
 
 # load GO annotation inferred inter ontology links
-$POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings --assigned-by-filter=PomBase,GOC "$HOST" $DB $USER $PASSWORD < $SOURCES/pombase-prediction.gaf
+$POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf \
+   --taxon-filter=4896 \
+   --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs \
+   --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings \
+   --assigned-by-filter=PomBase,GOC "$HOST" $DB $USER $PASSWORD < $SOURCES/pombase-prediction.gaf
 
 
 pg_dump $DB | gzip -2 > /scratch/tmp/pombase-chado-before-goa.dump.gz
@@ -567,7 +572,7 @@ pg_dump $DB | gzip -2 > /scratch/tmp/pombase-chado-after-goa.dump.gz
 # echo loading PANTHER annotation - don't load this from GOA because GOA updates slowly
 gzip -d < $SOURCES/snapshot.geneontology.org/pombase.gaf.gz |
     $POMBASE_CHADO/script/pombase-import.pl ./load-pombase-chado.yaml gaf \
-      --load-qualifiers=contributes_to \
+      --taxon-filter=4896 --load-qualifiers=contributes_to \
       --term-id-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_GO_IDs \
       --with-filter-filename=$SOURCES/pombe-embl/goa-load-fixes/filtered_mappings \
       --with-prefix-filter="PANTHER:" --taxon-filter=4896 \
@@ -924,7 +929,8 @@ $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml reciprocal-mo
 # See: https://github.com/pombase/pombase-chado/issues/1197
 echo Load inferred MF annotations
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml gaf \
-    --load-qualifiers=all --load-column-17 --assigned-by-filter=PomBase \
+    --taxon-filter=4896 --load-qualifiers=all \
+    --load-column-17 --assigned-by-filter=PomBase \
     "$HOST" $DB $USER $PASSWORD < /tmp/missing-activites-file-$$.gaf.tsv \
     > $log_file.mf_annotations_inferred_from_modifications 2>&1
 
