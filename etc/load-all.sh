@@ -1332,7 +1332,8 @@ select DISTINCT gene.uniquename
      go-filter-uniprot-duplicates \
      modification-filter-duplicates \
      pubmed_query \
-     qualifier_counts_by_cv
+     qualifier_counts_by_cv \
+     add_reciprocal_ipi_annotations
 do
     mv *.$suffix $INFORMATION_ONLY_LOG_DIR/
 done)
