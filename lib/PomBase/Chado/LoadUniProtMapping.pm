@@ -55,22 +55,36 @@ has verbose => (is => 'rw');
 
 sub load_uniprot_mapping {
   my $self = shift;
-  my $url = $self->config()->{pombase_to_uniprot_mapping};
+  my $location = $self->config()->{pombase_to_uniprot_mapping};
 
-  if (!defined $url) {
+  if (!defined $location) {
     warn "no pombase_to_uniprot_mapping configuation, not loading mapping\n";
     return;
   }
 
-  my $mapping = $self->get_url_contents($url);
-
   my %map = ();
 
-  for my $line (split /^/, $mapping) {
-    chomp $line;
+  if ($location =~ m|^https://|) {
+    my $mapping = $self->get_url_contents($location);
 
-    if ($line =~ /(.*)\t(.*)/) {
-      $map{$1} = $2;
+    for my $line (split /^/, $mapping) {
+      chomp $line;
+
+      if ($line =~ /(.*)\t(.*)/) {
+        $map{$1} = $2;
+      }
+    }
+  } else {
+    open my $fh, '<', $location or die "can't open $location\n";
+
+    while (defined (my $line = <$fh>)) {
+      chomp $line;
+
+      if ($line =~ /(.*)\t(.*)/) {
+        $map{$1} = $2;
+      } else {
+        die "can't parse UniProt mapping ($location) at line: $line\n";
+      }
     }
   }
 
