@@ -5,6 +5,7 @@
 #  - it's added as an "assigned_by" feature_cvtermprop
 #  - source_database prop feature_relationship
 database_name: PomBase
+database_prefix: PomBase
 
 cvs:
   cvterm_property_type:
