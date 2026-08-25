@@ -1040,6 +1040,18 @@ $POMCUR/bin/pombase-gocam-tool find-missing --missing-type cc \
        (sed -u '1q'; sort) > $LOG_DIR/$log_file.gocam-missing-activity-cc.tsv
 
 echo
+echo write log of GO-CAM activities with missing process
+(cd $POMBE_EMBL/supporting_files/gocam-py-noctua-models/
+ $POMCUR/bin/pombase-gocam-tool print-nodes --with-process=false *.yaml |
+   (sed -u '1q'; sort) > $LOG_DIR/$log_file.gocam-activities-with-missing-process.tsv)
+
+echo
+echo write a table of all GO-CAM activities and chemicals
+(cd $POMBE_EMBL/supporting_files/gocam-py-noctua-models/
+ $POMCUR/bin/pombase-gocam-tool print-nodes *.yaml |
+   (sed -u '1q'; sort) > $CURRENT_BUILD_DIR/misc/all-gocam-nodes.tsv
+
+echo
 echo export allele details
 $POMBASE_CHADO/script/pombase-export.pl ./load-pombase-chado.yaml allele-details --organism-taxon-id=4896 "$HOST" $DB $USER $PASSWORD > $CURRENT_BUILD_DIR/exports/all-allele-details.tsv
 
