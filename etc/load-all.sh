@@ -1049,7 +1049,7 @@ echo
 echo write a table of all GO-CAM activities and chemicals
 (cd $POMBE_EMBL/supporting_files/gocam-py-noctua-models/
  $POMCUR/bin/pombase-gocam-tool print-nodes *.yaml |
-   (sed -u '1q'; sort) > $CURRENT_BUILD_DIR/misc/all-gocam-nodes.tsv
+   (sed -u '1q'; sort) > $CURRENT_BUILD_DIR/misc/all-gocam-nodes.tsv)
 
 echo
 echo export allele details
