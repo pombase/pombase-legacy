@@ -714,7 +714,13 @@ do
   $POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml qualitative --gene-ex-qualifiers=$SOURCES/pombe-embl/supporting_files/gene_ex_qualifiers "$HOST" $DB $USER $PASSWORD < $file 2>&1
 done | tee $LOG_DIR/$log_file.qualitative
 
+echo load CESR expression file
+$POMBASE_CHADO/script/pombase-import.pl $LOAD_CONFIG generic-annotation \
+  --organism-taxonid=4896 \
+  "$HOST" $DB $USER $PASSWORD < $POMBE_EMBL/external_data/cesr_expression_annotation.tsv
 
+
+echo load HTP PHAF files
 for i in $SOURCES/pombe-embl/external_data/phaf_files/chado_load/htp_phafs/PMID_*.*[^~]
 do
   f=`basename $i .tsv`
@@ -722,6 +728,7 @@ do
   ($POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml phenotype-annotation --throughput-type='high throughput' "$HOST" $DB $USER $PASSWORD < $i) 2>&1 | tee -a $LOG_DIR/$log_file.phenotypes_from_$f
 done
 
+echo load LTP PHAF files
 for i in $SOURCES/pombe-embl/external_data/phaf_files/chado_load/ltp_phafs/PMID_*.*[^~]
 do
   f=`basename $i .tsv`
