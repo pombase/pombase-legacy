@@ -939,14 +939,14 @@ $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml 
     --taxon-filter=4896 --load-qualifiers=all \
     --load-column-17 --assigned-by-filter=PomBase \
     "$HOST" $DB $USER $PASSWORD < /tmp/missing-activites-file-$$.gaf.tsv \
-    > $log_file.mf_annotations_inferred_from_modifications 2>&1
+    > $LOG_DIR/$log_file.mf_annotations_inferred_from_modifications 2>&1
 
 # See: https://github.com/pombase/pombase-chado/issues/1197
 echo Load inferred modification annotations
 $POMBASE_CHADO/script/pombase-import.pl $POMBASE_LEGACY/load-pombase-chado.yaml modification \
     --assigned-by=PomBase \
     "$HOST" $DB $USER $PASSWORD < /tmp/missing-modifications-file-$$.tsv \
-    > $log_file.modifications_inferred_from_mf_annotations 2>&1
+    > $LOG_DIR/$log_file.modifications_inferred_from_mf_annotations 2>&1
 
 echo
 echo counts of assigned_by after filtering:
