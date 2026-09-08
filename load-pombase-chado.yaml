@@ -415,6 +415,7 @@ dbs:
   - UniProtKB
   - UniProtKB/Swiss-Prot
   - TreeFam
+  - BrendaTissueOBO
 
 # where to store the identifiers from each /db_xref we see
 db_dest_tables:
