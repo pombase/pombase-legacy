@@ -395,6 +395,7 @@ cv_definitions:
   subunit_composition: Stoichiometry of homogeneous complexes
   warning: Alerts, gross changes and anomalies
   PSI-MOD: Protein modification terms
+  BrendaTissueOBO: BRENDA tissue ontology
 
 dbs:
   - RFAM
