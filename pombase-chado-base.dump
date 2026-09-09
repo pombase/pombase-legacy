@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict ydhdqjza3DuKQ6GBw0bjojPhn5AxXscRaaELcGp8OgNStetvSck79a15evJ2dtL
+\restrict 8TrO5Yc22yydl46gS3x3N0I0Tp7POFVuBadAShjrm1GWkatzUwoeV84jF4HfJCb
 
 -- Dumped from database version 18.6 (Ubuntu 18.6-0ubuntu0.26.04.1)
 -- Dumped by pg_dump version 18.6 (Ubuntu 18.6-0ubuntu0.26.04.1)
@@ -3122,6 +3122,7 @@ COPY public.cv (cv_id, name, definition) FROM stdin;
 8	organism property types	\N
 10	cv_property_type	\N
 11	cvterm_property_type	\N
+12	BrendaTissueOBO	\N
 \.
 
 
@@ -3521,7 +3522,7 @@ SELECT pg_catalog.setval('public.chadoprop_chadoprop_id_seq', 1, false);
 -- Name: cv_cv_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kmr44
 --
 
-SELECT pg_catalog.setval('public.cv_cv_id_seq', 11, true);
+SELECT pg_catalog.setval('public.cv_cv_id_seq', 12, true);
 
 
 --
@@ -5887,5 +5888,5 @@ ALTER TABLE ONLY public.synonym
 -- PostgreSQL database dump complete
 --
 
-\unrestrict ydhdqjza3DuKQ6GBw0bjojPhn5AxXscRaaELcGp8OgNStetvSck79a15evJ2dtL
+\unrestrict 8TrO5Yc22yydl46gS3x3N0I0Tp7POFVuBadAShjrm1GWkatzUwoeV84jF4HfJCb
 
