@@ -1376,6 +1376,13 @@ RUST_BACKTRACE=full $POMCUR/bin/pombase-chado-json -c $POMBASE_WEB_CONFIG \
 
 zstd -9q --rm $CURRENT_BUILD_DIR/api_maps.sqlite3
 
+echo
+echo write gocam_total_stats.json
+(cd $POMBE_EMBL/supporting_files/noctua-go-cam-models
+ $POMCUR/bin/pombase-gocam-tool total-stats *.json > $CURRENT_BUILD_DIR/web-json/gocam_total_stats.json)
+
+echo
+echo copy chromosomes
 mkdir $CURRENT_BUILD_DIR/fasta/bgzip_chromosomes
 cp -r $CURRENT_BUILD_DIR/fasta/chromosomes/Schizosaccharomyces_pombe_all_chromosomes.fa $CURRENT_BUILD_DIR/fasta/bgzip_chromosomes
 bgzip -l 9 $CURRENT_BUILD_DIR/fasta/bgzip_chromosomes/Schizosaccharomyces_pombe_all_chromosomes.fa
