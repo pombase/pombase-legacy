@@ -736,6 +736,14 @@ do
   ($POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml phenotype-annotation --throughput-type='low throughput' "$HOST" $DB $USER $PASSWORD < $i) 2>&1 | tee -a $LOG_DIR/$log_file.phenotypes_from_$f
 done
 
+echo load PHAF files with comments
+for i in $SOURCES/pombe-embl/external_data/phaf_files/chado_load/htp_comment_phafs/PMID_*.tsv
+do
+  f=`basename $i .tsv`
+  echo loading phenotype data and comments from $f
+  ($POMBASE_CHADO/script/pombase-import.pl load-pombase-chado.yaml phenotype-annotation --load-comment-column --throughput-type='high throughput' "$HOST" $DB $USER $PASSWORD < $i) 2>&1 | tee -a $LOG_DIR/$log_file.phenotypes_from_$f
+done
+
 echo
 echo load pombe to cerevisiae orthologs from contig files
 
