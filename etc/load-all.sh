@@ -934,7 +934,7 @@ $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml modification-
 
 pg_dump $DB | gzip -2 > /scratch/tmp/pombase-chado-after-go-filter.dump.gz
 
-echo add missing reciprocal modifcation annotations
+echo add missing reciprocal modification annotations
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml reciprocal-modifications \
    --mapping-file=$POMBE_EMBL/supporting_files/MOD_to_GO_mappings_for_reciprocal_check.txt \
    --missing-activites-file=/tmp/missing-activites-file-$$.gaf.tsv \
