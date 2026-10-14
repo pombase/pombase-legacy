@@ -924,7 +924,11 @@ echo filtering GO redundant annotations - `date`
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml go-filter "$HOST" $DB $USER $PASSWORD
 echo done filtering - `date`
 
+echo
+echo filtering protein binding annotations where there is a physical interaction
+$POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml filter-binding-annotations "$HOST" $DB $USER $PASSWORD
 
+echo
 echo delete duplicate modifications assigned by UniProt
 $POMBASE_CHADO/script/pombase-process.pl ./load-pombase-chado.yaml modification-filter \
    --primary-assigner=PomBase --secondary-assigner=UniProt \
