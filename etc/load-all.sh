@@ -648,6 +648,7 @@ COMPLEX_PORTAL_IDS_AND_NAMES=$SOURCES/complex_ids_and_names.tsv
 echo process Complex Portal data file
 $POMBASE_CHADO/etc/process_complex_portal_data.pl \
   $SOURCES/pombe-embl/ftp_site/pombe/names_and_identifiers/PomBase2UniProt.tsv \
+  $SOURCES/rnacentral_pombe_identifiers.tsv \
   $COMPLEX_PORTAL_DATA_FILE "PMID:30357405" \
   $POMBE_ID_TO_COMPLEX_PORTAL_ID_MAPPING $COMPLEX_PORTAL_IDS_AND_NAMES
 
